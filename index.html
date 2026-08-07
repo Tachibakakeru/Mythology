@@ -2,7 +2,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>世界神話系譜 | 雛形</title>
+<title>日本神話系譜</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛩️</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
@@ -391,7 +392,34 @@ const NODE_DEFS = [
 ["nakatsuhime","仲姫命","なかつひめ","応神天皇の皇后",5.9,33.7,"品陀真若王の娘。仁徳天皇の母。"],
 
 ["nintoku","仁徳天皇（大雀命）","にんとく","第16代天皇",4.6,34.6,"民の竈から煙が立たないのを見て三年間の課役を免じたという「民の竈」の逸話で知られる聖帝。世界最大級の墳墓・大仙陵古墳の被葬者に比定される。"],
-["kotai_note","以降の天皇へ続く →","のちのてんのう",null,4.6,35.5,"仁徳天皇以降も、履中・反正・允恭…と皇統は続く（本図は古事記中巻までを範囲とする）。",true],
+["iwanohime","磐媛命","いわのひめのみこと","仁徳天皇の皇后",5.9,34.6,"仁徳天皇の皇后。嫉妬深い妃として知られ、天皇が吉備の黒日売と親しくなると怒って帰還を拒んだ。履中・反正・允恭天皇の母。"],
+["richu","履中天皇（去来穂別命）","りちゅう","第17代天皇",4.6,35.5,"仁徳天皇と磐媛命の長子。弟の住吉仲皇子の反乱を鎮圧して即位した。"],
+["hanzei","反正天皇（瑞歯別命）","はんぜい","第18代天皇",6.0,35.5,"仁徳天皇と磐媛命の三子。多治比柴垣宮で即位した。"],
+["ingyo","允恭天皇（雄朝津間稚子宿禰命）","いんぎょう","第19代天皇",7.5,35.5,"仁徳天皇と磐媛命の子。氏姓の正定のため盟神探湯（くかたち）を行ったことで知られる。"],
+["oshisakahime","忍坂大中比売","おしさかのおおなかつひめ","允恭天皇の皇后",9.2,35.5,"允恭天皇の皇后。市辺押磐皇子・安康・雄略天皇などを産んだ。"],
+["ojin_link","稚野毛二俣王〜乎非王","わかぬけふたまたおう〜おひのみこ","応神天皇後裔（継体天皇への中継系譜）",2.5,37.0,"応神天皇の皇子・稚野毛二俣王より4代後の乎非王の子が継体天皇。この系譜により継体天皇は応神天皇の五世孫とされる。",true],
+["ichinobe","市辺押磐皇子","いちのへのおしはのみこ","允恭天皇の皇子",4.8,37.0,"允恭天皇の皇子。雄略天皇に謀殺されたが、その子孫から顕宗・仁賢天皇が即位した。"],
+["anko","安康天皇（穴穂命）","あんこう","第20代天皇",6.2,37.0,"允恭天皇の子。甥の眉輪王に暗殺された。嗣子なく崩御。"],
+["yuryaku","雄略天皇（大長谷若建命）","ゆうりゃく","第21代天皇",7.8,37.0,"允恭天皇の子。「大悪天皇」とも呼ばれるが、倭の五王の「武」に比定される説もある。"],
+["kibiwakahime","吉備稚媛","きびのわかひめ","雄略天皇の妃",9.4,37.0,"吉備上道臣の娘。雄略天皇の妃となり清寧天皇を産んだ。"],
+["seinei","清寧天皇（白髪大倭根子命）","せいねい","第22代天皇",7.8,38.5,"雄略天皇と吉備稚媛の子。白髪で生まれたと伝わる。嗣子なく、市辺押磐皇子の遺児を探し出した。"],
+["kenzo","顕宗天皇（袁祁命）","けんぞう","第23代天皇",4.0,39.5,"市辺押磐皇子の次子。兄・仁賢と共に播磨国で隠れていたところを見出され即位。"],
+["ninken","仁賢天皇（意祁命）","にんけん","第24代天皇",5.5,39.5,"市辺押磐皇子の長子。弟の顕宗が先に即位したため後から即位した。"],
+["kasugaohime","春日大郎女","かすがのおおいらつめ","仁賢天皇の皇后",7.0,39.5,"仁賢天皇の皇后。武烈天皇と手白香皇女の母。"],
+["tashiraka","手白香皇女","たしらかのひめみこ","継体天皇の皇后",3.8,41.0,"仁賢天皇と春日大郎女の皇女。継体天皇の皇后となり欽明天皇の母となった。"],
+["buretsu","武烈天皇（小長谷若雀命）","ぶれつ","第25代天皇",5.5,41.0,"仁賢天皇と春日大郎女の子。嗣子なく崩御し、応神系の継体天皇が皇位を継いだ。"],
+["keitai","継体天皇（袁本杼命）","けいたい","第26代天皇",2.5,41.0,"応神天皇の五世孫（乎非王の子）。武烈天皇崩御後に各地の豪族に推戴されて即位。手白香皇女を皇后とし欽明天皇の父となった。"],
+["mekonome","尾張目子媛","おわりのめのこひめ","継体天皇の妃",1.0,41.0,"尾張連草香の娘。継体天皇の妃となり安閑・宣化天皇を産んだ。"],
+["ankan","安閑天皇（勾大兄広国押武金日命）","あんかん","第27代天皇",1.5,42.5,"継体天皇と尾張目子媛の長子。嗣子なく崩御。"],
+["senka","宣化天皇（武小広国押盾命）","せんか","第28代天皇",2.8,42.5,"継体天皇と尾張目子媛の三子。石姫皇女の父。"],
+["kinmei","欽明天皇（天国排開広庭命）","きんめい","第29代天皇",4.2,42.5,"継体天皇と手白香皇女の子。仏教が公式に伝来したとされる天皇（538年説・552年説）。"],
+["ishihime","石姫皇女","いしひめのひめみこ","欽明天皇の皇后（宣化天皇の皇女）",3.2,43.5,"宣化天皇の皇女。欽明天皇の皇后となり敏達天皇の母となった。"],
+["koanekimi","小姉君","おあねのきみ","欽明天皇の妃（蘇我稲目の娘）",5.5,43.5,"蘇我稲目の娘。欽明天皇の妃となり用明・崇峻・推古天皇を産んだ。蘇我氏と皇室の結びつきの起点。"],
+["bidatsu","敏達天皇（沼名倉太玉敷命）","びだつ","第30代天皇",3.2,44.5,"欽明天皇と石姫皇女の子。推古天皇（豊御食炊屋比売）を皇后に迎えた。"],
+["yomei","用明天皇（橘豊日命）","ようめい","第31代天皇",5.0,44.5,"欽明天皇と小姉君の子。聖徳太子の父。仏教を信仰した最初の天皇とされる。"],
+["sushun","崇峻天皇（長谷部若雀命）","すしゅん","第32代天皇",6.5,44.5,"欽明天皇と小姉君の子。蘇我馬子の命により暗殺された最初の天皇。"],
+["suiko","推古天皇（豊御食炊屋比売命）","すいこ","第33代天皇・初の女帝",8.0,44.5,"欽明天皇と小姉君の子。敏達天皇崩御後に日本初の女帝として即位。聖徳太子を摂政とし冠位十二階・十七条憲法を制定した。"],
+["shotoku","聖徳太子（厩戸皇子）","しょうとくたいし","用明天皇の子・摂政",5.0,46.0,"用明天皇の子。推古天皇の摂政として冠位十二階・十七条憲法を制定し遣隋使を派遣した。日本の国家体制の基礎を築いた。",false,"key"],
 ];
 
 const GROUPS = [
@@ -410,6 +438,7 @@ const GROUPS = [
   ["天孫降臨・皇統", ["ninigi","amenohoakari","nigihayahi","konohanasakuyahime","iwanagahime","hoderi","hosuseri","hoori","toyotamahime","ugayafukiaezu","tamayoribime","jimmu","himetatarisuzuhime"], "#e0b060"],
   ["欠史八代（第2〜9代）", ["suizei","kawamatabime","annei","akutohime","itoku","futomawakahime","kosho","yosotahohime","koan","oshikahime","korei","kuwashihime","kogen","utsushikome","kaika","ikagashikome"], "#8fb0d8"],
   ["崇神〜仁徳（人代の展開）", ["sujin","mimatsuhime","suinin","hibasuhime","keiko","inabinooiratsume","yamatotakeru","futajiirihime","seimu","chuai","jingu","ojin","nakatsuhime","nintoku"], "#d8a06f"],
+  ["17〜33代天皇（履中〜推古）", ["richu","hanzei","ingyo","anko","yuryaku","seinei","kenzo","ninken","buretsu","keitai","ankan","senka","kinmei","bidatsu","yomei","sushun","suiko","shotoku"], "#b08060"],
   ["天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami","amaterasu","tsukuyomi","susanoo","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","omoikane","amenokoyane","futodama","amenouzume","amenoiwatowake","takemikazuchi","ninigi","amenohoakari","nigihayahi"], "#a0c8f0", false],
   ["國津神", ["kagutsuchi","oyamatsumi","kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi","toyoukebime","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","yashimajinumi","konohanachiruhime","otoshi","ukanomitama","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","sarutahiko","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","amewakahiko","omononushi","mishima_mizokuhi","seyadatarahime"], "#90c880", false],
 ];
@@ -478,7 +507,20 @@ const UNIONS = [
   {spouses:["yamatotakeru","ototachibana"], marriage:"secondary"},
   {spouses:["chuai","jingu"], marriage:"primary", children:["ojin"]},
   {spouses:["ojin","nakatsuhime"], marriage:"primary", children:["nintoku"]},
-  {parent:"nintoku", children:["kotai_note"]},
+  {spouses:["nintoku","iwanohime"], marriage:"primary", children:["richu","hanzei","ingyo"]},
+  {spouses:["ingyo","oshisakahime"], marriage:"primary", children:["ichinobe","anko","yuryaku"]},
+  {spouses:["yuryaku","kibiwakahime"], marriage:"partner", children:["seinei"]},
+  {parent:"ichinobe", children:["kenzo","ninken"]},
+  {spouses:["ninken","kasugaohime"], marriage:"primary", children:["buretsu","tashiraka"]},
+  {parent:"ojin", children:["ojin_link"]},
+  {parent:"ojin_link", children:["keitai"]},
+  {spouses:["keitai","tashiraka"], marriage:"primary", children:["kinmei"]},
+  {spouses:["keitai","mekonome"], marriage:"partner", children:["ankan","senka"]},
+  {parent:"senka", children:["ishihime"]},
+  {spouses:["kinmei","ishihime"], marriage:"primary", children:["bidatsu"]},
+  {spouses:["kinmei","koanekimi"], marriage:"partner", children:["yomei","sushun","suiko"]},
+  {spouses:["bidatsu","suiko"], marriage:"primary"},
+  {parent:"yomei", children:["shotoku"]},
 ];
 
 /* ============ 各神名稱對照（古事記・日本書紀・読み・別稱） ============ */
@@ -628,7 +670,34 @@ const NODE_NAMES = {
   "ojin":{kojiki:"品陀和気命",nihonshoki:"誉田別命（ほんだわけのみこと）",reading:"ほんだわけ の みこと",aliases:["応神天皇（おうじんてんのう）","八幡神（はちまんしん）"]},
   "nakatsuhime":{kojiki:"仲姫命",nihonshoki:"仲姫命（なかつひめのみこと）",reading:"なかつひめ の みこと",aliases:[]},
   "nintoku":{kojiki:"大雀命",nihonshoki:"大鷦鷯尊（おおさざきのみこと）",reading:"おおさざきのみこと",aliases:["仁徳天皇（にんとくてんのう）"]},
-  "kotai_note":{kojiki:"（以降へ続く）",nihonshoki:"（以降へ続く）",reading:"",aliases:[]},
+  "iwanohime":{kojiki:"石之日売命",nihonshoki:"磐媛皇后（いわのひめこうごう）",reading:"いわのひめ の みこと",aliases:["磐媛命（いわのひめのみこと）"]},
+  "richu":{kojiki:"去来穂別命",nihonshoki:"去来穂別尊（いざほわけのみこと）",reading:"いざほわけ の みこと",aliases:["履中天皇（りちゅうてんのう）"]},
+  "hanzei":{kojiki:"瑞歯別命",nihonshoki:"瑞歯別尊（みずはわけのみこと）",reading:"みずはわけ の みこと",aliases:["反正天皇（はんぜいてんのう）"]},
+  "ingyo":{kojiki:"雄朝津間稚子宿禰命",nihonshoki:"雄朝津間稚子宿禰尊（おあさつまわくごのすくねのみこと）",reading:"おあさつまわくごのすくね の みこと",aliases:["允恭天皇（いんぎょうてんのう）"]},
+  "oshisakahime":{kojiki:"忍坂大中比売",nihonshoki:"忍坂大中姫（おしさかのおおなかつひめ）",reading:"おしさかのおおなかつひめ",aliases:[]},
+  "ojin_link":{kojiki:"稚野毛二俣王〜乎非王",nihonshoki:"（応神天皇後裔・継体天皇への系譜）",reading:"わかぬけふたまたおう〜おひのみこ",aliases:[]},
+  "ichinobe":{kojiki:"市辺押歯王",nihonshoki:"市辺押磐皇子（いちのへのおしはのみこ）",reading:"いちのへのおしはのみこ",aliases:["市辺押磐皇子（いちのへのおしはのみこ）"]},
+  "anko":{kojiki:"穴穂命",nihonshoki:"穴穂天皇（あなほのみこと）",reading:"あなほ の みこと",aliases:["安康天皇（あんこうてんのう）"]},
+  "yuryaku":{kojiki:"大長谷若建命",nihonshoki:"大泊瀬幼武尊（おおはつせわかたけるのみこと）",reading:"おおはつせわかたける の みこと",aliases:["雄略天皇（ゆうりゃくてんのう）","大悪天皇（おおあしきてんのう）"]},
+  "kibiwakahime":{kojiki:"吉備稚媛",nihonshoki:"吉備稚媛（きびのわかひめ）",reading:"きびのわかひめ",aliases:[]},
+  "seinei":{kojiki:"白髪大倭根子命",nihonshoki:"白髪武広国押稚日本根子尊（しらかのたけひろくにおしわかやまとねこのみこと）",reading:"しらかのたけひろくにおしわかやまとねこ の みこと",aliases:["清寧天皇（せいねいてんのう）"]},
+  "kenzo":{kojiki:"袁祁命",nihonshoki:"弘計天皇（をけのすめらみこと）",reading:"をけのみこと",aliases:["顕宗天皇（けんぞうてんのう）"]},
+  "ninken":{kojiki:"意祁命",nihonshoki:"億計天皇（おけのすめらみこと）",reading:"おけのみこと",aliases:["仁賢天皇（にんけんてんのう）"]},
+  "kasugaohime":{kojiki:"春日大郎女",nihonshoki:"春日大娘皇女（かすがのおおいらつめのひめみこ）",reading:"かすがのおおいらつめ",aliases:[]},
+  "tashiraka":{kojiki:"手白香郎女",nihonshoki:"手白香皇女（たしらかのひめみこ）",reading:"たしらかのひめみこ",aliases:[]},
+  "buretsu":{kojiki:"小長谷若雀命",nihonshoki:"小泊瀬稚鷦鷯尊（おはつせのわかさざきのみこと）",reading:"おはつせのわかさざき の みこと",aliases:["武烈天皇（ぶれつてんのう）"]},
+  "keitai":{kojiki:"袁本杼命",nihonshoki:"男大迹天皇（をほどのすめらみこと）",reading:"をほどのみこと",aliases:["継体天皇（けいたいてんのう）"]},
+  "mekonome":{kojiki:"尾張目子媛",nihonshoki:"目子媛（めのこひめ）",reading:"おわりのめのこひめ",aliases:[]},
+  "ankan":{kojiki:"勾大兄広国押武金日命",nihonshoki:"広国押武金日尊（ひろくにおしたけかなひのみこと）",reading:"ひろくにおしたけかなひ の みこと",aliases:["安閑天皇（あんかんてんのう）"]},
+  "senka":{kojiki:"武小広国押盾命",nihonshoki:"武小広国押盾尊（たけおひろくにおしたてのみこと）",reading:"たけおひろくにおしたて の みこと",aliases:["宣化天皇（せんかてんのう）"]},
+  "kinmei":{kojiki:"天国排開広庭命",nihonshoki:"天国排開広庭尊（あめくにおしはらきひろにわのみこと）",reading:"あめくにおしはらきひろにわ の みこと",aliases:["欽明天皇（きんめいてんのう）"]},
+  "ishihime":{kojiki:"石姫皇女",nihonshoki:"石姫皇女（いしひめのひめみこ）",reading:"いしひめのひめみこ",aliases:[]},
+  "koanekimi":{kojiki:"小姉君",nihonshoki:"小姉君（おあねのきみ）",reading:"おあねのきみ",aliases:[]},
+  "bidatsu":{kojiki:"沼名倉太玉敷命",nihonshoki:"渟中倉太珠敷尊（ぬなくらのふとたましきのみこと）",reading:"ぬなくらのふとたましき の みこと",aliases:["敏達天皇（びだつてんのう）"]},
+  "yomei":{kojiki:"橘豊日命",nihonshoki:"橘豊日尊（たちばなのとよひのみこと）",reading:"たちばなのとよひ の みこと",aliases:["用明天皇（ようめいてんのう）"]},
+  "sushun":{kojiki:"長谷部若雀命",nihonshoki:"泊瀬部皇子（はつせべのみこ）",reading:"はつせべのみこ",aliases:["崇峻天皇（すしゅんてんのう）"]},
+  "suiko":{kojiki:"豊御食炊屋比売命",nihonshoki:"豊御食炊屋姫尊（とよみけかしきやひめのみこと）",reading:"とよみけかしきやひめ の みこと",aliases:["推古天皇（すいこてんのう）","額田部皇女（ぬかたべのひめみこ）"]},
+  "shotoku":{kojiki:"上宮之厩戸豊聡耳命",nihonshoki:"厩戸皇子（うまやどのみこ）",reading:"うまやどのおうじ",aliases:["聖徳太子（しょうとくたいし）","厩戸王（うまやどおう）","豊聡耳命（とよとみみのみこと）"]},
 };
 const NODE_NAMES_ORIG = JSON.parse(JSON.stringify(NODE_NAMES));
 
