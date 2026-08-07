@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>世界神話系譜 | 雛形</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#0f1220; --bg2:#171b2e; --card:#1e2340; --accent:#e0b060;
+    --text:#f0e8d8; --dim:#9098b8; --line:#5a5f88;
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f1e4; --bg2:#ece3cd; --card:#ffffff; --accent:#a8710f;
+    --text:#2c2416; --dim:#7a7160; --line:#cdbf9e;
+  }
+  *{box-sizing:border-box;}
+  #themeBtn{background:none;border:1px solid var(--line);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.05em;flex:none;}
+  #themeBtn:hover{border-color:var(--accent);}
+  #homeThemeBtn{position:absolute;top:20px;right:20px;}
+  body{margin:0;font-family:"Noto Sans TC","Segoe UI",sans-serif;background:var(--bg);color:var(--text);}
+
+  /* ---------- HOME ---------- */
+  #home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:40px;}
+  #home h1{font-size:2.2em;letter-spacing:.15em;margin:0;color:var(--accent);text-shadow:0 0 20px rgba(224,176,96,.4);}
+  #home p{color:var(--dim);margin:0;}
+  .icon-grid{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;}
+  .myth-icon{
+    width:160px;height:190px;border-radius:16px;background:var(--card);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    cursor:pointer;border:2px solid transparent;transition:.25s;position:relative;overflow:hidden;
+  }
+  .myth-icon:hover:not(.disabled){transform:translateY(-6px);border-color:var(--accent);box-shadow:0 10px 30px rgba(224,176,96,.25);}
+  .myth-icon .glyph{font-size:3em;}
+  .myth-icon .label{font-size:1.05em;font-weight:600;}
+  .myth-icon .sub{font-size:.75em;color:var(--dim);}
+  .myth-icon.disabled{opacity:.35;cursor:not-allowed;}
+  .myth-icon.disabled .sub{font-style:italic;}
+
+  /* ---------- JAPAN VIEW ---------- */
+  #japan{display:none;position:fixed;inset:0;background:var(--bg);}
+  #topbar{
+    position:absolute;top:0;left:0;right:0;height:64px;z-index:10;
+    display:flex;align-items:center;gap:16px;padding:0 20px;
+    background:linear-gradient(var(--bg2),rgba(23,27,46,.85));border-bottom:1px solid #2c3155;
+  }
+  #backBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;}
+  #backBtn:hover{border-color:var(--accent);color:var(--accent);}
+  #topbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
+  #searchBox{position:relative;flex:1;max-width:340px;}
+  #searchInput{
+    width:100%;padding:9px 36px 9px 34px;border-radius:20px;border:1px solid var(--line);
+    background:#11142280;color:var(--text);font-size:.95em;outline:none;box-sizing:border-box;
+  }
+  #searchClear{display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:.9em;padding:2px 5px;line-height:1;opacity:.65;z-index:21;}
+  #searchClear:hover{opacity:1;color:var(--accent);}
+  #searchInput:focus{border-color:var(--accent);}
+  #searchBox::before{content:"🔍";position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.85em;opacity:.6;}
+  #searchResults{
+    position:absolute;top:110%;left:0;right:0;background:var(--card);border-radius:10px;
+    border:1px solid var(--line);max-height:280px;overflow:auto;display:none;z-index:20;
+  }
+  #searchResults div{padding:8px 14px;cursor:pointer;font-size:.9em;border-bottom:1px solid #2c3155;}
+  #searchResults div:hover,#searchResults div.focused{background:#2a3060;}
+  #searchResults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
+  #resetBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
+  #resetBtn:hover{color:var(--accent);border-color:var(--accent);}
+  #legend{margin-left:auto;display:flex;gap:13px;align-items:center;font-size:.7em;color:var(--dim);flex:1 1 auto;
+    justify-content:flex-end;flex-wrap:wrap;max-height:56px;overflow:hidden;}
+  #legend span{display:flex;align-items:center;gap:5px;white-space:nowrap;line-height:1.6;}
+  #legend i{display:inline-block;width:22px;height:0;border-top:2px solid var(--line);flex:none;}
+  #legend i.dbl{height:5px;border-top:2px solid #d18a9c;border-bottom:2px solid #d18a9c;}
+  #legend i.wed{border-top:2px solid #d18a9c;}
+  #legend i.dash{border-top:2px dashed #6fc2b4;}
+  #legend b.box{display:inline-block;width:14px;height:10px;border:1px dashed var(--accent);border-radius:2px;flex:none;}
+
+  #canvasWrap{position:absolute;inset:0;top:64px;overflow:hidden;cursor:grab;touch-action:none;}
+  #canvasWrap.grabbing{cursor:grabbing;}
+  #stage{position:absolute;left:0;top:0;transform-origin:0 0;}
+  #stage.smooth{transition:transform .5s cubic-bezier(.22,.9,.32,1);}
+
+  .groupbox{position:absolute;border-radius:14px;pointer-events:none;z-index:0;}
+  .groupbox .glabel{position:absolute;top:-13px;left:10px;padding:2px 9px;border-radius:8px;font-size:.75em;font-weight:700;white-space:nowrap;}
+
+  .node{position:absolute;width:150px;min-height:60px;border-radius:9px;background:var(--card);
+    border:1.5px solid var(--line);padding:6px 9px;display:flex;flex-direction:column;justify-content:center;
+    transition:border-color .2s, box-shadow .2s, background .2s, opacity .3s; user-select:none;cursor:pointer;z-index:3;}
+  .node:hover{border-color:var(--accent);}
+  .node .name{font-size:.85em;font-weight:700;line-height:1.2;}
+  .node .kana{font-size:.63em;color:var(--dim);}
+  .node .role{font-size:.6em;color:#e0b06099;margin-top:2px;line-height:1.25;}
+  .node.key{border-color:var(--accent);border-width:2px;box-shadow:0 0 14px rgba(224,176,96,.25);}
+  .node.note{background:transparent;border-style:dashed;opacity:.75;}
+  .node.note .name{font-size:.78em;font-style:italic;}
+  .node.highlight{border-color:#ff5f5f !important;box-shadow:0 0 20px rgba(255,95,95,.65);background:#2a1c1c;z-index:6;}
+  .node.dim{opacity:.15;}
+
+  svg#edges{position:absolute;left:0;top:0;overflow:visible;z-index:1;}
+  .edge{stroke:var(--line);stroke-width:1.6;fill:none;opacity:.6;}
+  .edge.marriage{stroke:#d18a9c;opacity:.85;}
+  .edge.partner-line{stroke:#6fc2b4;opacity:.85;}
+  .edge.dim{opacity:.06;}
+  .edge.hl{stroke:#ff9f3f !important;opacity:1 !important;stroke-width:2.8;}
+  .edge.dim-edge{opacity:.05 !important;}
+  .edge-label{position:absolute;font-size:.62em;padding:1px 6px;border-radius:6px;white-space:nowrap;z-index:2;pointer-events:none;}
+  .p-namerow{font-size:.82em;color:var(--text);margin-bottom:5px;line-height:1.6;}
+  .p-namelabel{display:inline-block;font-size:.72em;color:var(--dim);border:1px solid var(--line);padding:1px 6px;border-radius:6px;margin-right:6px;white-space:nowrap;}
+  .groupbox.hl{outline:2px solid rgba(255,159,63,.8);outline-offset:2px;box-shadow:0 0 22px rgba(255,159,63,.45);}
+  #searchResults .r-group{color:var(--accent);font-weight:600;}
+  .edge-label.marriage{color:#e08a8a;background:#2a1c1c;}
+  .edge-label.ritual{color:#b39ddb;background:#221c33;}
+  .edge-label.blood{color:#e08a8a;background:#2a1c1c;}
+  .edge-label.partner{color:#7fd0c4;background:#173330;}
+
+  #panel{position:absolute;top:64px;right:0;bottom:0;width:340px;max-width:82vw;background:var(--card);
+    border-left:1px solid var(--line);transform:translateX(100%);transition:transform .35s ease;z-index:15;
+    padding:22px 22px;overflow-y:auto;box-shadow:-10px 0 30px rgba(0,0,0,.3);}
+  #panel.open{transform:translateX(0);}
+  #panel .p-name{font-size:1.3em;font-weight:700;color:var(--accent);margin-bottom:2px;}
+  #panel .p-kana{color:var(--dim);font-size:.9em;margin-bottom:10px;}
+  #panel .p-role{display:inline-block;font-size:.78em;color:#e0b060;background:#e0b06022;padding:3px 10px;border-radius:12px;margin-bottom:14px;}
+  #panel .p-desc{font-size:.92em;line-height:1.75;color:var(--text);opacity:.9;}
+  #panel .p-groups{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;}
+  #panel .p-groups span{font-size:.7em;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:10px;}
+  #panel .p-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.3em;cursor:pointer;}
+  #panel .p-close:hover{color:var(--accent);}
+  .pe-sep{margin:16px 0;border:none;border-top:1px solid var(--line);}
+  .pe-label{font-size:.72em;color:var(--dim);margin:9px 0 3px;}
+  .pe-inp{width:100%;background:#11142280;border:1px solid var(--line);border-radius:6px;color:var(--text);padding:6px 8px;font-size:.88em;box-sizing:border-box;font-family:inherit;}
+  .pe-inp:focus{border-color:var(--accent);outline:none;}
+  textarea.pe-inp{resize:vertical;min-height:72px;}
+  .pe-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .pe-btns button{background:none;border:1px solid var(--line);color:var(--dim);padding:6px 11px;border-radius:6px;cursor:pointer;font-size:.8em;}
+  .pe-btns .pe-save{color:#ff9f3f;border-color:#ff9f3f;}
+  .pe-btns .pe-del{color:#e05050;border-color:#e05050;}
+  #p-edit-btn{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78em;width:100%;}
+  #p-edit-btn:hover,#p-edit-btn.open{color:var(--accent);border-color:var(--accent);}
+  #exportBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:.82em;flex:none;}
+  #exportBtn:hover{color:var(--accent);border-color:var(--accent);}
+
+  #zoomCtrl{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:10;}
+  #zoomCtrl button{width:36px;height:36px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--text);font-size:1.1em;cursor:pointer;}
+  #zoomCtrl button:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <h1>世界神話系譜計畫</h1>
+  <p>點選一個神話體系，探索諸神的血脈與傳說</p>
+  <button id="homeThemeBtn" onclick="toggleTheme()" title="切換明暗模式">🌓</button>
+  <div class="icon-grid">
+    <div class="myth-icon" onclick="openJapan()">
+      <div class="glyph">⛩️</div>
+      <div class="label">日本神話</div>
+      <div class="sub">古事記・日本書紀</div>
+    </div>
+    <div class="myth-icon disabled">
+      <div class="glyph">🏛️</div>
+      <div class="label">希臘神話</div>
+      <div class="sub">敬請期待</div>
+    </div>
+    <div class="myth-icon disabled">
+      <div class="glyph">⚡</div>
+      <div class="label">北歐神話</div>
+      <div class="sub">敬請期待</div>
+    </div>
+  </div>
+</div>
+
+<div id="japan">
+  <div id="topbar">
+    <button id="backBtn" onclick="closeJapan()">← 返回</button>
+    <h2>⛩️ 日本神話系譜</h2>
+    <div id="searchBox">
+      <input id="searchInput" placeholder="搜尋神名或讀音…" autocomplete="off">
+      <button id="searchClear" aria-label="清除">✕</button>
+      <div id="searchResults"></div>
+    </div>
+    <button id="resetBtn" onclick="resetView()">重置檢視</button>
+    <div id="legend">
+      <span><i class="dbl"></i>正式婚姻</span>
+      <span><i class="wed"></i>側室・其他配偶</span>
+      <span><i class="dash"></i>非婚姻關係</span>
+      <span><i></i>親子（子嗣）</span>
+      <span><b class="box"></b>神格分類</span>
+    </div>
+    <button id="exportBtn" onclick="exportHTML()" title="匯出修改後的HTML">📥 匯出</button>
+    <button id="themeBtn" onclick="toggleTheme()" title="切換明暗模式">🌓</button>
+  </div>
+  <div id="canvasWrap">
+    <div id="stage">
+      <svg id="edges"></svg>
+    </div>
+  </div>
+  <div id="panel">
+    <button class="p-close" onclick="closePanelAndReset()">✕</button>
+    <div class="p-name" id="p-name"></div>
+    <div class="p-kana" id="p-kana"></div>
+    <div id="p-names" style="margin-bottom:10px;display:none;"></div>
+    <div class="p-role" id="p-role"></div>
+    <div class="p-desc" id="p-desc"></div>
+    <div class="p-groups" id="p-groups"></div>
+    <button id="p-edit-btn" onclick="toggleNodeEdit()">✏️ 編輯此神明</button>
+    <hr id="p-edit-sep" class="pe-sep" style="display:none;">
+    <div id="p-edit-form" style="display:none;">
+      <div class="pe-label">主名（繁體中文）</div><input id="pe-name" class="pe-inp">
+      <div class="pe-label">假名讀音</div><input id="pe-kana" class="pe-inp">
+      <div class="pe-label">役割（神格）</div><input id="pe-role" class="pe-inp">
+      <div class="pe-label">古事記</div><input id="pe-kojiki" class="pe-inp">
+      <div class="pe-label">日本書紀</div><input id="pe-nihonshoki" class="pe-inp">
+      <div class="pe-label">讀音（の みこと 形式）</div><input id="pe-reading" class="pe-inp">
+      <div class="pe-label">別稱（逗號分隔）</div><input id="pe-aliases" class="pe-inp">
+      <div class="pe-label">說明</div><textarea id="pe-desc" class="pe-inp"></textarea>
+      <div class="pe-btns">
+        <button class="pe-save" onclick="saveNodeEdit()">💾 保存</button>
+        <button onclick="cancelNodeEdit()">取消</button>
+        <button class="pe-del" onclick="resetNodeEdit()">↩ 重置</button>
+      </div>
+    </div>
+  </div>
+  <div id="zoomCtrl">
+    <button onclick="zoomBy(1.25)">+</button>
+    <button onclick="zoomBy(0.8)">−</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   資料：日本神話系譜（神代篇，依古事記為主／參酌日本書紀）
+   col / row 為版面格位（非像素），note=true 代表「群組彙整節點」
+   ============================================================ */
+const NODE_DEFS = [
+["amenominakanushi","天之御中主神","あめのみなかぬし","別天津神の筆頭",5,0,"別天津神の筆頭。性別を持たず、姿を現さずに身を隠したとされる根源的な独神。"],
+["takamimusubi","高御産巣日神","たかみむすひ","造化三神",6,0,"造化三神の一柱。後に天孫降臨を主導し、思金神・栲幡千千姫命の父となる。"],
+["kamimusubi","神産巣日神","かみむすひ","造化三神",7,0,"造化三神の一柱。大国主神を幾度も蘇生させ、少名毘古那神の親でもある。"],
+["umashiashikabihikoji","宇摩志阿斯訶備比古遅神","うましあしかびひこじ","別天津神",8,0,"葦の芽のように萌え上がるものから化生した独神。"],
+["amenotokotachi","天之常立神","あめのとこたち","別天津神",9,0,"天が永遠に立つことを象徴する独神。"],
+["kuninotokotachi","国之常立神","くにのとこたち","神世七代・第一代",7,1,"神世七代の最初の独神。国土の永久性を象徴する。"],
+["toyokumono","豊雲野神","とよくもぬ","神世七代・第二代",7,1.8,"神世七代の第二代。姿を見せない独神。"],
+["uhijini","宇比地邇神","うひぢに","神世七代・第三代",6.5,2.6,"神世七代の第三代、男神。"],
+["suhijini","須比智邇神","すひぢに","神世七代・第三代",7.5,2.6,"神世七代の第三代、女神。"],
+["tsunuguhi","角杙神","つのぐい","神世七代・第四代",6.5,3.4,"神世七代の第四代、男神。"],
+["ikuguhi","活杙神","いくぐい","神世七代・第四代",7.5,3.4,"神世七代の第四代、女神。"],
+["otonoji","意富斗能地神","おおとのじ","神世七代・第五代",6.5,4.2,"神世七代の第五代、男神。"],
+["otonobe","大斗乃弁神","おおとのべ","神世七代・第五代",7.5,4.2,"神世七代の第五代、女神。"],
+["omodaru","淤母陀琉神","おもだる","神世七代・第六代",6.5,5,"神世七代の第六代、男神。"],
+["ayakashikone","阿夜訶志古泥神","あやかしこね","神世七代・第六代",7.5,5,"神世七代の第六代、女神。"],
+["izanagi","伊邪那岐神","いざなぎ","神世七代・第七代",6.5,5.8,"神世七代の最終代。伊邪那美神と共に国生み・神生みを行った男神。"],
+["izanami","伊邪那美神","いざなみ","神世七代・第七代",7.5,5.8,"伊邪那岐神の妹であり妻。火の神を産んだ際の火傷がもとで死去し、黄泉の国の主となる。"],
+["hiruko","水蛭子","ひるこ","イザナギ・イザナミの最初の子",2,7.4,"最初に生まれたが不具であったため葦舟に乗せて流された。後世、恵比須として信仰される。"],
+["awashima","淡島","あわしま","二番目に生まれた子",3,7.4,"こちらも御子の数に入れられなかったとされる。"],
+["ohoyashima","大八島國（國土生成）","おおやしまぐに","国土の神格",5,7.4,"淡路島・四国・隠岐・九州・壱岐・対馬・佐渡・本州（大倭豊秋津島）など、日本列島を構成する島々の神格の総称。",true],
+["kagutsuchi","火之迦具土神","ひのかぐつち","火の神",10,7.4,"伊邪那美神が産んだ火の神。出産の火傷がもとで伊邪那美神は死去し、黄泉の国へ去った。"],
+["oyamatsumi","大山津見神","おおやまつみ","山の神",1,8.2,"伊邪那岐・伊邪那美の子で山を司る神。木花之佐久夜毘売・神大市比売の父であり、足名椎命・手名椎命の父ともされる。"],
+["kanayamahiko","金山毘古神","かなやまびこ","伊邪那美神の吐瀉物から誕生",6,6.6,"伊邪那美神が火傷で苦しみ嘔吐した際に化生した鍛冶・金属の神。"],
+["kanayamahime","金山媛神","かなやまびめ","伊邪那美神の吐瀉物から誕生",7,6.6,"金山毘古神と対になる金属の女神。"],
+["haniyasuhiko","波邇夜須毘古神","はにやすびこ","伊邪那美神の糞から誕生",8,6.6,"伊邪那美神の糞から化生した土・埴輪の神。"],
+["haniyasuhime","波邇夜須媛神","はにやすびめ","伊邪那美神の糞から誕生",9,6.6,"波邇夜須毘古神と対になる土の女神。"],
+["mizuhanome","弥都波能女神","みづはのめ","伊邪那美神の尿から誕生",10,6.6,"伊邪那美神の尿から化生した水の女神。灌漑の神として信仰される。"],
+["wakumusubi","和久産巣日神","わくむすひ","伊邪那美神の尿から誕生",11,6.6,"伊邪那美神の尿から化生した生成の神。豊宇気毘売神の親。"],
+["toyoukebime","豊宇氣媛神","とようけびめ","和久産巣日神の子・食物の神",11,7.4,"和久産巣日神の子で穀物・食物を司る女神。伊勢神宮外宮の祭神として知られる。"],
+["yamatsumi8","八柱山之神（總稱）","やつやまつみ","カグツチの遺体から生誕",9,8.4,"怒った伊邪那岐神に斬られた火之迦具土神の遺体の各部位から生まれた8柱：正鹿山津見神・淤縢山津見神・奥山津見神・闇山津見神・志藝山津見神・羽山津見神・原山津見神・戸山津見神。",true],
+["iwasaku","石拆神","いわさく","剣の血から誕生",11,8.2,"十拳剣の切っ先についた血が岩に飛び散って化生した神。"],
+["nesaku","根拆神","ねさく","剣の血から誕生",11,8.7,"石拆神と対になる神。"],
+["mikahayahi","甕速日神","みかはやひ","剣の血から誕生",11,9.2,"剣の本についた血から化生した神。"],
+["hihayahi","樋速日神","ひはやひ","剣の血から誕生",11,9.7,"甕速日神と対になる神。"],
+["takemikazuchi","建御雷之男神","たけみかづち","武神・国譲りの使者",11,10.2,"火之迦具土神を斬った十拳剣の血から生まれた武神。後に高天原から出雲へ遣わされ、大国主神へ国譲りを迫る。"],
+["kuraokami","闇淤加美神","くらおかみ","剣の血から誕生",11,10.7,"谷を司る龍神的な神。"],
+["kuramitsuha","闇御津羽神","くらみつは","剣の血から誕生",11,11.2,"水を司る神。"],
+["misogi_sutemono","禊で脱ぎ捨てた持ち物から誕生（総称）","みそぎのすてもの",null,0,10.1,"黄泉から逃れた伊邪那岐神が禊の際に脱ぎ捨てた杖・帯・袋・衣・褌・冠・腕輪などから、衝立船戸神・道之長乳歯神・時量師神など十二柱の神が生まれたとされる。",true],
+["watatsumi_soko","底津綿津見神","そこつわたつみ","綿津見三神",1.8,10.1,"綿津見三神の一柱。海人族（阿曇氏）が奉斎する。"],
+["watatsumi_naka","中津綿津見神","なかつわたつみ","綿津見三神",1.8,10.7,"綿津見三神の一柱。"],
+["watatsumi_uwa","上津綿津見神","うわつわたつみ","綿津見三神",1.8,11.3,"綿津見三神の一柱。後に豊玉毘売・玉依毘売の父ともされる海神。"],
+["sumiyoshi_soko","底筒之男神","そこつつのお","住吉三神",3,10.1,"住吉三神の一柱。住吉大社祭神。"],
+["sumiyoshi_naka","中筒之男神","なかつつのお","住吉三神",3,10.7,"住吉三神の一柱。"],
+["sumiyoshi_uwa","上筒之男神","うわつつのお","住吉三神",3,11.3,"住吉三神の一柱。"],
+["amaterasu","天照大御神","あまてらす","三貴子・太陽神・皇祖神",6,12,"伊邪那岐神が禊で左目を洗った時に生まれた。高天原の主宰神であり、皇室の祖神。天岩戸神話の主人公。",false,"key"],
+["tsukuyomi","月読命","つくよみ","三貴子・月神",7,12,"右目を洗った時に生まれた。夜の食国を治めるとされるが、記紀での活躍の記述は少ない。",false,"key"],
+["susanoo","建速須佐之男命","すさのお","三貴子・海原／暴風の神",8,12,"鼻を洗った時に生まれた。母を慕って泣き暴れ高天原を追放され出雲へ降り、八岐大蛇を退治して草薙剣を得た。",false,"key"],
+["amenouzume","天宇受賣命","あめのうずめ","芸能の女神",0,12,"天岩戸神話で舞い踊り天照大御神を誘い出した。天孫降臨で猿田毘古神を道案内に迎え、後に夫婦となる。"],
+["sarutahiko","猿田毘古神","さるたびこ","道の神",0,12.8,"天孫降臨の際に道案内をした国津神。"],
+["futodama","布刀玉命","ふとだま","忌部氏の祖神",1.2,12.8,"天岩戸神話で祭祀を執り行った神。忌部氏（斎部氏）の祖とされる。"],
+["amenoiwatowake","天石門別神","あめのいわとわけ","布刀玉命の子・門の神",1.2,13.6,"宮中の門を守護する神とされる。"],
+["omoikane","思金神","おもいかね","高御産巣日神の子・知恵の神",2.3,1,"高御産巣日神の子で知恵を司る神。天岩戸神話で対策を献策した。"],
+["ashinazuchi","足名椎命","あしなづち","大山津見神の子・櫛名田比売の父",0.2,9.4,"大山津見神の子で国津神。八岐大蛇の生贄にされかけていた娘の櫛名田比売を、須佐之男命に助けられた。"],
+["tenazuchi","手名椎命","てなづち","大山津見神の子・櫛名田比売の母",1.3,9.4,"足名椎命の妻で櫛名田比売の母。"],
+["kushinadahime","奇稻田姬","くしなだひめ","須佐之男命の正妻",9,12,"八岐大蛇の生贄にされかけていたが須佐之男命に救われ、正妻となった。足名椎命・手名椎命の娘。"],
+["kamuoichihime","神大市姬","かむおおいちひめ","須佐之男命の妻（大山津見神の娘）",10.5,12.6,"須佐之男命の妻の一人。大年神・宇迦之御魂神の母。"],
+["otoshi","大年神","おおとし","須佐之男命の子・穀物神",10.82,15.05,"須佐之男命と神大市比売の子。穀物と豊穣を司る神。"],
+["ukanomitama","宇迦之御魂神","うかのみたま","大年神の妹・稲荷神",11.82,15.05,"須佐之男命と神大市比売の子。後に稲荷信仰の中心的な神となる。"],
+["yashimajinumi","八島士奴美神","やしまじぬみ","須佐之男命の子",9,12.8,"須佐之男命と櫛名田比売の子。大国主神へ至る系譜の起点。"],
+["konohanachiruhime","木花知流姬","このはなちるひめ","須佐之男命の娘",8,12.8,"須佐之男命と櫛名田比売の娘。八島士奴美神の妹。"],
+["oshihomimi","天忍穂耳命","あめのおしほみみ","誓約で生まれた五男神の長男",5,13.8,"天照大御神と須佐之男命の誓約（うけい）で生まれた。皇室の直系の祖であり、瓊瓊杵尊の父。"],
+["amenohohi","天菩比命","あめのほひ","誓約で生まれた五男神",7,13.8,"菅原氏・土師氏・大伴氏・毛利氏などの祖とされる。国譲りの際に最初に出雲へ遣わされたが大国主神に懐柔された。"],
+["amatsuhikone","天津日子根命","あまつひこねのみこと","誓約で生まれた五男神",10.5,13.8,"誓約で生まれた五男神の一柱。"],
+["ikutsuhikone","活津日子根命","いくつひこねのみこと","誓約で生まれた五男神",11.5,13.8,"誓約で生まれた五男神の一柱。"],
+["kumanokusubi","熊野久須毘命","くまのくすび","誓約で生まれた五男神",12.5,13.8,"誓約で生まれた五男神の一柱。"],
+["munakata_takiri","多紀理姬命","たきりびめ","宗像三女神",3.5,13.8,"須佐之男命の剣から生まれたとされる宗像三女神の一柱。"],
+["munakata_ichikishima","市杵嶋姬命","いちきしまひめ","宗像三女神・厳島神社祭神",3.5,14.85,"宗像三女神の一柱。後に厳島神社などで祀られる。"],
+["munakata_takitsu","多岐都姬命","たきつひめ","宗像三女神",2.18,15.4,"宗像三女神の一柱。"],
+["takuhatachijihime","栲幡千千姫命","たくはたちぢひめ","高御産巣日神の娘",2.68,13.09,"高御産巣日神の娘で天忍穂耳命の妻。瓊瓊杵尊の母。"],
+["sugawara_note","菅原氏・土師氏・大伴氏・毛利氏 など","すがわらうじ ほか",null,7,14.6,"天菩比命の子孫を称する諸氏族の総称。",true],
+["ninigi","邇邇芸命","ににぎ","天孫降臨の主神",6,15.3,"天照大御神の命により三種の神器を携えて高千穂に降臨。皇室の直系の祖。"],
+["amenohoakari","天火明命","あめのほあかり","邇邇芸命の兄",4.7,15.3,"尾張氏の祖とされる神。"],
+["nigihayahi","饒速日命","にぎはやひ","天火明命と同一視される神",4.7,16.1,"神武東征以前に大和へ降臨していたとされ、物部氏の祖。"],
+["konohanasakuyahime","木花開耶姬","このはなのさくやびめ","大山津見神の娘",7.3,15.3,"邇邇芸命の妻。一夜で身籠ったことを疑われ、身の潔白を示すため産屋に火を放って御子を産んだ。"],
+["iwanagahime","石長比賣","いわながひめ","大山津見神の娘・長命の女神",8.5,15.3,"大山津見神が邇邇芸命に木花之佐久夜毘売とともに嫁がせたが、醜いとして送り返された。これが原因で人間の寿命が短くなったとされる。本来ならば岩のように永久の命を持つはずだったという。磐長姫とも書く。"],
+["hoderi","火照命（海幸彦）","ほでり","邇邇芸命の長子",3.4,16.2,"海幸山幸神話で弟と釣針を巡り争い、後に服従した。隼人の祖とされる。"],
+["hosuseri","火須勢理命","ほすせり","邇邇芸命の次子",6,16.2,"海幸山幸神話にはほとんど登場しない中間の御子。"],
+["hoori","火遠理命（山幸彦）","ほおり","邇邇芸命の三子",7.3,16.2,"海神の宮を訪れ豊玉毘売と結婚。皇室の直系の祖。"],
+["toyotamahime","豊玉媛","とよたまひめ","綿津見大神の娘",8.6,16.2,"火遠理命の妻。出産の際、本来の姿（鰐）を見られたことを恥じ、御子を残して海へ帰った。"],
+["ugayafukiaezu","鸕鶿草葺不合尊","うがやふきあえず","神武天皇の父",7.3,17,"火遠理命と豊玉毘売の子。出産時、産屋の屋根の鵜の羽がまだ葺き合わせられていなかったことに由来する名を持つ。"],
+["tamayoribime","玉依媛","たまよりびめ","豊玉媛の妹",8.6,17,"姉に代わって鸕鶿草葺不合尊を育て、後にその妻となる。"],
+["jimmu","神武天皇（若御毛沼命）","じんむてんのう","初代天皇",7.3,17.8,"日本神話上の初代天皇。東征の末に橿原宮で即位したとされる。"],
+["himetatarisuzuhime","媛蹈鞴五十鈴媛命","ひめたたらいすずひめ","神武天皇の皇后",8.6,17.8,"神武天皇の皇后。古事記では大物主神と勢夜陀多良比売の娘とされる（日本書紀の一伝では事代主神の娘とも）。出雲系と天孫系を結ぶ伝承を持つ。"],
+["fuhanomojikunusunu","布波能母遅久奴須奴神","ふはのもぢくぬすぬ","出雲系譜",13.68,13.6,"須佐之男命から大国主神へ至る系譜の一柱（古事記では六代を数える）。"],
+["fukabuchimizuyarehana","深淵之水夜礼花神","ふかぶちのみづやれはな","出雲系譜",9,14.4,"出雲系譜の一柱。"],
+["omizunu","淤美豆奴神","おみづぬ","出雲系譜",9.98,15.2,"出雲系譜の一柱。"],
+["amenofuyukinu","天之冬衣神","あめのふゆきぬ","出雲系譜",9.98,15.7,"大国主神の父。"],
+["okuninushi","大國主神（大己貴神）","おおくにぬし","出雲の国造り神",9,18.5,"因幡の白兎などの試練を経て国造りを成し遂げた出雲の主神。後に高天原からの要求に応じ国を譲り、出雲大社に鎮まったとされる。"],
+["sukunabikona","少名毘古那神","すくなびこな","国造りの相棒",6.3,18.5,"神産巣日神の子とされ、指の間からこぼれ落ちたという小さな神。大国主神と共に国造りを行い、後に常世の国へ去った。"],
+["suseribime","須勢理媛","すせりびめ","大國主神の正妻（須佐之男命の娘）",10.4,18.5,"須佐之男命の娘で大国主神の正妻。数々の試練を共に乗り越えた。"],
+["yagamihime","八上姬","やがみひめ","大國主神の妻（因幡の白兎神話）",7.6,19.3,"因幡の白兎神話で大国主神と結ばれるが、正妻須勢理毘売を恐れて子を置いて実家へ帰ったとされる。"],
+["nunakawahime","沼河姬","ぬなかわひめ","大國主神の妻（高志国）",11.6,18.5,"高志国（越）の姫神。大国主神が求婚の歌を贈った相手として知られる。"],
+["kamuyatatehime","神屋楯姬命","かむやたてひめ","大國主神の妻",10.4,19.3,"大国主神の妻の一人。事代主神の母ともされる。"],
+["kotoshironushi","事代主神","ことしろぬし","大国主神の子・託宣の神",10.4,20.1,"国譲り神話で父に代わって国譲りを承諾した。一説に神屋楯比売命の子ともされる。恵比須信仰と習合。"],
+["takeminakata","建御名方神","たけみなかた","大国主神の子・軍神",9,20.1,"国譲り神話で建御雷神と力比べをして敗れ、信濃国（諏訪）へ逃れた。諏訪大社祭神。一説に沼河比売の子ともされる。"],
+["kinomata","木俣神","きのまた","大国主神と八上比売の子",7.6,20.1,"八上比売が正妻須勢理毘売を恐れ、生まれた子を木の俣に挟んで実家へ帰ったとされることに由来する。"],
+["shitateruhime","下照姬","したてるひめ","大國主神の娘",11.6,19.3,"天若日子に嫁いだが、夫が高天原からの矢で死んだことを嘆き悲しんだ。"],
+["amenokoyane","天児屋命","あめのこやね","中臣氏・藤原氏の祖神",0,14.8,"天岩戸神話で祝詞を奏上した神。中臣氏、後の藤原氏の祖神とされる。"],
+["ajishikitakahikone","阿遅鉏高日子根神","あぢしきたかひこね","大国主神の子",12.6,18.5,"大国主神と多紀理毘売命の子。容姿が天若日子に酷似していたため、その葬儀で亡骸と間違われて怒り、喪屋を切り倒したという。"],
+["amatsukunitama","天津国玉神","あまつくにたま","天若日子の父",13.8,18.5,"高天原から葦原中国へ遣わされた天若日子の父。"],
+["amewakahiko","天若日子","あめわかひこ","下照比売の夫",13,19.3,"国譲りの交渉のため高天原から遣わされたが、下照比売と結婚して大国主神側についてしまい、高天原が送り返した矢に射られて死んだという悲劇の神。"],
+["mishima_mizokuhi","三嶋溝橛耳神","みしまのみぞくいみみ","勢夜陀多良比売の父",10.9,16.1,"勢夜陀多良比売の父とされる国津神。"],
+["seyadatarahime","勢夜陀多良姬","せやだたらひめ","大物主神の妻",10.9,16.9,"三嶋溝橛耳神の娘。大物主神との間に媛蹈鞴五十鈴媛命を生んだとされる。"],
+["omononushi","大物主神","おおものぬし","三輪山の神",11.9,16.9,"大国主神の「幸魂奇魂」（和魂）ともされる三輪山の神。媛蹈鞴五十鈴媛命の父という伝承を持つ。"],
+
+/* ===== 人代・初期天皇の系譜（古事記 中巻）===== */
+["hikoyai","日子八井命","ひこやい","神武天皇の皇子",2.0,22.0,"神武天皇と媛蹈鞴五十鈴媛命の長子。茨田連・手島連の祖とされる。"],
+["kamuyaimimi","神八井耳命","かむやいみみ","神武天皇の皇子・多氏の祖",3.3,22.0,"神武天皇の皇子。弟の神沼河耳命に皇位を譲り、自らは祭祀を司った。多氏・阿蘇氏など多くの氏族の祖とされる。"],
+["suizei","綏靖天皇（神沼河耳命）","すいぜい","第2代天皇",4.6,22.0,"神武天皇の第三皇子。異母兄の反逆を討ち、葛城の高岡宮で即位したと伝わる。"],
+["kawamatabime","河俣毘売","かわまたびめ","綏靖天皇の皇后",5.9,22.0,"事代主神の後裔とされる女性で、安寧天皇の母。"],
+
+["annei","安寧天皇（師木津日子玉手見命）","あんねい","第3代天皇",4.6,22.9,"綏靖天皇の皇子。片塩の浮穴宮で天下を治めたと伝わる。"],
+["akutohime","阿久斗比売","あくとひめ","安寧天皇の皇后",5.9,22.9,"河俣毘売の兄の娘とされる。懿徳天皇の母。"],
+
+["itoku","懿徳天皇（大倭日子鉏友命）","いとく","第4代天皇",4.6,23.8,"安寧天皇の皇子。軽の境岡宮で天下を治めたと伝わる。"],
+["futomawakahime","賦登麻和訶比売命","ふとまわかひめ","懿徳天皇の皇后",5.9,23.8,"別名を飯日比売命ともいう。孝昭天皇の母。"],
+
+["kosho","孝昭天皇（御真津日子訶恵志泥命）","こうしょう","第5代天皇",4.6,24.7,"懿徳天皇の皇子。葛城の掖上宮で天下を治めたと伝わる。"],
+["yosotahohime","余曽多本毘売命","よそたほひめ","孝昭天皇の皇后",5.9,24.7,"尾張連の祖・奥津余曽の妹とされる。"],
+
+["amenaoshitarashihiko","天押帯日子命","あめおしたらしひこ","孝昭天皇の皇子・和珥氏の祖",3.3,25.6,"春日臣・大宅臣・小野臣・柿本臣など、和珥氏系の多くの氏族の祖とされる。"],
+["koan","孝安天皇（大倭帯日子国押人命）","こうあん","第6代天皇",4.6,25.6,"孝昭天皇の皇子。葛城の室之秋津島宮で天下を治めたと伝わる。"],
+["oshikahime","忍鹿比売命","おしかひめ","孝安天皇の皇后",5.9,25.6,"孝安天皇の姪にあたるとされる。孝霊天皇の母。"],
+
+["korei","孝霊天皇（大倭根子日子賦斗邇命）","こうれい","第7代天皇",4.6,26.5,"孝安天皇の皇子。黒田の廬戸宮で天下を治めたと伝わる。"],
+["kuwashihime","細比売命","くわしひめ","孝霊天皇の皇后",5.9,26.5,"十市県主の祖の娘とされる。孝元天皇の母。"],
+
+["momosohime","倭迹迹日百襲姫命","やまとととひももそひめ","孝霊天皇の皇女・巫女的な女性",2.0,27.4,"神意を伝える巫女的な存在として描かれ、大物主神の妻となったが、蛇の正体を見て驚き命を落としたという「箸墓伝説」で知られる。"],
+["ohokibitsuhiko","大吉備津日子命","おおきびつひこ","孝霊天皇の皇子・吉備の祖",3.3,27.4,"弟の若日子建吉備津日子命と共に吉備を平定したと伝わる。吉備臣の祖であり、桃太郎伝説の原型ともいわれる。"],
+["kogen","孝元天皇（大倭根子日子国玖琉命）","こうげん","第8代天皇",4.6,27.4,"孝霊天皇の皇子。軽の境原宮で天下を治めたと伝わる。"],
+["utsushikome","内色許売命","うつしこめ","孝元天皇の皇后",5.9,27.4,"穂積臣の祖・内色許男命の妹とされる。開化天皇の母。"],
+
+["ohobiko","大毘古命","おおびこ","孝元天皇の皇子・四道将軍",3.3,28.3,"崇神天皇の代に四道将軍の一人として北陸道へ派遣された。阿倍臣・膳臣などの祖とされる。"],
+["kaika","開化天皇（若倭根子日子大毘毘命）","かいか","第9代天皇",4.6,28.3,"孝元天皇の皇子。春日の伊邪河宮で天下を治めたと伝わる。"],
+["ikagashikome","伊迦賀色許売命","いかがしこめ","開化天皇の皇后",5.9,28.3,"もとは孝元天皇の妃であったが、後に開化天皇の后となった。崇神天皇の母。"],
+["hikofutsuoshi","比古布都押之信命","ひこふつおしのまこと","孝元天皇の皇子",7.2,28.3,"孝元天皇の皇子で、建内宿禰の父とされる。"],
+
+["sujin","崇神天皇（御真木入日子印恵命）","すじん","第10代天皇",4.6,29.2,"「はつくにしらすすめらみこと（初国知らしし御真木天皇）」と称えられ、実在性が論じられる最初の天皇。疫病の流行を大物主神を祀ることで鎮め、四道将軍を派遣して国土を平定したと伝わる。"],
+["mimatsuhime","御真津比売命","みまつひめ","崇神天皇の皇后",5.9,29.2,"大毘古命の娘。垂仁天皇の母。"],
+["takeuchi","建内宿禰","たけうちのすくね","五代の天皇に仕えた大臣",7.2,29.2,"景行・成務・仲哀・応神・仁徳の五代に仕えたと伝わる伝説的な長寿の大臣。蘇我氏・葛城氏・平群氏など有力氏族の祖とされる。"],
+
+["toyosukiirihime","豊鍬入姫命","とよすきいりひめ","崇神天皇の皇女",3.3,30.1,"天照大御神の御神体を宮中から移して祀った最初の御杖代（斎王の起源）とされる。"],
+["suinin","垂仁天皇（伊久米伊理毘古伊佐知命）","すいにん","第11代天皇",4.6,30.1,"崇神天皇の皇子。埴輪の起源説話や、常世国へ非時香菓（橘）を求めさせた話で知られる。"],
+["hibasuhime","日葉酢媛命","ひばすひめ","垂仁天皇の皇后",5.9,30.1,"丹波道主命の娘。景行天皇の母で、その葬儀が埴輪起源説話に結びつく。"],
+
+["yamatohime","倭比売命","やまとひめ","垂仁天皇の皇女・伊勢神宮の創祀",3.3,31.0,"豊鍬入姫命を継いで御杖代となり、各地を巡って伊勢の地に天照大御神を鎮座させたと伝わる。後に甥の倭建命へ草薙剣を授けた。"],
+["keiko","景行天皇（大帯日子淤斯呂和気命）","けいこう","第12代天皇",4.6,31.0,"垂仁天皇の皇子。倭建命の父であり、自らも九州へ遠征したと伝わる。"],
+["inabinooiratsume","播磨稲日大郎姫","はりまのいなびのおおいらつめ","景行天皇の皇后",5.9,31.0,"吉備臣の一族の娘。倭建命（小碓命）と大碓命の母。"],
+
+["yamatotakeru","倭建命（小碓命）","やまとたける","悲劇の英雄",4.6,31.9,"父・景行天皇の命で熊襲建・出雲建を討ち、さらに東国へ遠征した英雄。叔母の倭比売命から授かった草薙剣で野火の難を逃れ、走水の海では妃の弟橘比売命が入水して海神を鎮めた。伊吹山の神に敗れ、能煩野で没して白鳥となったと伝わる。"],
+["futajiirihime","布多遅能伊理毘売命","ふたじのいりびめ","倭建命の妃",5.9,31.9,"垂仁天皇の皇女で倭建命の妃。仲哀天皇の母。"],
+["seimu","成務天皇（若帯日子命）","せいむ","第13代天皇",7.2,31.9,"景行天皇の皇子で倭建命の異母弟。国造・県主を定め、国郡の境を定めたと伝わる。"],
+["ototachibana","弟橘比売命","おとたちばなひめ","倭建命の妃",2.0,31.9,"東征の途上、荒れる走水の海を鎮めるために自ら入水し、夫の倭建命を救ったと伝わる。"],
+
+["chuai","仲哀天皇（帯中日子命）","ちゅうあい","第14代天皇",4.6,32.8,"倭建命の子。神託を疑ったために神の怒りに触れて急逝したと伝わる。"],
+["jingu","息長帯比売命（神功皇后）","じんぐう","仲哀天皇の皇后",5.9,32.8,"神託を受けて新羅へ遠征したと伝わる（三韓征伐）。帰還後に応神天皇を産み、長く政を執ったとされる。"],
+
+["ojin","応神天皇（品陀和気命）","おうじん","第15代天皇",4.6,33.7,"仲哀天皇と神功皇后の子。母の胎内にあるまま海を渡ったという「胎中天皇」の伝承を持つ。後に八幡神として広く信仰された。"],
+["nakatsuhime","仲姫命","なかつひめ","応神天皇の皇后",5.9,33.7,"品陀真若王の娘。仁徳天皇の母。"],
+
+["nintoku","仁徳天皇（大雀命）","にんとく","第16代天皇",4.6,34.6,"民の竈から煙が立たないのを見て三年間の課役を免じたという「民の竈」の逸話で知られる聖帝。世界最大級の墳墓・大仙陵古墳の被葬者に比定される。"],
+["kotai_note","以降の天皇へ続く →","のちのてんのう",null,4.6,35.5,"仁徳天皇以降も、履中・反正・允恭…と皇統は続く（本図は古事記中巻までを範囲とする）。",true],
+];
+
+const GROUPS = [
+  ["造化三神", ["amenominakanushi","takamimusubi","kamimusubi"], "#e0b060"],
+  ["別天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi"], "#7fa8d0"],
+  ["神世七代", ["kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami"], "#9fb87a"],
+  ["三貴子", ["amaterasu","tsukuyomi","susanoo"], "#e0b060"],
+  ["宗像三女神", ["munakata_takiri","munakata_ichikishima","munakata_takitsu"], "#e08ab0"],
+  ["綿津見三神", ["watatsumi_soko","watatsumi_naka","watatsumi_uwa"], "#6fc2c9"],
+  ["住吉三神", ["sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa"], "#6f9fc9"],
+  ["誓約の五男神", ["oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi"], "#c9a86f"],
+  ["カグツチの血から生まれた神", ["iwasaku","nesaku","mikahayahi","hihayahi","takemikazuchi","kuraokami","kuramitsuha"], "#c96f6f"],
+  ["出雲・大国主神の一族", ["okuninushi","suseribime","sukunabikona","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime"], "#b08fd8"],
+  ["地神五代", ["amaterasu","oshihomimi","ninigi","hoori","ugayafukiaezu"], "#c8b870"],
+  ["日向三代", ["ninigi","hoori","ugayafukiaezu"], "#d4956a"],
+  ["天孫降臨・皇統", ["ninigi","amenohoakari","nigihayahi","konohanasakuyahime","iwanagahime","hoderi","hosuseri","hoori","toyotamahime","ugayafukiaezu","tamayoribime","jimmu","himetatarisuzuhime"], "#e0b060"],
+  ["欠史八代（第2〜9代）", ["suizei","kawamatabime","annei","akutohime","itoku","futomawakahime","kosho","yosotahohime","koan","oshikahime","korei","kuwashihime","kogen","utsushikome","kaika","ikagashikome"], "#8fb0d8"],
+  ["崇神〜仁徳（人代の展開）", ["sujin","mimatsuhime","suinin","hibasuhime","keiko","inabinooiratsume","yamatotakeru","futajiirihime","seimu","chuai","jingu","ojin","nakatsuhime","nintoku"], "#d8a06f"],
+  ["天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami","amaterasu","tsukuyomi","susanoo","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","omoikane","amenokoyane","futodama","amenouzume","amenoiwatowake","takemikazuchi","ninigi","amenohoakari","nigihayahi"], "#a0c8f0", false],
+  ["國津神", ["kagutsuchi","oyamatsumi","kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi","toyoukebime","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","yashimajinumi","konohanachiruhime","otoshi","ukanomitama","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","sarutahiko","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","amewakahiko","omononushi","mishima_mizokuhi","seyadatarahime"], "#90c880", false],
+];
+
+const UNIONS = [
+  {parent:"kuninotokotachi", children:["toyokumono"]},
+  {parent:"toyokumono", children:["uhijini","suhijini"]},
+  {spouses:["uhijini","suhijini"], marriage:"primary", children:["tsunuguhi","ikuguhi"]},
+  {spouses:["tsunuguhi","ikuguhi"], marriage:"primary", children:["otonoji","otonobe"]},
+  {spouses:["otonoji","otonobe"], marriage:"primary", children:["omodaru","ayakashikone"]},
+  {spouses:["omodaru","ayakashikone"], marriage:"primary", children:["izanagi","izanami"]},
+  {spouses:["izanagi","izanami"], marriage:"primary", children:["hiruko","awashima","ohoyashima","kagutsuchi","oyamatsumi"]},
+  {parent:"kagutsuchi", children:["yamatsumi8","iwasaku","nesaku","mikahayahi","hihayahi","takemikazuchi","kuraokami","kuramitsuha"], label:"斬られて誕生", labelClass:"blood"},
+  {parent:"izanami", children:["kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi"], label:"死の間際に誕生", labelClass:"blood"},
+  {parent:"wakumusubi", children:["toyoukebime"]},
+  {parent:"oyamatsumi", children:["ashinazuchi","tenazuchi","konohanasakuyahime","iwanagahime","kamuoichihime"]},
+  {spouses:["ashinazuchi","tenazuchi"], marriage:"primary", children:["kushinadahime"]},
+  {parent:"izanagi", children:["misogi_sutemono","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","amaterasu","tsukuyomi","susanoo"], label:"禊で誕生", labelClass:"ritual"},
+  {spouses:["amaterasu","susanoo"], marriage:"partner", label:"誓約（うけい）", labelClass:"ritual", children:["munakata_takiri","munakata_ichikishima","munakata_takitsu","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi"]},
+  {spouses:["amenouzume","sarutahiko"], marriage:"primary"},
+  {parent:"futodama", children:["amenoiwatowake"]},
+  {parent:"takamimusubi", children:["omoikane","takuhatachijihime"]},
+  {parent:"amenohohi", children:["sugawara_note"]},
+  {spouses:["oshihomimi","takuhatachijihime"], marriage:"primary", children:["ninigi","amenohoakari","nigihayahi"]},
+  {spouses:["susanoo","kushinadahime"], marriage:"primary", children:["yashimajinumi","konohanachiruhime"]},
+  {spouses:["susanoo","kamuoichihime"], marriage:"secondary", children:["otoshi","ukanomitama"]},
+  {parent:"yashimajinumi", children:["fuhanomojikunusunu"]},
+  {parent:"fuhanomojikunusunu", children:["fukabuchimizuyarehana"]},
+  {parent:"fukabuchimizuyarehana", children:["omizunu"]},
+  {parent:"omizunu", children:["amenofuyukinu"]},
+  {parent:"amenofuyukinu", children:["okuninushi"]},
+  {spouses:["okuninushi","sukunabikona"], marriage:"partner", label:"国造りの相棒", labelClass:"partner"},
+  {spouses:["okuninushi","suseribime"], marriage:"primary", children:["kotoshironushi","takeminakata"]},
+  {spouses:["okuninushi","yagamihime"], marriage:"secondary", children:["kinomata"]},
+  {spouses:["okuninushi","nunakawahime"], marriage:"secondary"},
+  {spouses:["okuninushi","kamuyatatehime"], marriage:"secondary"},
+  {spouses:["okuninushi","munakata_takiri"], marriage:"secondary", children:["shitateruhime","ajishikitakahikone"]},
+  {parent:"amatsukunitama", children:["amewakahiko"]},
+  {spouses:["shitateruhime","amewakahiko"], marriage:"secondary", label:"悲恋", labelClass:"partner"},
+  {parent:"mishima_mizokuhi", children:["seyadatarahime"]},
+  {spouses:["omononushi","seyadatarahime"], marriage:"primary", children:["himetatarisuzuhime"]},
+  {spouses:["ninigi","konohanasakuyahime"], marriage:"primary", children:["hoderi","hosuseri","hoori"]},
+  {spouses:["hoori","toyotamahime"], marriage:"primary", children:["ugayafukiaezu"]},
+  {spouses:["ugayafukiaezu","tamayoribime"], marriage:"primary", children:["jimmu"]},
+  {spouses:["jimmu","himetatarisuzuhime"], marriage:"primary", children:["hikoyai","kamuyaimimi","suizei"]},
+
+  /* ===== 人代・初期天皇 ===== */
+  {spouses:["suizei","kawamatabime"], marriage:"primary", children:["annei"]},
+  {spouses:["annei","akutohime"], marriage:"primary", children:["itoku"]},
+  {spouses:["itoku","futomawakahime"], marriage:"primary", children:["kosho"]},
+  {spouses:["kosho","yosotahohime"], marriage:"primary", children:["amenaoshitarashihiko","koan"]},
+  {spouses:["koan","oshikahime"], marriage:"primary", children:["korei"]},
+  {spouses:["korei","kuwashihime"], marriage:"primary", children:["kogen"]},
+  {parent:"korei", children:["momosohime","ohokibitsuhiko"]},
+  {spouses:["kogen","utsushikome"], marriage:"primary", children:["ohobiko","kaika"]},
+  {parent:"kogen", children:["hikofutsuoshi"]},
+  {spouses:["kaika","ikagashikome"], marriage:"primary", children:["sujin"]},
+  {parent:"hikofutsuoshi", children:["takeuchi"]},
+  {spouses:["sujin","mimatsuhime"], marriage:"primary", children:["suinin"]},
+  {parent:"sujin", children:["toyosukiirihime"]},
+  {spouses:["suinin","hibasuhime"], marriage:"primary", children:["keiko"]},
+  {parent:"suinin", children:["yamatohime"]},
+  {spouses:["keiko","inabinooiratsume"], marriage:"primary", children:["yamatotakeru"]},
+  {parent:"keiko", children:["seimu"]},
+  {spouses:["yamatotakeru","futajiirihime"], marriage:"primary", children:["chuai"]},
+  {spouses:["yamatotakeru","ototachibana"], marriage:"secondary"},
+  {spouses:["chuai","jingu"], marriage:"primary", children:["ojin"]},
+  {spouses:["ojin","nakatsuhime"], marriage:"primary", children:["nintoku"]},
+  {parent:"nintoku", children:["kotai_note"]},
+];
+
+/* ============ 各神名稱對照（古事記・日本書紀・読み・別稱） ============ */
+const NODE_NAMES = {
+  "amenominakanushi":{kojiki:"天之御中主神",nihonshoki:"天御中主尊",reading:"あめのみなかぬし の かみ",aliases:[]},
+  "takamimusubi":{kojiki:"高御産巣日神",nihonshoki:"高皇産霊尊",reading:"たかみむすび の かみ",aliases:["高木神（たかぎのかみ）"]},
+  "kamimusubi":{kojiki:"神産巣日神",nihonshoki:"神皇産霊尊",reading:"かみむすび の かみ",aliases:[]},
+  "umashiashikabihikoji":{kojiki:"宇摩志阿斯訶備比古遅神",nihonshoki:"可美葦牙彦舅尊",reading:"うましあしかびひこじ の かみ",aliases:[]},
+  "amenotokotachi":{kojiki:"天之常立神",nihonshoki:"天常立尊",reading:"あめのとこたち の かみ",aliases:[]},
+  "kuninotokotachi":{kojiki:"国之常立神",nihonshoki:"国常立尊",reading:"くにのとこたち の かみ",aliases:[]},
+  "toyokumono":{kojiki:"豊雲野神",nihonshoki:"国狭槌尊（くにのさづちのみこと）",reading:"とよくもぬ の かみ",aliases:[]},
+  "uhijini":{kojiki:"宇比地邇神",nihonshoki:"泥土煮尊（ひぢのきのみこと）",reading:"うひぢに の かみ",aliases:[]},
+  "suhijini":{kojiki:"須比智邇神",nihonshoki:"沙土煮尊（すなつちのみこと）",reading:"すひぢに の かみ",aliases:[]},
+  "tsunuguhi":{kojiki:"角杙神",nihonshoki:"大戸之道尊（おおとのぢのみこと）",reading:"つのぐい の かみ",aliases:[]},
+  "ikuguhi":{kojiki:"活杙神",nihonshoki:"大苫辺尊（おおとまべのみこと）",reading:"いくぐい の かみ",aliases:[]},
+  "otonoji":{kojiki:"意富斗能地神",nihonshoki:"面足尊（おもだるのみこと）",reading:"おおとのじ の かみ",aliases:[]},
+  "otonobe":{kojiki:"大斗乃弁神",nihonshoki:"惶根尊（かしこねのみこと）",reading:"おおとのべ の かみ",aliases:[]},
+  "omodaru":{kojiki:"淤母陀琉神",nihonshoki:"面足尊（おもだるのみこと）",reading:"おもだる の かみ",aliases:[]},
+  "ayakashikone":{kojiki:"阿夜訶志古泥神",nihonshoki:"惶根尊（かしこねのみこと）",reading:"あやかしこね の かみ",aliases:[]},
+  "izanagi":{kojiki:"伊邪那岐命",nihonshoki:"伊弉諾尊",reading:"いざなぎ の みこと",aliases:["伊耶那岐神（いやなぎのかみ）","伊奘諾命（いざなきのみこと）"]},
+  "izanami":{kojiki:"伊邪那美命",nihonshoki:"伊弉冉尊",reading:"いざなみ の みこと",aliases:["伊耶那美神（いやなみのかみ）","伊奘冉命（いざなみのみこと）"]},
+  "hiruko":{kojiki:"水蛭子",nihonshoki:"蛭児（ひるこ）",reading:"ひるこ",aliases:["恵比須（えびす）","事代主神と習合"]},
+  "awashima":{kojiki:"淡島（あわしま）",nihonshoki:"淡洲（あわのしま）",reading:"あわしま",aliases:[]},
+  "ohoyashima":{kojiki:"大八島国",nihonshoki:"大八洲国",reading:"おおやしまぐに",aliases:[]},
+  "kagutsuchi":{kojiki:"火之迦具土神",nihonshoki:"軻遇突智尊",reading:"ひのかぐつち の かみ",aliases:["火之夜藝速男神（ひのやぎはやをのかみ）","火之炫毘古神（ひのかがびこのかみ）","火産霊（ほむすび）"]},
+  "oyamatsumi":{kojiki:"大山津見神",nihonshoki:"大山祇神",reading:"おおやまつみ の かみ",aliases:["大山積神（おおやまつみのかみ）"]},
+  "kanayamahiko":{kojiki:"金山毘古神",nihonshoki:"金山彦神",reading:"かなやまびこ の かみ",aliases:[]},
+  "kanayamahime":{kojiki:"金山毘売神",nihonshoki:"金山媛神",reading:"かなやまびめ の かみ",aliases:[]},
+  "haniyasuhiko":{kojiki:"波邇夜須毘古神",nihonshoki:"埴山彦神",reading:"はにやすびこ の かみ",aliases:[]},
+  "haniyasuhime":{kojiki:"波邇夜須毘売神",nihonshoki:"埴山媛神",reading:"はにやすびめ の かみ",aliases:[]},
+  "mizuhanome":{kojiki:"弥都波能売神",nihonshoki:"罔象女神（みつはのめのかみ）",reading:"みづはのめ の かみ",aliases:[]},
+  "wakumusubi":{kojiki:"和久産巣日神",nihonshoki:"稚産霊神（わくむすびのかみ）",reading:"わくむすひ の かみ",aliases:[]},
+  "toyoukebime":{kojiki:"豊宇気毘売神",nihonshoki:"保食神（うけもちのかみ）",reading:"とようけびめ の かみ",aliases:["豊受大神（とようけのおおかみ）","豊受大御神（とようけのおおみかみ）"]},
+  "yamatsumi8":{kojiki:"八柱の山の神",nihonshoki:"同様の記述あり",reading:"やつやまつみ",aliases:[]},
+  "iwasaku":{kojiki:"石拆神",nihonshoki:"磐裂神（いわさくのかみ）",reading:"いわさく の かみ",aliases:[]},
+  "nesaku":{kojiki:"根拆神",nihonshoki:"根裂神（ねさくのかみ）",reading:"ねさく の かみ",aliases:[]},
+  "mikahayahi":{kojiki:"甕速日神",nihonshoki:"甕速日神",reading:"みかはやひ の かみ",aliases:[]},
+  "hihayahi":{kojiki:"樋速日神",nihonshoki:"樋速日神",reading:"ひはやひ の かみ",aliases:[]},
+  "takemikazuchi":{kojiki:"建御雷之男神",nihonshoki:"武甕槌大神",reading:"たけみかづち の おのかみ",aliases:["建布都神（たけふつのかみ）","豊布都神（とよふつのかみ）","鹿島大神（かしまのおおかみ）"]},
+  "kuraokami":{kojiki:"闇淤加美神",nihonshoki:"闇龗神（くらおかみのかみ）",reading:"くらおかみ の かみ",aliases:[]},
+  "kuramitsuha":{kojiki:"闇御津羽神",nihonshoki:"闇御津羽神",reading:"くらみつは の かみ",aliases:[]},
+  "misogi_sutemono":{kojiki:"禊で脱いだものから生まれた神々",nihonshoki:"同様の記述あり",reading:"みそぎのすてものからうまれたかみがみ",aliases:[]},
+  "watatsumi_soko":{kojiki:"底津綿津見神",nihonshoki:"底津少童命（そこつわたつみのみこと）",reading:"そこつわたつみ の かみ",aliases:[]},
+  "watatsumi_naka":{kojiki:"中津綿津見神",nihonshoki:"中津少童命（なかつわたつみのみこと）",reading:"なかつわたつみ の かみ",aliases:[]},
+  "watatsumi_uwa":{kojiki:"上津綿津見神",nihonshoki:"表津少童命（うわつわたつみのみこと）",reading:"うわつわたつみ の かみ",aliases:["綿津見大神（わたつみのおおかみ）"]},
+  "sumiyoshi_soko":{kojiki:"底筒之男神",nihonshoki:"底筒男命（そこつつのおのみこと）",reading:"そこつつのお の かみ",aliases:[]},
+  "sumiyoshi_naka":{kojiki:"中筒之男神",nihonshoki:"中筒男命（なかつつのおのみこと）",reading:"なかつつのお の かみ",aliases:[]},
+  "sumiyoshi_uwa":{kojiki:"上筒之男神",nihonshoki:"表筒男命（うわつつのおのみこと）",reading:"うわつつのお の かみ",aliases:[]},
+  "amaterasu":{kojiki:"天照大御神",nihonshoki:"天照大日孁貴神",reading:"あまてらすおおみかみ",aliases:["大日孁貴（おおひるめのむち）","天照坐皇大御神（あまてらしますすめおおみかみ）"]},
+  "tsukuyomi":{kojiki:"月読命",nihonshoki:"月夜見尊",reading:"つくよみ の みこと",aliases:["月弓尊（つくゆみのみこと）","月読神（つきよみのかみ）"]},
+  "susanoo":{kojiki:"建速須佐之男命",nihonshoki:"素戔嗚尊",reading:"たけはやすさのお の みこと",aliases:["素盞嗚尊（すさのおのみこと）","速素戔嗚尊（はやすさのおのみこと）"]},
+  "amenouzume":{kojiki:"天宇受賣命",nihonshoki:"天鈿女命",reading:"あめのうずめ の みこと",aliases:["宮比神（みやびのかみ）","大宮能売命（おおみやのめのみこと）"]},
+  "sarutahiko":{kojiki:"猿田毘古神",nihonshoki:"猿田彦大神",reading:"さるたびこ の かみ",aliases:["道祖神（どうそしん）"]},
+  "futodama":{kojiki:"布刀玉命",nihonshoki:"太玉命（ふとだまのみこと）",reading:"ふとだま の みこと",aliases:[]},
+  "amenoiwatowake":{kojiki:"天石門別神",nihonshoki:"天石門別神",reading:"あめのいわとわけ の かみ",aliases:["櫛石窓神（くしいわまどのかみ）","豊石窓神（とよいわまどのかみ）"]},
+  "omoikane":{kojiki:"思金神",nihonshoki:"思兼神（おもいかねのかみ）",reading:"おもいかね の かみ",aliases:[]},
+  "ashinazuchi":{kojiki:"足名椎命",nihonshoki:"足摩乳命（あしなづちのみこと）",reading:"あしなづち の みこと",aliases:[]},
+  "tenazuchi":{kojiki:"手名椎命",nihonshoki:"手摩乳命（てなづちのみこと）",reading:"てなづち の みこと",aliases:[]},
+  "kushinadahime":{kojiki:"櫛名田比売",nihonshoki:"奇稲田姫",reading:"くしなだひめ",aliases:["真髪触奇稲田媛（まかみふるくしいなだひめ）"]},
+  "kamuoichihime":{kojiki:"神大市比売",nihonshoki:"大市比売（おおいちひめ）",reading:"かむおおいちひめ",aliases:[]},
+  "otoshi":{kojiki:"大年神",nihonshoki:"大年神",reading:"おおとし の かみ",aliases:["大歳神（おおとしのかみ）"]},
+  "ukanomitama":{kojiki:"宇迦之御魂神",nihonshoki:"倉稲魂命（うかのみたまのみこと）",reading:"うかのみたま の かみ",aliases:["稲荷大神（いなりおおかみ）","御食津神（みけつのかみ）"]},
+  "yashimajinumi":{kojiki:"八島士奴美神",nihonshoki:"（古事記のみ）",reading:"やしまじぬみ の かみ",aliases:[]},
+  "konohanachiruhime":{kojiki:"木花知流比売",nihonshoki:"（古事記のみ）",reading:"このはなちるひめ",aliases:[]},
+  "oshihomimi":{kojiki:"天忍穂耳命",nihonshoki:"正哉吾勝勝速日天忍穂耳尊",reading:"あめのおしほみみ の みこと",aliases:["天忍穗耳尊（あめのおしほみみのみこと）","天忍穗耳命"]},
+  "amenohohi":{kojiki:"天菩比命",nihonshoki:"天夷鳥命（あめのひなどりのみこと）",reading:"あめのほひ の みこと",aliases:[]},
+  "amatsuhikone":{kojiki:"天津日子根命",nihonshoki:"天津彦根命（あまつひこねのみこと）",reading:"あまつひこね の みこと",aliases:[]},
+  "ikutsuhikone":{kojiki:"活津日子根命",nihonshoki:"活津彦根命（いくつひこねのみこと）",reading:"いくつひこね の みこと",aliases:[]},
+  "kumanokusubi":{kojiki:"熊野久須毘命",nihonshoki:"熊野楠日命（くまのくすびのみこと）",reading:"くまのくすび の みこと",aliases:[]},
+  "munakata_takiri":{kojiki:"多紀理毘売命",nihonshoki:"田心姫（たごりひめ）",reading:"たきりびめ の みこと",aliases:["奥津島比売命（おきつしまひめのみこと）"]},
+  "munakata_ichikishima":{kojiki:"市寸島比売命",nihonshoki:"市杵嶋姫命（いちきしまひめのみこと）",reading:"いちきしまひめ の みこと",aliases:["狭依毘売命（さよりびめのみこと）"]},
+  "munakata_takitsu":{kojiki:"多岐都比売命",nihonshoki:"湍津姫（たきつひめ）",reading:"たきつひめ の みこと",aliases:[]},
+  "takuhatachijihime":{kojiki:"栲幡千千姫命",nihonshoki:"万幡豊秋津師比売命（よろずはたとよあきつしひめのみこと）",reading:"たくはたちぢひめ の みこと",aliases:[]},
+  "sugawara_note":{kojiki:"（氏族）",nihonshoki:"（氏族）",reading:"",aliases:[]},
+  "ninigi":{kojiki:"邇邇芸命",nihonshoki:"天津彦彦火瓊瓊杵尊",reading:"ににぎ の みこと",aliases:["天邇岐志国邇岐志天津日高日子番能邇邇芸命（ほぼ全名）","瓊瓊杵尊（ににぎのみこと）"]},
+  "amenohoakari":{kojiki:"天火明命",nihonshoki:"天照国照彦天火明命",reading:"あめのほあかり の みこと",aliases:["饒速日命と同一視される"]},
+  "nigihayahi":{kojiki:"饒速日命",nihonshoki:"饒速日尊（にぎはやひのみこと）",reading:"にぎはやひ の みこと",aliases:["天照国照彦天火明命（あまてるくにてるひこあめのほあかりのみこと）"]},
+  "konohanasakuyahime":{kojiki:"木花之佐久夜毘売",nihonshoki:"木花開耶姫",reading:"このはなのさくやびめ",aliases:["鹿葦津姫（かしつひめ）","神阿多都比売（かむあたつひめ）","木花咲耶姫（このはなさくやひめ）"]},
+  "iwanagahime":{kojiki:"石長比売命",nihonshoki:"磐長姫命（いわながひめのみこと）",reading:"いわながひめ の みこと",aliases:["岩長比売（いわながひめ）"]},
+  "hoderi":{kojiki:"火照命",nihonshoki:"火闌降命（ほのすそりのみこと）",reading:"ほでり の みこと",aliases:["海幸彦（うみさちひこ）","隼人の祖"]},
+  "hosuseri":{kojiki:"火須勢理命",nihonshoki:"火進命（ほすすみのみこと）",reading:"ほすせり の みこと",aliases:[]},
+  "hoori":{kojiki:"火遠理命",nihonshoki:"彦火火出見尊",reading:"ほおり の みこと",aliases:["山幸彦（やまさちひこ）","火折尊（ほをりのみこと）","天津日高日子穗穗手見命"]},
+  "toyotamahime":{kojiki:"豊玉毘売命",nihonshoki:"豊玉媛（とよたまひめ）",reading:"とよたまひめ の みこと",aliases:[]},
+  "ugayafukiaezu":{kojiki:"天津日高日子波限建鵜葺草葺不合命",nihonshoki:"彦波瀲武鵜鶿草葺不合尊",reading:"あまつひたかひこなぎさたけうがやふきあえず の みこと",aliases:["鸕鷀草葺不合尊（うがやふきあえずのみこと）"]},
+  "tamayoribime":{kojiki:"玉依毘売命",nihonshoki:"玉依媛（たまよりひめ）",reading:"たまよりびめ の みこと",aliases:[]},
+  "jimmu":{kojiki:"神倭伊波礼毘古命",nihonshoki:"神日本磐余彦尊",reading:"かむやまといわれびこ の みこと",aliases:["若御毛沼命（わかみけぬのみこと）","豊御毛沼命（とよみけぬのみこと）","狭野尊（さぬのみこと）","神武天皇（じんむてんのう）"]},
+  "himetatarisuzuhime":{kojiki:"媛蹈鞴五十鈴媛命",nihonshoki:"媛蹈鞴五十鈴媛命",reading:"ひめたたらいすずひめ の みこと",aliases:["富登多多良伊須須岐比売命（ほとたたらいすすきひめのみこと）"]},
+  "fuhanomojikunusunu":{kojiki:"布波能母遅久奴須奴神",nihonshoki:"（古事記のみ）",reading:"ふはのもぢくぬすぬ の かみ",aliases:[]},
+  "fukabuchimizuyarehana":{kojiki:"深淵之水夜礼花神",nihonshoki:"（古事記のみ）",reading:"ふかぶちのみづやれはな の かみ",aliases:[]},
+  "omizunu":{kojiki:"淤美豆奴神",nihonshoki:"（古事記のみ）",reading:"おみづぬ の かみ",aliases:[]},
+  "amenofuyukinu":{kojiki:"天之冬衣神",nihonshoki:"（古事記のみ）",reading:"あめのふゆきぬ の かみ",aliases:[]},
+  "okuninushi":{kojiki:"大国主神",nihonshoki:"大己貴神",reading:"おおくにぬし の かみ",aliases:["大己貴命（おおなむちのみこと）","大穴牟遅神（おおなむちのかみ）","葦原色許男神（あしはらしこおのかみ）","八千矛神（やちほこのかみ）","宇都志国玉神（うつしくにたまのかみ）"]},
+  "sukunabikona":{kojiki:"少名毘古那神",nihonshoki:"少彥名命",reading:"すくなびこな の かみ",aliases:["須久那美迦微","少日子根","少彥名古那","宿奈毘古那命（すくなびこなのみこと）","須久奈比古命","小比古尼命"]},
+  "suseribime":{kojiki:"須勢理毘売命",nihonshoki:"須勢理毘売命",reading:"すせりびめ の みこと",aliases:[]},
+  "yagamihime":{kojiki:"八上比売",nihonshoki:"（古事記のみ）",reading:"やがみひめ",aliases:[]},
+  "nunakawahime":{kojiki:"沼河比売",nihonshoki:"（古事記のみ）",reading:"ぬなかわひめ",aliases:[]},
+  "kamuyatatehime":{kojiki:"神屋楯比売命",nihonshoki:"（古事記のみ）",reading:"かむやたてひめ の みこと",aliases:[]},
+  "kotoshironushi":{kojiki:"事代主神",nihonshoki:"事代主尊（ことしろぬしのみこと）",reading:"ことしろぬし の かみ",aliases:["美保津彦（みほつひこ）","恵比須神と習合"]},
+  "takeminakata":{kojiki:"建御名方神",nihonshoki:"（古事記のみ）",reading:"たけみなかた の かみ",aliases:["南方刀美神（みなかたとみのかみ）","諏訪大明神（すわだいみょうじん）"]},
+  "kinomata":{kojiki:"木俣神",nihonshoki:"（古事記のみ）",reading:"きのまた の かみ",aliases:["御井神（みいのかみ）"]},
+  "shitateruhime":{kojiki:"下照比売",nihonshoki:"下光比売命（したてるひめのみこと）",reading:"したてるひめ",aliases:["高比売命（たかひめのみこと）"]},
+  "amenokoyane":{kojiki:"天児屋命",nihonshoki:"天児屋根命（あめのこやねのみこと）",reading:"あめのこやね の みこと",aliases:[]},
+  "ajishikitakahikone":{kojiki:"阿遅鉏高日子根神",nihonshoki:"味耜高彦根神（あじすきたかひこねのかみ）",reading:"あぢしきたかひこね の かみ",aliases:["阿遅志貴高彦根神（あぢしきたかひこねのかみ）"]},
+  "amatsukunitama":{kojiki:"天津国玉神",nihonshoki:"天国玉神（あまつくにたまのかみ）",reading:"あまつくにたま の かみ",aliases:[]},
+  "amewakahiko":{kojiki:"天若日子",nihonshoki:"天稚彦（あめわかひこ）",reading:"あめわかひこ",aliases:[]},
+  "mishima_mizokuhi":{kojiki:"三嶋溝橛耳神",nihonshoki:"（古事記のみ）",reading:"みしまのみぞくいみみ の かみ",aliases:[]},
+  "seyadatarahime":{kojiki:"勢夜陀多良比売",nihonshoki:"（古事記のみ）",reading:"せやだたらひめ",aliases:["活玉依毘売（いくたまよりびめ）"]},
+  "omononushi":{kojiki:"大物主神",nihonshoki:"大物主大神（おおものぬしのおおかみ）",reading:"おおものぬし の かみ",aliases:["倭大物主神（やまとのおおものぬしのかみ）","大己貴神の和魂（にぎたま）ともされる"]},
+  "hikoyai":{kojiki:"日子八井命",nihonshoki:"（古事記のみ）",reading:"ひこやい の みこと",aliases:["日子八井耳命（ひこやいみみのみこと）"]},
+  "kamuyaimimi":{kojiki:"神八井耳命",nihonshoki:"神八井耳命",reading:"かむやいみみ の みこと",aliases:[]},
+  "suizei":{kojiki:"神沼河耳命",nihonshoki:"神渟名川耳尊（かんぬながわにみのみこと）",reading:"かんぬながわにみ の みこと",aliases:["綏靖天皇（すいぜいてんのう）"]},
+  "kawamatabime":{kojiki:"河俣毘売",nihonshoki:"（古事記のみ）",reading:"かわまたびめ",aliases:[]},
+  "annei":{kojiki:"師木津日子玉手見命",nihonshoki:"磯城津彦玉手看尊（しきつひこたまてみのみこと）",reading:"しきつひこたまてみ の みこと",aliases:["安寧天皇（あんねいてんのう）"]},
+  "akutohime":{kojiki:"阿久斗比売",nihonshoki:"（古事記のみ）",reading:"あくとひめ",aliases:[]},
+  "itoku":{kojiki:"大倭日子鉏友命",nihonshoki:"大日本彦耜友尊（おおやまとひこすきとものみこと）",reading:"おおやまとひこすきとも の みこと",aliases:["懿徳天皇（いとくてんのう）"]},
+  "futomawakahime":{kojiki:"賦登麻和訶比売命",nihonshoki:"飯日比売命（いいひひめのみこと）",reading:"ふとまわかひめ の みこと",aliases:[]},
+  "kosho":{kojiki:"御真津日子訶恵志泥命",nihonshoki:"観松彦香殖稲尊（みまつひこかえしねのみこと）",reading:"みまつひこかえしね の みこと",aliases:["孝昭天皇（こうしょうてんのう）"]},
+  "yosotahohime":{kojiki:"余曽多本毘売命",nihonshoki:"世襲足媛（よそたりひめ）",reading:"よそたほびめ の みこと",aliases:[]},
+  "amenaoshitarashihiko":{kojiki:"天押帯日子命",nihonshoki:"（古事記のみ）",reading:"あめおしたらしひこ の みこと",aliases:[]},
+  "koan":{kojiki:"大倭帯日子国押人命",nihonshoki:"大日本根子彦太瓊尊（おおやまとねこひこふとにのみこと）",reading:"おおやまとたらしひこくにおしひと の みこと",aliases:["孝安天皇（こうあんてんのう）"]},
+  "oshikahime":{kojiki:"忍鹿比売命",nihonshoki:"押媛（おしひめ）",reading:"おしかひめ の みこと",aliases:[]},
+  "korei":{kojiki:"大倭根子日子賦斗邇命",nihonshoki:"大日本根子彦太瓊尊（おおやまとねこひこふとにのみこと）",reading:"おおやまとねこひこふとに の みこと",aliases:["孝霊天皇（こうれいてんのう）"]},
+  "kuwashihime":{kojiki:"細比売命",nihonshoki:"細媛命（くわしひめのみこと）",reading:"くわしひめ の みこと",aliases:[]},
+  "momosohime":{kojiki:"倭迹迹日百襲姫命",nihonshoki:"倭迹迹日百襲姫命",reading:"やまとととひももそひめ の みこと",aliases:["箸墓伝説の主人公"]},
+  "ohokibitsuhiko":{kojiki:"大吉備津日子命",nihonshoki:"彦五十狭芹彦命（ひこいさせりびこのみこと）",reading:"おおきびつひこ の みこと",aliases:["桃太郎伝説の原型"]},
+  "kogen":{kojiki:"大倭根子日子国玖琉命",nihonshoki:"大日本根子彦国牽尊（おおやまとねこひこくにくるのみこと）",reading:"おおやまとねこひこくにくる の みこと",aliases:["孝元天皇（こうげんてんのう）"]},
+  "utsushikome":{kojiki:"内色許売命",nihonshoki:"内色許売命（うつしこめのみこと）",reading:"うつしこめ の みこと",aliases:[]},
+  "ohobiko":{kojiki:"大毘古命",nihonshoki:"大彦命（おおひこのみこと）",reading:"おおびこ の みこと",aliases:[]},
+  "kaika":{kojiki:"若倭根子日子大毘毘命",nihonshoki:"稚日本根子彦大日日尊（わかやまとねこひこおおびびのみこと）",reading:"わかやまとねこひこおおびび の みこと",aliases:["開化天皇（かいかてんのう）"]},
+  "ikagashikome":{kojiki:"伊迦賀色許売命",nihonshoki:"伊香色謎命（いかがしこめのみこと）",reading:"いかがしこめ の みこと",aliases:[]},
+  "hikofutsuoshi":{kojiki:"比古布都押之信命",nihonshoki:"（古事記のみ）",reading:"ひこふつおしのまこと の みこと",aliases:[]},
+  "sujin":{kojiki:"御真木入日子印恵命",nihonshoki:"御間城入彦五十瓊殖尊（みまきいりびこいにえのみこと）",reading:"みまきいりびこいにえ の みこと",aliases:["崇神天皇（すじんてんのう）","初国知らしし御真木天皇"]},
+  "mimatsuhime":{kojiki:"御真津比売命",nihonshoki:"御間城姫（みまきひめ）",reading:"みまつひめ の みこと",aliases:[]},
+  "takeuchi":{kojiki:"建内宿禰",nihonshoki:"武内宿禰（たけうちのすくね）",reading:"たけうちのすくね",aliases:[]},
+  "toyosukiirihime":{kojiki:"豊鍬入姫命",nihonshoki:"豊鍬入姫命（とよすきいりひめのみこと）",reading:"とよすきいりひめ の みこと",aliases:[]},
+  "suinin":{kojiki:"伊久米伊理毘古伊佐知命",nihonshoki:"活目入彦五十狭茅尊（いくめいりびこいさちのみこと）",reading:"いくめいりびこいさち の みこと",aliases:["垂仁天皇（すいにんてんのう）"]},
+  "hibasuhime":{kojiki:"日葉酢媛命",nihonshoki:"日葉酢媛命（ひばすひめのみこと）",reading:"ひばすひめ の みこと",aliases:[]},
+  "yamatohime":{kojiki:"倭比売命",nihonshoki:"倭姫命（やまとひめのみこと）",reading:"やまとひめ の みこと",aliases:[]},
+  "keiko":{kojiki:"大帯日子淤斯呂和気命",nihonshoki:"大足彦忍代別尊（おおたらしひこおしろわけのみこと）",reading:"おおたらしひこおしろわけ の みこと",aliases:["景行天皇（けいこうてんのう）"]},
+  "inabinooiratsume":{kojiki:"播磨稲日大郎姫",nihonshoki:"稲日大郎姫（いなびのおおいらつめ）",reading:"はりまのいなびのおおいらつめ",aliases:[]},
+  "yamatotakeru":{kojiki:"倭建命",nihonshoki:"日本武尊",reading:"やまとたける の みこと",aliases:["小碓命（おうすのみこと）","日本武尊（やまとたけるのみこと）"]},
+  "futajiirihime":{kojiki:"布多遅能伊理毘売命",nihonshoki:"布多遅比売命（ふたじひめのみこと）",reading:"ふたじのいりびめ の みこと",aliases:[]},
+  "seimu":{kojiki:"若帯日子命",nihonshoki:"稚足彦尊（わかたらしひこのみこと）",reading:"わかたらしひこ の みこと",aliases:["成務天皇（せいむてんのう）"]},
+  "ototachibana":{kojiki:"弟橘比売命",nihonshoki:"弟橘媛（おとたちばなひめ）",reading:"おとたちばなひめ の みこと",aliases:[]},
+  "chuai":{kojiki:"帯中日子命",nihonshoki:"足仲彦尊（たらしなかつひこのみこと）",reading:"たらしなかつひこ の みこと",aliases:["仲哀天皇（ちゅうあいてんのう）"]},
+  "jingu":{kojiki:"息長帯比売命",nihonshoki:"気長足姫尊（おきながたらしひめのみこと）",reading:"おきながたらしひめ の みこと",aliases:["神功皇后（じんぐうこうごう）","大帯比売命（おおたらしひめのみこと）"]},
+  "ojin":{kojiki:"品陀和気命",nihonshoki:"誉田別命（ほんだわけのみこと）",reading:"ほんだわけ の みこと",aliases:["応神天皇（おうじんてんのう）","八幡神（はちまんしん）"]},
+  "nakatsuhime":{kojiki:"仲姫命",nihonshoki:"仲姫命（なかつひめのみこと）",reading:"なかつひめ の みこと",aliases:[]},
+  "nintoku":{kojiki:"大雀命",nihonshoki:"大鷦鷯尊（おおさざきのみこと）",reading:"おおさざきのみこと",aliases:["仁徳天皇（にんとくてんのう）"]},
+  "kotai_note":{kojiki:"（以降へ続く）",nihonshoki:"（以降へ続く）",reading:"",aliases:[]},
+};
+const NODE_NAMES_ORIG = JSON.parse(JSON.stringify(NODE_NAMES));
+
+/* ============ 版面轉換 ============ */
+const COLW=185, ROWH=145, NODE_W=150, NODE_H=60;
+// @@EDITS_START
+const USER_EDITS = {};
+// @@EDITS_END
+const USER_EDITS_LIVE = Object.assign({}, USER_EDITS, JSON.parse(localStorage.getItem('jmyth_edits')||'{}'));
+const nodes = {};
+NODE_DEFS.forEach(d=>{
+  const [id,name,kana,role,col,row,desc,isNote,tag] = d;
+  const ov = USER_EDITS_LIVE[id]||{};
+  nodes[id] = {id, name:ov.name??name, kana:ov.kana??kana, role:ov.role??role, desc:ov.desc??desc, isNote:!!isNote, tag, px:col*COLW, py:row*ROWH};
+});
+
+function centerX(n){ return n.px + NODE_W/2; }
+function centerY(n){ return n.py + NODE_H/2; }
+
+/* ============ 渲染：節點 / 分類框 / 連線 ============ */
+const stage = document.getElementById('stage');
+const svg = document.getElementById('edges');
+
+let minPx=0,minPy=0,maxPx=0,maxPy=0;
+Object.values(nodes).forEach(n=>{
+  minPx=Math.min(minPx,n.px); minPy=Math.min(minPy,n.py);
+  maxPx=Math.max(maxPx,n.px+NODE_W); maxPy=Math.max(maxPy,n.py+NODE_H);
+});
+const PAD=60;
+const shiftX = PAD-minPx, shiftY = PAD-minPy;
+Object.values(nodes).forEach(n=>{ n.px+=shiftX; n.py+=shiftY; });
+const totalW = maxPx-minPx+PAD*2, totalH = maxPy-minPy+PAD*2;
+stage.style.width = totalW+'px';
+stage.style.height = totalH+'px';
+svg.setAttribute('width', totalW);
+svg.setAttribute('height', totalH);
+
+function hexToRgba(hex, a){
+  const v = hex.replace('#','');
+  const r = parseInt(v.substring(0,2),16), g = parseInt(v.substring(2,4),16), b = parseInt(v.substring(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// 節點（先建立，量到真實高度後才佈線）
+// #japan 初始為 display:none，offsetHeight 會量到 0，因此建構期間先暫時顯示
+const japanEl = document.getElementById('japan');
+function renderGraph(){
+const wasOpen = japanEl.style.display === 'block';
+japanEl.style.display = 'block';
+// 重畫前先清乾淨（字型載入完成後會再跑一次，屆時方塊高度才是最終值）
+stage.querySelectorAll('.node,.groupbox,.edge-label').forEach(e=>e.remove());
+while(svg.firstChild) svg.removeChild(svg.firstChild);
+Object.values(nodes).forEach(n=>{
+  const div = document.createElement('div');
+  div.className='node'+(n.tag==='key'?' key':'')+(n.isNote?' note':'');
+  div.style.left=n.px+'px';
+  div.style.top=n.py+'px';
+  div.dataset.id=n.id;
+  div.innerHTML=`<div class="name">${n.name}</div>${n.kana?('<div class="kana">'+n.kana+'</div>'):''}${n.role?('<div class="role">'+n.role+'</div>'):''}`;
+  div.addEventListener('click', (ev)=>{ ev.stopPropagation(); focusNode(n.id); });
+  stage.appendChild(div);
+  n.h = div.offsetHeight || NODE_H;
+});
+function botY(n){ return n.py + n.h; }
+function midY(n){ return n.py + n.h/2; }
+
+// 分類框（量到真實節點高度後才畫，並保留標籤自己的空間）
+GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
+  const members = ids.map(id=>nodes[id]).filter(Boolean);
+  if(!members.length) return;
+  if(!drawBox) return;
+  const x0 = Math.min(...members.map(n=>n.px))-16;
+  const y0 = Math.min(...members.map(n=>n.py))-34;
+  const x1 = Math.max(...members.map(n=>n.px+NODE_W))+16;
+  const y1 = Math.max(...members.map(n=>botY(n)))+12;
+  const box = document.createElement('div');
+  box.className='groupbox';
+  box.dataset.gi = gi;
+  box.style.left=x0+'px'; box.style.top=y0+'px';
+  box.style.width=(x1-x0)+'px'; box.style.height=(y1-y0)+'px';
+  box.style.border = `1.5px dashed ${hexToRgba(color,.55)}`;
+  box.style.background = hexToRgba(color,.07);
+  const lab = document.createElement('div');
+  lab.className='glabel';
+  lab.style.background = color;
+  lab.style.color = '#1a1a1a';
+  lab.textContent = label;
+  box.appendChild(lab);
+  stage.appendChild(box);
+  // 標籤擺在不會壓到任何神明方塊的位置（左上→右上→置中→再往上）
+  const bw = x1-x0, bh = y1-y0, lw = lab.offsetWidth, lh = lab.offsetHeight;
+  const hit = (lx,ly)=>Object.values(nodes).some(n=>
+    x0+lx < n.px+NODE_W-2 && x0+lx+lw > n.px+2 && y0+ly < n.py+n.h-2 && y0+ly+lh > n.py+2);
+  const cands = [[10,-13],[bw-lw-10,-13],[(bw-lw)/2,-13],
+                 [bw+8,-13],[-lw-8,-13],            // 貼在框外的左右側
+                 [bw+8,6],[-lw-8,6],
+                 [bw+8,bh-lh-6],[-lw-8,bh-lh-6]];
+  for(let k=1;k<=14;k++) cands.push([10,-13-k*(lh+5)], [bw-lw-10,-13-k*(lh+5)]);  // 逐階往上找空位
+  const ok = cands.find(([lx,ly])=>!hit(lx,ly)) || cands[0];
+  lab.style.left = ok[0]+'px';
+  lab.style.top  = ok[1]+'px';
+});
+
+/* ---- 連線佈線：先避開節點方塊，再於交叉處「跳線」 ---- */
+const boxes = Object.values(nodes).map(n=>({id:n.id, x1:n.px, y1:n.py, x2:n.px+NODE_W, y2:n.py+n.h}));
+const PAD_H = 6;   // 線與方塊的最小淨距
+
+function hBlocked(y, xa, xb, skip){
+  const lo=Math.min(xa,xb), hi=Math.max(xa,xb);
+  return boxes.some(b=> !skip.includes(b.id) &&
+    b.x1 < hi-1 && b.x2 > lo+1 && y > b.y1-PAD_H && y < b.y2+PAD_H);
+}
+function vBlocked(x, ya, yb, skip){
+  const lo=Math.min(ya,yb), hi=Math.max(ya,yb);
+  return boxes.some(b=> !skip.includes(b.id) &&
+    b.y1 < hi-1 && b.y2 > lo+1 && x > b.x1-PAD_H && x < b.x2+PAD_H);
+}
+function clearY(y0, xa, xb, skip){
+  for(let i=0;i<40;i++){ const y=y0+i*8; if(!hBlocked(y,xa,xb,skip)) return y; }
+  return y0;
+}
+// 往指定方向找一條淨空的水平帶，找不到回傳 null
+function clearBand(y0, xa, xb, skip, dir){
+  for(let i=0;i<70;i++){ const y=y0+dir*i*8; if(!hBlocked(y,xa,xb,skip)) return y; }
+  return null;
+}
+function clearX(x0, ya, yb, skip, dir){
+  for(let i=0;i<40;i++){ const x=x0+dir*i*7; if(!vBlocked(x,ya,yb,skip)) return x; }
+  return x0;
+}
+// 由 x0 向兩側交錯搜尋一條完全淨空的垂直走廊，找不到回傳 null
+function findChannel(x0, ya, yb, skip){
+  if(!vBlocked(x0, ya, yb, skip)) return x0;
+  for(let i=1;i<=130;i++){
+    for(const dir of [-1,1]){
+      const x = x0 + dir*i*6;
+      if(!vBlocked(x, ya, yb, skip)) return x;
+    }
+  }
+  return null;
+}
+
+// 把折線轉成平行位移的折線（用於雙線婚姻）
+function offsetPoly(pts, d){
+  return pts.map((p,i)=>{
+    const prev=pts[i-1], next=pts[i+1];
+    let dx=0, dy=0;
+    const mark=(a,b)=>{ if(!a||!b) return; if(Math.abs(a[1]-b[1])<0.5) dy=d; else dx=d; };
+    mark(prev,p); mark(p,next);
+    return [p[0]+dx, p[1]+dy];
+  });
+}
+
+const vSegs=[], hSegs=[];            // 供跳線計算
+const spouseDraws=[], childDraws=[], labelDraws=[];
+
+function registerPoly(pts, uid){
+  for(let i=0;i+1<pts.length;i++){
+    const [x1,y1]=pts[i], [x2,y2]=pts[i+1];
+    if(Math.abs(y1-y2)<0.5) hSegs.push({y:y1, x1:Math.min(x1,x2), x2:Math.max(x1,x2), uid});
+    else vSegs.push({x:x1, y1:Math.min(y1,y2), y2:Math.max(y1,y2), uid});
+  }
+}
+
+UNIONS.forEach((u,uid)=>{
+  let anchor;
+  if(u.spouses){
+    const a = nodes[u.spouses[0]], b = nodes[u.spouses[1]];
+    if(!a||!b) return;
+    const skip=[a.id,b.id];
+    const sameRow = Math.abs(midY(a)-midY(b)) < 24;
+    let pts;
+    if(sameRow){
+      const L = a.px<b.px?a:b, R = a.px<b.px?b:a;
+      const y = (midY(a)+midY(b))/2;
+      const x1 = L.px+NODE_W, x2 = R.px;
+      if(!hBlocked(y, x1, x2, skip)){
+        pts = [[x1,y],[x2,y]];                       // 直線
+        anchor = {x:(x1+x2)/2, y};
+      } else {                                        // 有神明擋路 → 從下方繞道
+        const s1 = x1+14, s2 = x2-14;
+        const dy = clearY(Math.max(botY(L), botY(R))+22, s1, s2, skip);
+        pts = [[x1,y],[s1,y],[s1,dy],[s2,dy],[s2,y],[x2,y]];
+        anchor = {x:(s1+s2)/2, y:dy};                 // 子嗣從繞道段往下拉，才不會穿過中間的神明
+      }
+    } else {                                          // 不同列 → 走欄／列之間的空隙
+      const hi = a.py<b.py?a:b, lo = a.py<b.py?b:a;
+      const exitX = clearX(centerX(hi)+22, botY(hi), botY(hi)+30, skip, 1);
+      const gy = clearY(botY(hi)+20, exitX, centerX(lo), skip);
+      const fromLeft = centerX(hi) < centerX(lo);
+      const chX = clearX(fromLeft ? lo.px-18 : lo.px+NODE_W+18, gy, midY(lo), skip, fromLeft?-1:1);
+      const endX = fromLeft ? lo.px : lo.px+NODE_W;
+      pts = [[exitX,botY(hi)],[exitX,gy],[chX,gy],[chX,midY(lo)],[endX,midY(lo)]];
+      anchor = {x:chX, y:gy};
+    }
+    const style = u.marriage==='primary' ? 'primary' : (u.marriage||'secondary');
+    const polys = style==='primary' ? [offsetPoly(pts,-3), offsetPoly(pts,3)] : [pts];
+    polys.forEach(p=>{ registerPoly(p, uid); spouseDraws.push({uid, pts:p, style}); });
+    if(u.label) labelDraws.push({x:anchor.x-30, y:anchor.y-9, text:u.label, cls:u.labelClass});
+  } else if(u.parent){
+    const p = nodes[u.parent];
+    if(!p) return;
+    anchor = {x:centerX(p), y:botY(p)};
+    if(u.label) labelDraws.push({x:anchor.x-30, y:anchor.y+6, text:u.label, cls:u.labelClass});
+  }
+  if(!anchor || !u.children) return;
+
+  const kids = u.children.map(id=>nodes[id]).filter(Boolean);
+  // 讓開的位置必須先低於父母那一列，否則橫向讓開時會切過父母的方塊
+  const parents = (u.spouses||[u.parent]).map(id=>nodes[id]).filter(Boolean);
+  const parentFloor = Math.max(...parents.map(botY)) + 12;
+  // 主幹若會穿過別的神明方塊，先橫向讓開再沿淨空走廊往下
+  function trunkTo(busY, skip){
+    if(!vBlocked(anchor.x, anchor.y, busY, skip)) return [[anchor.x,anchor.y],[anchor.x,busY]];
+    const stubY = clearBand(Math.max(anchor.y+14, parentFloor), anchor.x-280, anchor.x+280, skip, 1);
+    if(stubY===null || stubY>=busY || vBlocked(anchor.x, anchor.y, stubY, skip))
+      return [[anchor.x,anchor.y],[anchor.x,busY]];
+    const x = findChannel(anchor.x, stubY, busY, skip);
+    if(x===null || hBlocked(stubY, anchor.x, x, skip)) return [[anchor.x,anchor.y],[anchor.x,busY]];
+    return [[anchor.x,anchor.y],[anchor.x,stubY],[x,stubY],[x,busY]];
+  }
+  // 橫幹盡量貼近孩子，長距離垂直才不會穿過中間的神明
+  function routeTo(tx, ty, skip, c){
+    if(Math.abs(anchor.x-tx) < 2 && anchor.y < ty-2 && !vBlocked(tx, anchor.y, ty, skip))
+      return [[tx,anchor.y],[tx,ty]];
+    for(let i=0;i<20;i++){
+      const busY = Math.max(anchor.y+10, ty-18-i*9);
+      const trunk = trunkTo(busY, skip);
+      const lastX = trunk[trunk.length-1][0];
+      if(!hBlocked(busY,lastX,tx,skip) && !vBlocked(tx,busY,ty,skip) && !vBlocked(lastX,anchor.y,busY,skip))
+        return [...trunk, [tx,busY], [tx,ty]];
+      if(busY <= anchor.y+10) break;
+    }
+    // 從上方進不來 → 改走走廊、從孩子的側邊接入
+    if(c){
+      const my = midY(c);
+      for(const side of [-1,1]){
+        const ex = side<0 ? c.px : c.px+NODE_W;
+        const chX = findChannel(ex+side*20, Math.min(anchor.y,my), Math.max(anchor.y,my), skip);
+        if(chX===null) continue;
+        const stubY = clearBand(Math.max(anchor.y+14, parentFloor), Math.min(anchor.x,chX)-10, Math.max(anchor.x,chX)+10, skip, 1);
+        if(stubY===null || stubY>=my) continue;
+        if(vBlocked(anchor.x,anchor.y,stubY,skip) || hBlocked(stubY,anchor.x,chX,skip)) continue;
+        if(vBlocked(chX,stubY,my,skip) || hBlocked(my,chX,ex,skip)) continue;
+        return [[anchor.x,anchor.y],[anchor.x,stubY],[chX,stubY],[chX,my],[ex,my]];
+      }
+    }
+    const busY = Math.max(anchor.y+10, ty-18);
+    return [...trunkTo(busY, skip), [tx,busY], [tx,ty]];
+  }
+  // 同一欄堆疊的兄弟姊妹 → 用「梳狀」主幹＋側邊短枝，避免橫線切過兄姊的方塊
+  const byCol = new Map();
+  kids.forEach(c=>{ const k=Math.round(c.px); if(!byCol.has(k)) byCol.set(k,[]); byCol.get(k).push(c); });
+  byCol.forEach((list, colPx)=>{
+    const ids = list.map(c=>c.id);
+    const skip = ids;   // 只讓線穿過「自己要連到的孩子」，父母與旁人一律避開
+    if(list.length===1){
+      const c = list[0];
+      const pts = routeTo(centerX(c), c.py, skip, c);
+      registerPoly(pts, uid); childDraws.push({uid, pts});
+      return;
+    }
+    // 同一欄堆疊的兄弟姊妹 → 左側主幹＋側邊短枝
+    list.sort((p,q)=>p.py-q.py);
+    const first = list[0], last = list[list.length-1];
+    // 主幹要「繞著」兄弟姊妹走，所以這裡不能略過他們的方塊
+    const spineX = findChannel(colPx-20, Math.min(anchor.y, midY(first)), midY(last), [])
+                ?? clearX(colPx-20, anchor.y, midY(last), [], -1);
+    const trunk = routeTo(spineX, midY(first), []).slice(0,-1).concat([[spineX,midY(last)]]);
+    registerPoly(trunk, uid); childDraws.push({uid, pts:trunk});
+    list.forEach(c=>{
+      const ex = spineX < c.px ? c.px : c.px+NODE_W;   // 接到靠近主幹的那一邊，才不會橫穿孩子自己
+      const stub = [[spineX,midY(c)],[ex,midY(c)]];
+      registerPoly(stub, uid); childDraws.push({uid, pts:stub});
+    });
+  });
+});
+
+/* 跳線：水平線遇到別人的垂直線時，畫半圓弧跨過 */
+const EPS=2, R=7, MIN_RUN=34, EDGE_GAP=15;
+function bumpsFor(y, xa, xb, uid){
+  const lo=Math.min(xa,xb), hi=Math.max(xa,xb);
+  if(hi-lo < MIN_RUN) return [];
+  const xs=[];
+  vSegs.forEach(v=>{
+    if(v.uid===uid) return;
+    if(v.x > lo+EDGE_GAP && v.x < hi-EDGE_GAP && y > v.y1+EPS && y < v.y2-EPS) xs.push(v.x);
+  });
+  xs.sort((p,q)=>p-q);
+  const merged=[];
+  xs.forEach(x=>{ if(!merged.length || x-merged[merged.length-1] > 2*R+4) merged.push(x); });
+  return merged;
+}
+function polyPath(pts, uid){
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i+1<pts.length;i++){
+    const [x1,y1]=pts[i], [x2,y2]=pts[i+1];
+    if(Math.abs(y1-y2)>=0.5){ d += ` L${x2},${y2}`; continue; }
+    const dir = x2>=x1 ? 1 : -1;
+    bumpsFor(y1,x1,x2,uid).sort((p,q)=> dir>0?p-q:q-p).forEach(bx=>{
+      d += ` L${bx-dir*R},${y1} A${R},${R} 0 0 1 ${bx+dir*R},${y1}`;
+    });
+    d += ` L${x2},${y2}`;
+  }
+  return d;
+}
+function drawPoly(pts, uid, cls, dash){
+  const d = polyPath(pts, uid);
+  // visible path
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', d);
+  path.setAttribute('class', cls);
+  path.dataset.uid = uid;
+  if(dash) path.setAttribute('stroke-dasharray', dash);
+  svg.appendChild(path);
+  // invisible wide hit-area path for easier clicking
+  const hit = document.createElementNS('http://www.w3.org/2000/svg','path');
+  hit.setAttribute('d', d);
+  hit.setAttribute('stroke', 'transparent');
+  hit.setAttribute('stroke-width', '14');
+  hit.setAttribute('fill', 'none');
+  hit.style.cursor = 'pointer';
+  hit.dataset.uid = uid;
+  svg.appendChild(hit);
+}
+childDraws.forEach(cd=> drawPoly(cd.pts, cd.uid, 'edge'));
+spouseDraws.forEach(s=> drawPoly(s.pts, s.uid,
+  'edge '+(s.style==='partner'?'partner-line':'marriage'),
+  s.style==='partner' ? '5 4' : null));
+
+labelDraws.forEach(l=>{
+  const lab = document.createElement('div');
+  lab.className='edge-label '+(l.cls||'');
+  lab.style.left=l.x+'px'; lab.style.top=l.y+'px';
+  lab.textContent = l.text;
+  stage.appendChild(lab);
+});
+if(!wasOpen) japanEl.style.display = 'none';   // 量測完畢，回到原本的顯示狀態
+}
+renderGraph();
+// 網頁字型載入後方塊高度會改變，重畫一次讓連線與標籤依最終尺寸重新計算
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderGraph());
+
+/* ============ 平移縮放（拖曳/滾輪為即時，按鈕/搜尋為平滑過渡） ============ */
+const wrap = document.getElementById('canvasWrap');
+let scale=1, tx=40, ty=40;
+let dragging=false, lastX, lastY, moved=false;
+
+function setSmooth(on){ stage.classList.toggle('smooth', on); }
+function applyTransform(){ stage.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`; }
+
+function fitInitial(smooth){
+  const r = wrap.getBoundingClientRect();
+  scale = Math.min(1, (r.width-80)/totalW, (r.height-80)/totalH);
+  scale = Math.max(scale, 0.14);
+  const scaledW = totalW*scale, scaledH = totalH*scale;
+  tx = scaledW < r.width  ? (r.width  - scaledW) / 2 : 40;
+  ty = scaledH < r.height ? (r.height - scaledH) / 2 : 40;
+  setSmooth(!!smooth);
+  applyTransform();
+}
+
+wrap.addEventListener('mousedown', e=>{
+  dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY; wrap.classList.add('grabbing');
+  setSmooth(false);
+});
+window.addEventListener('mouseup', ()=>{ dragging=false; wrap.classList.remove('grabbing'); });
+window.addEventListener('mousemove', e=>{
+  if(!dragging) return;
+  moved=true;
+  tx += (e.clientX-lastX); ty += (e.clientY-lastY);
+  lastX=e.clientX; lastY=e.clientY;
+  applyTransform();
+});
+wrap.addEventListener('wheel', e=>{
+  e.preventDefault();
+  setSmooth(false);
+  const rect = wrap.getBoundingClientRect();
+  const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+  const factor = e.deltaY<0 ? 1.1 : 0.9;
+  zoomAt(mx,my,factor);
+}, {passive:false});
+
+function zoomAt(mx,my,factor){
+  const newScale = Math.min(3, Math.max(0.1, scale*factor));
+  const ratio = newScale/scale;
+  tx = mx - (mx-tx)*ratio;
+  ty = my - (my-ty)*ratio;
+  scale = newScale;
+  applyTransform();
+}
+function zoomBy(factor){
+  setSmooth(true);
+  const rect = wrap.getBoundingClientRect();
+  zoomAt(rect.width/2, rect.height/2, factor);
+}
+function resetView(){ fitInitial(true); closePanel(); clearHighlight(); }
+
+/* ============ 詳情面板（右側） ============ */
+const panel = document.getElementById('panel');
+let editingNodeId = null;
+function openPanel(n){
+  editingNodeId = n.id;
+  document.getElementById('p-name').textContent = n.name;
+  document.getElementById('p-kana').textContent = n.kana||'';
+  const nn = Object.assign({}, NODE_NAMES[n.id]||{}, USER_EDITS_LIVE[n.id]||{});
+  const pnames = document.getElementById('p-names');
+  let html = '';
+  const row = (label,val)=>`<div class="p-namerow"><span class="p-namelabel">${label}</span>${val}</div>`;
+  if(nn.nihonshoki && nn.nihonshoki!==n.name) html += row('日本書紀',nn.nihonshoki);
+  if(nn.kojiki && nn.kojiki!==n.name) html += row('古事記',nn.kojiki);
+  if(nn.reading) html += row('読み',nn.reading);
+  if(nn.aliases && nn.aliases.length) html += row('別稱',nn.aliases.join('　'));
+  pnames.innerHTML = html;
+  pnames.style.display = html ? 'block' : 'none';
+  const roleEl = document.getElementById('p-role');
+  if(n.role){ roleEl.style.display='inline-block'; roleEl.textContent = n.role; } else { roleEl.style.display='none'; }
+  document.getElementById('p-desc').textContent = n.desc||'（尚無詳細記載）';
+  const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>g[0]);
+  document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
+  panel.classList.add('open');
+}
+function closePanel(){
+  panel.classList.remove('open');
+  document.getElementById('p-edit-form').style.display='none';
+  document.getElementById('p-edit-sep').style.display='none';
+  document.getElementById('p-edit-btn').classList.remove('open');
+}
+function closePanelAndReset(){ closePanel(); resetView(); }
+
+/* ============ 節點編輯 ============ */
+function toggleNodeEdit(){
+  const form = document.getElementById('p-edit-form');
+  const sep  = document.getElementById('p-edit-sep');
+  const btn  = document.getElementById('p-edit-btn');
+  const open = form.style.display !== 'none';
+  if(open){ form.style.display='none'; sep.style.display='none'; btn.classList.remove('open'); return; }
+  if(!editingNodeId) return;
+  const n  = nodes[editingNodeId];
+  const nn = Object.assign({}, NODE_NAMES_ORIG[editingNodeId]||{}, USER_EDITS_LIVE[editingNodeId]||{});
+  document.getElementById('pe-name').value        = n.name;
+  document.getElementById('pe-kana').value        = n.kana||'';
+  document.getElementById('pe-role').value        = n.role||'';
+  document.getElementById('pe-kojiki').value      = nn.kojiki||'';
+  document.getElementById('pe-nihonshoki').value  = nn.nihonshoki||'';
+  document.getElementById('pe-reading').value     = nn.reading||'';
+  document.getElementById('pe-aliases').value     = (nn.aliases||[]).join('，');
+  document.getElementById('pe-desc').value        = n.desc||'';
+  form.style.display='block'; sep.style.display='block'; btn.classList.add('open');
+  document.getElementById('pe-name').focus();
+}
+function cancelNodeEdit(){
+  document.getElementById('p-edit-form').style.display='none';
+  document.getElementById('p-edit-sep').style.display='none';
+  document.getElementById('p-edit-btn').classList.remove('open');
+}
+function saveNodeEdit(){
+  if(!editingNodeId) return;
+  const id = editingNodeId;
+  const aliasRaw = document.getElementById('pe-aliases').value;
+  const ov = {
+    name:         document.getElementById('pe-name').value.trim()||undefined,
+    kana:         document.getElementById('pe-kana').value.trim()||undefined,
+    role:         document.getElementById('pe-role').value.trim()||undefined,
+    kojiki:       document.getElementById('pe-kojiki').value.trim()||undefined,
+    nihonshoki:   document.getElementById('pe-nihonshoki').value.trim()||undefined,
+    reading:      document.getElementById('pe-reading').value.trim()||undefined,
+    aliases:      aliasRaw.trim() ? aliasRaw.split(/[，,、]+/).map(s=>s.trim()).filter(Boolean) : undefined,
+    desc:         document.getElementById('pe-desc').value.trim()||undefined,
+  };
+  Object.keys(ov).forEach(k=>{ if(ov[k]===undefined) delete ov[k]; });
+  USER_EDITS_LIVE[id] = Object.assign(USER_EDITS_LIVE[id]||{}, ov);
+  localStorage.setItem('jmyth_edits', JSON.stringify(USER_EDITS_LIVE));
+  // Patch in-memory node
+  const n = nodes[id];
+  if(ov.name) n.name=ov.name;
+  if(ov.kana) n.kana=ov.kana;
+  if(ov.role) n.role=ov.role;
+  if(ov.desc) n.desc=ov.desc;
+  // Patch live NODE_NAMES
+  if(!NODE_NAMES[id]) NODE_NAMES[id]={};
+  ['kojiki','nihonshoki','reading','aliases'].forEach(k=>{ if(ov[k]!==undefined) NODE_NAMES[id][k]=ov[k]; });
+  // Patch visible node card
+  const div = document.querySelector(`.node[data-id="${id}"]`);
+  if(div){
+    const ne = div.querySelector('.name'); if(ne) ne.textContent = n.name;
+    const ke = div.querySelector('.kana'); if(ke) ke.textContent = n.kana||'';
+    const re = div.querySelector('.role'); if(re) re.textContent = n.role||'';
+  }
+  cancelNodeEdit();
+  openPanel(n);
+}
+function resetNodeEdit(){
+  if(!editingNodeId) return;
+  const id = editingNodeId;
+  delete USER_EDITS_LIVE[id];
+  localStorage.setItem('jmyth_edits', JSON.stringify(USER_EDITS_LIVE));
+  const orig = NODE_DEFS.find(d=>d[0]===id);
+  if(orig){
+    const n = nodes[id];
+    n.name=orig[1]; n.kana=orig[2]; n.role=orig[3]; n.desc=orig[6];
+    NODE_NAMES[id] = JSON.parse(JSON.stringify(NODE_NAMES_ORIG[id]||{}));
+    const div = document.querySelector(`.node[data-id="${id}"]`);
+    if(div){
+      const ne=div.querySelector('.name'); if(ne) ne.textContent=n.name;
+      const ke=div.querySelector('.kana'); if(ke) ke.textContent=n.kana||'';
+      const re=div.querySelector('.role'); if(re) re.textContent=n.role||'';
+    }
+  }
+  cancelNodeEdit();
+  openPanel(nodes[id]);
+}
+async function exportHTML(){
+  const editsJSON = JSON.stringify(USER_EDITS_LIVE);
+  try{
+    const src = await fetch(location.href).then(r=>r.text());
+    const updated = src.replace(
+      /\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
+      `// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\n// @@EDITS_END`
+    );
+    const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
+    a.click();
+  }catch{
+    prompt('複製以下JSON並貼入USER_EDITS={}的大括號內：', editsJSON);
+  }
+}
+
+/* ============ 搜尋 + 定位縮放（平滑過渡＋高亮） ============ */
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+let selectedUnionId = null;
+function clearHighlight(){
+  document.querySelectorAll('.node').forEach(d=>d.classList.remove('highlight','dim'));
+  document.querySelectorAll('.edge').forEach(p=>p.classList.remove('hl','dim-edge'));
+  document.querySelectorAll('.groupbox').forEach(b=>b.classList.remove('hl'));
+  selectedUnionId = null;
+}
+function highlightUnion(uid){
+  selectedUnionId = uid;
+  const u = UNIONS[uid];
+  if(!u) return;
+  const relIds = new Set([...(u.spouses||[]), u.parent, ...(u.children||[])].filter(Boolean));
+  document.querySelectorAll('.node').forEach(d=>{
+    d.classList.toggle('dim', !relIds.has(d.dataset.id));
+    d.classList.toggle('highlight', relIds.has(d.dataset.id));
+  });
+  document.querySelectorAll('.edge').forEach(p=>{
+    const puid = parseInt(p.dataset.uid);
+    p.classList.toggle('hl', puid===uid);
+    p.classList.toggle('dim-edge', puid!==uid);
+  });
+}
+function fitGroup(memberNodes){
+  if(!memberNodes.length) return;
+  const rect = wrap.getBoundingClientRect();
+  const pad = 80;
+  const x0 = Math.min(...memberNodes.map(n=>n.px));
+  const y0 = Math.min(...memberNodes.map(n=>n.py));
+  const x1 = Math.max(...memberNodes.map(n=>n.px+NODE_W));
+  const y1 = Math.max(...memberNodes.map(n=>n.py+(n.h||NODE_H)));
+  const cw = x1-x0, ch = y1-y0;
+  scale = Math.min(1.5, (rect.width-pad*2)/cw, (rect.height-pad*2)/ch);
+  scale = Math.max(scale, 0.14);
+  tx = rect.width/2  - (x0+cw/2)*scale;
+  ty = rect.height/2 - (y0+ch/2)*scale;
+  setSmooth(true);
+  applyTransform();
+}
+function highlightGroup(idx){
+  clearHighlight();
+  const g = GROUPS[idx];
+  if(!g) return;
+  const gIds = new Set(g[1]);
+  document.querySelectorAll('.node').forEach(d=>d.classList.toggle('dim',!gIds.has(d.dataset.id)));
+  document.querySelectorAll(`.groupbox[data-gi="${idx}"]`).forEach(b=>b.classList.add('hl'));
+  fitGroup(g[1].map(id=>nodes[id]).filter(Boolean));
+}
+svg.addEventListener('click', e=>{
+  e.stopPropagation();
+  if(moved) return; // pan gesture — don't clear selection
+  const path = e.target.closest('path[data-uid]');
+  if(!path){ clearHighlight(); return; }
+  const uid = parseInt(path.dataset.uid);
+  if(selectedUnionId===uid){ clearHighlight(); return; }
+  highlightUnion(uid);
+});
+
+function focusNode(id){
+  const n = nodes[id];
+  if(!n) return;
+  clearHighlight();
+  const div = document.querySelector(`.node[data-id="${id}"]`);
+  if(div) div.classList.add('highlight');
+  const rect = wrap.getBoundingClientRect();
+  setSmooth(true);
+  scale = Math.min(1.6, Math.max(scale, 1.3));
+  tx = rect.width/2 - centerX(n)*scale;
+  ty = rect.height/2 - centerY(n)*scale;
+  applyTransform();
+  openPanel(n);
+}
+
+function matchGroups(q){
+  return GROUPS.map((g,i)=>({idx:i,label:g[0]})).filter(g=>g.label.includes(q));
+}
+function matchNodes(q){
+  q = q.toLowerCase().replace(/ /g,'');
+  return Object.values(nodes).filter(n =>{
+    const nn = NODE_NAMES[n.id]||{};
+    const reading = (nn.reading||'').replace(/ の /g,'の').replace(/ /g,'');
+    return n.name.toLowerCase().includes(q) ||
+      (n.kana||'').toLowerCase().replace(/ /g,'').includes(q) ||
+      (n.role||'').toLowerCase().includes(q) ||
+      (nn.nihonshoki||'').toLowerCase().includes(q) ||
+      (nn.kojiki||'').toLowerCase().includes(q) ||
+      reading.includes(q) ||
+      (nn.aliases||[]).some(a=>a.toLowerCase().replace(/ /g,'').includes(q));
+  });
+}
+const searchClear = document.getElementById('searchClear');
+let searchFocusIdx = -1;
+
+function showSearchResults(){
+  const q = searchInput.value.trim();
+  searchClear.style.display = searchInput.value ? 'block' : 'none';
+  searchFocusIdx = -1;
+  if(!q){ searchResults.style.display='none'; clearHighlight(); return; }
+  const gm = matchGroups(q);
+  const nm = matchNodes(q);
+  let html = gm.map(g=>`<div data-gi="${g.idx}" class="r-group">▸ ${g.label}</div>`).join('');
+  html += nm.map(n=>`<div data-id="${n.id}">${n.name}<span class="r-kana">${n.kana||''}</span></div>`).join('');
+  searchResults.innerHTML = html || `<div style="color:var(--dim);cursor:default;">找不到符合的神明或群組</div>`;
+  searchResults.style.display='block';
+}
+searchInput.addEventListener('input', showSearchResults);
+searchInput.addEventListener('focus', ()=>{ if(searchInput.value.trim()) showSearchResults(); });
+
+searchResults.addEventListener('click', e=>{
+  const row = e.target.closest('div[data-id],div[data-gi]');
+  if(!row) return;
+  if(row.dataset.gi !== undefined) highlightGroup(parseInt(row.dataset.gi));
+  else focusNode(row.dataset.id);
+  searchResults.style.display='none';
+  searchFocusIdx = -1;
+  // text stays in input intentionally
+});
+
+searchInput.addEventListener('keydown', e=>{
+  const rows = [...searchResults.querySelectorAll('div[data-id],div[data-gi]')];
+  if(e.key==='ArrowDown'){
+    e.preventDefault();
+    searchFocusIdx = Math.min(searchFocusIdx+1, rows.length-1);
+    rows.forEach((r,i)=>r.classList.toggle('focused', i===searchFocusIdx));
+    rows[searchFocusIdx]?.scrollIntoView({block:'nearest'});
+    return;
+  }
+  if(e.key==='ArrowUp'){
+    e.preventDefault();
+    searchFocusIdx = Math.max(searchFocusIdx-1, 0);
+    rows.forEach((r,i)=>r.classList.toggle('focused', i===searchFocusIdx));
+    rows[searchFocusIdx]?.scrollIntoView({block:'nearest'});
+    return;
+  }
+  if(e.key==='Escape'){ searchResults.style.display='none'; searchFocusIdx=-1; return; }
+  if(e.key==='Enter'){
+    if(searchFocusIdx>=0 && rows[searchFocusIdx]){ rows[searchFocusIdx].click(); return; }
+    const q = searchInput.value.trim();
+    const gm = matchGroups(q)[0];
+    if(gm){ highlightGroup(gm.idx); searchResults.style.display='none'; return; }
+    const m = matchNodes(q)[0];
+    if(m){ focusNode(m.id); searchResults.style.display='none'; }
+  }
+});
+
+searchClear.addEventListener('click', ()=>{
+  searchInput.value='';
+  searchClear.style.display='none';
+  searchResults.style.display='none';
+  searchFocusIdx=-1;
+  clearHighlight();
+  searchInput.focus();
+});
+
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#searchBox')) searchResults.style.display='none';
+  if(!e.target.closest('.node') && !e.target.closest('#panel')) closePanel();
+});
+
+/* ============ 頁面切換 ============ */
+function openJapan(){
+  document.getElementById('home').style.display='none';
+  document.getElementById('japan').style.display='block';
+  requestAnimationFrame(fitInitial);
+}
+function closeJapan(){
+  document.getElementById('japan').style.display='none';
+  document.getElementById('home').style.display='flex';
+}
+window.addEventListener('resize', ()=>{ if(document.getElementById('japan').style.display==='block'){ setSmooth(false); fitInitial(); } });
+
+/* ============ 明暗模式 ============ */
+function toggleTheme(){
+  const cur = document.documentElement.dataset.theme==='light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = cur;
+  localStorage.setItem('mythTheme', cur);
+}
+(function initTheme(){
+  const saved = localStorage.getItem('mythTheme');
+  if(saved) document.documentElement.dataset.theme = saved;
+})();
+</script>
+</body>
+</html>
