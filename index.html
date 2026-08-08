@@ -44,9 +44,9 @@
     display:flex;align-items:center;gap:16px;padding:0 20px;
     background:linear-gradient(var(--bg2),rgba(23,27,46,.85));border-bottom:1px solid #2c3155;
   }
-  #backBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;}
-  #backBtn:hover{border-color:var(--accent);color:var(--accent);}
-  #toYokaiBtn,#toMythBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;}
+  #backBtn,#yBackBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;font-family:inherit;font-size:1em;}
+  #backBtn:hover,#yBackBtn:hover{border-color:var(--accent);color:var(--accent);}
+  #toYokaiBtn,#toMythBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;}
   #toYokaiBtn:hover,#toMythBtn:hover{border-color:var(--accent);color:var(--accent);}
   #topbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
   #searchBox{position:relative;flex:1;max-width:340px;}
@@ -152,6 +152,8 @@
     background:linear-gradient(var(--bg2),rgba(23,27,46,.85));border-bottom:1px solid #2c3155;
   }
   #ytopbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
+  #ytopbar > button{background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;cursor:pointer;padding:8px 12px;flex:none;font-family:inherit;}
+  #ytopbar > button:hover{border-color:var(--accent);color:var(--accent);}
   #ysearchBox{position:relative;flex:1;max-width:340px;}
   #ysearchInput{
     width:100%;padding:9px 36px 9px 34px;border-radius:20px;border:1px solid var(--line);
@@ -169,11 +171,9 @@
   #yresults div:hover{background:#2a3060;}
   #yresults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
 
-  #ycanvasWrap{position:absolute;inset:0;top:64px;overflow:hidden;cursor:grab;touch-action:none;}
-  #ycanvasWrap.grabbing{cursor:grabbing;}
-  #ystage{position:absolute;left:0;top:0;transform-origin:0 0;}
-  #ystage.smooth{transition:transform .5s cubic-bezier(.22,.9,.32,1);}
-  #ycontent{width:1200px;box-sizing:border-box;padding:26px 30px 60px;}
+  #ycanvasWrap{position:absolute;inset:0;top:64px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+  #ystage{transition:zoom .25s ease;}
+  #ycontent{max-width:1200px;margin:0 auto;box-sizing:border-box;padding:26px 30px 90px;}
   #yResetBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
   #yResetBtn:hover{color:var(--accent);border-color:var(--accent);}
   #yzoomCtrl{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:10;}
@@ -205,6 +205,24 @@
   .yp-fav-btn:hover{border-color:#ffd54f;color:#ffd54f;}
   .yp-fav-btn.active{color:#ffd54f;border-color:#ffd54f;background:#ffd54f1a;}
   #yfav-empty{color:var(--dim);padding:60px 20px;text-align:center;font-size:.95em;}
+
+  /* ---------- 響應式：手機／平板 ---------- */
+  @media (max-width: 700px){
+    #home{gap:26px;padding:24px;}
+    #home h1{font-size:1.5em;letter-spacing:.08em;}
+    .icon-grid{gap:16px;}
+    .myth-icon{width:130px;height:158px;}
+    .myth-icon .glyph{font-size:2.3em;}
+    #homeThemeBtn{top:14px;right:14px;}
+    #topbar,#ytopbar{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:0 12px;gap:10px;scrollbar-width:thin;}
+    #topbar h2,#ytopbar h2{font-size:.92em;}
+    #searchBox,#ysearchBox{max-width:170px;min-width:130px;flex:none;}
+    #legend{display:none;}
+    #panel,#ypanel{width:92vw;max-width:92vw;padding:18px 16px;}
+    #ycontent{padding:18px 14px 90px;}
+    .ycard{width:132px;}
+    #zoomCtrl,#yzoomCtrl{bottom:12px;right:12px;}
+  }
 </style>
 </head>
 <body>
@@ -320,8 +338,9 @@
     <button class="yp-fav-btn" id="yp-fav-btn" onclick="toggleFavorite(currentYokaiId)"></button>
   </div>
   <div id="yzoomCtrl">
-    <button onclick="yZoomBy(1.25)">+</button>
-    <button onclick="yZoomBy(0.8)">−</button>
+    <button onclick="yScrollTop()" title="返回頂端">⬆</button>
+    <button onclick="yZoomBy(1.15)" title="放大">+</button>
+    <button onclick="yZoomBy(0.87)" title="縮小">−</button>
   </div>
 </div>
 
@@ -1194,6 +1213,48 @@ function zoomAt(mx,my,factor){
   scale = newScale;
   applyTransform();
 }
+
+/* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放 ---- */
+let touchMode = null; // 'pan' | 'pinch'
+let pinchStartDist = 0, pinchStartScale = 1, pinchCx = 0, pinchCy = 0;
+function touchDist(a,b){ return Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY); }
+wrap.addEventListener('touchstart', e=>{
+  setSmooth(false);
+  if(e.touches.length===1){
+    touchMode='pan'; dragging=true; moved=false;
+    lastX=e.touches[0].clientX; lastY=e.touches[0].clientY;
+  } else if(e.touches.length===2){
+    touchMode='pinch'; dragging=false;
+    const rect = wrap.getBoundingClientRect();
+    pinchStartDist = touchDist(e.touches[0], e.touches[1]);
+    pinchStartScale = scale;
+    pinchCx = (e.touches[0].clientX+e.touches[1].clientX)/2 - rect.left;
+    pinchCy = (e.touches[0].clientY+e.touches[1].clientY)/2 - rect.top;
+  }
+}, {passive:true});
+wrap.addEventListener('touchmove', e=>{
+  if(touchMode==='pan' && e.touches.length===1){
+    e.preventDefault();
+    moved=true;
+    const t=e.touches[0];
+    tx += (t.clientX-lastX); ty += (t.clientY-lastY);
+    lastX=t.clientX; lastY=t.clientY;
+    applyTransform();
+  } else if(touchMode==='pinch' && e.touches.length===2){
+    e.preventDefault();
+    const dist = touchDist(e.touches[0], e.touches[1]);
+    const newScale = Math.min(3, Math.max(0.1, pinchStartScale*(dist/pinchStartDist)));
+    const ratio = newScale/scale;
+    tx = pinchCx - (pinchCx-tx)*ratio;
+    ty = pinchCy - (pinchCy-ty)*ratio;
+    scale = newScale;
+    applyTransform();
+  }
+}, {passive:false});
+wrap.addEventListener('touchend', e=>{
+  if(e.touches.length===0){ touchMode=null; dragging=false; }
+  else if(e.touches.length===1){ touchMode='pan'; lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; }
+});
 function zoomBy(factor){
   setSmooth(true);
   const rect = wrap.getBoundingClientRect();
@@ -1713,59 +1774,26 @@ function updatePanelFavBtn(id){
   btn.classList.toggle('active', active);
 }
 
-/* ============ 妖怪頁：平移縮放（拖曳/滾輪為即時，按鈕/搜尋為平滑過渡） ============ */
+/* ============ 妖怪頁：縮放（+/-按鈕）／滾輪與觸控皆為原生上下捲動 ============ */
 const ycanvasWrap = document.getElementById('ycanvasWrap');
 const ystage = document.getElementById('ystage');
-let yscale=1, ytx=0, yty=0;
-let ydragging=false, ylastX, ylastY, ymoved=false;
-function ySetSmooth(on){ ystage.classList.toggle('smooth', on); }
-function yApplyTransform(){ ystage.style.transform = `translate(${ytx}px,${yty}px) scale(${yscale})`; }
-ycanvasWrap.addEventListener('mousedown', e=>{
-  ydragging=true; ymoved=false; ylastX=e.clientX; ylastY=e.clientY; ycanvasWrap.classList.add('grabbing');
-  ySetSmooth(false);
-});
-window.addEventListener('mouseup', ()=>{ ydragging=false; ycanvasWrap.classList.remove('grabbing'); });
-window.addEventListener('mousemove', e=>{
-  if(!ydragging) return;
-  ymoved=true;
-  ytx += (e.clientX-ylastX); yty += (e.clientY-ylastY);
-  ylastX=e.clientX; ylastY=e.clientY;
-  yApplyTransform();
-});
-ycanvasWrap.addEventListener('wheel', e=>{
-  e.preventDefault();
-  ySetSmooth(false);
-  const rect = ycanvasWrap.getBoundingClientRect();
-  const mx = e.clientX-rect.left, my = e.clientY-rect.top;
-  yZoomAt(mx, my, e.deltaY<0 ? 1.1 : 0.9);
-}, {passive:false});
-function yZoomAt(mx,my,factor){
-  const newScale = Math.min(3, Math.max(0.3, yscale*factor));
-  const ratio = newScale/yscale;
-  ytx = mx - (mx-ytx)*ratio;
-  yty = my - (my-yty)*ratio;
-  yscale = newScale;
-  yApplyTransform();
-}
+let yzoomLevel = 1;
+function yApplyZoom(){ ystage.style.zoom = yzoomLevel; }
 function yZoomBy(factor){
-  ySetSmooth(true);
-  const rect = ycanvasWrap.getBoundingClientRect();
-  yZoomAt(rect.width/2, rect.height/2, factor);
+  yzoomLevel = Math.min(1.6, Math.max(0.6, yzoomLevel*factor));
+  yApplyZoom();
 }
 function yResetView(){
-  ySetSmooth(true);
-  yscale=1; ytx=0; yty=0;
-  yApplyTransform();
+  yzoomLevel = 1;
+  yApplyZoom();
   closeYPanel();
+}
+function yScrollTop(){
+  ycanvasWrap.scrollTo({top:0, behavior:'smooth'});
 }
 function yFocusEl(el){
   if(!el) return;
-  const rect = ycanvasWrap.getBoundingClientRect();
-  ySetSmooth(true);
-  yscale = Math.min(1.8, Math.max(yscale, 1.5));
-  ytx = rect.width/2 - (el.offsetLeft+el.offsetWidth/2)*yscale;
-  yty = rect.height/2 - (el.offsetTop+el.offsetHeight/2)*yscale;
-  yApplyTransform();
+  el.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 /* ============ 妖怪頁：渲染 / 面板 / 搜尋 ============ */
@@ -1881,9 +1909,8 @@ function openYokai(){
   document.getElementById('japan').style.display='none';
   document.getElementById('home').style.display='none';
   document.getElementById('yokai').style.display='block';
-  ySetSmooth(false);
-  yscale=1; ytx=0; yty=0;
-  yApplyTransform();
+  yzoomLevel = 1;
+  yApplyZoom();
 }
 function closeYokai(){
   document.getElementById('yokai').style.display='none';
