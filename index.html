@@ -171,9 +171,10 @@
   #yresults div:hover{background:#2a3060;}
   #yresults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
 
-  #ycanvasWrap{position:absolute;inset:0;top:64px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
-  #ystage{transition:zoom .25s ease;}
-  #ycontent{max-width:1200px;margin:0 auto;box-sizing:border-box;padding:26px 30px 90px;}
+  #ycanvasWrap{position:absolute;inset:0;top:64px;overflow:hidden;touch-action:none;}
+  #ystage{position:absolute;left:0;top:0;transform-origin:0 0;}
+  #ystage.smooth{transition:transform .6s cubic-bezier(.22,.9,.32,1);}
+  #ycontent{width:1200px;box-sizing:border-box;padding:26px 30px 90px;}
   #yResetBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
   #yResetBtn:hover{color:var(--accent);border-color:var(--accent);}
   #yzoomCtrl{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:10;}
@@ -1774,27 +1775,108 @@ function updatePanelFavBtn(id){
   btn.classList.toggle('active', active);
 }
 
-/* ============ 妖怪頁：縮放（+/-按鈕）／滾輪與觸控皆為原生上下捲動 ============ */
+/* ============ 妖怪頁：平移縮放（滾輪／單指拖曳＝上下捲動，按鈕/點選/雙指＝縮放） ============ */
 const ycanvasWrap = document.getElementById('ycanvasWrap');
 const ystage = document.getElementById('ystage');
-let yzoomLevel = 1;
-function yApplyZoom(){ ystage.style.zoom = yzoomLevel; }
+let yscale=1, ytx=0, yty=0;
+let ydragging=false, ylastX, ylastY;
+
+function ySetSmooth(on){ ystage.classList.toggle('smooth', on); }
+function yApplyTransform(){ ystage.style.transform = `translate(${ytx}px,${yty}px) scale(${yscale})`; }
+
+ycanvasWrap.addEventListener('mousedown', e=>{
+  ydragging=true; ylastX=e.clientX; ylastY=e.clientY;
+  ySetSmooth(false);
+});
+window.addEventListener('mouseup', ()=>{ ydragging=false; });
+window.addEventListener('mousemove', e=>{
+  if(!ydragging) return;
+  ytx += (e.clientX-ylastX); yty += (e.clientY-ylastY);
+  ylastX=e.clientX; ylastY=e.clientY;
+  yApplyTransform();
+});
+// 滾輪＝上下（含左右）平移，如同一般網頁捲動，而非縮放
+ycanvasWrap.addEventListener('wheel', e=>{
+  e.preventDefault();
+  ySetSmooth(false);
+  yty -= e.deltaY;
+  ytx -= e.deltaX;
+  yApplyTransform();
+}, {passive:false});
+
+function yZoomAt(mx,my,factor){
+  const newScale = Math.min(2.2, Math.max(0.5, yscale*factor));
+  const ratio = newScale/yscale;
+  ytx = mx - (mx-ytx)*ratio;
+  yty = my - (my-yty)*ratio;
+  yscale = newScale;
+  yApplyTransform();
+}
 function yZoomBy(factor){
-  yzoomLevel = Math.min(1.6, Math.max(0.6, yzoomLevel*factor));
-  yApplyZoom();
+  ySetSmooth(true);
+  const rect = ycanvasWrap.getBoundingClientRect();
+  yZoomAt(rect.width/2, rect.height/2, factor);
 }
 function yResetView(){
-  yzoomLevel = 1;
-  yApplyZoom();
+  ySetSmooth(true);
+  yscale=1; ytx=0; yty=0;
+  yApplyTransform();
   closeYPanel();
 }
 function yScrollTop(){
-  ycanvasWrap.scrollTo({top:0, behavior:'smooth'});
+  ySetSmooth(true);
+  yty = 0;
+  yApplyTransform();
 }
 function yFocusEl(el){
   if(!el) return;
-  el.scrollIntoView({behavior:'smooth', block:'center'});
+  const rect = ycanvasWrap.getBoundingClientRect();
+  ySetSmooth(true);
+  yscale = Math.min(1.7, Math.max(yscale, 1.4));
+  ytx = rect.width/2 - (el.offsetLeft+el.offsetWidth/2)*yscale;
+  yty = rect.height/2 - (el.offsetTop+el.offsetHeight/2)*yscale;
+  yApplyTransform();
 }
+
+/* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放 ---- */
+let yTouchMode = null;
+let yPinchStartDist = 0, yPinchStartScale = 1, yPinchCx = 0, yPinchCy = 0;
+function yTouchDist(a,b){ return Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY); }
+ycanvasWrap.addEventListener('touchstart', e=>{
+  ySetSmooth(false);
+  if(e.touches.length===1){
+    yTouchMode='pan'; ylastX=e.touches[0].clientX; ylastY=e.touches[0].clientY;
+  } else if(e.touches.length===2){
+    yTouchMode='pinch';
+    const rect = ycanvasWrap.getBoundingClientRect();
+    yPinchStartDist = yTouchDist(e.touches[0], e.touches[1]);
+    yPinchStartScale = yscale;
+    yPinchCx = (e.touches[0].clientX+e.touches[1].clientX)/2 - rect.left;
+    yPinchCy = (e.touches[0].clientY+e.touches[1].clientY)/2 - rect.top;
+  }
+}, {passive:true});
+ycanvasWrap.addEventListener('touchmove', e=>{
+  if(yTouchMode==='pan' && e.touches.length===1){
+    e.preventDefault();
+    const t=e.touches[0];
+    ytx += (t.clientX-ylastX); yty += (t.clientY-ylastY);
+    ylastX=t.clientX; ylastY=t.clientY;
+    yApplyTransform();
+  } else if(yTouchMode==='pinch' && e.touches.length===2){
+    e.preventDefault();
+    const dist = yTouchDist(e.touches[0], e.touches[1]);
+    const newScale = Math.min(2.2, Math.max(0.5, yPinchStartScale*(dist/yPinchStartDist)));
+    const ratio = newScale/yscale;
+    ytx = yPinchCx - (yPinchCx-ytx)*ratio;
+    yty = yPinchCy - (yPinchCy-yty)*ratio;
+    yscale = newScale;
+    yApplyTransform();
+  }
+}, {passive:false});
+ycanvasWrap.addEventListener('touchend', e=>{
+  if(e.touches.length===0){ yTouchMode=null; }
+  else if(e.touches.length===1){ yTouchMode='pan'; ylastX=e.touches[0].clientX; ylastY=e.touches[0].clientY; }
+});
 
 /* ============ 妖怪頁：渲染 / 面板 / 搜尋 ============ */
 const ycontent = document.getElementById('ycontent');
@@ -1909,8 +1991,9 @@ function openYokai(){
   document.getElementById('japan').style.display='none';
   document.getElementById('home').style.display='none';
   document.getElementById('yokai').style.display='block';
-  yzoomLevel = 1;
-  yApplyZoom();
+  ySetSmooth(false);
+  yscale=1; ytx=0; yty=0;
+  yApplyTransform();
 }
 function closeYokai(){
   document.getElementById('yokai').style.display='none';
