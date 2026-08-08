@@ -215,14 +215,35 @@
     .myth-icon{width:130px;height:158px;}
     .myth-icon .glyph{font-size:2.3em;}
     #homeThemeBtn{top:14px;right:14px;}
-    #topbar,#ytopbar{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:0 12px;gap:10px;scrollbar-width:thin;}
+    #topbar,#ytopbar{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:0 12px;gap:10px;}
     #topbar h2,#ytopbar h2{font-size:.92em;}
     #searchBox,#ysearchBox{max-width:170px;min-width:130px;flex:none;}
     #legend{display:none;}
-    #panel,#ypanel{width:92vw;max-width:92vw;padding:18px 16px;}
-    #ycontent{padding:18px 14px 90px;}
+    #ycontent{width:100%;padding:18px 14px 90px;}
     .ycard{width:132px;}
     #zoomCtrl,#yzoomCtrl{bottom:12px;right:12px;}
+
+    /* 捲動軸一律隱藏（外觀用，捲動功能仍保留） */
+    #topbar,#ytopbar,#ycanvasWrap,.ygrid,#panel,#ypanel{scrollbar-width:none;-ms-overflow-style:none;}
+    #topbar::-webkit-scrollbar,#ytopbar::-webkit-scrollbar,#ycanvasWrap::-webkit-scrollbar,
+    .ygrid::-webkit-scrollbar,#panel::-webkit-scrollbar,#ypanel::-webkit-scrollbar{display:none;height:0;width:0;}
+
+    /* 詳情面板改為由下往上彈出的抽屜，避免遮住整個系譜／圖鑑 */
+    #panel,#ypanel{
+      top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;
+      height:72vh;max-height:80vh;
+      border-left:none;border-top:1px solid var(--line);
+      border-radius:18px 18px 0 0;
+      transform:translateY(100%);
+    }
+    #panel.open,#ypanel.open{transform:translateY(0);}
+
+    /* 妖怪圖鑑：整頁改為原生上下捲動，各分類改為左右滑動一列 */
+    #ycanvasWrap{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
+    #ystage{position:static;transform:none !important;}
+    .ygrid{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x;scroll-snap-type:x proximity;padding-bottom:6px;}
+    .ycard{flex:none;scroll-snap-align:start;}
+    #yzoomCtrl button:not(#yTopBtn){display:none;}
   }
 </style>
 </head>
@@ -339,7 +360,7 @@
     <button class="yp-fav-btn" id="yp-fav-btn" onclick="toggleFavorite(currentYokaiId)"></button>
   </div>
   <div id="yzoomCtrl">
-    <button onclick="yScrollTop()" title="返回頂端">⬆</button>
+    <button id="yTopBtn" onclick="yScrollTop()" title="返回頂端">⬆</button>
     <button onclick="yZoomBy(1.15)" title="放大">+</button>
     <button onclick="yZoomBy(0.87)" title="縮小">−</button>
   </div>
@@ -1833,7 +1854,15 @@ function yZoomBy(factor){
   const rect = ycanvasWrap.getBoundingClientRect();
   yZoomAt(rect.width/2, rect.height/2, factor);
 }
+// 行動裝置改用原生上下捲動＋各分類橫向滑動，不套用桌機的平移縮放畫布
+function yIsMobile(){ return window.matchMedia('(max-width:700px)').matches; }
 function yResetView(){
+  if(yIsMobile()){
+    ycanvasWrap.scrollTo({top:0, behavior:'smooth'});
+    closeYPanel();
+    yClearSearch();
+    return;
+  }
   ySetSmooth(true);
   yscale=1; ytx=0; yty=0;
   yApplyTransform();
@@ -1844,6 +1873,7 @@ function yResetView(){
 function yScrollTop(){ yResetView(); }
 function yFocusEl(el){
   if(!el) return;
+  if(yIsMobile()){ el.scrollIntoView({behavior:'smooth', block:'center', inline:'center'}); return; }
   const rect = ycanvasWrap.getBoundingClientRect();
   ySetSmooth(true);
   yscale = Math.min(1.7, Math.max(yscale, 1.4));
@@ -1852,11 +1882,12 @@ function yFocusEl(el){
   yApplyTransform();
 }
 
-/* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放 ---- */
+/* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放（僅桌機寬度以外的觸控裝置停用，改走原生捲動） ---- */
 let yTouchMode = null;
 let yPinchStartDist = 0, yPinchStartScale = 1, yPinchCx = 0, yPinchCy = 0;
 function yTouchDist(a,b){ return Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY); }
 ycanvasWrap.addEventListener('touchstart', e=>{
+  if(yIsMobile()) return; // 讓瀏覽器原生上下捲動接手，不攔截手勢
   ySetSmooth(false);
   if(e.touches.length===1){
     yTouchMode='pan'; ylastX=e.touches[0].clientX; ylastY=e.touches[0].clientY;
@@ -1888,6 +1919,7 @@ ycanvasWrap.addEventListener('touchmove', e=>{
   }
 }, {passive:false});
 ycanvasWrap.addEventListener('touchend', e=>{
+  if(yIsMobile()) return;
   if(e.touches.length===0){ yTouchMode=null; }
   else if(e.touches.length===1){ yTouchMode='pan'; ylastX=e.touches[0].clientX; ylastY=e.touches[0].clientY; }
 });
