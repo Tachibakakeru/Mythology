@@ -186,6 +186,17 @@
   .ycard.highlight{border-color:#ff5f5f !important;box-shadow:0 0 16px rgba(255,95,95,.55);}
   .ycard.note{background:transparent;border-style:dashed;opacity:.8;}
   .ycard.note .yname{font-style:italic;}
+  .ycard .yfav{position:absolute;top:5px;right:7px;font-size:1em;line-height:1;cursor:pointer;color:var(--dim);z-index:2;}
+  .ycard .yfav:hover{color:#ffd54f;}
+  .ycard .yfav.active{color:#ffd54f;text-shadow:0 0 6px rgba(255,213,79,.75);}
+  .ycard.favorited{border-color:#ffd54f;box-shadow:0 0 12px rgba(255,213,79,.3);}
+  #favFilterBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
+  #favFilterBtn:hover{border-color:#ffd54f;color:#ffd54f;}
+  #favFilterBtn.active{color:#ffd54f;border-color:#ffd54f;background:#ffd54f1a;}
+  .yp-fav-btn{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.82em;width:100%;}
+  .yp-fav-btn:hover{border-color:#ffd54f;color:#ffd54f;}
+  .yp-fav-btn.active{color:#ffd54f;border-color:#ffd54f;background:#ffd54f1a;}
+  #yfav-empty{color:var(--dim);padding:60px 20px;text-align:center;font-size:.95em;}
 </style>
 </head>
 <body>
@@ -281,6 +292,7 @@
       <button id="ysearchClear" aria-label="清除">✕</button>
       <div id="yresults"></div>
     </div>
+    <button id="favFilterBtn" onclick="toggleFavFilter()">⭐ 只看收藏</button>
     <button onclick="toggleTheme()">🌓</button>
   </div>
   <div id="ycontent"></div>
@@ -292,6 +304,7 @@
     <div class="p-role" id="yp-role"></div>
     <div class="p-desc" id="yp-desc"></div>
     <div class="p-groups" id="yp-groups"></div>
+    <button class="yp-fav-btn" id="yp-fav-btn" onclick="toggleFavorite(currentYokaiId)"></button>
   </div>
 </div>
 
@@ -1489,12 +1502,12 @@ const YOKAI_DEFS = [
 ["kuzunoha","葛之葉","くずのは",false,"妖狐・妖狸","信太の森に棲んだ白狐が人間の女性に化けたとされる。陰陽師・安倍晴明の母という伝説を持つ。"],
 ["bunbukuchagama","分福茶釜","ぶんぶくちゃがま",false,"妖狐・妖狸","茂林寺に伝わる、茶釜に化けた狸の説話。恩返しのために見世物や道具として人を助けたと伝わる。"],
 ["shibaemontanuki","芝右衛門狸","しばえもんだぬき",false,"妖狐・妖狸","淡路島に伝わる人望の厚い古狸。人間の芝居興行師に化けて人々を楽しませたが、正体を見破られ猟師に撃たれたという悲話が伝わる。"],
-["hakuzosu","白藏主","はくぞうす",false,"妖狐・妖狸","人間の僧に化けた狐の妖怪。狂言「釣狐」などの題材となった。"],
+["hakuzosu","白藏主","はくぞうす",false,"妖狐・妖狸","人間の僧に化けた狐の妖怪。甥にあたる猟師の伯蔵主を説得して狐狩りをやめさせようとしたが、罠と知りつつ捕らえられてしまうという皮肉な結末が狂言「釣狐」に描かれる。"],
 ["sojobo","僧正坊","そうじょうぼう",true,"天狗","鞍馬山に棲むとされる大天狗の頭領。牛若丸（源義経）に武術を教えたという伝説で知られる。"],
-["karasutengu","烏天狗","からすてんぐ",false,"天狗","鳥のような嘴を持つ天狗の一種。山伏の姿をした大天狗に仕える配下として描かれることが多い。"],
+["karasutengu","烏天狗","からすてんぐ",false,"天狗","鳥のような嘴を持つ天狗の一種。山伏の姿をした大天狗に仕える配下として描かれ、木の上を飛び回って人をさらうこともあるとされる。"],
 ["kappa","河童","かっぱ",true,"水中妖怪","川や沼に棲むとされる水陸両生の妖怪。頭の皿に水がある間は怪力を発揮するが、皿の水が乾くと力を失うとされる。相撲好き、キュウリ好きの伝承でも知られる。"],
-["isonna","磯女","いそおんな",false,"水中妖怪","西日本の海岸に伝わる女性の妖怪。夜の浜辺で漁師に声をかけ、髪や血を吸うとされる。"],
-["kawahime","川姬","かわひめ",false,"水中妖怪","九州地方に伝わる川の妖怪。美しい女性の姿で現れ、人を惑わすとされる。"],
+["isonna","磯女","いそおんな",false,"水中妖怪","西日本の海岸に伝わる女性の妖怪。夜の浜辺で漁師に声をかけて誘い込み、正体を見せると牙で血を吸うとされる恐ろしい海の妖怪。"],
+["kawahime","川姬","かわひめ",false,"水中妖怪","九州地方に伝わる川の妖怪。美しい女性の姿で川辺に現れて旅人を惑わし、川へ引きずり込むこともあるとされる。"],
 ["umibouzu","海坊主","うみぼうず",true,"水中妖怪","海上に現れる巨大な坊主頭の妖怪。船を沈めたり漁師を襲うとされ、海の怪異として各地に広く伝わる。"],
 ["funayurei","船幽靈","ふなゆうれい",false,"水中妖怪","海難で亡くなった者の霊とされる妖怪。柄杓を貸せと迫り、貸すと船に水を汲み入れて沈めるとされる。"],
 ["oiwa","阿岩","おいわ",true,"幽靈・怪談","歌舞伎『東海道四谷怪談』に登場する怨霊。夫・伊右衛門に毒殺され醜く変貌した後、幽霊となって復讐したとされる。日本三大幽霊の一つ。"],
@@ -1515,18 +1528,44 @@ const YOKAI_DEFS = [
 ["yukionna","雪女","ゆきおんな",true,"山野異怪","雪の夜に現れる白い着物の女性の妖怪。旅人を凍死させるとも、優しく人間と暮らした伝承もあり、地方によって性質が異なる。"],
 ["yamamba","山姥","やまんば",false,"山野異怪","山中に棲む老婆の妖怪。旅人を食らうとされる一方、機織りや子育てを助ける民話も伝わる。"],
 ["konakijijii","子泣爺","こなきじじい",false,"山野異怪","徳島県に伝わる、赤ん坊の泣き声で人を誘い、抱き上げると石のように重くなって離れないとされる妖怪。"],
-["sunakakebabaa","砂かけ婆","すなかけばばあ",false,"山野異怪","奈良県などに伝わる、神社や竹藪で通行人に砂を振りかけて驚かせるとされる妖怪。"],
+["sunakakebabaa","砂かけ婆","すなかけばばあ",false,"山野異怪","奈良県などに伝わる、神社や竹藪で通行人に砂を振りかけて驚かせるとされる妖怪。姿を見せることはほとんどなく、気配だけで正体がわからないことが多い。"],
 ["amanojaku","天邪鬼","あまのじゃく",true,"山野異怪","人の心を読んでわざと逆のことを言う、ひねくれ者の妖怪。日本神話の天探女がその原型ともされる。"],
 ["nurarihyon","滑瓢","ぬらりひょん",true,"山野異怪","妖怪たちの総大将とされることが多い妖怪。夕暮れ時に家に上がり込み、勝手にお茶を飲んでくつろぐという不可解な存在。"],
-["hitotsumekozo","一目小僧","ひとつめこぞう",false,"山野異怪","一つ目の子供の姿をした妖怪。人を驚かせる程度で大きな害はないとされることが多い。"],
+["hitotsumekozo","一目小僧","ひとつめこぞう",false,"山野異怪","一つ目の子供の姿をした妖怪。師走の一日に家々を回り、人の善悪を帳面に記して山の神へ報告するという地方の伝承も残る。"],
 ["zashikiwarashi","座敷童子","ざしきわらし",true,"家中・変化の妖怪","岩手県などの旧家の座敷に棲むとされる子供の姿の神霊。その家に富をもたらすが、去ると家運が傾くという。"],
-["noppera_bo","野箆坊","のっぺらぼう",false,"家中・変化の妖怪","顔に目鼻口のない姿で人を驚かせる妖怪。他の妖怪（狢や狐など）の化けた姿ともされる。"],
-["rokurokubi","轆轤首","ろくろくび",false,"家中・変化の妖怪","首が異常に伸びる、あるいは胴体から抜け出して飛び回るとされる妖怪。夜な夜な正体を現す人間として語られることが多い。"],
+["noppera_bo","野箆坊","のっぺらぼう",false,"家中・変化の妖怪","顔に目鼻口のない姿で人を驚かせる妖怪。振り返るたびに顔がのっぺらぼうに変わっていくという怪談でも知られ、狢や狐が化けた姿ともされる。"],
+["rokurokubi","轆轤首","ろくろくび",false,"家中・変化の妖怪","首が異常に伸びる、あるいは胴体から抜け出して飛び回るとされる妖怪。昼間は普通の人間として暮らし、夜眠っている間だけ正体を現すとされることが多い。"],
 ["nekomata","貓又","ねこまた",true,"動物精怪","年老いた猫が化けたとされる妖怪。尾が二股に分かれ、人語を操り死者を操ることもあるという。"],
-["bakeneko","化け貓","ばけねこ",false,"動物精怪","猫又同様、年を経た猫が怪異を起こすようになったとされる妖怪の総称。行灯の油を舐める、人に化けるなどの伝承がある。"],
+["bakeneko","化け貓","ばけねこ",false,"動物精怪","猫又同様、年を経た猫が怪異を起こすようになったとされる妖怪の総称。行灯の油を舐める、人に化けて踊る、飼い主の言葉を話し出すなど各地に様々な伝承が残る。"],
 ["inugami","犬神","いぬがみ",true,"動物精怪","四国地方などに伝わる、犬の霊を用いた呪術・憑き物。特定の家系（犬神筋）に代々受け継がれ、人に取り憑いて病をもたらすとされる。"],
 ["nue","鵺","ぬえ",true,"動物精怪","頭は猿、胴は狸、尾は蛇、手足は虎という異形の妖怪。平安時代、鳥羽院を悩ませたところを源頼政が退治したと『平家物語』に伝わる。"],
-["kudan","件","くだん",false,"動物精怪","人面牛身の姿で生まれ、予言をしてすぐに死ぬとされる妖怪。その予言は必ず当たるといわれる。"],
+["kudan","件","くだん",false,"動物精怪","人面牛身の姿で生まれ、予言をしてすぐに死ぬとされる妖怪。その予言は必ず当たるといわれ、戦時中や災害の直前に件が現れたという噂が近代にも語り継がれている。"],
+
+/* ===== 百鬼夜行・追加分（大幅擴充） ===== */
+["hannya","般若","はんにゃ",false,"鬼","嫉妬や怨念のあまり鬼と化した女性を表す能面、またはそのような鬼女そのものを指す。長年つれない夫や恋人への恨みが角となって表れたとされ、能『鉄輪』など多くの説話に登場する。"],
+["jinshinkeibu","隱神刑部狸","いんじんぎょうぶだぬき",false,"妖狐・妖狸","伊予松山（現・愛媛県）に伝わる狸の総大将。松山城の守護神として祀られたと伝わり、四国の狸の中でも屈指の霊力を持つとされる。"],
+["danzaburo","佐渡團三郎狸","さどだんざぶろうだぬき",false,"妖狐・妖狸","佐渡島に伝わる狸の総大将。人間に化けて相撲や芝居を見物したり、旅人を化かして道に迷わせたりしたと伝わる、佐渡を代表する古狸。"],
+["tarobo","太郎坊","たろうぼう",false,"天狗","愛宕山に棲むとされる天狗の大将格。日本各地の天狗の中でも特に強力とされ、鞍馬山の僧正坊と並び称される大天狗の一柱。"],
+["jirobo","次郎坊","じろうぼう",false,"天狗","比良山（滋賀県）に棲むとされる天狗。太郎坊と並んで称される日本の代表的な大天狗の一柱とされる。"],
+["ushioni","牛鬼","うしおに",true,"水中妖怪","頭が牛、体が鬼または蜘蛛の異形の妖怪。西日本の海岸や川に伝わり、濡女を先に人前に出させて油断させた隙に人を襲うとされる、非常に凶暴な妖怪として恐れられる。"],
+["nureonna","濡女","ぬれおんな",false,"水中妖怪","蛇の胴体に女性の顔を持つ妖怪。長い髪を濡らした姿で川辺や海辺に現れ、赤子を抱かせて人の動きを封じた隙に牛鬼が襲うとされる。"],
+["hashihime","橋姬","はしひめ",false,"幽靈・怪談","貴船神社に丑の刻参りをして鬼女となったという女性の伝説。嫉妬に狂った末に生きながら鬼と化し、憎い相手を呪い殺したとされ、能『鉄輪』の題材となった。"],
+["chochinobake","提燈小僧","ちょうちんおばけ",false,"付喪神","古い提灯が化けたとされる妖怪。一つ目と長い舌を持ち、驚かせる程度で大きな害はないとされる、百鬼夜行絵巻の常連。"],
+["shirouneri","白容裔","しろうねり",false,"付喪神","古い布巾や雑巾が化けたとされる妖怪。ぼろ布のような姿で夜な夜な家の中を這い回るとされる、鳥山石燕の画図百鬼夜行に描かれた妖怪の一つ。"],
+["mokugyodaruma","木魚達磨","もくぎょだるま",false,"付喪神","古い木魚が達磨のような姿に化けたとされる付喪神。寺院に長く置かれ念仏の音を聞き続けた道具が魂を持つに至ったという発想から生まれた妖怪。"],
+["shamichoro","三味長老","しゃみちょうろう",false,"付喪神","古い三味線が化けたとされる付喪神。長老のような姿で描かれ、鳥山石燕の百鬼夜行絵巻に登場する道具の妖怪の一つ。"],
+["kotofurunushi","琴古主","ことふるぬし",false,"付喪神","古い琴が化けたとされる付喪神。長年弾かれずに放置された楽器が怨みや寂しさから妖怪になったという説話にちなむ。"],
+["nuppeppo","肉塊怪","ぬっぺっぽう",false,"付喪神","顔も手足もはっきりしない肉の塊のような姿の妖怪。古寺や墓地に現れるとされ、その正体や由来は謎に包まれている。"],
+["kamaitachi","鎌鼬","かまいたち",true,"山野異怪","つむじ風に乗って現れ、人の肌を鎌のように切り裂くとされる妖怪。切られた瞬間は痛みを感じず、後から傷口が開くのが特徴とされる。"],
+["mujina","貉","むじな",false,"山野異怪","アナグマやタヌキの化け物とされる妖怪。人を化かして驚かせるが、正体を見破られると逃げ去るだけで大きな危害は加えないとされることが多い。"],
+["nozuchi","野槌","のづち",false,"山野異怪","山野に棲むとされる、槌のような太い胴体で足も頭も判然としない蛇に似た妖怪。人を襲うこともあるとされる古い民間伝承の妖怪。"],
+["ippondatara","一本蹈鞴","いっぽんだたら",false,"山野異怪","紀伊国の山中に現れるとされる一本足・一つ目の妖怪。特定の日にしか山に姿を現さないと伝わる。"],
+["hitodama","人魂","ひとだま",false,"山野異怪","夜間に空中を漂う青白い光の玉。死者の魂が身体から抜け出したものとされ、墓地や事故現場などで目撃されると伝わる。"],
+["gagoze","元興寺","がごぜ",false,"家中・変化の妖怪","奈良の元興寺に現れたと伝わる鬼。寺の童子を襲おうとしたが、力自慢の童子に腕をもぎ取られて退散したという説話が『日本霊異記』に記されている。"],
+["jakotsubabaa","蛇骨婆","じゃこつばばあ",false,"家中・変化の妖怪","大蛇の骨を杖にした老婆の姿をした妖怪。鳥山石燕の百鬼夜行絵巻に描かれ、人を惑わすとされる。"],
+["omukade","大蜈蚣","おおむかで",false,"動物精怪","近江国の三上山を七巻き半するほどの巨大なムカデ。俵藤太（藤原秀郷）が竜神に頼まれてこれを弓矢で退治したという『俵藤太のムカデ退治』伝説で知られる。"],
+["kasha","火車","かしゃ",false,"動物精怪","悪事を重ねた死者の亡骸を奪いにくるとされる妖怪。年老いた猫又が正体ともされ、葬儀の最中に棺を奪って空へ消え去るという。"],
+["okuriinu","送り犬","おくりいぬ",false,"動物精怪","夜道を歩く人の後をつけてくるとされる犬の妖怪。転ぶと襲いかかるが、転ばなければ家まで無事に送り届けてくれるとも伝わる。"],
 ];
 
 const YOKAI_NAMES = {
@@ -1578,21 +1617,45 @@ const YOKAI_NAMES = {
   inugami:{original:"犬神（いぬがみ）",aliases:[]},
   nue:{original:"鵺（ぬえ）",aliases:[]},
   kudan:{original:"件（くだん）",aliases:[]},
+  hannya:{original:"般若（はんにゃ）",aliases:["般若面"]},
+  jinshinkeibu:{original:"隠神刑部（いんじんぎょうぶ）",aliases:["刑部狸"]},
+  danzaburo:{original:"団三郎狸（だんざぶろうだぬき）",aliases:["佐渡の団三郎"]},
+  tarobo:{original:"愛宕山太郎坊（あたごやまたろうぼう）",aliases:[]},
+  jirobo:{original:"比良山次郎坊（ひらさんじろうぼう）",aliases:[]},
+  ushioni:{original:"牛鬼（うしおに）",aliases:["牛鬼淵"]},
+  nureonna:{original:"濡女（ぬれおんな）",aliases:[]},
+  hashihime:{original:"橋姫（はしひめ）",aliases:["宇治の橋姫"]},
+  chochinobake:{original:"提灯お化け（ちょうちんおばけ）",aliases:["提灯小僧"]},
+  shirouneri:{original:"白容裔（しろうねり）",aliases:[]},
+  mokugyodaruma:{original:"木魚達磨（もくぎょだるま）",aliases:[]},
+  shamichoro:{original:"三味長老（しゃみちょうろう）",aliases:[]},
+  kotofurunushi:{original:"琴古主（ことふるぬし）",aliases:[]},
+  nuppeppo:{original:"ぬっぺっぽう",aliases:["のっぺっぽう"]},
+  kamaitachi:{original:"鎌鼬（かまいたち）",aliases:[]},
+  mujina:{original:"貉（むじな）",aliases:["狢"]},
+  nozuchi:{original:"野槌（のづち）",aliases:[]},
+  ippondatara:{original:"一本だたら（いっぽんだたら）",aliases:["一本足"]},
+  hitodama:{original:"人魂（ひとだま）",aliases:["鬼火"]},
+  gagoze:{original:"元興寺（がごぜ）",aliases:["元興神"]},
+  jakotsubabaa:{original:"蛇骨婆（じゃこつばばあ）",aliases:[]},
+  omukade:{original:"大百足（おおむかで）",aliases:["三上山の百足"]},
+  kasha:{original:"火車（かしゃ）",aliases:[]},
+  okuriinu:{original:"送り犬（おくりいぬ）",aliases:["送り狼"]},
 };
 
 const YOKAI_GROUPS = [
   ["日本三大妖怪", ["shutendoji","tamamonomae","otakemaru"], "#e0b060", true],
   ["日本三大幽靈", ["oiwa","okiku","kasane"], "#8fd0e0", true],
   ["日本三大怨靈", ["sugawara_michizane","taira_masakado","sutoku_tenno"], "#c96f6f", true],
-  ["鬼", ["shutendoji","ibarakidoji","suzukagozen","otakemaru","momiji","namahage"], "#c96f6f"],
-  ["妖狐・妖狸", ["tamamonomae","kuzunoha","bunbukuchagama","shibaemontanuki","hakuzosu"], "#d8a06f"],
-  ["天狗", ["sojobo","karasutengu"], "#9fb87a"],
-  ["水中妖怪", ["kappa","isonna","kawahime","umibouzu","funayurei"], "#6fc2c9"],
-  ["幽靈・怪談", ["oiwa","okiku","kasane","ubume","botanotsuyu"], "#8fd0e0"],
-  ["付喪神", ["tsukumogami_note","ittanmomen","karakasaobake","tofukozo","nurikabe","akaname","bakezori"], "#b08fd8"],
-  ["山野異怪", ["yukionna","yamamba","konakijijii","sunakakebabaa","amanojaku","nurarihyon","hitotsumekozo"], "#9fb87a"],
-  ["家中・変化の妖怪", ["zashikiwarashi","noppera_bo","rokurokubi"], "#e08ab0"],
-  ["動物精怪", ["nekomata","bakeneko","inugami","nue","kudan"], "#90c880"],
+  ["鬼", ["shutendoji","ibarakidoji","suzukagozen","otakemaru","momiji","namahage","hannya"], "#c96f6f"],
+  ["妖狐・妖狸", ["tamamonomae","kuzunoha","bunbukuchagama","shibaemontanuki","hakuzosu","jinshinkeibu","danzaburo"], "#d8a06f"],
+  ["天狗", ["sojobo","karasutengu","tarobo","jirobo"], "#9fb87a"],
+  ["水中妖怪", ["kappa","isonna","kawahime","umibouzu","funayurei","ushioni","nureonna"], "#6fc2c9"],
+  ["幽靈・怪談", ["oiwa","okiku","kasane","ubume","botanotsuyu","hashihime"], "#8fd0e0"],
+  ["付喪神", ["tsukumogami_note","ittanmomen","karakasaobake","tofukozo","nurikabe","akaname","bakezori","chochinobake","shirouneri","mokugyodaruma","shamichoro","kotofurunushi","nuppeppo"], "#b08fd8"],
+  ["山野異怪", ["yukionna","yamamba","konakijijii","sunakakebabaa","amanojaku","nurarihyon","hitotsumekozo","kamaitachi","mujina","nozuchi","ippondatara","hitodama"], "#9fb87a"],
+  ["家中・変化の妖怪", ["zashikiwarashi","noppera_bo","rokurokubi","gagoze","jakotsubabaa"], "#e08ab0"],
+  ["動物精怪", ["nekomata","bakeneko","inugami","nue","kudan","omukade","kasha","okuriinu"], "#90c880"],
 ];
 
 const yokais = {};
@@ -1601,17 +1664,51 @@ YOKAI_DEFS.forEach(d=>{
   yokais[id] = {id,name,kana,notable,category,desc,isNote:id.endsWith('_note')};
 });
 
+/* ============ 妖怪頁：收藏（使用者自訂星星） ============ */
+let YOKAI_FAVORITES = {};
+try{ YOKAI_FAVORITES = JSON.parse(localStorage.getItem('yokai_favorites')||'{}'); }catch{ YOKAI_FAVORITES = {}; }
+let SHOW_FAV_ONLY = false;
+let currentYokaiId = null;
+function saveFavorites(){ localStorage.setItem('yokai_favorites', JSON.stringify(YOKAI_FAVORITES)); }
+function toggleFavorite(id){
+  if(!id) return;
+  if(YOKAI_FAVORITES[id]) delete YOKAI_FAVORITES[id]; else YOKAI_FAVORITES[id] = true;
+  saveFavorites();
+  if(SHOW_FAV_ONLY){ renderYokai(); }
+  else {
+    document.querySelectorAll(`.ycard[data-id="${id}"]`).forEach(c=>{
+      c.classList.toggle('favorited', !!YOKAI_FAVORITES[id]);
+      const s = c.querySelector('.yfav');
+      if(s){ s.textContent = YOKAI_FAVORITES[id]?'★':'☆'; s.classList.toggle('active', !!YOKAI_FAVORITES[id]); }
+    });
+  }
+  if(currentYokaiId===id) updatePanelFavBtn(id);
+}
+function toggleFavFilter(){
+  SHOW_FAV_ONLY = !SHOW_FAV_ONLY;
+  document.getElementById('favFilterBtn').classList.toggle('active', SHOW_FAV_ONLY);
+  renderYokai();
+}
+function updatePanelFavBtn(id){
+  const btn = document.getElementById('yp-fav-btn');
+  const active = !!YOKAI_FAVORITES[id];
+  btn.textContent = active ? '★ 已加入收藏' : '☆ 加入收藏';
+  btn.classList.toggle('active', active);
+}
+
 /* ============ 妖怪頁：渲染 / 面板 / 搜尋 ============ */
 const ycontent = document.getElementById('ycontent');
 function renderYokai(){
   let html = '';
   YOKAI_GROUPS.forEach(([label, ids, color, special])=>{
-    const members = ids.map(id=>yokais[id]).filter(Boolean);
+    let members = ids.map(id=>yokais[id]).filter(Boolean);
+    if(SHOW_FAV_ONLY) members = members.filter(y=>YOKAI_FAVORITES[y.id]);
     if(!members.length) return;
     html += `<div class="ygroup${special?' special':''}"><h3 style="color:${special?color:''}">${special?'🌟 ':''}${label}</h3><div class="ygrid">`;
     members.forEach(y=>{
-      html += `<div class="ycard${y.notable?' notable':''}${y.isNote?' note':''}" data-id="${y.id}">
-        ${y.notable?'<span class="ystar">⭐</span>':''}
+      const fav = !!YOKAI_FAVORITES[y.id];
+      html += `<div class="ycard${y.notable?' notable':''}${y.isNote?' note':''}${fav?' favorited':''}" data-id="${y.id}">
+        <span class="yfav${fav?' active':''}" data-id="${y.id}">${fav?'★':'☆'}</span>
         <div class="yname">${y.name}</div>
         ${y.kana?`<div class="ykana">${y.kana}</div>`:''}
         <div class="ycat">${y.category}</div>
@@ -1619,7 +1716,11 @@ function renderYokai(){
     });
     html += `</div></div>`;
   });
+  if(!html) html = `<div id="yfav-empty">尚未收藏任何妖怪，點擊卡片右上角的☆即可加入收藏。</div>`;
   ycontent.innerHTML = html;
+  ycontent.querySelectorAll('.yfav').forEach(el=>{
+    el.addEventListener('click', ev=>{ ev.stopPropagation(); toggleFavorite(el.dataset.id); });
+  });
   ycontent.querySelectorAll('.ycard').forEach(el=>{
     el.addEventListener('click', ()=> openYPanel(el.dataset.id));
   });
@@ -1630,6 +1731,7 @@ const ypanel = document.getElementById('ypanel');
 function openYPanel(id){
   const y = yokais[id];
   if(!y) return;
+  currentYokaiId = id;
   document.getElementById('yp-name').textContent = y.name;
   document.getElementById('yp-kana').textContent = y.kana||'';
   const yn = YOKAI_NAMES[id]||{};
@@ -1645,6 +1747,7 @@ function openYPanel(id){
   document.getElementById('yp-desc').textContent = y.desc||'（尚無詳細記載）';
   const groupsOf = YOKAI_GROUPS.filter(g=>g[1].includes(id)).map(g=>g[0]);
   document.getElementById('yp-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
+  updatePanelFavBtn(id);
   ypanel.classList.add('open');
   document.querySelectorAll('.ycard').forEach(c=>c.classList.toggle('highlight', c.dataset.id===id));
 }
