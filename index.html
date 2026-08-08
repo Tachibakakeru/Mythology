@@ -46,6 +46,8 @@
   }
   #backBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;}
   #backBtn:hover{border-color:var(--accent);color:var(--accent);}
+  #toYokaiBtn,#toMythBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;}
+  #toYokaiBtn:hover,#toMythBtn:hover{border-color:var(--accent);color:var(--accent);}
   #topbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
   #searchBox{position:relative;flex:1;max-width:340px;}
   #searchInput{
@@ -112,18 +114,18 @@
   .edge-label.blood{color:#e08a8a;background:#2a1c1c;}
   .edge-label.partner{color:#7fd0c4;background:#173330;}
 
-  #panel{position:absolute;top:64px;right:0;bottom:0;width:340px;max-width:82vw;background:var(--card);
+  #panel,#ypanel{position:absolute;top:64px;right:0;bottom:0;width:340px;max-width:82vw;background:var(--card);
     border-left:1px solid var(--line);transform:translateX(100%);transition:transform .35s ease;z-index:15;
     padding:22px 22px;overflow-y:auto;box-shadow:-10px 0 30px rgba(0,0,0,.3);}
-  #panel.open{transform:translateX(0);}
-  #panel .p-name{font-size:1.3em;font-weight:700;color:var(--accent);margin-bottom:2px;}
-  #panel .p-kana{color:var(--dim);font-size:.9em;margin-bottom:10px;}
-  #panel .p-role{display:inline-block;font-size:.78em;color:#e0b060;background:#e0b06022;padding:3px 10px;border-radius:12px;margin-bottom:14px;}
-  #panel .p-desc{font-size:.92em;line-height:1.75;color:var(--text);opacity:.9;}
-  #panel .p-groups{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;}
-  #panel .p-groups span{font-size:.7em;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:10px;}
-  #panel .p-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.3em;cursor:pointer;}
-  #panel .p-close:hover{color:var(--accent);}
+  #panel.open,#ypanel.open{transform:translateX(0);}
+  #panel .p-name,#ypanel .p-name{font-size:1.3em;font-weight:700;color:var(--accent);margin-bottom:2px;}
+  #panel .p-kana,#ypanel .p-kana{color:var(--dim);font-size:.9em;margin-bottom:10px;}
+  #panel .p-role,#ypanel .p-role{display:inline-block;font-size:.78em;color:#e0b060;background:#e0b06022;padding:3px 10px;border-radius:12px;margin-bottom:14px;}
+  #panel .p-desc,#ypanel .p-desc{font-size:.92em;line-height:1.75;color:var(--text);opacity:.9;}
+  #panel .p-groups,#ypanel .p-groups{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;}
+  #panel .p-groups span,#ypanel .p-groups span{font-size:.7em;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:10px;}
+  #panel .p-close,#ypanel .p-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.3em;cursor:pointer;}
+  #panel .p-close:hover,#ypanel .p-close:hover{color:var(--accent);}
   .pe-sep{margin:16px 0;border:none;border-top:1px solid var(--line);}
   .pe-label{font-size:.72em;color:var(--dim);margin:9px 0 3px;}
   .pe-inp{width:100%;background:#11142280;border:1px solid var(--line);border-radius:6px;color:var(--text);padding:6px 8px;font-size:.88em;box-sizing:border-box;font-family:inherit;}
@@ -141,6 +143,49 @@
   #zoomCtrl{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:10;}
   #zoomCtrl button{width:36px;height:36px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--text);font-size:1.1em;cursor:pointer;}
   #zoomCtrl button:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* ---------- YOKAI VIEW ---------- */
+  #yokai{display:none;position:fixed;inset:0;background:var(--bg);}
+  #ytopbar{
+    position:absolute;top:0;left:0;right:0;height:64px;z-index:10;
+    display:flex;align-items:center;gap:16px;padding:0 20px;
+    background:linear-gradient(var(--bg2),rgba(23,27,46,.85));border-bottom:1px solid #2c3155;
+  }
+  #ytopbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
+  #ysearchBox{position:relative;flex:1;max-width:340px;}
+  #ysearchInput{
+    width:100%;padding:9px 36px 9px 34px;border-radius:20px;border:1px solid var(--line);
+    background:#11142280;color:var(--text);font-size:.95em;outline:none;box-sizing:border-box;
+  }
+  #ysearchClear{display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:.9em;padding:2px 5px;line-height:1;opacity:.65;z-index:21;}
+  #ysearchClear:hover{opacity:1;color:var(--accent);}
+  #ysearchInput:focus{border-color:var(--accent);}
+  #ysearchBox::before{content:"🔍";position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.85em;opacity:.6;}
+  #yresults{
+    position:absolute;top:110%;left:0;right:0;background:var(--card);border-radius:10px;
+    border:1px solid var(--line);max-height:280px;overflow:auto;display:none;z-index:20;
+  }
+  #yresults div{padding:8px 14px;cursor:pointer;font-size:.9em;border-bottom:1px solid #2c3155;}
+  #yresults div:hover{background:#2a3060;}
+  #yresults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
+
+  #ycontent{position:absolute;inset:0;top:64px;overflow-y:auto;padding:26px 30px 60px;}
+  .ygroup{margin-bottom:34px;}
+  .ygroup h3{color:var(--accent);font-size:1.02em;margin:0 0 14px;padding-bottom:6px;border-bottom:1px dashed var(--line);}
+  .ygroup.special h3{color:#ff9f3f;}
+  .ygrid{display:flex;flex-wrap:wrap;gap:14px;}
+  .ycard{width:148px;min-height:78px;border-radius:9px;background:var(--card);
+    border:1.5px solid var(--line);padding:8px 10px;cursor:pointer;transition:.2s;position:relative;}
+  .ycard:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .ycard.notable{border-color:var(--accent);border-width:2px;box-shadow:0 0 12px rgba(224,176,96,.22);}
+  .ycard .yname{font-size:.86em;font-weight:700;line-height:1.25;}
+  .ycard .ykana{font-size:.6em;color:var(--dim);margin-top:3px;}
+  .ycard .ycat{font-size:.58em;color:#e0b06099;margin-top:5px;}
+  .ycard .ystar{position:absolute;top:6px;right:8px;font-size:.7em;}
+  .ycard.dim{opacity:.15;}
+  .ycard.highlight{border-color:#ff5f5f !important;box-shadow:0 0 16px rgba(255,95,95,.55);}
+  .ycard.note{background:transparent;border-style:dashed;opacity:.8;}
+  .ycard.note .yname{font-style:italic;}
 </style>
 </head>
 <body>
@@ -152,8 +197,8 @@
   <div class="icon-grid">
     <div class="myth-icon" onclick="openJapan()">
       <div class="glyph">⛩️</div>
-      <div class="label">日本神話</div>
-      <div class="sub">古事記・日本書紀</div>
+      <div class="label">日本神話・妖怪</div>
+      <div class="sub">古事記・日本書紀・妖怪伝承</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">🏛️</div>
@@ -172,6 +217,7 @@
   <div id="topbar">
     <button id="backBtn" onclick="closeJapan()">← 返回</button>
     <h2>⛩️ 日本神話系譜</h2>
+    <button id="toYokaiBtn" onclick="openYokai()">👹 妖怪圖鑑</button>
     <div id="searchBox">
       <input id="searchInput" placeholder="搜尋神名或讀音…" autocomplete="off">
       <button id="searchClear" aria-label="清除">✕</button>
@@ -222,6 +268,30 @@
   <div id="zoomCtrl">
     <button onclick="zoomBy(1.25)">+</button>
     <button onclick="zoomBy(0.8)">−</button>
+  </div>
+</div>
+
+<div id="yokai">
+  <div id="ytopbar">
+    <button id="yBackBtn" onclick="closeYokai()">← 返回</button>
+    <h2>👹 日本妖怪圖鑑</h2>
+    <button id="toMythBtn" onclick="backToMyth()">⛩️ 神話系譜</button>
+    <div id="ysearchBox">
+      <input id="ysearchInput" placeholder="搜尋妖怪名或讀音…" autocomplete="off">
+      <button id="ysearchClear" aria-label="清除">✕</button>
+      <div id="yresults"></div>
+    </div>
+    <button onclick="toggleTheme()">🌓</button>
+  </div>
+  <div id="ycontent"></div>
+  <div id="ypanel">
+    <button class="p-close" onclick="closeYPanel()">✕</button>
+    <div class="p-name" id="yp-name"></div>
+    <div class="p-kana" id="yp-kana"></div>
+    <div id="yp-names" style="margin-bottom:10px;display:none;"></div>
+    <div class="p-role" id="yp-role"></div>
+    <div class="p-desc" id="yp-desc"></div>
+    <div class="p-groups" id="yp-groups"></div>
   </div>
 </div>
 
@@ -296,6 +366,7 @@ const NODE_DEFS = [
 ["amatsuhikone","天津彦根命","あまつひこねのみこと","誓約で生まれた五男神",10.5,13.8,"誓約で生まれた五男神の一柱。"],
 ["ikutsuhikone","活津彦根命","いくつひこねのみこと","誓約で生まれた五男神",11.5,13.8,"誓約で生まれた五男神の一柱。"],
 ["kumanokusubi","熊野楠日命","くまのくすび","誓約で生まれた五男神",12.5,13.8,"誓約で生まれた五男神の一柱。"],
+["amenomahitotsu","天目一箇命","あめのまひとつ","天津彦根命の子・鍛冶の神",10.5,14.6,"製鉄・鍛冶を司る一つ目の神。天津彦根命の子とされる。天岩戸神話に登場する鍛冶神・天津麻羅と同一視されることもある。忌部氏に祀られ、筑紫・伊勢の忌部氏や山城国菅田首などの祖とされる。"],
 ["munakata_takiri","田心姫","たきりびめ","宗像三女神",3.5,13.8,"須佐之男命の剣から生まれたとされる宗像三女神の一柱。"],
 ["munakata_ichikishima","市杵嶋姬命","いちきしまひめ","宗像三女神・厳島神社祭神",3.5,14.85,"宗像三女神の一柱。後に厳島神社などで祀られる。"],
 ["munakata_takitsu","湍津姫","たきつひめ","宗像三女神",2.18,15.4,"宗像三女神の一柱。"],
@@ -332,6 +403,7 @@ const NODE_DEFS = [
 ["ajishikitakahikone","味耜高彦根神","あぢしきたかひこね","大国主神の子",12.6,18.5,"大国主神と多紀理毘売命の子。容姿が天若日子に酷似していたため、その葬儀で亡骸と間違われて怒り、喪屋を切り倒したという。"],
 ["amatsukunitama","天津国玉神","あまつくにたま","天若日子の父",13.8,18.5,"高天原から葦原中国へ遣わされた天若日子の父。"],
 ["amewakahiko","天若日子","あめわかひこ","下照比売の夫",13,19.3,"国譲りの交渉のため高天原から遣わされたが、下照比売と結婚して大国主神側についてしまい、高天原が送り返した矢に射られて死んだという悲劇の神。"],
+["amanosagume","天探女","あまのさぐめ","天若日子に仕えた女神",14.3,19.3,"天若日子に仕えた女神。葦原中国平定の神話で、催促のため遣わされた雉（鳴女）の鳴き声を凶兆だと天若日子に告げ、矢を射させた。これが天若日子の死を招く結果となった。後世、ひねくれ者の妖怪「天邪鬼」の原型ともされる。"],
 ["mishima_mizokuhi","三嶋溝橛耳神","みしまのみぞくいみみ","勢夜陀多良比売の父",10.9,16.1,"勢夜陀多良比売の父とされる国津神。"],
 ["seyadatarahime","勢夜陀多良姬","せやだたらひめ","大物主神の妻",10.9,16.9,"三嶋溝橛耳神の娘。大物主神との間に媛蹈鞴五十鈴媛命を生んだとされる。"],
 ["omononushi","大物主神","おおものぬし","三輪山の神",11.9,16.9,"大国主神の「幸魂奇魂」（和魂）ともされる三輪山の神。媛蹈鞴五十鈴媛命の父という伝承を持つ。"],
@@ -439,8 +511,8 @@ const GROUPS = [
   ["欠史八代（第2〜9代）", ["suizei","kawamatabime","annei","akutohime","itoku","futomawakahime","kosho","yosotahohime","koan","oshikahime","korei","kuwashihime","kogen","utsushikome","kaika","ikagashikome"], "#8fb0d8"],
   ["崇神〜仁徳（人代の展開）", ["sujin","mimatsuhime","suinin","hibasuhime","keiko","inabinooiratsume","yamatotakeru","futajiirihime","seimu","chuai","jingu","ojin","nakatsuhime","nintoku"], "#d8a06f"],
   ["17〜33代天皇（履中〜推古）", ["richu","hanzei","ingyo","anko","yuryaku","seinei","kenzo","ninken","buretsu","keitai","ankan","senka","kinmei","bidatsu","yomei","sushun","suiko","shotoku"], "#b08060"],
-  ["天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami","amaterasu","tsukuyomi","susanoo","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","omoikane","amenokoyane","futodama","amenouzume","amenoiwatowake","takemikazuchi","ninigi","amenohoakari","nigihayahi"], "#a0c8f0", false],
-  ["國津神", ["kagutsuchi","oyamatsumi","kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi","toyoukebime","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","yashimajinumi","konohanachiruhime","otoshi","ukanomitama","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","sarutahiko","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","amewakahiko","omononushi","mishima_mizokuhi","seyadatarahime"], "#90c880", false],
+  ["天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami","amaterasu","tsukuyomi","susanoo","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","omoikane","amenokoyane","futodama","amenouzume","amenoiwatowake","takemikazuchi","ninigi","amenohoakari","nigihayahi","amenomahitotsu"], "#a0c8f0", false],
+  ["國津神", ["kagutsuchi","oyamatsumi","kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi","toyoukebime","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","yashimajinumi","konohanachiruhime","otoshi","ukanomitama","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","sarutahiko","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","amewakahiko","omononushi","mishima_mizokuhi","seyadatarahime","amanosagume"], "#90c880", false],
 ];
 
 const UNIONS = [
@@ -458,6 +530,7 @@ const UNIONS = [
   {spouses:["ashinazuchi","tenazuchi"], marriage:"primary", children:["kushinadahime"]},
   {parent:"izanagi", children:["misogi_sutemono","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","amaterasu","tsukuyomi","susanoo"], label:"禊で誕生", labelClass:"ritual"},
   {spouses:["amaterasu","susanoo"], marriage:"partner", label:"誓約（うけい）", labelClass:"ritual", children:["munakata_takiri","munakata_ichikishima","munakata_takitsu","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi"]},
+  {parent:"amatsuhikone", children:["amenomahitotsu"]},
   {spouses:["amenouzume","sarutahiko"], marriage:"primary"},
   {parent:"futodama", children:["amenoiwatowake"]},
   {parent:"takamimusubi", children:["omoikane","takuhatachijihime"]},
@@ -588,6 +661,7 @@ const NODE_NAMES = {
   "oshihomimi":{kojiki:"天忍穂耳命",nihonshoki:"正哉吾勝勝速日天忍穂耳尊",reading:"あめのおしほみみ の みこと",aliases:["天忍穗耳尊（あめのおしほみみのみこと）","天忍穗耳命"]},
   "amenohohi":{kojiki:"天菩比命",nihonshoki:"天夷鳥命（あめのひなどりのみこと）",reading:"あめのほひ の みこと",aliases:[]},
   "amatsuhikone":{kojiki:"天津日子根命",nihonshoki:"天津彦根命（あまつひこねのみこと）",reading:"あまつひこね の みこと",aliases:[]},
+  "amenomahitotsu":{kojiki:"（古事記には記載なし）",nihonshoki:"天目一箇命（あめのまひとつのみこと）",reading:"あめのまひとつ の みこと",aliases:["天津麻羅（あまつまら）","天目一箇神（あめのまひとつのかみ）"]},
   "ikutsuhikone":{kojiki:"活津日子根命",nihonshoki:"活津彦根命（いくつひこねのみこと）",reading:"いくつひこね の みこと",aliases:[]},
   "kumanokusubi":{kojiki:"熊野久須毘命",nihonshoki:"熊野楠日命（くまのくすびのみこと）",reading:"くまのくすび の みこと",aliases:[]},
   "munakata_takiri":{kojiki:"多紀理毘売命",nihonshoki:"田心姫（たごりひめ）",reading:"たきりびめ の みこと",aliases:["奥津島比売命（おきつしまひめのみこと）","多紀理姬命（たきりびめのみこと）","多岐都比売命（たきりびめのみこと）"]},
@@ -626,6 +700,7 @@ const NODE_NAMES = {
   "ajishikitakahikone":{kojiki:"阿遅鉏高日子根神",nihonshoki:"味耜高彦根神（あじすきたかひこねのかみ）",reading:"あぢしきたかひこね の かみ",aliases:["阿遅志貴高彦根神（あぢしきたかひこねのかみ）"]},
   "amatsukunitama":{kojiki:"天津国玉神",nihonshoki:"天国玉神（あまつくにたまのかみ）",reading:"あまつくにたま の かみ",aliases:[]},
   "amewakahiko":{kojiki:"天若日子",nihonshoki:"天稚彦（あめわかひこ）",reading:"あめわかひこ",aliases:[]},
+  "amanosagume":{kojiki:"天佐具売",nihonshoki:"天探女（あまのさぐめ）",reading:"あまのさぐめ",aliases:[]},
   "mishima_mizokuhi":{kojiki:"三嶋溝橛耳神",nihonshoki:"（古事記のみ）",reading:"みしまのみぞくいみみ の かみ",aliases:[]},
   "seyadatarahime":{kojiki:"勢夜陀多良比売",nihonshoki:"（古事記のみ）",reading:"せやだたらひめ",aliases:["活玉依毘売（いくたまよりびめ）"]},
   "omononushi":{kojiki:"大物主神",nihonshoki:"大物主大神（おおものぬしのおおかみ）",reading:"おおものぬし の かみ",aliases:["倭大物主神（やまとのおおものぬしのかみ）","大己貴神の和魂（にぎたま）ともされる"]},
@@ -1398,6 +1473,247 @@ function closeJapan(){
   document.getElementById('home').style.display='flex';
 }
 window.addEventListener('resize', ()=>{ if(document.getElementById('japan').style.display==='block'){ setSmooth(false); fitInitial(); } });
+
+/* ============================================================
+   資料：日本妖怪圖鑑（獨立於神話系譜頁面）
+   [id, name(繁體中文為主), kana, notable(是否為著名妖怪), category, desc]
+   ============================================================ */
+const YOKAI_DEFS = [
+["shutendoji","酒吞童子","しゅてんどうじ",true,"鬼","大江山や伊吹山に棲んだと伝わる鬼の頭領。京の都で若い女性をさらっていたが、源頼光と四天王の討伐を受け、酒に酔わされたところを討たれたという。日本三大妖怪の一つ。"],
+["ibarakidoji","茨木童子","いばらきどうじ",false,"鬼","酒呑童子の配下で最強とされる鬼。渡辺綱と一条戻橋で戦い片腕を斬り落とされたが、後に伯母に化けて取り返したという逸話で知られる。"],
+["suzukagozen","鈴鹿御前","すずかごぜん",false,"鬼","鈴鹿山に住んだとされる伝説的な女性。天女とも鬼女とも伝わり、坂上田村麻呂と結ばれ大嶽丸を討ったという伝承もある。"],
+["otakemaru","大嶽丸","おおたけまる",true,"鬼","鈴鹿山や伊吹山に棲んだとされる鬼神。坂上田村麻呂に討伐されたと伝わる。日本三大妖怪の一つに数えられる。"],
+["momiji","紅葉鬼女","もみじきじょ",false,"鬼","信濃国戸隠に伝わる鬼女。「紅葉」という名の女が正体を見破られ鬼と化し、平維茂に討伐されたという能・歌舞伎「紅葉狩」の題材。"],
+["namahage","生剝","なまはげ",true,"鬼","秋田県男鹿半島に伝わる来訪神。大晦日に鬼のような面と藁蓑姿で家々を訪れ、怠け者を戒めるとされる。"],
+["tamamonomae","玉藻前","たまものまえ",true,"妖狐・妖狸","白面金毛九尾の狐が化けたとされる絶世の美女。鳥羽上皇に寵愛されたが陰陽師・安倍泰成に正体を見破られ、逃走の末に那須野で殺生石になったと伝わる。日本三大妖怪の一つ。"],
+["kuzunoha","葛之葉","くずのは",false,"妖狐・妖狸","信太の森に棲んだ白狐が人間の女性に化けたとされる。陰陽師・安倍晴明の母という伝説を持つ。"],
+["bunbukuchagama","分福茶釜","ぶんぶくちゃがま",false,"妖狐・妖狸","茂林寺に伝わる、茶釜に化けた狸の説話。恩返しのために見世物や道具として人を助けたと伝わる。"],
+["shibaemontanuki","芝右衛門狸","しばえもんだぬき",false,"妖狐・妖狸","淡路島に伝わる人望の厚い古狸。人間の芝居興行師に化けて人々を楽しませたが、正体を見破られ猟師に撃たれたという悲話が伝わる。"],
+["hakuzosu","白藏主","はくぞうす",false,"妖狐・妖狸","人間の僧に化けた狐の妖怪。狂言「釣狐」などの題材となった。"],
+["sojobo","僧正坊","そうじょうぼう",true,"天狗","鞍馬山に棲むとされる大天狗の頭領。牛若丸（源義経）に武術を教えたという伝説で知られる。"],
+["karasutengu","烏天狗","からすてんぐ",false,"天狗","鳥のような嘴を持つ天狗の一種。山伏の姿をした大天狗に仕える配下として描かれることが多い。"],
+["kappa","河童","かっぱ",true,"水中妖怪","川や沼に棲むとされる水陸両生の妖怪。頭の皿に水がある間は怪力を発揮するが、皿の水が乾くと力を失うとされる。相撲好き、キュウリ好きの伝承でも知られる。"],
+["isonna","磯女","いそおんな",false,"水中妖怪","西日本の海岸に伝わる女性の妖怪。夜の浜辺で漁師に声をかけ、髪や血を吸うとされる。"],
+["kawahime","川姬","かわひめ",false,"水中妖怪","九州地方に伝わる川の妖怪。美しい女性の姿で現れ、人を惑わすとされる。"],
+["umibouzu","海坊主","うみぼうず",true,"水中妖怪","海上に現れる巨大な坊主頭の妖怪。船を沈めたり漁師を襲うとされ、海の怪異として各地に広く伝わる。"],
+["funayurei","船幽靈","ふなゆうれい",false,"水中妖怪","海難で亡くなった者の霊とされる妖怪。柄杓を貸せと迫り、貸すと船に水を汲み入れて沈めるとされる。"],
+["oiwa","阿岩","おいわ",true,"幽靈・怪談","歌舞伎『東海道四谷怪談』に登場する怨霊。夫・伊右衛門に毒殺され醜く変貌した後、幽霊となって復讐したとされる。日本三大幽霊の一つ。"],
+["okiku","阿菊","おきく",true,"幽靈・怪談","『番町皿屋敷』に伝わる幽霊。大切な皿を割った罪を着せられ井戸に投げ込まれて殺され、夜な夜な皿を数える幽霊になったという。日本三大幽霊の一つ。"],
+["kasane","累","かさね",true,"幽靈・怪談","江戸時代の下総国に伝わる怨霊譚の主人公。醜貌を理由に殺された女性の怨念が後世の人々に取り憑いたとされ、歌舞伎などの題材となった。日本三大幽霊の一つ。"],
+["ubume","産女","うぶめ",false,"幽靈・怪談","出産時に亡くなった女性の霊とされる妖怪。赤子を抱いた姿で現れ、通行人に子を抱かせようとするという。"],
+["botanotsuyu","阿露","おつゆ",false,"幽靈・怪談","怪談『牡丹灯籠』に登場する幽霊。愛する男のもとへ牡丹灯籠を提げて夜な夜な通ったが、実は死者であったという恋物語。"],
+["sugawara_michizane","菅原道真","すがわらのみちざね",true,"日本三大怨靈","平安時代の学者・政治家。冤罪により左遷され失意のうちに没した後、都に雷や疫病をもたらす怨霊として恐れられ、後に天神として祀られた。日本三大怨霊の一つ。"],
+["taira_masakado","平將門","たいらのまさかど",true,"日本三大怨靈","平安時代中期に関東で自ら「新皇」を称して反乱を起こした武将。討たれた後もその首が祟りをなしたと伝わり、東京・大手町の首塚は今も畏怖されている。日本三大怨霊の一つ。"],
+["sutoku_tenno","崇德天皇","すとくてんのう",true,"日本三大怨靈","保元の乱で敗れ讃岐国へ配流された天皇。恨みを抱いたまま没し、日本国を呪う大魔縁になったと伝わる。日本三大怨霊の一つ。"],
+["tsukumogami_note","付喪神（總稱）","つくもがみ",false,"付喪神","長い年月を経た道具や器物に魂が宿って化けたとされる妖怪の総称。『百鬼夜行絵巻』などに描かれる。"],
+["ittanmomen","一反木綿","いったんもめん",false,"付喪神","鹿児島県に伝わる、白い布のような姿で夜空を飛び人を襲うとされる妖怪。"],
+["karakasaobake","唐傘小僧","からかさおばけ",false,"付喪神","古い傘の付喪神。一つ目に一本足、長い舌を持つ姿で描かれることが多い。"],
+["tofukozo","豆腐小僧","とうふこぞう",false,"付喪神","豆腐を載せた盆を持つ子供の姿の妖怪。人に取り憑くような害はほとんどなく、江戸時代の草双紙で人気を博した。"],
+["nurikabe","塗壁","ぬりかべ",false,"付喪神","夜道を歩く人の前に突然壁のように立ちはだかり、行く手を阻むとされる妖怪。福岡県などに伝わる。"],
+["akaname","垢嘗","あかなめ",false,"付喪神","汚れた風呂場に現れ、垢を舐めとるとされる小さな妖怪。掃除を怠ることへの戒めとして語られる。"],
+["bakezori","化け草履","ばけぞうり",false,"付喪神","古い草履が付喪神と化した妖怪。粗末に扱われたことを恨み、夜中に騒ぎ回るとされる。"],
+["yukionna","雪女","ゆきおんな",true,"山野異怪","雪の夜に現れる白い着物の女性の妖怪。旅人を凍死させるとも、優しく人間と暮らした伝承もあり、地方によって性質が異なる。"],
+["yamamba","山姥","やまんば",false,"山野異怪","山中に棲む老婆の妖怪。旅人を食らうとされる一方、機織りや子育てを助ける民話も伝わる。"],
+["konakijijii","子泣爺","こなきじじい",false,"山野異怪","徳島県に伝わる、赤ん坊の泣き声で人を誘い、抱き上げると石のように重くなって離れないとされる妖怪。"],
+["sunakakebabaa","砂かけ婆","すなかけばばあ",false,"山野異怪","奈良県などに伝わる、神社や竹藪で通行人に砂を振りかけて驚かせるとされる妖怪。"],
+["amanojaku","天邪鬼","あまのじゃく",true,"山野異怪","人の心を読んでわざと逆のことを言う、ひねくれ者の妖怪。日本神話の天探女がその原型ともされる。"],
+["nurarihyon","滑瓢","ぬらりひょん",true,"山野異怪","妖怪たちの総大将とされることが多い妖怪。夕暮れ時に家に上がり込み、勝手にお茶を飲んでくつろぐという不可解な存在。"],
+["hitotsumekozo","一目小僧","ひとつめこぞう",false,"山野異怪","一つ目の子供の姿をした妖怪。人を驚かせる程度で大きな害はないとされることが多い。"],
+["zashikiwarashi","座敷童子","ざしきわらし",true,"家中・変化の妖怪","岩手県などの旧家の座敷に棲むとされる子供の姿の神霊。その家に富をもたらすが、去ると家運が傾くという。"],
+["noppera_bo","野箆坊","のっぺらぼう",false,"家中・変化の妖怪","顔に目鼻口のない姿で人を驚かせる妖怪。他の妖怪（狢や狐など）の化けた姿ともされる。"],
+["rokurokubi","轆轤首","ろくろくび",false,"家中・変化の妖怪","首が異常に伸びる、あるいは胴体から抜け出して飛び回るとされる妖怪。夜な夜な正体を現す人間として語られることが多い。"],
+["nekomata","貓又","ねこまた",true,"動物精怪","年老いた猫が化けたとされる妖怪。尾が二股に分かれ、人語を操り死者を操ることもあるという。"],
+["bakeneko","化け貓","ばけねこ",false,"動物精怪","猫又同様、年を経た猫が怪異を起こすようになったとされる妖怪の総称。行灯の油を舐める、人に化けるなどの伝承がある。"],
+["inugami","犬神","いぬがみ",true,"動物精怪","四国地方などに伝わる、犬の霊を用いた呪術・憑き物。特定の家系（犬神筋）に代々受け継がれ、人に取り憑いて病をもたらすとされる。"],
+["nue","鵺","ぬえ",true,"動物精怪","頭は猿、胴は狸、尾は蛇、手足は虎という異形の妖怪。平安時代、鳥羽院を悩ませたところを源頼政が退治したと『平家物語』に伝わる。"],
+["kudan","件","くだん",false,"動物精怪","人面牛身の姿で生まれ、予言をしてすぐに死ぬとされる妖怪。その予言は必ず当たるといわれる。"],
+];
+
+const YOKAI_NAMES = {
+  shutendoji:{original:"酒呑童子（しゅてんどうじ）",aliases:["酒天童子"]},
+  ibarakidoji:{original:"茨木童子（いばらきどうじ）",aliases:[]},
+  suzukagozen:{original:"鈴鹿御前（すずかごぜん）",aliases:["立烏帽子"]},
+  otakemaru:{original:"大嶽丸（おおたけまる）",aliases:[]},
+  momiji:{original:"紅葉（もみじ）",aliases:["鬼女紅葉"]},
+  namahage:{original:"生剥（なまはげ）",aliases:[]},
+  tamamonomae:{original:"玉藻前（たまものまえ）",aliases:["九尾の狐","殺生石"]},
+  kuzunoha:{original:"葛の葉（くずのは）",aliases:["信太妻"]},
+  bunbukuchagama:{original:"分福茶釜（ぶんぶくちゃがま）",aliases:[]},
+  shibaemontanuki:{original:"芝右衛門狸（しばえもんだぬき）",aliases:[]},
+  hakuzosu:{original:"白蔵主（はくぞうす）",aliases:[]},
+  sojobo:{original:"鞍馬山僧正坊（そうじょうぼう）",aliases:["大天狗"]},
+  karasutengu:{original:"烏天狗（からすてんぐ）",aliases:["木の葉天狗"]},
+  kappa:{original:"河童（かっぱ）",aliases:["河太郎","川太郎"]},
+  isonna:{original:"磯女（いそおんな）",aliases:[]},
+  kawahime:{original:"川姫（かわひめ）",aliases:[]},
+  umibouzu:{original:"海坊主（うみぼうず）",aliases:[]},
+  funayurei:{original:"船幽霊（ふなゆうれい）",aliases:[]},
+  oiwa:{original:"お岩（おいわ）",aliases:["四谷怪談"]},
+  okiku:{original:"お菊（おきく）",aliases:["皿屋敷"]},
+  kasane:{original:"累（かさね）",aliases:[]},
+  ubume:{original:"産女（うぶめ）",aliases:["姑獲鳥"]},
+  botanotsuyu:{original:"お露（おつゆ）",aliases:["牡丹灯籠"]},
+  sugawara_michizane:{original:"菅原道真（すがわらのみちざね）",aliases:["天神様"]},
+  taira_masakado:{original:"平将門（たいらのまさかど）",aliases:["将門塚"]},
+  sutoku_tenno:{original:"崇徳天皇（すとくてんのう）",aliases:["大魔縁"]},
+  tsukumogami_note:{original:"付喪神（つくもがみ）",aliases:["九十九神"]},
+  ittanmomen:{original:"一反木綿（いったんもめん）",aliases:[]},
+  karakasaobake:{original:"唐傘お化け（からかさおばけ）",aliases:["傘化け"]},
+  tofukozo:{original:"豆腐小僧（とうふこぞう）",aliases:[]},
+  nurikabe:{original:"塗壁（ぬりかべ）",aliases:[]},
+  akaname:{original:"垢嘗（あかなめ）",aliases:[]},
+  bakezori:{original:"化け草履（ばけぞうり）",aliases:[]},
+  yukionna:{original:"雪女（ゆきおんな）",aliases:[]},
+  yamamba:{original:"山姥（やまんば）",aliases:["山母"]},
+  konakijijii:{original:"子泣き爺（こなきじじい）",aliases:[]},
+  sunakakebabaa:{original:"砂かけ婆（すなかけばばあ）",aliases:[]},
+  amanojaku:{original:"天邪鬼（あまのじゃく）",aliases:[]},
+  nurarihyon:{original:"滑瓢（ぬらりひょん）",aliases:[]},
+  hitotsumekozo:{original:"一つ目小僧（ひとつめこぞう）",aliases:[]},
+  zashikiwarashi:{original:"座敷童子（ざしきわらし）",aliases:[]},
+  noppera_bo:{original:"のっぺらぼう",aliases:["のっぺら坊"]},
+  rokurokubi:{original:"轆轤首（ろくろくび）",aliases:["抜け首"]},
+  nekomata:{original:"猫又（ねこまた）",aliases:[]},
+  bakeneko:{original:"化け猫（ばけねこ）",aliases:[]},
+  inugami:{original:"犬神（いぬがみ）",aliases:[]},
+  nue:{original:"鵺（ぬえ）",aliases:[]},
+  kudan:{original:"件（くだん）",aliases:[]},
+};
+
+const YOKAI_GROUPS = [
+  ["日本三大妖怪", ["shutendoji","tamamonomae","otakemaru"], "#e0b060", true],
+  ["日本三大幽靈", ["oiwa","okiku","kasane"], "#8fd0e0", true],
+  ["日本三大怨靈", ["sugawara_michizane","taira_masakado","sutoku_tenno"], "#c96f6f", true],
+  ["鬼", ["shutendoji","ibarakidoji","suzukagozen","otakemaru","momiji","namahage"], "#c96f6f"],
+  ["妖狐・妖狸", ["tamamonomae","kuzunoha","bunbukuchagama","shibaemontanuki","hakuzosu"], "#d8a06f"],
+  ["天狗", ["sojobo","karasutengu"], "#9fb87a"],
+  ["水中妖怪", ["kappa","isonna","kawahime","umibouzu","funayurei"], "#6fc2c9"],
+  ["幽靈・怪談", ["oiwa","okiku","kasane","ubume","botanotsuyu"], "#8fd0e0"],
+  ["付喪神", ["tsukumogami_note","ittanmomen","karakasaobake","tofukozo","nurikabe","akaname","bakezori"], "#b08fd8"],
+  ["山野異怪", ["yukionna","yamamba","konakijijii","sunakakebabaa","amanojaku","nurarihyon","hitotsumekozo"], "#9fb87a"],
+  ["家中・変化の妖怪", ["zashikiwarashi","noppera_bo","rokurokubi"], "#e08ab0"],
+  ["動物精怪", ["nekomata","bakeneko","inugami","nue","kudan"], "#90c880"],
+];
+
+const yokais = {};
+YOKAI_DEFS.forEach(d=>{
+  const [id,name,kana,notable,category,desc] = d;
+  yokais[id] = {id,name,kana,notable,category,desc,isNote:id.endsWith('_note')};
+});
+
+/* ============ 妖怪頁：渲染 / 面板 / 搜尋 ============ */
+const ycontent = document.getElementById('ycontent');
+function renderYokai(){
+  let html = '';
+  YOKAI_GROUPS.forEach(([label, ids, color, special])=>{
+    const members = ids.map(id=>yokais[id]).filter(Boolean);
+    if(!members.length) return;
+    html += `<div class="ygroup${special?' special':''}"><h3 style="color:${special?color:''}">${special?'🌟 ':''}${label}</h3><div class="ygrid">`;
+    members.forEach(y=>{
+      html += `<div class="ycard${y.notable?' notable':''}${y.isNote?' note':''}" data-id="${y.id}">
+        ${y.notable?'<span class="ystar">⭐</span>':''}
+        <div class="yname">${y.name}</div>
+        ${y.kana?`<div class="ykana">${y.kana}</div>`:''}
+        <div class="ycat">${y.category}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  ycontent.innerHTML = html;
+  ycontent.querySelectorAll('.ycard').forEach(el=>{
+    el.addEventListener('click', ()=> openYPanel(el.dataset.id));
+  });
+}
+renderYokai();
+
+const ypanel = document.getElementById('ypanel');
+function openYPanel(id){
+  const y = yokais[id];
+  if(!y) return;
+  document.getElementById('yp-name').textContent = y.name;
+  document.getElementById('yp-kana').textContent = y.kana||'';
+  const yn = YOKAI_NAMES[id]||{};
+  const pnames = document.getElementById('yp-names');
+  let nhtml = '';
+  const row = (label,val)=>`<div class="p-namerow"><span class="p-namelabel">${label}</span>${val}</div>`;
+  if(yn.original && yn.original!==y.name) nhtml += row('日文原名',yn.original);
+  if(yn.aliases && yn.aliases.length) nhtml += row('別稱',yn.aliases.join('　'));
+  pnames.innerHTML = nhtml;
+  pnames.style.display = nhtml ? 'block' : 'none';
+  const roleEl = document.getElementById('yp-role');
+  roleEl.style.display='inline-block'; roleEl.textContent = y.category;
+  document.getElementById('yp-desc').textContent = y.desc||'（尚無詳細記載）';
+  const groupsOf = YOKAI_GROUPS.filter(g=>g[1].includes(id)).map(g=>g[0]);
+  document.getElementById('yp-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
+  ypanel.classList.add('open');
+  document.querySelectorAll('.ycard').forEach(c=>c.classList.toggle('highlight', c.dataset.id===id));
+}
+function closeYPanel(){
+  ypanel.classList.remove('open');
+  document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('highlight'));
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#ysearchBox')) { const r=document.getElementById('yresults'); if(r) r.style.display='none'; }
+  if(!e.target.closest('.ycard') && !e.target.closest('#ypanel')) closeYPanel();
+});
+
+function matchYokai(q){
+  q = q.toLowerCase().replace(/ /g,'');
+  return Object.values(yokais).filter(y=>{
+    const yn = YOKAI_NAMES[y.id]||{};
+    return y.name.toLowerCase().includes(q) ||
+      (y.kana||'').toLowerCase().replace(/ /g,'').includes(q) ||
+      (y.category||'').toLowerCase().includes(q) ||
+      (yn.original||'').toLowerCase().includes(q) ||
+      (yn.aliases||[]).some(a=>a.toLowerCase().replace(/ /g,'').includes(q));
+  });
+}
+const ysearchInput = document.getElementById('ysearchInput');
+const yresults = document.getElementById('yresults');
+const ysearchClear = document.getElementById('ysearchClear');
+function showYResults(){
+  const q = ysearchInput.value.trim();
+  ysearchClear.style.display = ysearchInput.value ? 'block' : 'none';
+  if(!q){ yresults.style.display='none'; document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim')); return; }
+  const nm = matchYokai(q);
+  const matchIds = new Set(nm.map(y=>y.id));
+  document.querySelectorAll('.ycard').forEach(c=>c.classList.toggle('dim', !matchIds.has(c.dataset.id)));
+  yresults.innerHTML = nm.length ? nm.map(y=>`<div data-id="${y.id}">${y.name}<span class="r-kana">${y.kana||''}</span></div>`).join('')
+    : `<div style="color:var(--dim);cursor:default;">找不到符合的妖怪</div>`;
+  yresults.style.display='block';
+}
+ysearchInput.addEventListener('input', showYResults);
+ysearchInput.addEventListener('focus', ()=>{ if(ysearchInput.value.trim()) showYResults(); });
+yresults.addEventListener('click', e=>{
+  const row = e.target.closest('div[data-id]');
+  if(!row) return;
+  const el = document.querySelector(`.ycard[data-id="${row.dataset.id}"]`);
+  if(el) el.scrollIntoView({block:'center', behavior:'smooth'});
+  openYPanel(row.dataset.id);
+  yresults.style.display='none';
+});
+ysearchClear.addEventListener('click', ()=>{
+  ysearchInput.value='';
+  ysearchClear.style.display='none';
+  yresults.style.display='none';
+  document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim'));
+  ysearchInput.focus();
+});
+
+/* ============ 妖怪頁：頁面切換 ============ */
+function openYokai(){
+  document.getElementById('japan').style.display='none';
+  document.getElementById('home').style.display='none';
+  document.getElementById('yokai').style.display='block';
+}
+function closeYokai(){
+  document.getElementById('yokai').style.display='none';
+  document.getElementById('home').style.display='flex';
+}
+function backToMyth(){
+  document.getElementById('yokai').style.display='none';
+  openJapan();
+}
 
 /* ============ 明暗模式 ============ */
 function toggleTheme(){
