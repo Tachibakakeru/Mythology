@@ -1564,10 +1564,12 @@ function openJapan(){
   document.getElementById('home').style.display='none';
   document.getElementById('japan').style.display='block';
   requestAnimationFrame(fitInitial);
+  localStorage.setItem('mythCurrentPage','japan');
 }
 function closeJapan(){
   document.getElementById('japan').style.display='none';
   document.getElementById('home').style.display='flex';
+  localStorage.setItem('mythCurrentPage','home');
 }
 window.addEventListener('resize', ()=>{ if(document.getElementById('japan').style.display==='block'){ setSmooth(false); fitInitial(); } });
 
@@ -2042,10 +2044,12 @@ function openYokai(){
   ySetSmooth(false);
   yscale=1; ytx=0; yty=0;
   yApplyTransform();
+  localStorage.setItem('mythCurrentPage','yokai');
 }
 function closeYokai(){
   document.getElementById('yokai').style.display='none';
   document.getElementById('home').style.display='flex';
+  localStorage.setItem('mythCurrentPage','home');
 }
 function backToMyth(){
   document.getElementById('yokai').style.display='none';
@@ -2061,6 +2065,13 @@ function toggleTheme(){
 (function initTheme(){
   const saved = localStorage.getItem('mythTheme');
   if(saved) document.documentElement.dataset.theme = saved;
+})();
+
+/* ============ 重整頁面後停留在原本的頁面 ============ */
+(function restorePage(){
+  const page = localStorage.getItem('mythCurrentPage');
+  if(page==='japan') openJapan();
+  else if(page==='yokai') openYokai();
 })();
 </script>
 </body>
