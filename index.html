@@ -1782,7 +1782,16 @@ let yscale=1, ytx=0, yty=0;
 let ydragging=false, ylastX, ylastY;
 
 function ySetSmooth(on){ ystage.classList.toggle('smooth', on); }
-function yApplyTransform(){ ystage.style.transform = `translate(${ytx}px,${yty}px) scale(${yscale})`; }
+// 邊界限制：內容永遠至少填滿可視範圍的一邊，避免拖曳/滾動出現無邊際的空白區域
+function yClamp(){
+  const rect = ycanvasWrap.getBoundingClientRect();
+  const scaledW = ystage.offsetWidth * yscale, scaledH = ystage.offsetHeight * yscale;
+  const minTx = Math.min(0, rect.width - scaledW), maxTx = Math.max(0, rect.width - scaledW);
+  const minTy = Math.min(0, rect.height - scaledH), maxTy = Math.max(0, rect.height - scaledH);
+  ytx = Math.min(maxTx, Math.max(minTx, ytx));
+  yty = Math.min(maxTy, Math.max(minTy, yty));
+}
+function yApplyTransform(){ yClamp(); ystage.style.transform = `translate(${ytx}px,${yty}px) scale(${yscale})`; }
 
 ycanvasWrap.addEventListener('mousedown', e=>{
   ydragging=true; ylastX=e.clientX; ylastY=e.clientY;
@@ -1823,11 +1832,8 @@ function yResetView(){
   yApplyTransform();
   closeYPanel();
 }
-function yScrollTop(){
-  ySetSmooth(true);
-  yty = 0;
-  yApplyTransform();
-}
+// 返回頂端＝同時重置縮放與位置（等同「重置檢視」，另外提供圖示按鈕方便隨手點擊）
+function yScrollTop(){ yResetView(); }
 function yFocusEl(el){
   if(!el) return;
   const rect = ycanvasWrap.getBoundingClientRect();
