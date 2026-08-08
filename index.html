@@ -168,7 +168,7 @@
     border:1px solid var(--line);max-height:280px;overflow:auto;display:none;z-index:20;
   }
   #yresults div{padding:8px 14px;cursor:pointer;font-size:.9em;border-bottom:1px solid #2c3155;}
-  #yresults div:hover{background:#2a3060;}
+  #yresults div:hover,#yresults div.focused{background:#2a3060;}
   #yresults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
 
   #ycanvasWrap{position:absolute;inset:0;top:64px;overflow:hidden;touch-action:none;}
@@ -1831,6 +1831,7 @@ function yResetView(){
   yscale=1; ytx=0; yty=0;
   yApplyTransform();
   closeYPanel();
+  yClearSearch();
 }
 // 返回頂端＝同時重置縮放與位置（等同「重置檢視」，另外提供圖示按鈕方便隨手點擊）
 function yScrollTop(){ yResetView(); }
@@ -1963,9 +1964,11 @@ function matchYokai(q){
 const ysearchInput = document.getElementById('ysearchInput');
 const yresults = document.getElementById('yresults');
 const ysearchClear = document.getElementById('ysearchClear');
+let ysearchFocusIdx = -1;
 function showYResults(){
   const q = ysearchInput.value.trim();
   ysearchClear.style.display = ysearchInput.value ? 'block' : 'none';
+  ysearchFocusIdx = -1;
   if(!q){ yresults.style.display='none'; document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim')); return; }
   const nm = matchYokai(q);
   const matchIds = new Set(nm.map(y=>y.id));
@@ -1974,23 +1977,57 @@ function showYResults(){
     : `<div style="color:var(--dim);cursor:default;">找不到符合的妖怪</div>`;
   yresults.style.display='block';
 }
+function ySelectResultRow(row){
+  const el = document.querySelector(`.ycard[data-id="${row.dataset.id}"]`);
+  openYPanel(row.dataset.id);
+  yFocusEl(el);
+  yresults.style.display='none';
+  ysearchFocusIdx = -1;
+}
 ysearchInput.addEventListener('input', showYResults);
 ysearchInput.addEventListener('focus', ()=>{ if(ysearchInput.value.trim()) showYResults(); });
 yresults.addEventListener('click', e=>{
   const row = e.target.closest('div[data-id]');
   if(!row) return;
-  const el = document.querySelector(`.ycard[data-id="${row.dataset.id}"]`);
-  openYPanel(row.dataset.id);
-  yFocusEl(el);
-  yresults.style.display='none';
+  ySelectResultRow(row);
+});
+ysearchInput.addEventListener('keydown', e=>{
+  const rows = [...yresults.querySelectorAll('div[data-id]')];
+  if(e.key==='ArrowDown'){
+    e.preventDefault();
+    ysearchFocusIdx = Math.min(ysearchFocusIdx+1, rows.length-1);
+    rows.forEach((r,i)=>r.classList.toggle('focused', i===ysearchFocusIdx));
+    rows[ysearchFocusIdx]?.scrollIntoView({block:'nearest'});
+    return;
+  }
+  if(e.key==='ArrowUp'){
+    e.preventDefault();
+    ysearchFocusIdx = Math.max(ysearchFocusIdx-1, 0);
+    rows.forEach((r,i)=>r.classList.toggle('focused', i===ysearchFocusIdx));
+    rows[ysearchFocusIdx]?.scrollIntoView({block:'nearest'});
+    return;
+  }
+  if(e.key==='Escape'){ yresults.style.display='none'; ysearchFocusIdx=-1; return; }
+  if(e.key==='Enter'){
+    if(ysearchFocusIdx>=0 && rows[ysearchFocusIdx]){ ySelectResultRow(rows[ysearchFocusIdx]); return; }
+    if(rows[0]) ySelectResultRow(rows[0]);
+  }
 });
 ysearchClear.addEventListener('click', ()=>{
   ysearchInput.value='';
   ysearchClear.style.display='none';
   yresults.style.display='none';
+  ysearchFocusIdx=-1;
   document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim'));
   ysearchInput.focus();
 });
+function yClearSearch(){
+  ysearchInput.value='';
+  ysearchClear.style.display='none';
+  yresults.style.display='none';
+  ysearchFocusIdx=-1;
+  document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim'));
+}
 
 /* ============ 妖怪頁：頁面切換 ============ */
 function openYokai(){
