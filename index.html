@@ -999,6 +999,7 @@ function botY(n){ return n.py + n.h; }
 function midY(n){ return n.py + n.h/2; }
 
 // 分類框（量到真實節點高度後才畫，並保留標籤自己的空間）
+const placedLabels = []; // 已放置的標籤 bbox，用來避免標籤互相重疊
 GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
   const members = ids.map(id=>nodes[id]).filter(Boolean);
   if(!members.length) return;
@@ -1021,10 +1022,14 @@ GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
   lab.textContent = label;
   box.appendChild(lab);
   stage.appendChild(box);
-  // 標籤擺在不會壓到任何神明方塊的位置（左上→右上→置中→再往上）
+  // 標籤擺在不會壓到任何神明方塊或其他群組標籤的位置
   const bw = x1-x0, bh = y1-y0, lw = lab.offsetWidth, lh = lab.offsetHeight;
-  const hit = (lx,ly)=>Object.values(nodes).some(n=>
-    x0+lx < n.px+NODE_W-2 && x0+lx+lw > n.px+2 && y0+ly < n.py+n.h-2 && y0+ly+lh > n.py+2);
+  const hit = (lx,ly)=>{
+    const ax=x0+lx, ay=y0+ly, ax2=ax+lw, ay2=ay+lh;
+    if(Object.values(nodes).some(n=>ax<n.px+NODE_W-2&&ax2>n.px+2&&ay<n.py+n.h-2&&ay2>n.py+2)) return true;
+    if(placedLabels.some(r=>ax<r.x2-2&&ax2>r.x1+2&&ay<r.y2-2&&ay2>r.y1+2)) return true;
+    return false;
+  };
   const cands = [[10,-13],[bw-lw-10,-13],[(bw-lw)/2,-13],
                  [bw+8,-13],[-lw-8,-13],            // 貼在框外的左右側
                  [bw+8,6],[-lw-8,6],
@@ -1033,6 +1038,7 @@ GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
   const ok = cands.find(([lx,ly])=>!hit(lx,ly)) || cands[0];
   lab.style.left = ok[0]+'px';
   lab.style.top  = ok[1]+'px';
+  placedLabels.push({x1:x0+ok[0], y1:y0+ok[1], x2:x0+ok[0]+lw, y2:y0+ok[1]+lh});
 });
 
 /* ---- 連線佈線：先避開節點方塊，再於交叉處「跳線」 ---- */
