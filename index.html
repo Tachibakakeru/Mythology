@@ -120,6 +120,7 @@
   .groupbox.marker-only .glabel{opacity:.9;border:1px dashed rgba(0,0,0,.35);}
   .groupbox.marker-only.hl{outline:none;}
   .groupbox.marker-only.hl .glabel{box-shadow:0 0 18px rgba(255,159,63,.8);}
+  .groupbox.dim-box{opacity:.1;}
   #searchResults .r-group{color:var(--accent);font-weight:600;}
   .edge-label.marriage{color:#e08a8a;background:#2a1c1c;}
   .edge-label.ritual{color:#b39ddb;background:#221c33;}
@@ -2327,20 +2328,27 @@ let selectedGroupIdx = null;
 function clearHighlight(){
   document.querySelectorAll('.node').forEach(d=>d.classList.remove('highlight','dim'));
   document.querySelectorAll('.edge').forEach(p=>p.classList.remove('hl','dim-edge'));
-  document.querySelectorAll('.groupbox').forEach(b=>b.classList.remove('hl'));
+  document.querySelectorAll('.groupbox').forEach(b=>b.classList.remove('hl','dim-box'));
   document.querySelectorAll('.edge-label').forEach(l=>l.classList.remove('dim-label'));
   selectedUnionId = null;
   selectedGroupIdx = null;
 }
-// 說明文字只留下與選取對象有關的那些，其餘淡化
-function dimLabelsExcept(isRelated){
+// 血緣線與說明文字只留下與選取對象有關的那些，其餘淡化
+function dimLinesExcept(isRelated){
   document.querySelectorAll('.edge-label').forEach(l=>{
     l.classList.toggle('dim-label', !isRelated(UNIONS[+l.dataset.uid], +l.dataset.uid));
   });
+  document.querySelectorAll('.edge').forEach(e=>{
+    e.classList.toggle('dim-edge', !isRelated(UNIONS[+e.dataset.uid], +e.dataset.uid));
+  });
+}
+// 一段關係只要有任一端落在選取範圍內就算相關
+function unionTouches(u, ids){
+  return !!u && [...(u.spouses||[]), u.parent, ...(u.children||[])].some(id=>ids.has(id));
 }
 function highlightUnion(uid){
   selectedUnionId = uid;
-  dimLabelsExcept((u,i)=> i===uid);
+  document.querySelectorAll('.edge-label').forEach(l=>l.classList.toggle('dim-label', +l.dataset.uid !== uid));
   const u = UNIONS[uid];
   if(!u) return;
   const relIds = new Set([...(u.spouses||[]), u.parent, ...(u.children||[])].filter(Boolean));
@@ -2376,7 +2384,8 @@ function highlightGroup(idx){
   if(!g) return;
   selectedGroupIdx = idx;
   const gIds = new Set(g[1]);
-  dimLabelsExcept(u=> !!u && [...(u.spouses||[]), u.parent, ...(u.children||[])].some(id=>gIds.has(id)));
+  dimLinesExcept(u=> unionTouches(u, gIds));
+  document.querySelectorAll('.groupbox').forEach(b=>b.classList.toggle('dim-box', +b.dataset.gi !== idx));
   document.querySelectorAll('.node').forEach(d=>d.classList.toggle('dim',!gIds.has(d.dataset.id)));
   document.querySelectorAll(`.groupbox[data-gi="${idx}"]`).forEach(b=>b.classList.add('hl'));
   fitGroup(g[1].map(id=>nodes[id]).filter(Boolean));
@@ -2395,7 +2404,7 @@ function focusNode(id){
   const n = nodes[id];
   if(!n) return;
   clearHighlight();
-  dimLabelsExcept(u=> !!u && [...(u.spouses||[]), u.parent, ...(u.children||[])].includes(id));
+  dimLinesExcept(u=> unionTouches(u, new Set([id])));
   const div = document.querySelector(`.node[data-id="${id}"]`);
   if(div) div.classList.add('highlight');
   const rect = wrap.getBoundingClientRect();
