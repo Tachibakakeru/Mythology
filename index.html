@@ -83,9 +83,9 @@
   #stage{position:absolute;left:0;top:0;transform-origin:0 0;}
   #stage.smooth{transition:transform .5s cubic-bezier(.22,.9,.32,1);}
 
-  .groupbox{position:absolute;border-radius:14px;pointer-events:none;z-index:0;}
+  .groupbox{position:absolute;border-radius:14px;pointer-events:none;}
   .groupbox .glabel{position:absolute;top:-13px;left:10px;padding:2px 9px;border-radius:8px;font-size:.75em;font-weight:700;
-    white-space:nowrap;pointer-events:auto;cursor:pointer;transition:box-shadow .2s, transform .15s;}
+    white-space:nowrap;pointer-events:auto;cursor:pointer;z-index:5;transition:box-shadow .2s, transform .15s;}
   .groupbox .glabel:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.45);}
   .groupbox .glabel::after{content:" ▸";opacity:.55;}
 
@@ -112,6 +112,7 @@
   .edge-label{position:absolute;font-size:.62em;padding:1px 6px;border-radius:6px;white-space:nowrap;z-index:2;
     pointer-events:none;color:var(--dim);background:var(--bg2);border:1px solid var(--line);
     transition:opacity .25s;}
+  .edge-label{z-index:4;}
   .edge-label.dim-label{opacity:.07;}
   .p-namerow{font-size:.82em;color:var(--text);margin-bottom:5px;line-height:1.6;}
   .p-namelabel{display:inline-block;font-size:.72em;color:var(--dim);border:1px solid var(--line);padding:1px 6px;border-radius:6px;margin-right:6px;white-space:nowrap;}
@@ -1146,6 +1147,7 @@ const GR_NODE_DEFS = [
 ["talos","塔羅斯","Τάλως（Talos）","守衛克里特的青銅巨人",31.2,8.4,"赫淮斯托斯（一說代達羅斯）所鑄的青銅自動人偶，受宙斯之託守衛克里特島。他每日繞島三周，向靠近的船隻投擲巨石，或將自身燒紅擁抱入侵者。他體內只有一條血管自頸貫至腳踝，由一枚青銅釘封住。阿爾戈船抵達時，美狄亞以咒術使他陷入恍惚，他擦傷了腳踝，神血（ichor）如熔鉛般流盡而崩塌——常被稱為神話中最早的機器人。"],
 
 /* ---- 宙斯的凡間伴侶與第四代 ---- */
+["anteros","安忒洛斯","Ἀντέρως（Anteros）","相愛與溫情之神",-7.8,8.4,"阿瑞斯與阿佛洛狄忒之子，厄洛斯的弟弟。其名意為「回應的愛」——他懲罰那些接受愛卻不予回報的人，也守護相互回應的深情。保薩尼亞斯《希臘志》記載，厄洛斯獨自成長時始終長不大，忒彌斯告知阿佛洛狄忒：愛必須得到回應才能茁壯；安忒洛斯誕生後，兄長果然日漸長成。雅典曾為他立祭壇，紀念一名少年因單戀被拒而墜崖的悲劇。小行星 1943 即以他命名。"],
 ["eros","厄洛斯","Ἔρως（Eros）","愛神",-6.4,8.4,"後世傳承中為阿瑞斯與阿佛洛狄忒之子，手持金箭與鉛箭：中金箭者陷入狂戀，中鉛箭者心生厭憎。阿波羅嘲笑他的弓小，他便以金箭射阿波羅、鉛箭射達佛涅，成就了月桂的悲劇。他自己也曾為母親所妒——奉命去害凡間美少女普緒克，卻誤傷自己而愛上她，兩人歷經考驗終得宙斯許可成婚，普緒克飲下神饌成為靈魂女神。羅馬名丘比特。"],
 ["deimos","得摩斯","Δεῖμος（Deimos）","恐懼之神",-5.0,8.4,"阿瑞斯與阿佛洛狄忒之子，戰場上臨陣的恐慌之化身，與兄弟福波斯一同為父親駕馭戰車。火星的兩顆衛星即以這對兄弟命名。"],
 ["phobos","福波斯","Φόβος（Phobos）","驚駭之神",-3.6,8.4,"得摩斯的兄弟，令軍陣潰散奔逃的驚駭之神。阿伽門農的盾牌與赫拉克勒斯的盾上皆刻有他的面容以震懾敵人；「恐懼症（phobia）」一詞即源自其名。"],
@@ -1308,7 +1310,7 @@ const GR_UNIONS = [
   {spouses:["zeus","mnemosyne"], marriage:"secondary", children:["mousai_note"], label:"連續共寢九夜"},
   {spouses:["zeus","leto"], marriage:"secondary", children:["apollon","artemis"]},
   {spouses:["zeus","maia"], marriage:"secondary", children:["hermes"]},
-  {spouses:["ares","aphrodite"], marriage:"partner", children:["eros","deimos","phobos","harmonia"]},
+  {spouses:["ares","aphrodite"], marriage:"partner", children:["eros","anteros","deimos","phobos","harmonia"]},
   {spouses:["hephaistos","aphrodite"], marriage:"primary"},
   {parent:"apollon", children:["asklepios"]},
   {parent:"hermes", children:["pan"]},
@@ -1531,6 +1533,7 @@ const GR_NODE_NAMES = {
   agaue:{kojiki:"Ἀγαυή",nihonshoki:"（羅馬）Agave",reading:"Agauḗ",aliases:["阿高厄","阿伽微"]},
   autonoe:{kojiki:"Αὐτονόη",nihonshoki:"（羅馬）Autonoe",reading:"Autonóē",aliases:["奧托諾厄"]},
   polydoros:{kojiki:"Πολύδωρος",nihonshoki:"（羅馬）Polydorus",reading:"Polýdōros",aliases:["波呂多洛斯"]},
+  anteros:{kojiki:"Ἀντέρως",nihonshoki:"（羅馬）Anteros",reading:"Antérōs",aliases:["安忒洛斯","安特洛斯","回應之愛","反愛神"]},
   eros:{kojiki:"Ἔρως",nihonshoki:"（羅馬）Cupido 丘比特／Amor",reading:"Érōs",aliases:["厄洛斯","丘比特","小愛神"]},
   deimos:{kojiki:"Δεῖμος",nihonshoki:"（羅馬）Formido",reading:"Deîmos",aliases:["得摩斯","火衛二"]},
   phobos:{kojiki:"Φόβος",nihonshoki:"（羅馬）Pavor",reading:"Phóbos",aliases:["福波斯","火衛一"]},
@@ -1717,7 +1720,6 @@ GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
     if(placedLabels.some(r=>ax<r.x2-2&&ax2>r.x1+2&&ay<r.y2-2&&ay2>r.y1+2)) return true;
     return false;
   };
-  if(markerOnly){ lab.style.left='0px'; lab.style.top='0px'; placedLabels.push({x1:x0,y1:y0,x2:x0+lw,y2:y0+lh}); return; }
   const cands = [[10,-13],[bw-lw-10,-13],[(bw-lw)/2,-13],
                  [bw+8,-13],[-lw-8,-13],            // 貼在框外的左右側
                  [bw+8,6],[-lw-8,6],
@@ -1964,16 +1966,29 @@ labelDraws.forEach(l=>{
   lab.textContent = l.text;
   lab.style.left=l.x+'px'; lab.style.top=l.y+'px';
   stage.appendChild(lab);
-  // 兩條關係線的說明容易疊在一起變成看不懂的墨團 → 往上下找空位
+  // 說明會疊到別的說明、也會被神明方塊蓋住 → 兩者都要避開
   const w = lab.offsetWidth, h = lab.offsetHeight;
-  const hits = (px,py)=>placedEdgeLabels.some(r=>px<r.x2-1 && px+w>r.x1+1 && py<r.y2-1 && py+h>r.y1+1);
-  let y = l.y;
-  for(let k=0; k<24 && hits(l.x,y); k++){
-    const step = Math.ceil((k+1)/2)*(h+3);
-    y = l.y + (k%2 ? step : -step);
+  const nodeList = Object.values(nodes);
+  const hits = (px,py)=>
+    placedEdgeLabels.some(r=>px<r.x2-1 && px+w>r.x1+1 && py<r.y2-1 && py+h>r.y1+1) ||
+    nodeList.some(n=>px<n.px+NODE_W-2 && px+w>n.px+2 && py<n.py+(n.h||NODE_H)-2 && py+h>n.py+2);
+  let x = l.x, y = l.y, placed = !hits(x,y);
+  // 先原地上下找，再左右挪開
+  for(let k=0; !placed && k<20; k++){
+    y = l.y + (k%2 ? 1 : -1) * Math.ceil((k+1)/2)*(h+4);
+    placed = !hits(x,y);
   }
-  lab.style.top = y+'px';
-  placedEdgeLabels.push({x1:l.x, y1:y, x2:l.x+w, y2:y+h});
+  for(let k=0; !placed && k<14; k++){
+    x = l.x + (k%2 ? 1 : -1) * Math.ceil((k+1)/2)*(w*0.6+10);
+    for(let j=0; j<8 && !placed; j++){
+      y = l.y + (j%2 ? 1 : -1) * Math.ceil((j+1)/2)*(h+4);
+      placed = !hits(x,y);
+    }
+  }
+  if(!placed){ x = l.x; y = l.y; }
+  lab.style.left = x+'px';
+  lab.style.top  = y+'px';
+  placedEdgeLabels.push({x1:x, y1:y, x2:x+w, y2:y+h});
 });
 if(!wasOpen) japanEl.style.display = 'none';   // 量測完畢，回到原本的顯示狀態
 }
