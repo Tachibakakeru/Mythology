@@ -135,8 +135,27 @@
   .pe-btns button{background:none;border:1px solid var(--line);color:var(--dim);padding:6px 11px;border-radius:6px;cursor:pointer;font-size:.8em;}
   .pe-btns .pe-save{color:#ff9f3f;border-color:#ff9f3f;}
   .pe-btns .pe-del{color:#e05050;border-color:#e05050;}
-  #p-edit-btn{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78em;width:100%;}
-  #p-edit-btn:hover,#p-edit-btn.open{color:var(--accent);border-color:var(--accent);}
+  #p-edit-btn,#yp-edit-btn{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78em;width:100%;}
+  #p-edit-btn:hover,#p-edit-btn.open,#yp-edit-btn:hover,#yp-edit-btn.open{color:var(--accent);border-color:var(--accent);}
+  /* 附圖 / 自訂欄位編輯器 */
+  .pe-img{display:flex;gap:7px;align-items:flex-start;margin-top:7px;}
+  .pe-img img{width:56px;height:56px;object-fit:cover;border-radius:5px;border:1px solid var(--line);flex:none;}
+  .pe-row{display:flex;gap:6px;align-items:center;margin-top:7px;}
+  .pe-row .pe-fl{flex:0 0 33%;}
+  .pe-x{background:none;border:1px solid var(--line);color:#e05050;border-radius:5px;cursor:pointer;font-size:.78em;padding:4px 7px;flex:none;align-self:center;}
+  .pe-x:hover{border-color:#e05050;}
+  .pe-add{margin-top:8px;background:none;border:1px dashed var(--line);color:var(--dim);border-radius:6px;cursor:pointer;font-size:.76em;padding:5px 10px;width:100%;}
+  .pe-add:hover{color:var(--accent);border-color:var(--accent);}
+  .pe-file{display:none;}
+  /* 面板內的附圖呈現 */
+  .p-figs{margin-top:14px;display:flex;flex-direction:column;gap:12px;}
+  .p-figs figure{margin:0;}
+  .p-figs img{width:100%;border-radius:8px;border:1px solid var(--line);display:block;cursor:zoom-in;}
+  .p-figs figcaption{font-size:.74em;color:var(--dim);margin-top:5px;line-height:1.6;}
+  #imgLightbox{position:fixed;inset:0;background:#000000d0;z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;box-sizing:border-box;cursor:zoom-out;}
+  #imgLightbox.open{display:flex;}
+  #imgLightbox img{max-width:96%;max-height:84%;object-fit:contain;border-radius:8px;}
+  #imgLightbox div{color:#e8e8e8;font-size:.85em;text-align:center;max-width:70ch;line-height:1.7;}
   #exportBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:.82em;flex:none;}
   #exportBtn:hover{color:var(--accent);border-color:var(--accent);}
 
@@ -305,6 +324,7 @@
     <div id="p-names" style="margin-bottom:10px;display:none;"></div>
     <div class="p-role" id="p-role"></div>
     <div class="p-desc" id="p-desc"></div>
+    <div class="p-figs" id="p-figs"></div>
     <div class="p-groups" id="p-groups"></div>
     <button id="p-edit-btn" onclick="toggleNodeEdit()">✏️ 編輯此神明</button>
     <hr id="p-edit-sep" class="pe-sep" style="display:none;">
@@ -317,6 +337,13 @@
       <div class="pe-label">讀音（の みこと 形式）</div><input id="pe-reading" class="pe-inp">
       <div class="pe-label">別稱（逗號分隔）</div><input id="pe-aliases" class="pe-inp">
       <div class="pe-label">說明</div><textarea id="pe-desc" class="pe-inp"></textarea>
+      <div class="pe-label">自訂欄位</div>
+      <div id="pe-fields"></div>
+      <button class="pe-add" onclick="addField('pe-fields')">＋ 新增欄位</button>
+      <div class="pe-label">附圖與註釋</div>
+      <div id="pe-imgs"></div>
+      <input type="file" class="pe-file" id="pe-file" accept="image/*" multiple onchange="addImages(this,'pe-imgs')">
+      <button class="pe-add" onclick="document.getElementById('pe-file').click()">＋ 新增附圖</button>
       <div class="pe-btns">
         <button class="pe-save" onclick="saveNodeEdit()">💾 保存</button>
         <button onclick="cancelNodeEdit()">取消</button>
@@ -342,6 +369,7 @@
     </div>
     <button id="favFilterBtn" onclick="toggleFavFilter()">⭐ 只看收藏</button>
     <button id="yResetBtn" onclick="yResetView()">重置檢視</button>
+    <button onclick="exportHTML()" title="匯出修改後的HTML">📥</button>
     <button onclick="toggleTheme()">🌓</button>
   </div>
   <div id="ycanvasWrap">
@@ -356,8 +384,31 @@
     <div id="yp-names" style="margin-bottom:10px;display:none;"></div>
     <div class="p-role" id="yp-role"></div>
     <div class="p-desc" id="yp-desc"></div>
+    <div class="p-figs" id="yp-figs"></div>
     <div class="p-groups" id="yp-groups"></div>
     <button class="yp-fav-btn" id="yp-fav-btn" onclick="toggleFavorite(currentYokaiId)"></button>
+    <button id="yp-edit-btn" onclick="toggleYokaiEdit()">✏️ 編輯此妖怪</button>
+    <hr id="yp-edit-sep" class="pe-sep" style="display:none;">
+    <div id="yp-edit-form" style="display:none;">
+      <div class="pe-label">主名（繁體中文）</div><input id="ye-name" class="pe-inp">
+      <div class="pe-label">假名讀音</div><input id="ye-kana" class="pe-inp">
+      <div class="pe-label">分類</div><input id="ye-category" class="pe-inp">
+      <div class="pe-label">日文原名</div><input id="ye-original" class="pe-inp">
+      <div class="pe-label">別稱（逗號分隔）</div><input id="ye-aliases" class="pe-inp">
+      <div class="pe-label">說明</div><textarea id="ye-desc" class="pe-inp"></textarea>
+      <div class="pe-label">自訂欄位</div>
+      <div id="ye-fields"></div>
+      <button class="pe-add" onclick="addField('ye-fields')">＋ 新增欄位</button>
+      <div class="pe-label">附圖與註釋</div>
+      <div id="ye-imgs"></div>
+      <input type="file" class="pe-file" id="ye-file" accept="image/*" multiple onchange="addImages(this,'ye-imgs')">
+      <button class="pe-add" onclick="document.getElementById('ye-file').click()">＋ 新增附圖</button>
+      <div class="pe-btns">
+        <button class="pe-save" onclick="saveYokaiEdit()">💾 保存</button>
+        <button onclick="cancelYokaiEdit()">取消</button>
+        <button class="pe-del" onclick="resetYokaiEdit()">↩ 重置</button>
+      </div>
+    </div>
   </div>
   <div id="yzoomCtrl">
     <button id="yTopBtn" onclick="yScrollTop()" title="返回頂端">⬆</button>
@@ -365,6 +416,8 @@
     <button onclick="yZoomBy(0.87)" title="縮小">−</button>
   </div>
 </div>
+
+<div id="imgLightbox"><img alt=""><div></div></div>
 
 <script>
 /* ============================================================
@@ -1378,6 +1431,89 @@ function zoomBy(factor){
 }
 function resetView(){ fitInitial(true); closePanel(); clearHighlight(); }
 
+/* ============ 共用：附圖 + 自訂欄位（神明／妖怪兩邊共用） ============ */
+const EDIT_SCRATCH = {};   // 編輯中的暫存陣列，key 為容器 id
+function esc(s){ return String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// localStorage 只有數 MB，原圖直接存會超出配額導致所有編輯一起遺失，故先縮圖
+const MAX_IMG_W = 1000;
+function readImageScaled(file){
+  return new Promise((resolve,reject)=>{
+    const fr = new FileReader();
+    fr.onerror = reject;
+    fr.onload = ()=>{
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = ()=>{
+        const sc = Math.min(1, MAX_IMG_W/img.width);
+        const c = document.createElement('canvas');
+        c.width  = Math.max(1, Math.round(img.width *sc));
+        c.height = Math.max(1, Math.round(img.height*sc));
+        const ctx = c.getContext('2d');
+        ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); // ponytail: 轉 JPEG 前補白底，否則透明 PNG 會變黑
+        ctx.drawImage(img,0,0,c.width,c.height);
+        resolve(c.toDataURL('image/jpeg',0.82));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
+function renderEditRows(boxId){
+  const box = document.getElementById(boxId);
+  const arr = EDIT_SCRATCH[boxId] || [];
+  const isImg = boxId.endsWith('-imgs');
+  box.innerHTML = arr.map((it,i)=> isImg
+    ? `<div class="pe-img" data-i="${i}"><img src="${it.src}"><input class="pe-inp pe-cap" placeholder="圖片註釋" value="${esc(it.caption||'')}"><button class="pe-x" title="刪除此圖">✕</button></div>`
+    : `<div class="pe-row" data-i="${i}"><input class="pe-inp pe-fl" placeholder="欄位名稱" value="${esc(it.label||'')}"><input class="pe-inp pe-fv" placeholder="內容" value="${esc(it.value||'')}"><button class="pe-x" title="刪除此欄">✕</button></div>`
+  ).join('');
+  const idxOf = el => +el.closest('[data-i]').dataset.i;
+  box.querySelectorAll('.pe-x' ).forEach(b  => b.onclick   = ()=>{ arr.splice(idxOf(b),1); renderEditRows(boxId); });
+  box.querySelectorAll('.pe-cap').forEach(inp=> inp.oninput = ()=>{ arr[idxOf(inp)].caption = inp.value; });
+  box.querySelectorAll('.pe-fl' ).forEach(inp=> inp.oninput = ()=>{ arr[idxOf(inp)].label   = inp.value; });
+  box.querySelectorAll('.pe-fv' ).forEach(inp=> inp.oninput = ()=>{ arr[idxOf(inp)].value   = inp.value; });
+}
+function loadEditRows(boxId, arr){ EDIT_SCRATCH[boxId] = JSON.parse(JSON.stringify(arr||[])); renderEditRows(boxId); }
+function cleanRows(boxId){
+  const arr = EDIT_SCRATCH[boxId] || [];
+  return boxId.endsWith('-imgs')
+    ? arr.filter(it=>it.src)
+    : arr.filter(it=>(it.label||'').trim() || (it.value||'').trim());
+}
+function addField(boxId){ (EDIT_SCRATCH[boxId] ||= []).push({label:'',value:''}); renderEditRows(boxId); }
+async function addImages(input, boxId){
+  const arr = (EDIT_SCRATCH[boxId] ||= []);
+  for(const f of input.files){
+    try{ arr.push({src: await readImageScaled(f), caption:''}); }
+    catch{ alert('圖片讀取失敗：'+f.name); }
+  }
+  input.value = '';
+  renderEditRows(boxId);
+}
+function saveLS(key, val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); return true; }
+  catch{ alert('瀏覽器儲存空間已滿（多半是附圖太多），本次修改無法保存。請先刪除部分附圖後再試。'); return false; }
+}
+function figsHTML(rec){
+  return ((rec && rec.images) || []).map(im=>
+    `<figure><img src="${im.src}" alt="${esc(im.caption||'')}" data-cap="${esc(im.caption||'')}">${im.caption?`<figcaption>${esc(im.caption)}</figcaption>`:''}</figure>`
+  ).join('');
+}
+function customRowsHTML(rec){
+  return ((rec && rec.custom) || []).map(f=>
+    `<div class="p-namerow"><span class="p-namelabel">${esc(f.label||'')}</span>${esc(f.value||'')}</div>`
+  ).join('');
+}
+// 附圖點擊放大
+document.addEventListener('click', e=>{
+  const lb = document.getElementById('imgLightbox');
+  const im = e.target.closest('.p-figs img');
+  if(im){ lb.querySelector('img').src = im.src; lb.querySelector('div').textContent = im.dataset.cap||''; lb.classList.add('open'); return; }
+  if(e.target.closest('#imgLightbox')) lb.classList.remove('open');
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('imgLightbox').classList.remove('open'); });
+
 /* ============ 詳情面板（右側） ============ */
 const panel = document.getElementById('panel');
 let editingNodeId = null;
@@ -1393,11 +1529,16 @@ function openPanel(n){
   if(nn.kojiki && nn.kojiki!==n.name) html += row('古事記',nn.kojiki);
   if(nn.reading) html += row('読み',nn.reading);
   if(nn.aliases && nn.aliases.length) html += row('別稱',nn.aliases.join('　'));
+  const rec = USER_EDITS_LIVE[n.id];
+  html += customRowsHTML(rec);
   pnames.innerHTML = html;
   pnames.style.display = html ? 'block' : 'none';
   const roleEl = document.getElementById('p-role');
   if(n.role){ roleEl.style.display='inline-block'; roleEl.textContent = n.role; } else { roleEl.style.display='none'; }
   document.getElementById('p-desc').textContent = n.desc||'（尚無詳細記載）';
+  const figs = document.getElementById('p-figs');
+  figs.innerHTML = figsHTML(rec);
+  figs.style.display = figs.innerHTML ? 'flex' : 'none';
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   panel.classList.add('open');
@@ -1428,6 +1569,9 @@ function toggleNodeEdit(){
   document.getElementById('pe-reading').value     = nn.reading||'';
   document.getElementById('pe-aliases').value     = (nn.aliases||[]).join('，');
   document.getElementById('pe-desc').value        = n.desc||'';
+  const rec = USER_EDITS_LIVE[editingNodeId] || {};
+  loadEditRows('pe-fields', rec.custom);
+  loadEditRows('pe-imgs',   rec.images);
   form.style.display='block'; sep.style.display='block'; btn.classList.add('open');
   document.getElementById('pe-name').focus();
 }
@@ -1451,8 +1595,12 @@ function saveNodeEdit(){
     desc:         document.getElementById('pe-desc').value.trim()||undefined,
   };
   Object.keys(ov).forEach(k=>{ if(ov[k]===undefined) delete ov[k]; });
-  USER_EDITS_LIVE[id] = Object.assign(USER_EDITS_LIVE[id]||{}, ov);
-  localStorage.setItem('jmyth_edits', JSON.stringify(USER_EDITS_LIVE));
+  const rec = USER_EDITS_LIVE[id] = Object.assign(USER_EDITS_LIVE[id]||{}, ov);
+  // 自訂欄位／附圖：全部刪光時要真的清掉，故明確指派
+  const custom = cleanRows('pe-fields'), images = cleanRows('pe-imgs');
+  if(custom.length) rec.custom = custom; else delete rec.custom;
+  if(images.length) rec.images = images; else delete rec.images;
+  if(!saveLS('jmyth_edits', USER_EDITS_LIVE)) return;
   // Patch in-memory node
   const n = nodes[id];
   if(ov.name) n.name=ov.name;
@@ -1476,7 +1624,7 @@ function resetNodeEdit(){
   if(!editingNodeId) return;
   const id = editingNodeId;
   delete USER_EDITS_LIVE[id];
-  localStorage.setItem('jmyth_edits', JSON.stringify(USER_EDITS_LIVE));
+  saveLS('jmyth_edits', USER_EDITS_LIVE);
   const orig = NODE_DEFS.find(d=>d[0]===id);
   if(orig){
     const n = nodes[id];
@@ -1493,13 +1641,16 @@ function resetNodeEdit(){
   openPanel(nodes[id]);
 }
 async function exportHTML(){
-  const editsJSON = JSON.stringify(USER_EDITS_LIVE);
+  const editsJSON  = JSON.stringify(USER_EDITS_LIVE);
+  const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
-    const updated = src.replace(
-      /\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-      `// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\n// @@EDITS_END`
-    );
+    // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
+    const updated = src
+      .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\n// @@EDITS_END`)
+      .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
+        ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
     a.click();
   }catch{
@@ -1671,7 +1822,7 @@ searchClear.addEventListener('click', ()=>{
 
 document.addEventListener('click', e=>{
   if(!e.target.closest('#searchBox')) searchResults.style.display='none';
-  if(!e.target.closest('.node') && !e.target.closest('#panel')) closePanel();
+  if(!e.target.closest('.node') && !e.target.closest('#panel') && !e.target.closest('#imgLightbox')) closePanel();
 });
 
 /* ============ 頁面切換 ============ */
@@ -1859,10 +2010,21 @@ const YOKAI_GROUPS = [
   ["動物精怪", ["nekomata","bakeneko","inugami","nue","kudan","omukade","kasha","okuriinu"], "#90c880"],
 ];
 
+const YOKAI_NAMES_ORIG = JSON.parse(JSON.stringify(YOKAI_NAMES));
+// @@YEDITS_START
+const YOKAI_USER_EDITS = {};
+// @@YEDITS_END
+const YOKAI_EDITS_LIVE = Object.assign({}, YOKAI_USER_EDITS, JSON.parse(localStorage.getItem('yokai_edits')||'{}'));
+
 const yokais = {};
 YOKAI_DEFS.forEach(d=>{
   const [id,name,kana,notable,category,desc] = d;
-  yokais[id] = {id,name,kana,notable,category,desc,isNote:id.endsWith('_note')};
+  const ov = YOKAI_EDITS_LIVE[id]||{};
+  yokais[id] = {id,name:ov.name??name,kana:ov.kana??kana,notable,category:ov.category??category,desc:ov.desc??desc,isNote:id.endsWith('_note')};
+  if(ov.original!==undefined || ov.aliases!==undefined){
+    YOKAI_NAMES[id] = Object.assign({}, YOKAI_NAMES[id]||{},
+      ov.original!==undefined?{original:ov.original}:{}, ov.aliases!==undefined?{aliases:ov.aliases}:{});
+  }
 });
 
 /* ============ 妖怪頁：收藏（使用者自訂星星） ============ */
@@ -2062,11 +2224,16 @@ function openYPanel(id){
   const row = (label,val)=>`<div class="p-namerow"><span class="p-namelabel">${label}</span>${val}</div>`;
   if(yn.original && yn.original!==y.name) nhtml += row('日文原名',yn.original);
   if(yn.aliases && yn.aliases.length) nhtml += row('別稱',yn.aliases.join('　'));
+  const rec = YOKAI_EDITS_LIVE[id];
+  nhtml += customRowsHTML(rec);
   pnames.innerHTML = nhtml;
   pnames.style.display = nhtml ? 'block' : 'none';
   const roleEl = document.getElementById('yp-role');
   roleEl.style.display='inline-block'; roleEl.textContent = y.category;
   document.getElementById('yp-desc').textContent = y.desc||'（尚無詳細記載）';
+  const figs = document.getElementById('yp-figs');
+  figs.innerHTML = figsHTML(rec);
+  figs.style.display = figs.innerHTML ? 'flex' : 'none';
   const groupsOf = YOKAI_GROUPS.filter(g=>g[1].includes(id)).map(g=>g[0]);
   document.getElementById('yp-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   updatePanelFavBtn(id);
@@ -2075,13 +2242,93 @@ function openYPanel(id){
 }
 function closeYPanel(){
   ypanel.classList.remove('open');
+  cancelYokaiEdit();
   document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('highlight'));
 }
 function closeYPanelAndReset(){ closeYPanel(); yResetView(); }
 document.addEventListener('click', e=>{
   if(!e.target.closest('#ysearchBox')) { const r=document.getElementById('yresults'); if(r) r.style.display='none'; }
-  if(!e.target.closest('.ycard') && !e.target.closest('#ypanel')) closeYPanel();
+  if(!e.target.closest('.ycard') && !e.target.closest('#ypanel') && !e.target.closest('#imgLightbox')) closeYPanel();
 });
+
+/* ============ 妖怪編輯 ============ */
+function toggleYokaiEdit(){
+  const form = document.getElementById('yp-edit-form');
+  const sep  = document.getElementById('yp-edit-sep');
+  const btn  = document.getElementById('yp-edit-btn');
+  if(form.style.display !== 'none'){ cancelYokaiEdit(); return; }
+  if(!currentYokaiId) return;
+  const y  = yokais[currentYokaiId];
+  const yn = Object.assign({}, YOKAI_NAMES_ORIG[currentYokaiId]||{}, YOKAI_EDITS_LIVE[currentYokaiId]||{});
+  document.getElementById('ye-name').value     = y.name;
+  document.getElementById('ye-kana').value     = y.kana||'';
+  document.getElementById('ye-category').value = y.category||'';
+  document.getElementById('ye-original').value = yn.original||'';
+  document.getElementById('ye-aliases').value  = (yn.aliases||[]).join('，');
+  document.getElementById('ye-desc').value     = y.desc||'';
+  const rec = YOKAI_EDITS_LIVE[currentYokaiId] || {};
+  loadEditRows('ye-fields', rec.custom);
+  loadEditRows('ye-imgs',   rec.images);
+  form.style.display='block'; sep.style.display='block'; btn.classList.add('open');
+  document.getElementById('ye-name').focus();
+}
+function cancelYokaiEdit(){
+  document.getElementById('yp-edit-form').style.display='none';
+  document.getElementById('yp-edit-sep').style.display='none';
+  document.getElementById('yp-edit-btn').classList.remove('open');
+}
+function patchYokaiCard(id){
+  const y = yokais[id];
+  const card = document.querySelector(`.ycard[data-id="${id}"]`);
+  if(!card) return;
+  const ne=card.querySelector('.yname');  if(ne) ne.textContent=y.name;
+  const ke=card.querySelector('.ykana');  if(ke) ke.textContent=y.kana||'';
+  const ce=card.querySelector('.ycat');   if(ce) ce.textContent=y.category||'';
+}
+function saveYokaiEdit(){
+  if(!currentYokaiId) return;
+  const id = currentYokaiId;
+  const aliasRaw = document.getElementById('ye-aliases').value;
+  const ov = {
+    name:     document.getElementById('ye-name').value.trim()||undefined,
+    kana:     document.getElementById('ye-kana').value.trim()||undefined,
+    category: document.getElementById('ye-category').value.trim()||undefined,
+    original: document.getElementById('ye-original').value.trim()||undefined,
+    aliases:  aliasRaw.trim() ? aliasRaw.split(/[，,、]+/).map(s=>s.trim()).filter(Boolean) : undefined,
+    desc:     document.getElementById('ye-desc').value.trim()||undefined,
+  };
+  Object.keys(ov).forEach(k=>{ if(ov[k]===undefined) delete ov[k]; });
+  const rec = YOKAI_EDITS_LIVE[id] = Object.assign(YOKAI_EDITS_LIVE[id]||{}, ov);
+  const custom = cleanRows('ye-fields'), images = cleanRows('ye-imgs');
+  if(custom.length) rec.custom = custom; else delete rec.custom;
+  if(images.length) rec.images = images; else delete rec.images;
+  if(!saveLS('yokai_edits', YOKAI_EDITS_LIVE)) return;
+  const y = yokais[id];
+  if(ov.name) y.name=ov.name;
+  if(ov.kana) y.kana=ov.kana;
+  if(ov.category) y.category=ov.category;
+  if(ov.desc) y.desc=ov.desc;
+  if(!YOKAI_NAMES[id]) YOKAI_NAMES[id]={};
+  ['original','aliases'].forEach(k=>{ if(ov[k]!==undefined) YOKAI_NAMES[id][k]=ov[k]; });
+  patchYokaiCard(id);
+  cancelYokaiEdit();
+  openYPanel(id);
+}
+function resetYokaiEdit(){
+  if(!currentYokaiId) return;
+  const id = currentYokaiId;
+  delete YOKAI_EDITS_LIVE[id];
+  saveLS('yokai_edits', YOKAI_EDITS_LIVE);
+  const orig = YOKAI_DEFS.find(d=>d[0]===id);
+  if(orig){
+    const y = yokais[id];
+    y.name=orig[1]; y.kana=orig[2]; y.category=orig[4]; y.desc=orig[5];
+    YOKAI_NAMES[id] = JSON.parse(JSON.stringify(YOKAI_NAMES_ORIG[id]||{}));
+    patchYokaiCard(id);
+  }
+  cancelYokaiEdit();
+  openYPanel(id);
+}
 
 function matchYokai(q){
   q = normKanji(q.toLowerCase().replace(/ /g,''));
