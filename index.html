@@ -278,10 +278,10 @@
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪伝承</div>
     </div>
-    <div class="myth-icon disabled">
+    <div class="myth-icon" onclick="openGreek()">
       <div class="glyph">🏛️</div>
       <div class="label">希臘神話</div>
-      <div class="sub">敬請期待</div>
+      <div class="sub">神譜・奧林帕斯・英雄傳說</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">⚡</div>
@@ -294,7 +294,7 @@
 <div id="japan">
   <div id="topbar">
     <button id="backBtn" onclick="closeJapan()">← 返回</button>
-    <h2>⛩️ 日本神話系譜</h2>
+    <h2 id="mythTitle">⛩️ 日本神話系譜</h2>
     <button id="toYokaiBtn" onclick="openYokai()">👹 妖怪圖鑑</button>
     <div id="searchBox">
       <input id="searchInput" placeholder="搜尋神名或讀音…" autocomplete="off">
@@ -330,12 +330,12 @@
     <hr id="p-edit-sep" class="pe-sep" style="display:none;">
     <div id="p-edit-form" style="display:none;">
       <div class="pe-label">主名（繁體中文）</div><input id="pe-name" class="pe-inp">
-      <div class="pe-label">假名讀音</div><input id="pe-kana" class="pe-inp">
+      <div class="pe-label" id="pel-kana">假名讀音</div><input id="pe-kana" class="pe-inp">
       <div class="pe-label">役割（神格）</div><input id="pe-role" class="pe-inp">
-      <div class="pe-label">古事記</div><input id="pe-kojiki" class="pe-inp">
-      <div class="pe-label">日本書紀</div><input id="pe-nihonshoki" class="pe-inp">
-      <div class="pe-label">讀音（の みこと 形式）</div><input id="pe-reading" class="pe-inp">
-      <div class="pe-label">別稱（逗號分隔）</div><input id="pe-aliases" class="pe-inp">
+      <div class="pe-label" id="pel-kojiki">古事記</div><input id="pe-kojiki" class="pe-inp">
+      <div class="pe-label" id="pel-nihonshoki">日本書紀</div><input id="pe-nihonshoki" class="pe-inp">
+      <div class="pe-label" id="pel-reading">読み</div><input id="pe-reading" class="pe-inp">
+      <div class="pe-label" id="pel-aliases">別稱（逗號分隔）</div><input id="pe-aliases" class="pe-inp">
       <div class="pe-label">說明</div><textarea id="pe-desc" class="pe-inp"></textarea>
       <div class="pe-label">自訂欄位</div>
       <div id="pe-fields"></div>
@@ -424,7 +424,7 @@
    資料：日本神話系譜（神代篇，依古事記為主／參酌日本書紀）
    col / row 為版面格位（非像素），note=true 代表「群組彙整節點」
    ============================================================ */
-const NODE_DEFS = [
+const JP_NODE_DEFS = [
 ["amenominakanushi","天御中主神","あめのみなかぬし","別天津神の筆頭",5,0,"別天津神の筆頭。性別を持たず、姿を現さずに身を隠したとされる根源的な独神。"],
 ["takamimusubi","高皇産靈神","たかみむすひ","造化三神",6,0,"造化三神の一柱。後に天孫降臨を主導し、思金神・栲幡千千姫命の父となる。"],
 ["kamimusubi","神皇産靈神","かみむすひ","造化三神",7,0,"造化三神の一柱。大国主神を幾度も蘇生させ、少名毘古那神の親でもある。"],
@@ -656,7 +656,7 @@ const NODE_DEFS = [
 ["shotoku","聖徳太子","しょうとくたいし","用明天皇の子・摂政",5.0,46.0,"用明天皇の子。推古天皇の摂政として冠位十二階・十七条憲法を制定し遣隋使を派遣した。日本の国家体制の基礎を築いた。",false,"key"],
 ];
 
-const GROUPS = [
+const JP_GROUPS = [
   ["造化三神", ["amenominakanushi","takamimusubi","kamimusubi"], "#e0b060"],
   ["別天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi"], "#7fa8d0"],
   ["神世七代", ["kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami"], "#9fb87a"],
@@ -680,7 +680,7 @@ const GROUPS = [
   ["國津神", ["kagutsuchi","oyamatsumi","kanayamahiko","kanayamahime","haniyasuhiko","haniyasuhime","mizuhanome","wakumusubi","toyoukebime","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","yashimajinumi","konohanachiruhime","otoshi","ukanomitama","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","sarutahiko","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","amewakahiko","omononushi","mishima_mizokuhi","seyadatarahime","amanosagume"], "#90c880", false],
 ];
 
-const UNIONS = [
+const JP_UNIONS = [
   {parent:"kuninotokotachi", children:["toyokumono"]},
   {parent:"toyokumono", children:["uhijini","suhijini"]},
   {spouses:["uhijini","suhijini"], marriage:"primary", children:["tsunuguhi","ikuguhi"]},
@@ -775,7 +775,7 @@ const UNIONS = [
 ];
 
 /* ============ 各神名稱對照（古事記・日本書紀・読み・別稱） ============ */
-const NODE_NAMES = {
+const JP_NODE_NAMES = {
   "amenominakanushi":{kojiki:"天之御中主神",nihonshoki:"天御中主尊",reading:"あめのみなかぬし の かみ",aliases:[]},
   "takamimusubi":{kojiki:"高御産巣日神",nihonshoki:"高皇産霊尊",reading:"たかみむすび の かみ",aliases:["高木神（たかぎのかみ）"]},
   "kamimusubi":{kojiki:"神産巣日神",nihonshoki:"神皇産霊尊",reading:"かみむすび の かみ",aliases:[]},
@@ -986,41 +986,436 @@ const NODE_NAMES = {
   "suiko":{kojiki:"豊御食炊屋比売命",nihonshoki:"豊御食炊屋姫尊（とよみけかしきやひめのみこと）",reading:"とよみけかしきやひめ の みこと",aliases:["推古天皇（すいこてんのう）","額田部皇女（ぬかたべのひめみこ）"]},
   "shotoku":{kojiki:"上宮之厩戸豊聡耳命",nihonshoki:"厩戸皇子（うまやどのみこ）",reading:"うまやどのおうじ",aliases:["聖徳太子（しょうとくたいし）","厩戸王（うまやどおう）","豊聡耳命（とよとみみのみこと）"]},
 };
-const NODE_NAMES_ORIG = JSON.parse(JSON.stringify(NODE_NAMES));
 
-/* ============ 版面轉換 ============ */
+/* ============================================================
+   資料：希臘神話系譜（依赫西俄德《神譜》為主，參酌荷馬史詩與後世神話集成）
+   col / row 為版面格位（非像素），note=true 代表「群組彙整節點」
+   ============================================================ */
+const GR_NODE_DEFS = [
+/* ---- 原初諸神（Protogenoi） ---- */
+["chaos","卡俄斯","Χάος（Chaos）","原初的虛空",10,0,"一切的開端。在赫西俄德《神譜》中，最先生成的便是卡俄斯——並非「混亂」，而是張口的巨大空隙、萬物尚未分化的虛空。諸神與世界皆自此而出。",false,"key"],
+["gaia","蓋亞","Γαῖα（Gaia）","大地女神",7,1.2,"廣胸的大地女神，眾神堅實的居所。她獨自生下烏拉諾斯（天）、蓬托斯（海）與群山，再與天空結合誕下泰坦一族，是希臘神話真正的萬物之母。",false,"key"],
+["tartaros","塔爾塔羅斯","Τάρταρος（Tartaros）","大地深處的冥淵",9,1.2,"位於大地最深處的幽暗淵藪，離地面之遠，猶如天離地。既是地點也是神格，後為囚禁泰坦諸神之處。與蓋亞結合生下堤豐。"],
+["eros_p","厄洛斯（原初）","Ἔρως（Eros）","原初的愛欲",11,1.2,"最初生成的四大原初神之一，是使萬物結合、繁衍不息的宇宙性衝動。與後世阿佛洛狄忒之子的小愛神厄洛斯為不同的神格。"],
+["erebos","厄瑞玻斯","Ἔρεβος（Erebos）","幽冥的黑暗",38,1.2,"自卡俄斯生出的幽冥黑暗之神，指冥界入口那片深沉的暗。與夜之女神倪克斯結合，生下清氣與白晝。"],
+["nyx","倪克斯","Νύξ（Nyx）","黑夜女神",40,1.2,"自卡俄斯生出的夜之女神，連宙斯也敬畏她。她獨自誕下死亡、睡眠、命運、報應與紛爭等一系列陰暗而根本的力量。",false,"key"],
+["aither","埃忒耳","Αἰθήρ（Aither）","上層的清明之氣",37.5,2.4,"厄瑞玻斯與倪克斯之子，指高天之上澄澈明亮的元氣，是諸神所呼吸的空氣。"],
+["hemera","赫墨拉","Ἡμέρα（Hemera）","白晝女神",39,2.4,"厄瑞玻斯與倪克斯之女，白晝的化身。她與母親倪克斯在門檻交會，一者歸來、一者外出，晝夜因此輪替。"],
+["ouranos","烏拉諾斯","Οὐρανός（Ouranos）","天空之神・第一代神王",7,2.4,"蓋亞獨自所生的星空之神，並與母親結合成為第一代神王。他厭惡自己的子女而將其禁錮於大地之中，終被么子克洛諾斯以鐮刀所閹並奪去王位。",false,"key"],
+["pontos","蓬托斯","Πόντος（Pontos）","原初的海洋",26,2.4,"蓋亞獨自所生的海洋之神，代表尚未被神格化統治的原始海水。與蓋亞結合生下涅柔斯等海之神族。"],
+["ourea_note","烏瑞亞（群山諸神）","Οὔρεα（Ourea）","蓋亞獨自誕下的群山",5,2.4,"蓋亞獨自生下的群山之神們，是希臘各地山岳的神格化。",true],
+["erinyes_note","厄里倪厄斯（復仇三女神）","阿勒克托・提西福涅・墨蓋拉","由天空神之血誕生",1,2.4,"烏拉諾斯被斬落時，滴在大地上的血生出的復仇女神。她們無情追捕弒親與違誓者，直至其瘋狂。羅馬名為「復仇女神（Furiae）」。",true],
+["gigantes_note","癸干忒斯與墨利埃","巨人族・梣樹寧芙","由天空神之血誕生",3,2.4,"同樣自烏拉諾斯之血生出的巨人族，以及手持梣木長矛的樹之寧芙。巨人族日後掀起與奧林帕斯諸神的「巨人之戰」。",true],
+
+/* ---- 倪克斯的子女（夜之神族） ---- */
+["thanatos","塔納托斯","Θάνατος（Thanatos）","死亡之神",36.6,3.6,"倪克斯獨自所生的死亡之神，鐵石心腸，凡他所執之人便無可挽回。與孿生兄弟睡神休普諾斯同行。"],
+["hypnos","休普諾斯","Ὕπνος（Hypnos）","睡眠之神",38,3.6,"死神的孿生兄弟，溫和而遍行大地與海洋的睡眠之神。居於冥暗之境，曾受赫拉之託使宙斯入眠。"],
+["moirai_note","摩伊賴（命運三女神）","克洛托・拉刻西斯・阿特羅波斯","紡織、丈量、剪斷命運之線",39.4,3.6,"命運三女神：克洛托紡出生命之線，拉刻西斯量定其長短，阿特羅波斯以剪刀斷之。連宙斯亦難違其裁。另有一說她們是宙斯與忒彌斯之女。",true],
+["nemesis","涅墨西斯","Νέμεσις（Nemesis）","義憤與報應女神",40.8,3.6,"衡量分際的女神，對僭越本分、驕矜自滿者降下報應。其名意為「應得的分配」。"],
+["eris","厄里斯","Ἔρις（Eris）","紛爭女神",42.2,3.6,"紛爭的化身。因未受邀於珀琉斯與忒提斯的婚宴，投下刻著「獻給最美者」的金蘋果，種下特洛伊戰爭的因由。"],
+["nyx_others_note","摩羅斯・克蕾絲・俄涅伊洛伊等","厄運・死亡精靈・夢神・譏諷・衰老","倪克斯獨自誕下的其餘子女",43.6,3.6,"尚有摩羅斯（厄運）、克蕾絲（暴死的精靈）、俄涅伊洛伊（夢）、摩摩斯（譏諷）、俄裔緒斯（苦痛）、革拉斯（衰老）、阿帕忒（欺瞞）、菲羅忒斯（情愛）與赫斯佩里得斯（金蘋果姊妹）等。",true],
+
+/* ---- 烏拉諾斯與蓋亞之子：十二泰坦與獨眼、百臂巨人 ---- */
+["okeanos","俄刻阿諾斯","Ὠκεανός（Okeanos）","環繞世界的大洋之河",0.5,3.6,"十二泰坦之長，環繞整個大地流動的大洋之河。他未參與對烏拉諾斯的反叛，也未與宙斯為敵，因而保有其領域。"],
+["tethys","忒堤斯","Τηθύς（Tethys）","眾水之母",1.9,3.6,"俄刻阿諾斯之妻，與其生下三千條河流與三千位大洋仙女。曾在泰坦之戰中撫養赫拉。"],
+["hyperion","許珀里翁","Ὑπερίων（Hyperion）","高行於天者・光之泰坦",3.3,3.6,"光之泰坦，其名意為「行於高處者」。與姊妹忒伊亞結合，生下日、月、曙光三神。"],
+["theia","忒伊亞","Θεία（Theia）","光輝與視覺女神",4.7,3.6,"賦予黃金與白銀光澤的女神，亦司掌眼睛所發出的視線之光。"],
+["koios","科俄斯","Κοῖος（Koios）","天球之軸・詰問",6.1,3.6,"北方之柱的泰坦，象徵天球運轉的軸心，也被視為理智詰問的神格。"],
+["phoibe","福柏","Φοίβη（Phoibe）","光明與神諭",7.5,3.6,"其名意為「明亮者」。曾掌管德爾斐神諭所，後將之贈與外孫阿波羅，阿波羅的別名「福玻斯」即源於她。"],
+["kronos","克洛諾斯","Κρόνος（Kronos）","泰坦之王・農耕之神",8.9,3.6,"泰坦中最年幼也最狡黠者。以鐮刀推翻父親烏拉諾斯而稱王，卻因預言而吞食己出的子女，終被么子宙斯所推翻。羅馬人視之為農神薩圖爾努斯。",false,"key"],
+["rhea","瑞亞","Ῥέα（Rhea）","諸神之母",10.3,3.6,"克洛諾斯之妻。為救最小的兒子宙斯，她以襁褓包石讓丈夫吞下，將宙斯藏於克里特島的洞穴中撫養。",false,"key"],
+["krios","克利俄斯","Κρῖος（Krios）","南方之柱・星辰",11.7,3.6,"支撐天空南柱的泰坦，與星辰、牡羊座相關聯。"],
+["iapetos","伊阿佩托斯","Ἰαπετός（Iapetos）","西方之柱・人類之祖",13.1,3.6,"支撐天空西柱的泰坦。其子普羅米修斯造人並盜火，故被視為人類的祖源。"],
+["themis","忒彌斯","Θέμις（Themis）","法律與神聖秩序",14.5,3.6,"司掌神法、習俗與正當秩序的女神，也是德爾斐神諭的早期守護者。手持天秤與劍的形象即後世正義女神的原型。"],
+["mnemosyne","謨涅摩敘涅","Μνημοσύνη（Mnemosyne）","記憶女神",15.9,3.6,"記憶的女神。與宙斯連續共寢九夜，生下九位繆斯，故一切詩歌與學藝皆源於記憶。"],
+["kyklopes_note","庫克洛普斯三兄弟","布戎忒斯・斯忒羅佩斯・阿爾革斯","額生單眼的巨匠",17.3,3.6,"雷、電、光三位獨眼巨人。被父親囚禁，經宙斯解放後為他鍛造雷霆，並為波塞冬造三叉戟、為哈得斯造隱形盔。",true],
+["hekatoncheires_note","赫卡同克瑞斯三兄弟","科托斯・布里阿瑞俄斯・古革斯","百臂五十頭的巨神",18.7,3.6,"各有一百隻手臂與五十顆頭的巨神。在泰坦之戰中受宙斯解放，以巨石猛擊泰坦而奠定勝局，此後看守塔爾塔羅斯。",true],
+
+/* ---- 泰坦的子女（第三代） ---- */
+["potamoi_note","波塔摩伊（三千河神）","Ποταμοί（Potamoi）","俄刻阿諾斯與忒堤斯之子",-2.0,4.8,"尼羅河、伊那科斯、阿刻羅俄斯、斯卡曼德羅斯等三千條河川的神格，皆為俄刻阿諾斯與忒堤斯所生。",true],
+["okeanides_note","俄刻阿尼得斯（三千大洋仙女）","Ὠκεανίδες（Okeanides）","俄刻阿諾斯與忒堤斯之女",-0.6,4.8,"三千位大洋仙女，掌管泉水、雲霧與湖沼。其中多位嫁與泰坦或神祇，成為後世諸神之母。",true],
+["styx","斯提克斯","Στύξ（Styx）","冥河女神・誓約的見證",0.8,4.8,"環繞冥界的憎恨之河。諸神以斯提克斯之水立誓，違誓者將昏睡一年並被逐出神界九年。泰坦之戰中她率先投向宙斯，故獲此殊榮。"],
+["metis","墨提斯","Μῆτις（Metis）","深謀與智慧",2.2,4.8,"宙斯的第一位配偶，助他使克洛諾斯吐出兄姊。因預言她所生之子將推翻父親，宙斯將懷孕的她吞入腹中，雅典娜遂自宙斯頭中誕生。"],
+["eurynome","歐律諾墨","Εὐρυνόμη（Eurynome）","大洋仙女",3.6,4.8,"大洋仙女之一，與宙斯結合生下美惠三女神。曾與忒堤斯一同收容自天而墜的赫淮斯托斯。"],
+["doris","多里斯","Δωρίς（Doris）","大洋仙女・海之豐饒",5.0,4.8,"大洋仙女之一，涅柔斯之妻，五十位涅瑞伊得斯（海中仙女）之母。"],
+["klymene","克呂墨涅","Κλυμένη（Klymene）","大洋仙女",6.4,4.8,"大洋仙女之一，伊阿佩托斯之妻，普羅米修斯四兄弟之母。一說為阿特拉斯之母。"],
+["helios","赫利俄斯","Ἥλιος（Helios）","太陽神",7.8,4.8,"每日駕四馬火焰戰車自東橫越天穹的太陽神。他目睹世間一切，曾向得墨忒耳告知珀耳塞福涅被劫之事。其子法厄同駕車失控而遭雷殛。"],
+["selene","塞勒涅","Σελήνη（Selene）","月亮女神",9.2,4.8,"駕銀車巡行夜空的月之女神。愛上牧羊少年恩底彌翁，使其永眠於拉特摩斯山以長保青春。"],
+["eos","厄俄斯","Ἠώς（Eos）","曙光女神",10.6,4.8,"玫瑰指尖的黎明女神，每晨先於兄長赫利俄斯自大洋升起。與阿斯特賴俄斯結合生下四方風神與晨星。"],
+["leto","勒托","Λητώ（Leto）","暗夜與母性",12.0,4.8,"科俄斯與福柏之女。懷了宙斯的孩子後遭赫拉逼迫，天下無處容身，終在漂浮的提洛島產下阿波羅與阿耳忒彌斯。"],
+["asteria","阿斯忒里亞","Ἀστερία（Asteria）","星辰與夜間神諭",13.4,4.8,"勒托的姊妹。為躲避宙斯的追求化為鵪鶉投海，變成提洛島——後來正是這座島接納了她的姊妹產子。"],
+["astraios","阿斯特賴俄斯","Ἀστραῖος（Astraios）","星空與黃昏之神",14.8,4.8,"克利俄斯之子，星空的神格。與曙光女神厄俄斯結合，生下四方之風與眾星辰。"],
+["pallas_t","帕拉斯（泰坦）","Πάλλας（Pallas）","戰陣與武技之神",16.2,4.8,"克利俄斯之子，第二代泰坦。與冥河女神斯提克斯結合，生下勝利、強力、暴力與競勝四神。"],
+["perses","珀耳塞斯","Πέρσης（Perses）","毀滅之神",17.6,4.8,"克利俄斯之子，與阿斯忒里亞結合，生下最受宙斯敬重的女神赫卡忒。"],
+["atlas","阿特拉斯","Ἄτλας（Atlas）","擎天者",19.0,4.8,"因率泰坦與宙斯為敵而受罰，被判於大地最西端永久以雙肩頂住蒼天。曾短暫將重擔交予赫拉克勒斯以取金蘋果。"],
+["prometheus","普羅米修斯","Προμηθεύς（Prometheus）","先知者・人類的恩主",20.4,4.8,"其名意為「先見之明者」。他以泥土造人，於獻祭時智取宙斯，又盜取天火贈與人類，因而被縛於高加索山，每日受鷲啄食肝臟，終為赫拉克勒斯所救。",false,"key"],
+["epimetheus","厄庇墨透斯","Ἐπιμηθεύς（Epimetheus）","後知者",21.8,4.8,"其名意為「事後才明白者」。不顧兄長警告接納了潘朵拉，人間的一切災厄因潘朵拉之甕而流出，只有希望留在甕底。"],
+["menoitios","墨諾伊提俄斯","Μενοίτιος（Menoitios）","狂暴與傲慢",23.2,4.8,"伊阿佩托斯之子，因狂妄傲慢在泰坦之戰中被宙斯以雷霆擊入塔爾塔羅斯。"],
+
+/* ---- 克洛諾斯與瑞亞之子：奧林帕斯第一代 ---- */
+["hestia","赫斯提亞","Ἑστία（Hestia）","爐灶與家宅女神",4.6,6.0,"克洛諾斯與瑞亞的長女，也是最後被吐出的孩子。她發誓永保處女之身，司掌家宅與城邦的聖火，每次獻祭皆先受其分。羅馬名維斯塔。"],
+["demeter","得墨忒耳","Δημήτηρ（Demeter）","穀物與豐收女神",6.0,6.0,"司掌穀物與農耕的大地女神。女兒珀耳塞福涅被哈得斯劫走時她令大地荒蕪，終促成女兒每年返回人間——四季由此而生。羅馬名刻瑞斯。"],
+["hades","哈得斯","Ἅιδης（Hades）","冥界之王",7.4,6.0,"宙斯與波塞冬之兄，抽籤分得冥界。其名意為「不可見者」，希臘人畏其名而多以「普魯托（財富之主）」稱之。羅馬名普魯托。",false,"key"],
+["poseidon","波塞冬","Ποσειδῶν（Poseidon）","海洋・地震・馬之神",8.8,6.0,"手持三叉戟的海洋之王，也司掌地震與馬。曾與雅典娜爭奪雅典的守護權而落敗。羅馬名涅普頓。",false,"key"],
+["amphitrite","安菲特里忒","Ἀμφιτρίτη（Amphitrite）","海之王后",10.2,6.0,"涅柔斯與多里斯之女，涅瑞伊得斯之一。初拒波塞冬的求愛而逃往阿特拉斯處，經海豚勸說始允婚，成為海洋的王后。"],
+["zeus","宙斯","Ζεύς（Zeus）","眾神與人類之父・雷霆之主",11.6,6.0,"克洛諾斯與瑞亞的么子。由母親藏於克里特island而免於被吞，長成後迫使父親吐出兄姊，歷經十年泰坦之戰而登上神界至尊之位。羅馬名尤庇特。",false,"key"],
+["hera","赫拉","Ἥρα（Hera）","婚姻與天后",13.0,6.0,"宙斯的正妻與姊姊，司掌婚姻與生育。對丈夫的不忠極為嚴厲，屢屢加害其情人與私生子，尤其終生迫害赫拉克勒斯。羅馬名尤諾。",false,"key"],
+["hekate","赫卡忒","Ἑκάτη（Hekate）","魔法・十字路口・冥途",14.4,6.0,"珀耳塞斯與阿斯忒里亞之女。宙斯獨獨保留了她在天、地、海三界的權柄。手持火炬立於三岔路口，司掌魔法、鬼魂與門檻。"],
+["nikegroup_note","尼刻・克拉托斯・比亞・仄羅斯","勝利・強權・暴力・競勝","帕拉斯與斯提克斯之子女",15.8,6.0,"勝利女神尼刻與強權、暴力、競勝三兄弟。因母親斯提克斯最早投向宙斯，他們自此永侍於宙斯座前。",true],
+["anemoi_note","阿涅摩伊（四方風神）與眾星","玻瑞阿斯・諾托斯・仄費洛斯・歐洛斯","阿斯特賴俄斯與厄俄斯之子",17.2,6.0,"北風玻瑞阿斯、南風諾托斯、西風仄費洛斯、東風歐洛斯，以及晨星厄俄斯福洛斯與滿天星辰，皆為星空之神與曙光女神所生。",true],
+["deukalion","丟卡利翁","Δευκαλίων（Deukalion）","大洪水的倖存者",18.6,6.0,"普羅米修斯之子。宙斯降下大洪水滅絕青銅種族時，他依父親指示造方舟，與妻皮拉漂流九日得存，並依神諭拋擲「大地之骨」——石頭——重新造出人類。"],
+["pyrrha","皮拉","Πύρρα（Pyrrha）","大洪水的倖存者",20.0,6.0,"厄庇墨透斯與潘朵拉之女，丟卡利翁之妻。她所拋出的石頭化為女人，丈夫所拋者化為男人，人類就此再生。"],
+["maia","邁亞","Μαῖα（Maia）","普勒阿得斯之長",21.4,6.0,"阿特拉斯的長女，居於庫勒涅山的洞穴。與宙斯結合生下赫耳墨斯。羅馬人以其名命名五月。"],
+["pleiades_note","普勒阿得斯與許阿得斯","七姊妹星團・畢宿星團","阿特拉斯之女",22.8,6.0,"阿特拉斯的女兒們。普勒阿得斯七姊妹遭獵人俄里翁追逐，宙斯將她們升上天際化為星團；許阿得斯則為雨之星群。",true],
+
+/* ---- 奧林帕斯第二代 ---- */
+["persephone","珀耳塞福涅","Περσεφόνη（Persephone）","冥界王后・春之女神",5.4,7.2,"宙斯與得墨忒耳之女。採花時被哈得斯劫入冥界，因誤食石榴籽而須每年返回冥府，她離開人間的日子便是冬季。別名科瑞（少女）。"],
+["hephaistos","赫淮斯托斯","Ἥφαιστος（Hephaistos）","鍛冶與工匠之神",6.8,7.2,"赫拉獨自所生（一說宙斯與赫拉之子）。因天生跛足被母親自奧林帕斯拋下，落海獲救。他在火山下的工坊為諸神鍛造一切神器。羅馬名伏爾甘。",false,"key"],
+["aphrodite","阿佛洛狄忒","Ἀφροδίτη（Aphrodite）","愛與美之女神",8.2,7.2,"烏拉諾斯被斬落的身軀墜海，海面泛起白沫，她自泡沫中誕生並登上塞浦路斯。一說為宙斯與狄俄涅之女。羅馬名維納斯。",false,"key"],
+["ares","阿瑞斯","Ἄρης（Ares）","戰爭與殺戮之神",9.6,7.2,"宙斯與赫拉之子，司掌戰場上的血腥與狂暴，連父親也厭惡他。與阿佛洛狄忒的私情被赫淮斯托斯以精巧的金網當場擒獲。羅馬名瑪爾斯。",false,"key"],
+["hebe","赫柏","Ἥβη（Hebe）","青春女神",11.0,7.2,"宙斯與赫拉之女，為諸神斟倒神酒的青春女神。赫拉克勒斯升入神界後與她結為夫妻。"],
+["eileithyia","厄勒梯亞","Εἰλείθυια（Eileithyia）","分娩女神",12.4,7.2,"宙斯與赫拉之女，助產與分娩的女神。赫拉曾令她延緩阿爾克墨涅的生產，以阻撓赫拉克勒斯的誕生。"],
+["athena","雅典娜","Ἀθηνᾶ（Athena）","智慧・戰略・工藝女神",13.8,7.2,"宙斯與墨提斯之女，全副武裝自宙斯的頭顱躍出。她司掌有謀略的戰爭、紡織與工藝，以橄欖樹贏得雅典的守護權。羅馬名彌涅耳瓦。",false,"key"],
+["apollon","阿波羅","Ἀπόλλων（Apollon）","光明・預言・音樂之神",15.2,7.2,"宙斯與勒托之子。射殺德爾斐的巨蟒皮同並奪得神諭所，司掌預言、醫術、音樂與弓術，後世更與太陽合一。羅馬名阿波羅。",false,"key"],
+["artemis","阿耳忒彌斯","Ἄρτεμις（Artemis）","狩獵與野性之女神",16.6,7.2,"阿波羅的孿生姊姊，剛出生便助母親產下弟弟。持銀弓馳騁山林的處女神，司掌狩獵、野獸與少女，後世與月亮結合。羅馬名狄安娜。",false,"key"],
+["hermes","赫耳墨斯","Ἑρμῆς（Hermes）","神使・旅人與商賈之神",18.0,7.2,"宙斯與邁亞之子。出生當日便盜走阿波羅的牛群，並以龜甲造出七弦琴賠罪。他是諸神的使者，也是唯一能自由往來冥界的引魂者。羅馬名墨丘利。",false,"key"],
+["mousai_note","繆斯九女神","Μοῦσαι（Mousai）","宙斯與謨涅摩敘涅之女",19.4,7.2,"卡利俄佩（史詩）、克利俄（歷史）、歐忒耳佩（抒情詩）、塔利亞（喜劇）、墨爾波墨涅（悲劇）、忒耳普西科瑞（舞蹈）、埃拉托（情詩）、波呂許謨尼亞（頌歌）、烏拉尼亞（天文）。",true],
+["horai_note","荷賴（時序女神）","歐諾彌亞・狄刻・厄瑞涅","宙斯與忒彌斯之女",20.8,7.2,"良序、正義與和平三女神，司掌季節推移與人間秩序，看守奧林帕斯的雲門。",true],
+["charites_note","卡里忒斯（美惠三女神）","阿格萊亞・歐佛洛敘涅・塔利亞","宙斯與歐律諾墨之女",22.2,7.2,"光輝、歡欣與繁盛三女神，司掌優雅、美與歡樂，常隨侍於阿佛洛狄忒身側。羅馬名格拉提亞。",true],
+["triton","特里同","Τρίτων（Triton）","海之傳令",23.6,7.2,"波塞冬與安菲特里忒之子，人身魚尾。吹響海螺以掀起或平息波濤，是父親的傳令官。"],
+
+/* ---- 第四代：神與凡人的交界 ---- */
+["eros","厄洛斯","Ἔρως（Eros）","愛神",3.0,8.4,"阿瑞斯與阿佛洛狄忒之子（後世傳承）。持金箭與鉛箭，中金箭者狂戀、中鉛箭者厭憎。與凡間少女普緒克的故事流傳甚廣。羅馬名丘比特。"],
+["deimos","得摩斯","Δεῖμος（Deimos）","恐懼之神",4.4,8.4,"阿瑞斯與阿佛洛狄忒之子，恐慌的化身，隨父親馳騁戰場。"],
+["phobos","福波斯","Φόβος（Phobos）","驚駭之神",5.8,8.4,"得摩斯的兄弟，戰陣中令人潰散的驚駭之神。火星的兩顆衛星即以這對兄弟命名。"],
+["harmonia","哈耳摩尼亞","Ἁρμονία（Harmonia）","和諧女神",7.2,8.4,"阿瑞斯與阿佛洛狄忒之女，和諧的化身。婚時受贈赫淮斯托斯所造的項鍊，該項鍊卻為底比斯王室帶來世代不祥。"],
+["kadmos","卡德摩斯","Κάδμος（Kadmos）","底比斯的建立者",8.6,8.4,"腓尼基王子，尋妹歐羅巴不得，依神諭隨牛而行建立底比斯。屠龍後播下龍牙，長出武士互相殘殺，餘者成為底比斯的貴族之祖。相傳他將字母帶入希臘。"],
+["alkmene","阿爾克墨涅","Ἀλκμήνη（Alkmene）","邁錫尼的王女",10.0,8.4,"珀耳修斯的孫女。宙斯化為她出征在外的丈夫安菲特律翁與之共寢，並令那一夜長達三倍，赫拉克勒斯由此受孕。"],
+["danae","達那厄","Δανάη（Danae）","阿爾戈斯的王女",11.4,8.4,"因神諭稱其子將弒外祖父，被父親囚於銅室。宙斯化作黃金雨自天窗降下與之結合，生下珀耳修斯。"],
+["leda","勒達","Λήδα（Leda）","斯巴達王后",12.8,8.4,"廷達瑞俄斯之妻。宙斯化為天鵝與之結合，她產下雙卵，生出海倫與波呂丟刻斯（宙斯之子）以及卡斯托耳與克呂泰涅斯特拉（凡人之子）。"],
+["tyndareos","廷達瑞俄斯","Τυνδάρεως（Tyndareos）","斯巴達之王",14.2,8.4,"勒達之夫。為海倫求婚者眾多，他依奧德修斯之計令所有求婚者立誓維護婚約，此誓日後成為希臘聯軍出征特洛伊的緣由。"],
+["europa","歐羅巴","Εὐρώπη（Europe）","腓尼基的王女",15.6,8.4,"宙斯化為溫馴的白牛誘她騎上背，渡海載至克里特島。歐洲大陸即以她的名字命名。"],
+["io","伊俄","Ἰώ（Io）","阿爾戈斯的祭司",17.0,8.4,"赫拉的女祭司。宙斯為隱瞞而將她變作白牛，赫拉遣百眼巨人阿爾戈斯看守，又以牛虻驅逐她流浪各地——愛奧尼亞海與博斯普魯斯（牛之渡口）皆因此得名。"],
+["peleus","珀琉斯","Πηλεύς（Peleus）","密耳彌多涅斯之王",18.4,8.4,"因預言忒提斯之子將勝過其父，宙斯與波塞冬遂放棄她而讓凡人珀琉斯迎娶。其婚宴上厄里斯投下金蘋果，引發特洛伊戰爭。"],
+["thetis","忒提斯","Θέτις（Thetis）","海之女神",19.8,8.4,"涅柔斯之女中最著名者。為使兒子阿基里斯不死，持其足踝浸入冥河斯提克斯，唯足踝未沾水而成致命之處。"],
+
+/* ---- 第五代：英雄與半神 ---- */
+["herakles","赫拉克勒斯","Ἡρακλῆς（Herakles）","最偉大的英雄",3.0,9.6,"宙斯與阿爾克墨涅之子。終生受赫拉迫害，在瘋狂中殺妻兒後受命完成十二項偉業。死後火化升入神界，與青春女神赫柏成婚。羅馬名海克力斯。",false,"key"],
+["perseus","珀耳修斯","Περσεύς（Perseus）","斬殺美杜莎的英雄",4.4,9.6,"宙斯與達那厄之子。憑雅典娜的青銅盾、赫耳墨斯的飛鞋與哈得斯的隱形盔斬下美杜莎首級，並以之救出安德洛墨達，後為邁錫尼王室之祖。"],
+["semele","塞墨勒","Σεμέλη（Semele）","底比斯的王女",5.8,9.6,"卡德摩斯之女。受赫拉挑唆而要求宙斯以真身相見，遭雷火焚身。宙斯將未足月的胎兒縫入自己的腿中育成，即狄俄倪索斯。"],
+["ino","伊諾","Ἰνώ（Ino）","後成為海之女神琉科忒亞",7.2,9.6,"卡德摩斯之女，撫養外甥狄俄倪索斯而遭赫拉降下瘋狂，抱子投海，化為救助船難者的海之女神琉科忒亞。"],
+["agaue","阿高厄","Ἀγαυή（Agaue）","彭透斯之母",8.6,9.6,"卡德摩斯之女。因否認狄俄倪索斯的神性而受狂亂之罰，在酒神祭中親手撕裂了自己的兒子、底比斯王彭透斯。"],
+["autonoe","奧托諾厄","Αὐτονόη（Autonoe）","阿克泰翁之母",10.0,9.6,"卡德摩斯之女。其子阿克泰翁因窺見阿耳忒彌斯沐浴而被變作牡鹿，遭自己的獵犬撕咬而死。"],
+["polydoros","波呂多洛斯","Πολύδωρος（Polydoros）","底比斯之王",11.4,9.6,"卡德摩斯唯一的兒子，繼承底比斯王位，是拉伊俄斯與伊底帕斯一系的祖先。"],
+["helene","海倫","Ἑλένη（Helene）","世上最美的女子",12.8,9.6,"宙斯與勒達之女，斯巴達王墨涅拉俄斯之妻。被特洛伊王子帕里斯帶走，希臘諸王依舊誓出兵，遂有十年的特洛伊戰爭。"],
+["polydeukes","波呂丟刻斯","Πολυδεύκης（Polydeukes）","不死的雙子",14.2,9.6,"宙斯之子，善拳擊。兄弟卡斯托耳戰死後，他向父親請求分享自己的不死之身，兄弟遂輪流居於冥界與奧林帕斯，並化為雙子座。羅馬名波魯克斯。"],
+["kastor","卡斯托耳","Κάστωρ（Kastor）","凡人的雙子・馴馬者",15.6,9.6,"廷達瑞俄斯之子，善馴馬與馬術。與孿生兄弟波呂丟刻斯合稱狄俄斯庫洛伊，是水手的守護神。"],
+["klytaimnestra","克呂泰涅斯特拉","Κλυταιμνήστρα（Klytaimnestra）","邁錫尼王后",17.0,9.6,"海倫的姊妹，阿伽門農之妻。因丈夫獻祭女兒伊菲革涅亞以求順風，在其自特洛伊凱旋當日將他弒殺。"],
+["minos","彌諾斯","Μίνως（Minos）","克里特之王・冥界判官",18.4,9.6,"宙斯與歐羅巴之子。建立克諾索斯，命代達羅斯造迷宮以囚彌諾陶洛斯。死後與兄弟同任冥界的判官。米諾斯文明因他而得名。"],
+["rhadamanthys","拉達曼提斯","Ῥαδάμανθυς（Rhadamanthys）","冥界的判官",19.8,9.6,"宙斯與歐羅巴之子，以公正嚴明著稱，為克里特立法。死後成為冥界三判官之一，治理極樂淨土。"],
+["sarpedon","薩耳珀冬","Σαρπηδών（Sarpedon）","呂基亞之王",21.2,9.6,"宙斯與歐羅巴之子（一說為宙斯與拉俄達彌亞之子）。特洛伊戰爭中率呂基亞軍助特洛伊，戰死於帕特羅克洛斯之手，宙斯灑下血雨為之哀悼。"],
+["epaphos","厄帕福斯","Ἔπαφος（Epaphos）","埃及之王",22.6,9.6,"宙斯與伊俄之子，於埃及出生，其名意為「撫觸」——宙斯僅以手撫觸伊俄便使其受孕。是達那俄斯與埃古普托斯的祖先。"],
+["achilleus","阿基里斯","Ἀχιλλεύς（Achilleus）","特洛伊戰爭最強的戰士",24.0,9.6,"珀琉斯與忒提斯之子。全身刀槍不入唯獨足踝為弱點。因與阿伽門農爭執而拒戰，摯友帕特羅克洛斯戰死後重返戰場斬殺赫克托耳，終為帕里斯之箭射中足踝而亡。",false,"key"],
+["dionysos","狄俄倪索斯","Διόνυσος（Dionysos）","葡萄酒與狂歡之神",5.8,10.8,"宙斯與塞墨勒之子，自宙斯的腿中二度誕生，故稱「二度出生者」。司掌葡萄酒、豐饒與宗教性的狂喜，也是戲劇的守護神。羅馬名巴克科斯。",false,"key"],
+
+/* ---- 蓬托斯與蓋亞之後：海之神族 ---- */
+["eurybia","歐律比亞","Εὐρυβία（Eurybia）","海之堅毅",26.0,3.6,"蓬托斯與蓋亞之女，心如精鋼的海之女神。與泰坦克利俄斯結合，生下星空、戰陣與毀滅三神。"],
+["nereus","涅柔斯","Νηρεύς（Nereus）","海中老人",27.4,3.6,"蓬托斯的長子，誠實而不欺的海中老人，通曉一切預言並能隨意變形。赫拉克勒斯曾將他制伏以問出金蘋果園的所在。"],
+["thaumas","陶瑪斯","Θαύμας（Thaumas）","海之奇景",28.8,3.6,"蓬托斯之子，其名意為「奇異」，是海上種種瑰麗異象的神格。與大洋仙女厄勒克特拉生下彩虹女神與鷹身女妖。"],
+["phorkys","福耳庫斯","Φόρκυς（Phorkys）","海之凶險",30.2,3.6,"蓬托斯之子，司掌深海的險惡。與姊妹刻托結合，生下一系列著名的海之怪物。"],
+["keto","刻托","Κητώ（Keto）","海怪之母",31.6,3.6,"蓬托斯與蓋亞之女，其名即「海獸」。與福耳庫斯生下戈耳工、格賴埃、厄客德娜與看守金蘋果的巨龍。"],
+["nereides_note","涅瑞伊得斯（五十海仙女）","Νηρηΐδες（Nereides）","涅柔斯與多里斯之女",25.6,4.8,"涅柔斯與多里斯所生的五十位海中仙女，隨海豚與海馬遨遊，護佑水手。忒提斯、安菲特里忒與加拉忒亞皆在其列。",true],
+["iris","伊里斯","Ἶρις（Iris）","彩虹女神・神使",27.0,4.8,"陶瑪斯之女，以彩虹為橋往來天地的神使，尤其是赫拉的傳令。亦負責取斯提克斯之水供諸神立誓。"],
+["harpyiai_note","哈耳庇厄（鷹身女妖）","Ἅρπυιαι（Harpyiai）","陶瑪斯之女",28.4,4.8,"人面鳥身的掠奪精靈，其名意為「攫取者」。曾奉宙斯之命不斷奪走盲眼先知菲紐斯的食物，直至被玻瑞阿斯之子驅走。",true],
+["graiai_note","格賴埃三姊妹","Γραῖαι（Graiai）","福耳庫斯與刻托之女",29.8,4.8,"生來即為老嫗的三姊妹，三人共用一眼一齒。珀耳修斯奪取其眼，逼問出戈耳工的所在。",true],
+["gorgones_note","戈耳工姊妹","斯忒諾・歐律阿勒","福耳庫斯與刻托之女",31.2,4.8,"不死的兩位戈耳工姊妹，蛇髮、青銅之手與金翼，凡與其對視者立化為石。",true],
+["medusa","美杜莎","Μέδουσα（Medusa）","唯一會死的戈耳工",32.6,4.8,"戈耳工三姊妹中唯一具死性者。後世傳說她原為絕美的少女，因在雅典娜神廟遭波塞冬所辱而被女神變作蛇髮怪物，終為珀耳修斯所斬。"],
+["echidna","厄客德娜","Ἔχιδνα（Echidna）","眾怪之母",34.0,4.8,"半人半蛇的女妖。與堤豐結合，生下刻耳柏洛斯、許德拉、奇美拉、獅身人面像與涅墨亞獅等希臘神話的主要怪物。"],
+["ladon","拉冬","Λάδων（Ladon）","看守金蘋果的百頭龍",35.4,4.8,"盤繞於赫斯佩里得斯樂園金蘋果樹上的巨龍，永不闔眼。赫拉克勒斯的第十一項偉業即與之相關，死後被赫拉升為天龍座。"],
+["pegasos","珀伽索斯","Πήγασος（Pegasos）","生有雙翼的天馬",32.6,6.0,"美杜莎被斬時自其頸血中躍出的飛馬。曾助柏勒洛豐斬殺奇美拉，後升上天際成為飛馬座。"],
+["chrysaor","克律薩俄耳","Χρυσάωρ（Chrysaor）","持金劍的巨人",34.0,6.0,"與珀伽索斯同時自美杜莎的頸血中誕生，手持黃金之劍。三頭巨人革律翁之父。"],
+];
+
+const GR_GROUPS = [
+  ["原初諸神（Protogenoi）", ["chaos","gaia","tartaros","eros_p","erebos","nyx","aither","hemera","ouranos","pontos","ourea_note"], "#7fa8d8"],
+  ["夜之神族（倪克斯的子女）", ["thanatos","hypnos","moirai_note","nemesis","eris","nyx_others_note"], "#8f86c8"],
+  ["十二泰坦神", ["okeanos","tethys","hyperion","theia","koios","phoibe","kronos","rhea","krios","iapetos","themis","mnemosyne"], "#d8a06f"],
+  ["烏拉諾斯之血所生", ["erinyes_note","gigantes_note"], "#c06a6a"],
+  ["巨匠與巨神", ["kyklopes_note","hekatoncheires_note"], "#9a8f7a"],
+  ["光之神族（許珀里翁之子）", ["helios","selene","eos"], "#e0c060"],
+  ["伊阿佩托斯之子", ["atlas","prometheus","epimetheus","menoitios"], "#8fb0d8"],
+  ["奧林帕斯十二主神", ["zeus","hera","poseidon","demeter","hestia","athena","apollon","artemis","ares","aphrodite","hephaistos","hermes"], "#e0b060"],
+  ["海之神族（蓬托斯之後）", ["pontos","eurybia","nereus","thaumas","phorkys","keto","nereides_note","iris","harpyiai_note","graiai_note","gorgones_note","medusa","echidna","ladon","pegasos","chrysaor","amphitrite","thetis","triton"], "#6fb0c0"],
+  ["卡德摩斯與底比斯王室", ["kadmos","harmonia","semele","ino","agaue","autonoe","polydoros"], "#b08fd8"],
+  ["斯巴達與特洛伊戰爭", ["leda","tyndareos","helene","polydeukes","kastor","klytaimnestra","peleus","thetis","achilleus"], "#c08fa0"],
+  ["半神與英雄", ["herakles","perseus","dionysos","minos","rhadamanthys","sarpedon","epaphos","achilleus","deukalion","pyrrha"], "#90c880"],
+];
+
+const GR_UNIONS = [
+  {parent:"chaos", children:["gaia","tartaros","eros_p","erebos","nyx"], label:"自虛空生成", labelClass:"ritual"},
+  {spouses:["erebos","nyx"], marriage:"primary", children:["aither","hemera"]},
+  {parent:"nyx", children:["thanatos","hypnos","moirai_note","nemesis","eris","nyx_others_note"], label:"獨自誕下", labelClass:"blood"},
+  {parent:"gaia", children:["ouranos","pontos","ourea_note"], label:"獨自誕下", labelClass:"blood"},
+  {spouses:["ouranos","gaia"], marriage:"primary", children:["okeanos","tethys","hyperion","theia","koios","phoibe","kronos","rhea","krios","iapetos","themis","mnemosyne","kyklopes_note","hekatoncheires_note"]},
+  {parent:"ouranos", children:["erinyes_note","gigantes_note","aphrodite"], label:"自被斬落的身軀誕生", labelClass:"blood"},
+  {spouses:["pontos","gaia"], marriage:"secondary", children:["nereus","thaumas","phorkys","keto","eurybia"]},
+  {spouses:["okeanos","tethys"], marriage:"primary", children:["potamoi_note","okeanides_note","styx","metis","eurynome","doris","klymene"]},
+  {spouses:["hyperion","theia"], marriage:"primary", children:["helios","selene","eos"]},
+  {spouses:["koios","phoibe"], marriage:"primary", children:["leto","asteria"]},
+  {spouses:["krios","eurybia"], marriage:"primary", children:["astraios","pallas_t","perses"]},
+  {spouses:["iapetos","klymene"], marriage:"primary", children:["atlas","prometheus","epimetheus","menoitios"]},
+  {spouses:["kronos","rhea"], marriage:"primary", children:["hestia","demeter","hades","poseidon","zeus","hera"]},
+  {spouses:["pallas_t","styx"], marriage:"primary", children:["nikegroup_note"]},
+  {spouses:["perses","asteria"], marriage:"primary", children:["hekate"]},
+  {spouses:["astraios","eos"], marriage:"primary", children:["anemoi_note"]},
+  {parent:"atlas", children:["maia","pleiades_note"]},
+  {parent:"prometheus", children:["deukalion"]},
+  {parent:"epimetheus", children:["pyrrha"], label:"與潘朵拉所生"},
+  {spouses:["deukalion","pyrrha"], marriage:"primary"},
+  {spouses:["nereus","doris"], marriage:"primary", children:["nereides_note","thetis","amphitrite"]},
+  {parent:"thaumas", children:["iris","harpyiai_note"], label:"與厄勒克特拉所生"},
+  {spouses:["phorkys","keto"], marriage:"primary", children:["graiai_note","gorgones_note","medusa","echidna","ladon"]},
+  {spouses:["poseidon","medusa"], marriage:"partner", children:["pegasos","chrysaor"], label:"自頸血誕生", labelClass:"blood"},
+  {spouses:["poseidon","amphitrite"], marriage:"primary", children:["triton"]},
+  {spouses:["hades","persephone"], marriage:"primary", label:"劫掠而成的婚姻"},
+  {spouses:["zeus","hera"], marriage:"primary", children:["ares","hebe","eileithyia"]},
+  {parent:"hera", children:["hephaistos"], label:"獨自誕下", labelClass:"blood"},
+  {spouses:["zeus","metis"], marriage:"secondary", children:["athena"], label:"自宙斯頭中誕生", labelClass:"ritual"},
+  {spouses:["zeus","leto"], marriage:"secondary", children:["apollon","artemis"]},
+  {spouses:["zeus","maia"], marriage:"secondary", children:["hermes"]},
+  {spouses:["zeus","demeter"], marriage:"secondary", children:["persephone"]},
+  {spouses:["zeus","mnemosyne"], marriage:"secondary", children:["mousai_note"]},
+  {spouses:["zeus","themis"], marriage:"secondary", children:["horai_note"]},
+  {spouses:["zeus","eurynome"], marriage:"secondary", children:["charites_note"]},
+  {spouses:["ares","aphrodite"], marriage:"partner", children:["eros","deimos","phobos","harmonia"]},
+  {spouses:["hephaistos","aphrodite"], marriage:"primary"},
+  {spouses:["kadmos","harmonia"], marriage:"primary", children:["semele","ino","agaue","autonoe","polydoros"]},
+  {spouses:["zeus","semele"], marriage:"secondary", children:["dionysos"], label:"自宙斯腿中二度誕生", labelClass:"ritual"},
+  {spouses:["zeus","alkmene"], marriage:"secondary", children:["herakles"]},
+  {spouses:["zeus","danae"], marriage:"secondary", children:["perseus"], label:"化作黃金雨"},
+  {spouses:["zeus","leda"], marriage:"secondary", children:["helene","polydeukes"], label:"化作天鵝"},
+  {spouses:["tyndareos","leda"], marriage:"primary", children:["kastor","klytaimnestra"]},
+  {spouses:["zeus","europa"], marriage:"secondary", children:["minos","rhadamanthys","sarpedon"], label:"化作白牛"},
+  {spouses:["zeus","io"], marriage:"secondary", children:["epaphos"]},
+  {spouses:["peleus","thetis"], marriage:"primary", children:["achilleus"]},
+  {spouses:["herakles","hebe"], marriage:"primary", label:"升入神界後成婚"},
+];
+
+const GR_NODE_NAMES = {
+  chaos:{kojiki:"Χάος",nihonshoki:"（羅馬）Chaos",reading:"Kháos",aliases:["混沌","開闢之空隙"]},
+  gaia:{kojiki:"Γαῖα",nihonshoki:"（羅馬）Terra／Tellus",reading:"Gaîa",aliases:["蓋婭","該亞","大地母神","Ge"]},
+  tartaros:{kojiki:"Τάρταρος",nihonshoki:"（羅馬）Tartarus",reading:"Tártaros",aliases:["塔耳塔羅斯","地獄深淵"]},
+  eros_p:{kojiki:"Ἔρως",nihonshoki:"（羅馬）Amor",reading:"Érōs",aliases:["原初愛神","法涅斯（俄耳甫斯教）"]},
+  erebos:{kojiki:"Ἔρεβος",nihonshoki:"（羅馬）Erebus",reading:"Érebos",aliases:["埃瑞玻斯","幽冥"]},
+  nyx:{kojiki:"Νύξ",nihonshoki:"（羅馬）Nox",reading:"Nýx",aliases:["尼克斯","妮克斯","夜神"]},
+  aither:{kojiki:"Αἰθήρ",nihonshoki:"（羅馬）Aether",reading:"Aithḗr",aliases:["以太","埃忒爾"]},
+  hemera:{kojiki:"Ἡμέρα",nihonshoki:"（羅馬）Dies",reading:"Hēméra",aliases:["赫墨拉","晝神"]},
+  ouranos:{kojiki:"Οὐρανός",nihonshoki:"（羅馬）Caelus",reading:"Ouranós",aliases:["烏拉那斯","優拉諾斯","天王星"]},
+  pontos:{kojiki:"Πόντος",nihonshoki:"（羅馬）Pontus",reading:"Póntos",aliases:["蓬特斯","滄海"]},
+  okeanos:{kojiki:"Ὠκεανός",nihonshoki:"（羅馬）Oceanus",reading:"Ōkeanós",aliases:["俄刻阿那斯","歐開諾斯","大洋河"]},
+  tethys:{kojiki:"Τηθύς",nihonshoki:"（羅馬）Tethys",reading:"Tēthýs",aliases:["泰西斯","忒提斯（區別於海之女神Thetis）"]},
+  hyperion:{kojiki:"Ὑπερίων",nihonshoki:"（羅馬）Hyperion",reading:"Hyperíōn",aliases:["海柏利昂","許佩里翁"]},
+  theia:{kojiki:"Θεία",nihonshoki:"（羅馬）Theia",reading:"Theía",aliases:["忒亞","歐律法厄薩"]},
+  koios:{kojiki:"Κοῖος",nihonshoki:"（羅馬）Coeus",reading:"Koîos",aliases:["科俄斯","波呂斯"]},
+  phoibe:{kojiki:"Φοίβη",nihonshoki:"（羅馬）Phoebe",reading:"Phoíbē",aliases:["福柏","菲比"]},
+  kronos:{kojiki:"Κρόνος",nihonshoki:"（羅馬）Saturnus 薩圖爾努斯",reading:"Krónos",aliases:["克羅諾斯","農神","薩坦","土星"]},
+  rhea:{kojiki:"Ῥέα",nihonshoki:"（羅馬）Ops／Magna Mater",reading:"Rhéa",aliases:["瑞婭","蕾亞","庫柏勒"]},
+  krios:{kojiki:"Κρῖος",nihonshoki:"（羅馬）Crius",reading:"Krîos",aliases:["克里俄斯","克利歐斯"]},
+  iapetos:{kojiki:"Ἰαπετός",nihonshoki:"（羅馬）Iapetus",reading:"Iapetós",aliases:["伊阿珀托斯","雅佩特斯"]},
+  themis:{kojiki:"Θέμις",nihonshoki:"（羅馬）Iustitia 尤斯提提亞",reading:"Thémis",aliases:["提密斯","正義女神"]},
+  mnemosyne:{kojiki:"Μνημοσύνη",nihonshoki:"（羅馬）Moneta",reading:"Mnēmosýnē",aliases:["謨涅摩緒涅","記憶女神"]},
+  zeus:{kojiki:"Ζεύς",nihonshoki:"（羅馬）Iuppiter 尤庇特",reading:"Zeús",aliases:["宙斯","丘比特","朱庇特","木星","狄俄斯"]},
+  hera:{kojiki:"Ἥρα",nihonshoki:"（羅馬）Iuno 尤諾",reading:"Hḗrā",aliases:["希拉","朱諾","天后"]},
+  poseidon:{kojiki:"Ποσειδῶν",nihonshoki:"（羅馬）Neptunus 涅普頓",reading:"Poseidōn",aliases:["波賽頓","海王星","涅普頓"]},
+  hades:{kojiki:"Ἅιδης",nihonshoki:"（羅馬）Pluto 普魯托／Dis Pater",reading:"Háidēs",aliases:["黑帝斯","冥王","普魯托","冥王星"]},
+  demeter:{kojiki:"Δημήτηρ",nihonshoki:"（羅馬）Ceres 刻瑞斯",reading:"Dēmḗtēr",aliases:["狄蜜特","地母神","刻瑞斯"]},
+  hestia:{kojiki:"Ἑστία",nihonshoki:"（羅馬）Vesta 維斯塔",reading:"Hestía",aliases:["赫斯緹亞","灶神","維斯塔"]},
+  athena:{kojiki:"Ἀθηνᾶ",nihonshoki:"（羅馬）Minerva 彌涅耳瓦",reading:"Athēnâ",aliases:["雅典娜","帕拉斯・雅典娜","密涅瓦","智慧女神"]},
+  apollon:{kojiki:"Ἀπόλλων",nihonshoki:"（羅馬）Apollo",reading:"Apóllōn",aliases:["阿波羅","福玻斯","太陽神"]},
+  artemis:{kojiki:"Ἄρτεμις",nihonshoki:"（羅馬）Diana 狄安娜",reading:"Ártemis",aliases:["阿提米絲","黛安娜","月神","狩獵女神"]},
+  ares:{kojiki:"Ἄρης",nihonshoki:"（羅馬）Mars 瑪爾斯",reading:"Árēs",aliases:["阿利斯","戰神","瑪爾斯","火星"]},
+  aphrodite:{kojiki:"Ἀφροδίτη",nihonshoki:"（羅馬）Venus 維納斯",reading:"Aphrodítē",aliases:["阿芙蘿黛蒂","維納斯","愛神","金星"]},
+  hephaistos:{kojiki:"Ἥφαιστος",nihonshoki:"（羅馬）Vulcanus 伏爾甘",reading:"Hḗphaistos",aliases:["赫菲斯托斯","火神","鍛冶之神","伏爾甘"]},
+  hermes:{kojiki:"Ἑρμῆς",nihonshoki:"（羅馬）Mercurius 墨丘利",reading:"Hermēs",aliases:["赫密斯","墨丘利","水星","神使"]},
+  dionysos:{kojiki:"Διόνυσος",nihonshoki:"（羅馬）Bacchus 巴克科斯／Liber",reading:"Diónysos",aliases:["戴歐尼修斯","酒神","巴克斯"]},
+  persephone:{kojiki:"Περσεφόνη",nihonshoki:"（羅馬）Proserpina 普洛塞庇娜",reading:"Persephónē",aliases:["泊瑟芬","科瑞（Κόρη）","冥后"]},
+  helios:{kojiki:"Ἥλιος",nihonshoki:"（羅馬）Sol 索爾",reading:"Hḗlios",aliases:["赫利歐斯","太陽神","索爾"]},
+  selene:{kojiki:"Σελήνη",nihonshoki:"（羅馬）Luna 露娜",reading:"Selḗnē",aliases:["塞勒尼","月神","露娜"]},
+  eos:{kojiki:"Ἠώς",nihonshoki:"（羅馬）Aurora 奧羅拉",reading:"Ēṓs",aliases:["伊奧斯","曙光女神","奧羅拉"]},
+  leto:{kojiki:"Λητώ",nihonshoki:"（羅馬）Latona 拉托娜",reading:"Lētṓ",aliases:["麗朵","拉托娜"]},
+  asteria:{kojiki:"Ἀστερία",nihonshoki:"（羅馬）Asteria",reading:"Astería",aliases:["阿斯忒里亞","提洛島"]},
+  hekate:{kojiki:"Ἑκάτη",nihonshoki:"（羅馬）Trivia 特里維亞",reading:"Hekátē",aliases:["赫卡蒂","黑卡蒂","魔法女神"]},
+  prometheus:{kojiki:"Προμηθεύς",nihonshoki:"（羅馬）Prometheus",reading:"Promētheús",aliases:["普羅米修士","盜火者"]},
+  epimetheus:{kojiki:"Ἐπιμηθεύς",nihonshoki:"（羅馬）Epimetheus",reading:"Epimētheús",aliases:["埃庇米修斯","潘朵拉之夫"]},
+  atlas:{kojiki:"Ἄτλας",nihonshoki:"（羅馬）Atlas",reading:"Átlas",aliases:["阿特拉斯","擎天神"]},
+  menoitios:{kojiki:"Μενοίτιος",nihonshoki:"（羅馬）Menoetius",reading:"Menoítios",aliases:["墨諾提俄斯"]},
+  styx:{kojiki:"Στύξ",nihonshoki:"（羅馬）Styx",reading:"Stýx",aliases:["斯堤克斯","冥河"]},
+  metis:{kojiki:"Μῆτις",nihonshoki:"（羅馬）Metis",reading:"Mētis",aliases:["墨提斯","智慧"]},
+  eurynome:{kojiki:"Εὐρυνόμη",nihonshoki:"（羅馬）Eurynome",reading:"Eurynómē",aliases:["歐律諾墨"]},
+  doris:{kojiki:"Δωρίς",nihonshoki:"（羅馬）Doris",reading:"Dōrís",aliases:["多里斯","朵里斯"]},
+  klymene:{kojiki:"Κλυμένη",nihonshoki:"（羅馬）Clymene",reading:"Klyménē",aliases:["克呂墨涅","阿西亞"]},
+  thanatos:{kojiki:"Θάνατος",nihonshoki:"（羅馬）Mors 摩爾斯",reading:"Thánatos",aliases:["塔納托斯","死神"]},
+  hypnos:{kojiki:"Ὕπνος",nihonshoki:"（羅馬）Somnus 索姆努斯",reading:"Hýpnos",aliases:["修普諾斯","睡神"]},
+  nemesis:{kojiki:"Νέμεσις",nihonshoki:"（羅馬）Invidia",reading:"Némesis",aliases:["涅墨西斯","復仇女神"]},
+  eris:{kojiki:"Ἔρις",nihonshoki:"（羅馬）Discordia 狄斯科耳狄亞",reading:"Éris",aliases:["厄里斯","不和女神","金蘋果"]},
+  moirai_note:{kojiki:"Μοῖραι",nihonshoki:"（羅馬）Parcae 帕耳開",reading:"Moîrai",aliases:["命運三女神","摩伊拉","克洛托","拉刻西斯","阿特羅波斯"]},
+  erinyes_note:{kojiki:"Ἐρινύες",nihonshoki:"（羅馬）Furiae 富里埃",reading:"Erinýes",aliases:["復仇三女神","歐墨尼得斯","阿勒克托","提西福涅","墨蓋拉"]},
+  kyklopes_note:{kojiki:"Κύκλωπες",nihonshoki:"（羅馬）Cyclopes",reading:"Kýklōpes",aliases:["獨眼巨人","賽克洛普斯","庫克羅普斯"]},
+  hekatoncheires_note:{kojiki:"Ἑκατόγχειρες",nihonshoki:"（羅馬）Centimani",reading:"Hekatóncheires",aliases:["百臂巨人","赫卡同克瑞斯"]},
+  gigantes_note:{kojiki:"Γίγαντες",nihonshoki:"（羅馬）Gigantes",reading:"Gígantes",aliases:["巨人族","癸干忒斯","巨人之戰"]},
+  mousai_note:{kojiki:"Μοῦσαι",nihonshoki:"（羅馬）Musae 穆薩",reading:"Moûsai",aliases:["繆斯","謬思","九位藝術女神"]},
+  charites_note:{kojiki:"Χάριτες",nihonshoki:"（羅馬）Gratiae 格拉提亞",reading:"Chárites",aliases:["美惠三女神","卡里忒斯","格蕾斯"]},
+  horai_note:{kojiki:"Ὧραι",nihonshoki:"（羅馬）Horae",reading:"Hōrai",aliases:["時序三女神","荷萊"]},
+  nikegroup_note:{kojiki:"Νίκη・Κράτος・Βία・Ζῆλος",nihonshoki:"（羅馬）Victoria 維多利亞",reading:"Níkē",aliases:["尼姬","勝利女神","克拉托斯","比亞"]},
+  anemoi_note:{kojiki:"Ἄνεμοι",nihonshoki:"（羅馬）Venti",reading:"Ánemoi",aliases:["風神","玻瑞阿斯","仄費洛斯","諾托斯","歐洛斯"]},
+  nereus:{kojiki:"Νηρεύς",nihonshoki:"（羅馬）Nereus",reading:"Nēreús",aliases:["涅柔斯","海中老人"]},
+  nereides_note:{kojiki:"Νηρηΐδες",nihonshoki:"（羅馬）Nereides",reading:"Nērēídes",aliases:["涅瑞伊得斯","海仙女","五十海之女神"]},
+  thaumas:{kojiki:"Θαύμας",nihonshoki:"（羅馬）Thaumas",reading:"Thaúmas",aliases:["陶瑪斯"]},
+  phorkys:{kojiki:"Φόρκυς",nihonshoki:"（羅馬）Phorcys",reading:"Phórkys",aliases:["福耳庫斯","佛西士"]},
+  keto:{kojiki:"Κητώ",nihonshoki:"（羅馬）Ceto",reading:"Kētṓ",aliases:["刻托","海怪之母"]},
+  eurybia:{kojiki:"Εὐρυβία",nihonshoki:"（羅馬）Eurybia",reading:"Eurybía",aliases:["歐律比亞"]},
+  amphitrite:{kojiki:"Ἀμφιτρίτη",nihonshoki:"（羅馬）Salacia 薩拉基亞",reading:"Amphitrítē",aliases:["安菲屈蒂","海后"]},
+  thetis:{kojiki:"Θέτις",nihonshoki:"（羅馬）Thetis",reading:"Thétis",aliases:["忒提斯","西蒂斯","阿基里斯之母"]},
+  triton:{kojiki:"Τρίτων",nihonshoki:"（羅馬）Triton",reading:"Trítōn",aliases:["特里頓","崔頓"]},
+  iris:{kojiki:"Ἶρις",nihonshoki:"（羅馬）Iris",reading:"Îris",aliases:["伊麗絲","彩虹女神"]},
+  medusa:{kojiki:"Μέδουσα",nihonshoki:"（羅馬）Medusa",reading:"Médousa",aliases:["梅杜莎","蛇髮女妖"]},
+  gorgones_note:{kojiki:"Γοργόνες",nihonshoki:"（羅馬）Gorgones",reading:"Gorgónes",aliases:["戈爾貢","蛇髮三姊妹","斯忒諾","歐律阿勒"]},
+  graiai_note:{kojiki:"Γραῖαι",nihonshoki:"（羅馬）Graeae",reading:"Graîai",aliases:["格賴埃","灰衣三姊妹"]},
+  harpyiai_note:{kojiki:"Ἅρπυιαι",nihonshoki:"（羅馬）Harpyiae",reading:"Hárpyiai",aliases:["哈比","鷹身女妖","哈耳庇厄"]},
+  echidna:{kojiki:"Ἔχιδνα",nihonshoki:"（羅馬）Echidna",reading:"Échidna",aliases:["厄客德娜","艾奇德娜","半人半蛇"]},
+  ladon:{kojiki:"Λάδων",nihonshoki:"（羅馬）Ladon",reading:"Ládōn",aliases:["拉冬","金蘋果之龍"]},
+  pegasos:{kojiki:"Πήγασος",nihonshoki:"（羅馬）Pegasus",reading:"Pḗgasos",aliases:["珀伽索斯","天馬","飛馬"]},
+  chrysaor:{kojiki:"Χρυσάωρ",nihonshoki:"（羅馬）Chrysaor",reading:"Chrysáōr",aliases:["克律薩俄耳"]},
+  herakles:{kojiki:"Ἡρακλῆς",nihonshoki:"（羅馬）Hercules 赫丘利",reading:"Hēraklēs",aliases:["海克力斯","赫丘利","十二偉業"]},
+  perseus:{kojiki:"Περσεύς",nihonshoki:"（羅馬）Perseus",reading:"Perseús",aliases:["柏修斯","英仙座"]},
+  achilleus:{kojiki:"Ἀχιλλεύς",nihonshoki:"（羅馬）Achilles 阿基里斯",reading:"Achilleús",aliases:["阿喀琉斯","阿基里斯腱"]},
+  helene:{kojiki:"Ἑλένη",nihonshoki:"（羅馬）Helena",reading:"Helénē",aliases:["海倫","特洛伊的海倫"]},
+  polydeukes:{kojiki:"Πολυδεύκης",nihonshoki:"（羅馬）Pollux 波魯克斯",reading:"Polydeúkēs",aliases:["波魯克斯","狄俄斯庫洛伊","雙子座"]},
+  kastor:{kojiki:"Κάστωρ",nihonshoki:"（羅馬）Castor",reading:"Kástōr",aliases:["卡斯托","狄俄斯庫洛伊","雙子座"]},
+  klytaimnestra:{kojiki:"Κλυταιμνήστρα",nihonshoki:"（羅馬）Clytemnestra",reading:"Klytaimnḗstra",aliases:["克呂泰涅斯特拉","克莉泰涅斯特拉"]},
+  minos:{kojiki:"Μίνως",nihonshoki:"（羅馬）Minos",reading:"Mínōs",aliases:["米諾斯","彌諾陶洛斯之主"]},
+  rhadamanthys:{kojiki:"Ῥαδάμανθυς",nihonshoki:"（羅馬）Rhadamanthus",reading:"Rhadámanthys",aliases:["拉達曼迪斯"]},
+  sarpedon:{kojiki:"Σαρπηδών",nihonshoki:"（羅馬）Sarpedon",reading:"Sarpēdṓn",aliases:["薩爾佩冬"]},
+  europa:{kojiki:"Εὐρώπη",nihonshoki:"（羅馬）Europa",reading:"Eurṓpē",aliases:["歐羅巴","歐洲"]},
+  io:{kojiki:"Ἰώ",nihonshoki:"（羅馬）Io",reading:"Iṓ",aliases:["伊俄","木衛一"]},
+  epaphos:{kojiki:"Ἔπαφος",nihonshoki:"（羅馬）Epaphus",reading:"Épaphos",aliases:["厄帕福斯"]},
+  danae:{kojiki:"Δανάη",nihonshoki:"（羅馬）Danae",reading:"Danáē",aliases:["達娜厄","黃金雨"]},
+  alkmene:{kojiki:"Ἀλκμήνη",nihonshoki:"（羅馬）Alcmene",reading:"Alkmḗnē",aliases:["阿爾克墨涅","阿爾克梅涅"]},
+  leda:{kojiki:"Λήδα",nihonshoki:"（羅馬）Leda",reading:"Lḗda",aliases:["麗達","麗達與天鵝"]},
+  tyndareos:{kojiki:"Τυνδάρεως",nihonshoki:"（羅馬）Tyndareus",reading:"Tyndáreōs",aliases:["廷達柔斯"]},
+  peleus:{kojiki:"Πηλεύς",nihonshoki:"（羅馬）Peleus",reading:"Pēleús",aliases:["佩琉斯"]},
+  kadmos:{kojiki:"Κάδμος",nihonshoki:"（羅馬）Cadmus",reading:"Kádmos",aliases:["卡德摩斯","卡德姆斯","底比斯"]},
+  harmonia:{kojiki:"Ἁρμονία",nihonshoki:"（羅馬）Harmonia／Concordia",reading:"Harmonía",aliases:["哈莫妮亞","和諧女神"]},
+  semele:{kojiki:"Σεμέλη",nihonshoki:"（羅馬）Semele",reading:"Semélē",aliases:["塞墨勒","西蜜莉"]},
+  ino:{kojiki:"Ἰνώ",nihonshoki:"（羅馬）Leucothea 琉科忒亞",reading:"Inṓ",aliases:["伊諾","琉科忒亞"]},
+  agaue:{kojiki:"Ἀγαυή",nihonshoki:"（羅馬）Agave",reading:"Agauḗ",aliases:["阿高厄","阿伽微"]},
+  autonoe:{kojiki:"Αὐτονόη",nihonshoki:"（羅馬）Autonoe",reading:"Autonóē",aliases:["奧托諾厄"]},
+  polydoros:{kojiki:"Πολύδωρος",nihonshoki:"（羅馬）Polydorus",reading:"Polýdōros",aliases:["波呂多洛斯"]},
+  eros:{kojiki:"Ἔρως",nihonshoki:"（羅馬）Cupido 丘比特／Amor",reading:"Érōs",aliases:["厄洛斯","丘比特","小愛神"]},
+  deimos:{kojiki:"Δεῖμος",nihonshoki:"（羅馬）Formido",reading:"Deîmos",aliases:["得摩斯","火衛二"]},
+  phobos:{kojiki:"Φόβος",nihonshoki:"（羅馬）Pavor",reading:"Phóbos",aliases:["福波斯","火衛一"]},
+  hebe:{kojiki:"Ἥβη",nihonshoki:"（羅馬）Iuventas 尤文塔斯",reading:"Hḗbē",aliases:["赫柏","青春女神"]},
+  eileithyia:{kojiki:"Εἰλείθυια",nihonshoki:"（羅馬）Lucina 盧基娜",reading:"Eileíthyia",aliases:["厄勒梯亞","助產女神"]},
+  maia:{kojiki:"Μαῖα",nihonshoki:"（羅馬）Maia",reading:"Maîa",aliases:["邁亞","瑪雅","五月"]},
+  pleiades_note:{kojiki:"Πλειάδες",nihonshoki:"（羅馬）Pleiades",reading:"Pleiádes",aliases:["普勒阿得斯","昴宿星團","七姊妹星團","許阿得斯"]},
+  deukalion:{kojiki:"Δευκαλίων",nihonshoki:"（羅馬）Deucalion",reading:"Deukalíōn",aliases:["丟卡利翁","大洪水"]},
+  pyrrha:{kojiki:"Πύρρα",nihonshoki:"（羅馬）Pyrrha",reading:"Pýrrha",aliases:["皮拉","碧拉"]},
+  astraios:{kojiki:"Ἀστραῖος",nihonshoki:"（羅馬）Astraeus",reading:"Astraîos",aliases:["阿斯特賴俄斯","星空之神"]},
+  pallas_t:{kojiki:"Πάλλας",nihonshoki:"（羅馬）Pallas",reading:"Pállas",aliases:["帕拉斯"]},
+  perses:{kojiki:"Πέρσης",nihonshoki:"（羅馬）Perses",reading:"Pérsēs",aliases:["珀耳塞斯"]},
+  potamoi_note:{kojiki:"Ποταμοί",nihonshoki:"（羅馬）Flumina",reading:"Potamoí",aliases:["河神","波塔摩伊","阿刻羅俄斯"]},
+  okeanides_note:{kojiki:"Ὠκεανίδες",nihonshoki:"（羅馬）Oceanides",reading:"Ōkeanídes",aliases:["大洋仙女","俄刻阿尼得斯","寧芙"]},
+  ourea_note:{kojiki:"Οὔρεα",nihonshoki:"（羅馬）Montes",reading:"Oúrea",aliases:["群山之神","烏瑞亞"]},
+  nyx_others_note:{kojiki:"Μόρος・Κῆρες・Ὄνειροι",nihonshoki:"（羅馬）Moros／Somnia",reading:"Móros",aliases:["摩羅斯","克蕾絲","俄涅伊洛伊","赫斯佩里得斯","阿帕忒","革拉斯"]},
+};
+
+/* ============ 版面轉換（多神話體系共用同一套繪製引擎） ============ */
 const COLW=185, ROWH=145, NODE_W=150, NODE_H=60;
 // @@EDITS_START
 const USER_EDITS = {};
+const GREEK_USER_EDITS = {};
 // @@EDITS_END
-const USER_EDITS_LIVE = Object.assign({}, USER_EDITS, JSON.parse(localStorage.getItem('jmyth_edits')||'{}'));
-const nodes = {};
-NODE_DEFS.forEach(d=>{
-  const [id,name,kana,role,col,row,desc,isNote,tag] = d;
-  const ov = USER_EDITS_LIVE[id]||{};
-  nodes[id] = {id, name:ov.name??name, kana:ov.kana??kana, role:ov.role??role, desc:ov.desc??desc, isNote:!!isNote, tag, px:col*COLW, py:row*ROWH};
+
+const PANTHEONS = {
+  japan: {
+    title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
+    seed:USER_EDITS, storage:'jmyth_edits', yokai:true, placeholder:'搜尋神名或讀音…', editBtn:'✏️ 編輯此神明',
+    labels:{kana:'假名讀音', kojiki:'古事記', nihonshoki:'日本書紀', reading:'読み', aliases:'別稱'},
+  },
+  greek: {
+    title:'🏛️ 希臘神話系譜', defs:GR_NODE_DEFS, groups:GR_GROUPS, unions:GR_UNIONS, names:GR_NODE_NAMES,
+    seed:GREEK_USER_EDITS, storage:'greek_edits', yokai:false, placeholder:'搜尋神名或希臘原文…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'希臘原文', nihonshoki:'羅馬神名', reading:'拉丁轉寫', aliases:'別稱'},
+  },
+};
+// 各體系的使用者修改各自獨立保存，匯出時一併寫回
+const LIVE_EDITS = {};
+Object.entries(PANTHEONS).forEach(([k,p])=>{
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(p.storage)||'{}'); }catch{}
+  LIVE_EDITS[k] = Object.assign({}, p.seed, saved);
 });
+
+let currentPantheon = 'japan';
+let P = PANTHEONS.japan;
+let NODE_DEFS = P.defs, GROUPS = P.groups, UNIONS = P.unions, NODE_NAMES = P.names;
+let NODE_NAMES_ORIG = P.names;
+let USER_EDITS_LIVE = LIVE_EDITS.japan;
+let EDITS_KEY = P.storage;
+
+const stage = document.getElementById('stage');
+const svg = document.getElementById('edges');
+const nodes = {};
+const PAD = 60;
+let totalW = 0, totalH = 0;
 
 function centerX(n){ return n.px + NODE_W/2; }
 function centerY(n){ return n.py + NODE_H/2; }
 
-/* ============ 渲染：節點 / 分類框 / 連線 ============ */
-const stage = document.getElementById('stage');
-const svg = document.getElementById('edges');
+function layoutNodes(){
+  Object.keys(nodes).forEach(k=>delete nodes[k]);
+  NODE_DEFS.forEach(d=>{
+    const [id,name,kana,role,col,row,desc,isNote,tag] = d;
+    const ov = USER_EDITS_LIVE[id]||{};
+    nodes[id] = {id, name:ov.name??name, kana:ov.kana??kana, role:ov.role??role, desc:ov.desc??desc, isNote:!!isNote, tag, px:col*COLW, py:row*ROWH};
+  });
+  let minPx=Infinity,minPy=Infinity,maxPx=-Infinity,maxPy=-Infinity;
+  Object.values(nodes).forEach(n=>{
+    minPx=Math.min(minPx,n.px); minPy=Math.min(minPy,n.py);
+    maxPx=Math.max(maxPx,n.px+NODE_W); maxPy=Math.max(maxPy,n.py+NODE_H);
+  });
+  Object.values(nodes).forEach(n=>{ n.px += PAD-minPx; n.py += PAD-minPy; });
+  totalW = maxPx-minPx+PAD*2; totalH = maxPy-minPy+PAD*2;
+  stage.style.width = totalW+'px';
+  stage.style.height = totalH+'px';
+  svg.setAttribute('width', totalW);
+  svg.setAttribute('height', totalH);
+}
 
-let minPx=0,minPy=0,maxPx=0,maxPy=0;
-Object.values(nodes).forEach(n=>{
-  minPx=Math.min(minPx,n.px); minPy=Math.min(minPy,n.py);
-  maxPx=Math.max(maxPx,n.px+NODE_W); maxPy=Math.max(maxPy,n.py+NODE_H);
-});
-const PAD=60;
-const shiftX = PAD-minPx, shiftY = PAD-minPy;
-Object.values(nodes).forEach(n=>{ n.px+=shiftX; n.py+=shiftY; });
-const totalW = maxPx-minPx+PAD*2, totalH = maxPy-minPy+PAD*2;
-stage.style.width = totalW+'px';
-stage.style.height = totalH+'px';
-svg.setAttribute('width', totalW);
-svg.setAttribute('height', totalH);
+// 切換神話體系：換掉資料來源後整張圖重繪
+function loadPantheon(key){
+  const p = PANTHEONS[key];
+  if(!p) return;
+  currentPantheon = key; P = p;
+  NODE_DEFS=p.defs; GROUPS=p.groups; UNIONS=p.unions; NODE_NAMES=p.names;
+  p.namesOrig = p.namesOrig || JSON.parse(JSON.stringify(p.names));
+  NODE_NAMES_ORIG = p.namesOrig;
+  USER_EDITS_LIVE = LIVE_EDITS[key];
+  EDITS_KEY = p.storage;
+  document.getElementById('mythTitle').textContent = p.title;
+  document.getElementById('toYokaiBtn').style.display = p.yokai ? '' : 'none';
+  const si = document.getElementById('searchInput');
+  si.placeholder = p.placeholder; si.value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('p-edit-btn').textContent = p.editBtn;
+  Object.entries(p.labels).forEach(([k,text])=>{
+    const el = document.getElementById('pel-'+k); if(el) el.textContent = text;
+  });
+  closePanel();
+  layoutNodes();
+  renderGraph();
+}
 
 function hexToRgba(hex, a){
   const v = hex.replace('#','');
@@ -1330,9 +1725,6 @@ labelDraws.forEach(l=>{
 });
 if(!wasOpen) japanEl.style.display = 'none';   // 量測完畢，回到原本的顯示狀態
 }
-renderGraph();
-// 網頁字型載入後方塊高度會改變，重畫一次讓連線與標籤依最終尺寸重新計算
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderGraph());
 
 /* ============ 平移縮放（拖曳/滾輪為即時，按鈕/搜尋為平滑過渡） ============ */
 const wrap = document.getElementById('canvasWrap');
@@ -1525,10 +1917,10 @@ function openPanel(n){
   const pnames = document.getElementById('p-names');
   let html = '';
   const row = (label,val)=>`<div class="p-namerow"><span class="p-namelabel">${label}</span>${val}</div>`;
-  if(nn.nihonshoki && nn.nihonshoki!==n.name) html += row('日本書紀',nn.nihonshoki);
-  if(nn.kojiki && nn.kojiki!==n.name) html += row('古事記',nn.kojiki);
-  if(nn.reading) html += row('読み',nn.reading);
-  if(nn.aliases && nn.aliases.length) html += row('別稱',nn.aliases.join('　'));
+  if(nn.nihonshoki && nn.nihonshoki!==n.name) html += row(P.labels.nihonshoki,nn.nihonshoki);
+  if(nn.kojiki && nn.kojiki!==n.name) html += row(P.labels.kojiki,nn.kojiki);
+  if(nn.reading) html += row(P.labels.reading,nn.reading);
+  if(nn.aliases && nn.aliases.length) html += row(P.labels.aliases,nn.aliases.join('　'));
   const rec = USER_EDITS_LIVE[n.id];
   html += customRowsHTML(rec);
   pnames.innerHTML = html;
@@ -1600,7 +1992,7 @@ function saveNodeEdit(){
   const custom = cleanRows('pe-fields'), images = cleanRows('pe-imgs');
   if(custom.length) rec.custom = custom; else delete rec.custom;
   if(images.length) rec.images = images; else delete rec.images;
-  if(!saveLS('jmyth_edits', USER_EDITS_LIVE)) return;
+  if(!saveLS(EDITS_KEY, USER_EDITS_LIVE)) return;
   // Patch in-memory node
   const n = nodes[id];
   if(ov.name) n.name=ov.name;
@@ -1624,7 +2016,7 @@ function resetNodeEdit(){
   if(!editingNodeId) return;
   const id = editingNodeId;
   delete USER_EDITS_LIVE[id];
-  saveLS('jmyth_edits', USER_EDITS_LIVE);
+  saveLS(EDITS_KEY, USER_EDITS_LIVE);
   const orig = NODE_DEFS.find(d=>d[0]===id);
   if(orig){
     const n = nodes[id];
@@ -1641,14 +2033,15 @@ function resetNodeEdit(){
   openPanel(nodes[id]);
 }
 async function exportHTML(){
-  const editsJSON  = JSON.stringify(USER_EDITS_LIVE);
+  const editsJSON  = JSON.stringify(LIVE_EDITS.japan);
+  const gEditsJSON = JSON.stringify(LIVE_EDITS.greek);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -1826,12 +2219,16 @@ document.addEventListener('click', e=>{
 });
 
 /* ============ 頁面切換 ============ */
-function openJapan(){
+function openPantheon(key){
   document.getElementById('home').style.display='none';
+  document.getElementById('yokai').style.display='none';
   document.getElementById('japan').style.display='block';
-  requestAnimationFrame(fitInitial);
-  localStorage.setItem('mythCurrentPage','japan');
+  if(key !== currentPantheon || !Object.keys(nodes).length) loadPantheon(key);
+  requestAnimationFrame(()=>fitInitial());
+  localStorage.setItem('mythCurrentPage', key);
 }
+function openJapan(){ openPantheon('japan'); }
+function openGreek(){ openPantheon('greek'); }
 function closeJapan(){
   document.getElementById('japan').style.display='none';
   document.getElementById('home').style.display='flex';
@@ -2428,6 +2825,7 @@ function backToMyth(){
   document.getElementById('yokai').style.display='none';
   openJapan();
 }
+function toGreek(){ openGreek(); }
 
 /* ============ 明暗模式 ============ */
 function toggleTheme(){
@@ -2441,9 +2839,13 @@ function toggleTheme(){
 })();
 
 /* ============ 重整頁面後停留在原本的頁面 ============ */
+loadPantheon('japan');
+// 網頁字型載入後方塊高度會改變，重畫一次讓連線與標籤依最終尺寸重新計算
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderGraph());
+
 (function restorePage(){
   const page = localStorage.getItem('mythCurrentPage');
-  if(page==='japan') openJapan();
+  if(page==='japan' || page==='greek') openPantheon(page);
   else if(page==='yokai') openYokai();
 })();
 </script>
