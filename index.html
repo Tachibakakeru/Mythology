@@ -312,10 +312,10 @@
       <div class="label">希臘神話</div>
       <div class="sub">神譜・奧林帕斯・英雄傳說</div>
     </div>
-    <div class="myth-icon disabled">
+    <div class="myth-icon" onclick="openNorse()">
       <div class="glyph">⚡</div>
       <div class="label">北歐神話</div>
-      <div class="sub">敬請期待</div>
+      <div class="sub">埃達・阿薩神族・諸神黃昏</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">𓂀</div>
@@ -2167,11 +2167,232 @@ const GR_NODE_NAMES = {
   nyx_others_note:{kojiki:"Μόρος・Κῆρες・Ὄνειροι",nihonshoki:"（羅馬）Moros／Somnia",reading:"Móros",aliases:["摩羅斯","克蕾絲","俄涅伊洛伊","赫斯佩里得斯","阿帕忒","革拉斯"]},
 };
 
+
+/* ============================================================
+   資料：北歐神話系譜（依《詩體埃達》《散文埃達》為主）
+   col / row 為版面格位（非像素），note=true 代表「群組彙整節點」
+   ============================================================ */
+const NO_NODE_DEFS = [
+/* ---- 創世：虛空與冰火 ---- */
+["ginnungagap","金倫加鴻溝","Ginnungagap","太初的虛空",8,0,"世界誕生前的巨大虛空裂隙，北有霧之國尼福爾海姆的冰雪，南有穆斯貝爾海姆的烈焰，兩者在虛空中相遇——寒冰遇上熱浪，融水滴落凝成生命的雛形，霜巨人尤彌爾便由此而生。這是北歐創世神話「冰與火相遇」的起點，與希臘卡俄斯的「張口虛空」不同，此處虛空本身蘊含著對立元素的張力。",false,"key"],
+["niflheim","尼福爾海姆","Niflheim","霧與冰雪之國",6,0,"金倫加鴻溝以北的極寒國度，中央有赫瓦格密爾之泉，十一條冰河由此流出。九界之一，後世也成為死於疾病與衰老者所往的冥界尼福爾黑姆（與海拉所統治的冥界相通）。"],
+["muspelheim","穆斯貝爾海姆","Muspelheim","烈焰之國",10,0,"金倫加鴻溝以南的熾熱國度，火焰巨人蘇爾特爾持著燃燒之劍守護此地，自世界之初便等待諸神黃昏——他將在末日率火焰巨人焚燒九界。九界之一。"],
+["ymir","尤彌爾","Ymir","第一位霜巨人",8,1.2,"金倫加鴻溝中冰火交融所生的原初巨人，一切霜巨人的始祖。他睡眠時，左腋下的汗水化出一男一女，雙腿相交又生出一個六頭之子——霜巨人一族由此繁衍。他也以母牛歐德姆布拉的乳汁為食。後被奧丁三兄弟所殺，其屍身化為大地：血成海洋、骨成山岳、髮成林木、顱骨成天穹、腦漿化雲——世界由他的軀體構築而成。",false,"key"],
+["audhumla","歐德姆布拉","Auðhumla","舐冰造神的母牛",6.5,1.2,"與尤彌爾一同自消融的冰霜中誕生的原初母牛，尤彌爾以她的乳汁為生。她自身舔舐鹹霜覆蓋的冰塊為食，第一日舔出人的髮絲，次日舔出頭顱，第三日一位完整的男子自冰中現身——那便是布利，諸神的祖父。"],
+
+/* ---- 布利一系：奧丁的祖先 ---- */
+["buri","布利","Búri","諸神之祖・自冰中誕生",6.5,2.4,"歐德姆布拉舔舐鹹冰三日所現出的男子，高大俊美，是阿薩神族的原初祖先。他的兒子博爾娶了巨人族的貝斯特拉，生下奧丁三兄弟——諸神的血脈由此與巨人族交纏，終其神話始終不曾真正分離。"],
+["bor","博爾","Borr","奧丁之父",6.5,3.6,"布利之子。娶巨人貝斯特拉為妻，生下奧丁、維利與威（一說為赫尼爾與洛都爾），三子日後合力誅殺尤彌爾，以其身軀開創天地。"],
+["bestla","貝斯特拉","Bestla","奧丁之母・巨人之女",8,3.6,"霜巨人博爾索恩之女，博爾之妻，奧丁三兄弟的母親。她的血脈使諸神與巨人族自始即血脈相連——這條界線的模糊，正是北歐神話中諸神終將與巨人同歸於盡的伏筆。"],
+["mimir","密米爾","Mímir","智慧之井的守護者",9.5,3.6,"以智慧與學識聞名的存在，守護著位於世界樹根部的密米爾之泉，泉水中蘊藏無盡智慧。奧丁為求飲一口泉水，甘願獻上自己的一隻眼睛作為代價——這便是奧丁「獨眼」的由來。諸神與華納神族議和交換人質時，密米爾被送往華納海姆，卻遭疑心其智謀不實而被斬首；奧丁以藥草保存其頭顱，使其繼續向他訴說隱秘的智慧。"],
+
+/* ---- 奧丁三兄弟：創世 ---- */
+["odin","奧丁","Óðinn","眾神之父・戰爭與智慧之神",6.5,4.8,"阿薩神族的至高神，博爾與貝斯特拉之子。他與兄弟誅殺尤彌爾、以其身軀創造世界，又賦予最初的人類男女——阿斯克與恩布拉——生命、心智與感官。他為求智慧獻出一目於密米爾之泉，又自縛於世界樹上九日九夜、以矛自刺，換取盧恩符文的奧祕。他遊歷九界收集知識，麾下有雙狼蓋利與弗雷基、雙鴉胡金與穆寧為他探聽世間消息，座騎為八足神駒斯萊布尼爾。他在瓦爾哈拉宮殿中收容戰死沙場的英靈戰士，為諸神黃昏之戰備戰——因為他知曉那一日終將到來，自己也難逃一死。",false,"key"],
+["vili","維利","Vili","奧丁之弟",5.2,4.8,"博爾與貝斯特拉之子，奧丁的兄弟。與奧丁、威共同誅殺尤彌爾並創造世界；《散文埃達》另一系傳承稱他與奧丁、洛都爾三神共同賦予人類生命，各自贈與不同的稟賦。"],
+["ve","威","Vé","奧丁之弟",7.8,4.8,"博爾與貝斯特拉之子，奧丁的另一位兄弟。與兄長們合力擊殺尤彌爾，以其身軀開天闢地；一說也曾在奧丁遠遊時代掌弗麗嘉。"],
+["askr_embla_note","阿斯克與恩布拉","Askr og Embla","最初的人類",6.5,6.0,"奧丁三兄弟行經海岸時，見兩段浮木——白蠟木與榆木——遂賦予其生命：奧丁贈與氣息與靈魂，赫尼爾贈與心智與感官，洛都爾（一說即維利與威）贈與血色、言語與容貌。阿斯克與恩布拉便是人類的始祖，被安置於米德加德，由諸神以尤彌爾的睫毛築起的圍牆保護，免受巨人侵擾。",true],
+["yggdrasil_note","世界樹尤克特拉希爾與九界","Yggdrasill","貫穿九界的巨梣樹",8,6.0,"支撐並貫穿九界的宇宙巨樹，三條根分別延伸至阿斯嘉特（諸神之國）、約頓海姆（巨人之國）與尼福爾海姆（冰霧之國，密米爾之泉所在）。樹上棲有一隻鷹、樹根有巨龍尼德霍格啃咬、松鼠拉塔托斯克在兩者間傳遞惡言。九界為：阿斯嘉特（阿薩神族）、華納海姆（華納神族）、亞爾夫海姆（光精靈）、米德加德（人類）、約頓海姆（巨人）、斯瓦塔爾夫海姆（黑精靈／矮人）、穆斯貝爾海姆（火焰巨人）、尼福爾海姆（冰霧與部分死者）、海爾海姆（死者之國）。命運三女神諾恩每日以聖泉之水澆灌世界樹以保其常青。",true],
+
+/* ---- 奧丁的家庭與阿薩神族核心 ---- */
+["frigg","弗麗嘉","Frigg","眾神之後・婚姻與命運女神",5.2,7.2,"奧丁之妻，阿薩神族的王后，居於芬薩利宮，通曉萬物命運卻絕不言明。愛子巴德爾夢見自己將死，她遍行九界向萬物立誓不傷巴德爾，唯獨漏問了幼小柔弱的槲寄生——洛基利用這個疏漏害死了她的兒子。她也曾派遣女僕葛娜代為傳訊，並與奧丁育有巴德爾與霍德爾。",false,"key"],
+["thor","索爾","Þórr","雷神・米德加德的守護者",8,7.2,"奧丁與大地女神約爾德之子，手持雷神之鎚묠爾尼爾，腰纏增力之帶，是諸神中最強的戰士，米德加德的守護者。他常駕著兩隻公山羊坦格里斯尼爾與坦格約斯特拉的戰車巡行，與巨人族屢屢交鋒——曾遠赴烏特迦洛奇的城堡受挫於幻術、垂釣世界巨蛇約爾曼岡德險些將牠拖出海面卻被同伴嚇得割斷釣線。諸神黃昏之日，他將與約爾曼岡德同歸於盡：他擊殺巨蛇後只走了九步，便倒於蛇毒之下。",false,"key"],
+["jord","約爾德（大地女神）","Jörð","索爾之母・大地的化身",9.4,6.0,"大地本身的化身，一說是巨人族之女，與奧丁結合生下索爾。她的名字本身即古諾斯語的「大地」，象徵天空之神與大地結合而生出雷霆之子的古老母題。"],
+["baldr","巴德爾","Baldr","光明與純潔之神",5.2,8.4,"奧丁與弗麗嘉之子，眾神中最美、最受愛戴者，渾身散發光輝。他夢見死亡將至，母親遍求萬物立誓不害他，諸神便以投擲武器戲弄他為樂——武器觸身即彈開。洛基探得槲寄生未曾立誓，削成飛鏢交給盲眼的霍德爾，引導他擲向兄長，巴德爾應聲倒地身亡。眾神求海拉放行，海拉允諾「若萬物皆為他哭泣便可放行」，唯有一名化身為老婦（洛基所化）的巨人拒絕落淚——巴德爾遂永留冥界，直至諸神黃昏後世界重生方得歸來。他的死是諸神黃昏無可避免的第一個徵兆。",false,"key"],
+["hodr","霍德爾","Höðr","巴德爾之弟・盲眼之神",6.6,8.4,"奧丁與弗麗嘉之子，天生盲眼。被洛基操縱，以槲寄生製成的飛鏢誤殺胞兄巴德爾，因而成為悲劇的無辜工具。他因此被瓦利所殺以復仇，兩兄弟卻同樣在世界重生後於新生的大地上重逢和解。"],
+["vali_odinson","瓦利","Váli","為復仇而生的奧丁之子",4,9.6,"奧丁與巨人女子琳德所生之子，其誕生本身便帶著使命：他一出生便長成成人，當夜便誅殺了霍德爾，為巴德爾之死復仇——完成了眾神連自身律法都無法違逆的血親復仇。"],
+["vidar","維達爾","Víðarr","沉默的復仇之神",6.6,9.6,"奧丁與巨人女子格莉德之子，以沉默寡言與驚人的力量著稱，穿著一隻特製的巨大厚底鞋。諸神黃昏之日，芬里爾狼吞噬奧丁後，他挺身而出，一腳踩住惡狼的下顎，雙手撕裂其上顎將牠殺死，為父親復仇——他也是少數注定在末日後倖存、於重生世界中繼續生活的神祇之一。"],
+["tyr","提爾","Týr","戰爭與正義・獨臂之神",8,9.6,"以勇氣與正義聞名的戰神，掌管誓約與法律。眾神欲以魔法鎖鏈格萊普尼爾束縛芬里爾狼，狼心生疑慮，要求須有一神將手置於其口中作為誠信的擔保——唯有提爾敢於應允。鎖鏈鎖緊、狼掙脫不得時，牠一口咬斷了提爾的右手。他因此成為北歐神話中「為承諾犧牲自己」的象徵，其名也被用以命名星期二（Tuesday）。"],
+["bragi","布拉基","Bragi","詩歌之神",9.4,7.2,"以口才與詩藝聞名的神祇，宮廷詩人尊他為詩歌與雄辯的守護者，鬍鬚上刻有盧恩符文。伊登之夫，常在瓦爾哈拉為亡者英靈吟詠詩篇，迎接英靈戰士的到來。"],
+["idunn","伊登","Iðunn","青春金蘋果的守護者",10.8,7.2,"守護著能使諸神永葆青春的金蘋果的女神，布拉基之妻。洛基曾受巨人夏基脅迫，將她連同蘋果騙出阿斯嘉特，諸神因此迅速衰老；洛基被迫化身為鷹將她救回，蘋果與青春才重歸諸神。"],
+["heimdall","海姆達爾","Heimdallr","彩虹橋的守衛・九位母親所生",4,7.2,"守衛通往阿斯嘉特的彩虹橋比伏羅斯特的神祇，據傳由九位姊妹（海神埃吉爾與蘭之女，象徵海浪）所共同生下。他視覺與聽覺極其敏銳，能聽見青草生長、羊毛生長之聲，持號角加拉爾號，將在諸神黃昏來臨時吹響以警示諸神——那一日，他也將與洛基同歸於盡，互相刺殺。"],
+["njord","尼奧爾德","Njörðr","華納神族・海洋與航行之神",8,10.8,"華納神族之神，司掌海洋、航行、漁獲與財富，作為戰爭後議和的人質來到阿薩神族。他娶巨人女子斯卡蒂為妻，卻因二人分別偏愛海濱與山林、無法共居而分離。弗雷與弗蕾亞之父——一說是他與親妹妹（華納神族容許近親婚配）所生。",false,"key"],
+["freyr","弗雷","Freyr","豐饒・陽光與繁殖之神",6.6,12.0,"尼奧爾德之子，華納神族最受敬愛的男神，司掌豐收、陽光、和平與生殖。他擁有能自行摺疊收納的巨船斯基布拉德尼爾與金鬃野豬古林博斯帝，為求娶巨人女子格爾德，將自己那把能自動作戰的神劍贈給僕從斯基尼爾作為說媒的代價——諸神黃昏之日，他將因此赤手空拳地與火焰巨人蘇爾特爾對戰而亡。"],
+["freyja","弗蕾亞","Freyja","華納神族・愛與戰爭女神",9.4,12.0,"尼奧爾德之女，弗雷的孿生姊妹，司掌愛情、美貌、生育與戰場上的死亡——戰死者的靈魂由她與奧丁平分，她優先自沙場中挑選一半迎入自己的殿堂弗爾克范格。她乘坐由兩隻貓拉曳的戰車，擁有能變身為鷹的羽衣與著名的布里希嘉曼項鍊——為求得此項鍊，她曾與四名矮人各同寢一夜。她也精通賽德魔法，據傳最早將這門巫術傳授給阿薩神族。"],
+
+/* ---- 洛基與他的子女 ---- */
+["loki","洛基","Loki","詭計之神・巨人之子",8,14.4,"巨人法布提與勞菲之子，因與奧丁結為血親兄弟而躋身阿薩神族之列。他機智狡猾、亦正亦邪：曾助諸神取得多項神器（索爾之鎚묠爾尼爾、奧丁之矛永恆之槍、弗雷之船），也屢屢惹禍——他促成巴德爾之死，又在諸神黃昏中率領巨人與死者之軍反攻阿斯嘉特，最終與海姆達爾同歸於盡。他曾化身牝馬引開巨人的種馬斯瓦迪爾法利，因而懷胎產下奧丁的八足神駒斯萊布尼爾。因害死巴德爾，他被諸神以其子的腸子縛於岩石之上，一條毒蛇終日將毒液滴落其面，唯賴妻子西格恩以碗承接才稍減痛苦——直到諸神黃昏當日他才掙脫束縛。",false,"key"],
+["sigyn","西格恩","Sigyn","洛基忠貞的妻子",6.6,15.6,"洛基之妻，在丈夫被縛於岩石承受毒蛇之刑時，她始終跪坐一旁以碗承接滴落的毒液，唯有碗滿需傾倒的片刻，毒液才落在洛基身上使他痛苦地掙扎——據傳這正是地震的由來。她是北歐神話中忠貞不渝的象徵。"],
+["angrboda","安格爾波達","Angrboða","洛基在約頓海姆的伴侶",9.4,15.6,"約頓海姆的女巨人，洛基的情人，芬里爾狼、約爾曼岡德與海拉三個怪物子女的母親。諸神得知這三個孩子將為禍世界的預言後，將他們自其母身邊奪走，分別放逐與囚禁。"],
+["fenrir","芬里爾","Fenrisúlfr","終將吞噬奧丁的巨狼",7,16.8,"洛基與安格爾波達之子，成長速度驚人的巨狼。諸神畏懼預言中牠將帶來的浩劫，遂以計謀哄騙牠戴上矮人打造的魔法鎖鏈格萊普尼爾——輕若絲帶卻堅不可破，代價是提爾失去右手的誠信擔保。牠被縛於地底深處，口中被劍撐開，唾液匯成一條河流。諸神黃昏之日，牠終將掙脫束縛，一口吞噬奧丁，隨後被維達爾所殺。"],
+["jormungandr","約爾曼岡德","Jörmungandr","環繞米德加德的世界巨蛇",8.4,16.8,"洛基與安格爾波達之子，被奧丁拋入環繞米德加德的大海中，成長至足以首尾相銜、環繞整個人類世界的巨蛇，因而別名「米德加德巨蟒」。索爾曾與牠兩度交鋒：一次垂釣幾乎將牠拖出海面卻被同伴割斷釣線，一次在化身巨人的變裝考驗中誤以為牠只是一隻貓。諸神黃昏之日，牠與索爾同歸於盡——索爾擊殺牠後，因牠噴出的毒液而中毒身亡，僅走出九步便倒地不起。"],
+["hel","海拉","Hel","冥界的統治者",9.8,16.8,"洛基與安格爾波達之女，半邊軀體如常人、半邊如腐屍般青黑。奧丁將她放逐至尼福爾海姆深處，命她統治死於疾病、衰老等非戰場死者的靈魂，其國度亦稱海爾海姆。巴德爾死後亦來到她的國度，她開出「若萬物為他哭泣便放行」的條件，卻因一名拒絕落淚的巨人（洛基所化）而未能如願。"],
+["sleipnir","斯萊布尼爾","Sleipnir","奧丁的八足神駒",10.8,15.6,"洛基化為牝馬，引誘正為巨人工匠築城而奔忙的種馬斯瓦迪爾法利，兩者交合所生。牠擁有八條腿，是九界中跑得最快的座騎，能奔馳於陸地、海洋與天空之間，甚至可下抵冥界——洛基之子赫爾莫德便曾騎乘牠前往海拉的國度求取巴德爾的赦免。"],
+
+/* ---- 建牆巨人的騙局 ---- */
+["mason_giant_note","築城巨人與斯瓦迪爾法利","Hrímþursinn byggingameistari","阿斯嘉特城牆的建造者",13.2,15.6,"諸神請一位巨人工匠在一冬之內築起阿斯嘉特的城牆，以太陽、月亮與弗蕾亞為酬——巨人請求以他的種馬斯瓦迪爾法利相助，工程進度遠超眾神預期，眼看即將如期完工。諸神在洛基的獻策下，命他化身牝馬引開種馬拖延工期，工匠因此違約大怒現出巨人真身，被聞訊趕來的索爾以雷神之鎚擊殺。洛基則因與種馬交合而懷胎，產下八足神駒斯萊布尼爾。"],
+
+/* ---- 命運三女神・戰場的收割者 ---- */
+["norns_note","諾恩三女神","Nornir","命運的紡織者",11.8,7.2,"烏爾德（過去）、薇兒丹蒂（現在）與斯庫爾德（未來）三姊妹，居於世界樹下的烏爾德之泉旁，每日以泉水澆灌樹根以保世界樹常青。她們紡織、裁量並割斷每一個生命的命運之線，其裁決連諸神也無法違逆——她們的存在解釋了為何連奧丁都明知諸神黃昏將至卻無法逃避。",true],
+["valkyrjur_note","瓦爾基麗（女武神）","Valkyrjur","揀選戰死者的女神",4,10.8,"奧丁麾下的女武神，馳騁於戰場上空，決定誰將戰死、誰能倖存，並將陣亡的英勇戰士靈魂引領至瓦爾哈拉。著名者如布倫希爾德（因違逆奧丁旨意而被罰為凡人）。她們亦在瓦爾哈拉為英靈戰士斟酒。",true],
+["einherjar_note","英靈戰士","Einherjar","瓦爾哈拉的亡者軍團",9.4,10.8,"戰死沙場、被瓦爾基麗選中帶往瓦爾哈拉的英靈戰士。他們白日操練廝殺、傍晚傷口自動癒合、夜晚在奧丁的殿堂中宴飲——如此周而復始，直到諸神黃昏之日，隨奧丁一同出征迎戰巨人與怪物大軍。",true],
+
+/* ---- 巨人族 ---- */
+["skadi","斯卡蒂","Skaði","滑雪與山林的女巨人",11,10.8,"巨人夏基之女。父親被諸神設計殺害後，她全副武裝闖入阿斯嘉特索求賠償，諸神應允讓她從男神的腳中挑選丈夫——她原欲選最俊美的巴德爾，卻只看見雙腳而選中了尼奧爾德。婚後因二人各自偏愛山林與海濱、無法共居而分離，她後改嫁奧丁，是滑雪、狩獵與山岳的女神。"],
+["thiazi","夏基","Þjazi","擄走伊登的巨人",12.4,9.6,"化身為鷹的巨人，脅迫洛基將伊登連同青春金蘋果誘出阿斯嘉特。諸神因失去金蘋果而迅速衰老，逼令洛基將她救回；夏基化鷹追擊時飛越阿斯嘉特城牆，被早已備妥柴火的諸神點燃羽翼墜落而亡。其女斯卡蒂為此前來索討賠償。"],
+["gerd","格爾德","Gerðr","弗雷所愛的女巨人",5.2,13.2,"巨人吉密爾之女，容貌絕美，連大地與天空都因她伸展手臂而生輝。弗雷一見傾心，害了相思之病，遣忠僕斯基尼爾攜其神劍前往求親——格爾德起初拒絕，直到斯基尼爾以咒詛威脅方才允婚。她與弗雷的結合象徵著陽光神祇與大地／冰霜之力的結合，暗含豐饒神話的古老母題。"],
+["utgard_loki","烏特迦洛奇","Útgarða-Loki","以幻術愚弄索爾的巨人王",11,13.2,"約頓海姆深處城堡的巨人統治者，以強大的幻術聞名。索爾一行造訪其城堡時屢受戲弄挫敗：摔角輸給看似老嫗的「衰老」化身、飲角杯飲不盡實為連通大海、舉貓不成實為變形後的世界巨蛇約爾曼岡德——事後烏特迦洛奇坦承真相，索爾這才明白自己已與幻術中最強大的力量交手過，怒不可遏卻已尋不著那座城堡。"],
+["hymir","希米爾","Hymir","擁有巨大酒鍋的巨人",13.8,10.8,"以擁有一口巨大無比的酒鍋聞名的巨人，索爾曾以其名為釣線垂釣約爾曼岡德。諸神欲設宴款待卻苦無容器盛滿蜂蜜酒，索爾與提爾（一說希米爾之子）前往索取其酒鍋，歷經多番刁難與角力方才奪得。"],
+["aegir_ran_note","埃吉爾與蘭","Ægir og Rán","海洋之主與其九位女兒",13.8,12.0,"海洋巨人夫婦，時常宴請諸神於海底的黃金宮殿，蘭則以漁網捕撈溺水者的靈魂。二人育有九位女兒，皆為海浪的化身，一說即海姆達爾的九位母親。",true],
+["surtr","蘇爾特爾","Surtr","持烈焰之劍的火焰巨人",9.5,-1.2,"穆斯貝爾海姆的統治者，自世界之初便持燃燒之劍靜候諸神黃昏的到來。末日之時，他將率領火焰巨人軍團渡過彩虹橋比伏羅斯特（使其崩塌），與弗雷決戰並將其殺死，最終以烈焰焚燒整個世界——九界在他的火焰中終結，而後才有新世界自灰燼中重生。",false,"key"],
+["ivaldi_sons_note","伊瓦爾迪之子・矮人工匠","Ívaldasynir","打造諸神寶物的矮人兄弟",2,17.2,"技藝精湛的矮人兄弟，受洛基慫恿參與一場打賭：他們打造出弗蕾亞的金色長髮、弗雷的摺疊神船斯基布拉德尼爾，以及奧丁的神槍永恆之槍——槍尖一旦擲出必定命中目標。",true],
+["brokkr_eitri_note","布羅克與埃特里","Brokkr og Eitri","鍛造묠爾尼爾的矮人兄弟",4.5,17.2,"與伊瓦爾迪之子競逐同一場賭注的矮人兄弟。洛基化為蒼蠅叮咬搗亂，埃特里的風箱一度停頓，仍鍛出金鬃野豬古林博斯帝、能自我繁殖的金臂環德勞普尼爾，以及索爾的雷神之鎚묠爾尼爾——唯獨鎚柄因蒼蠅叮咬而略短。眾神評判索爾之鎚勝出，洛基輸掉了自己的頭顱，卻以「未曾許諾脖子」的詭辯逃過斬首，改為被縫住嘴唇。",true],
+["andvari","安德瓦利","Andvari","藏有詛咒黃金的矮人",15.4,17.2,"化身為梭子魚棲於瀑布下的矮人，藏有大批黃金與一枚能自行增殖財富的戒指安德瓦拉諾特。洛基為賠償誤殺水獺之罪，強奪了他全部的財寶與戒指，他憤而詛咒這批黃金將為所有持有者帶來滅亡——這道詛咒此後纏上赫瑞德瑪爾一家，並貫穿整部弗爾松格薩迦。"],
+
+/* ---- 弗爾松格薩迦：詛咒的黃金與屠龍英雄 ---- */
+["hreidmar_note","赫瑞德瑪爾與三子","Hreiðmarr","中了黃金詛咒的家族",12,18.4,"擁有魔法之力的凡人，育有三子：法夫尼爾、雷金與化身水獺的奧特爾。奧丁、洛基與赫尼爾誤殺化為水獺的奧特爾，赫瑞德瑪爾索求以水獺皮所能覆蓋、內外皆填滿黃金作為賠償——洛基遂奪來安德瓦利的詛咒黃金抵償。詛咒隨即應驗：法夫尼爾為獨吞財寶弒父，雷金則終生謀劃奪回其份。",true],
+["fafnir","法夫尼爾","Fáfnir","化身巨龍的貪婪之子",13.5,19.6,"赫瑞德瑪爾之子。為獨占安德瓦利的詛咒黃金而弒父奪寶，此後化身為一條巨龍，蟄伏於格尼塔荒原看守寶藏，終日噴吐毒液。他最終被弟弟雷金唆使的英雄西格爾德以埋伏之計自下方刺穿心臟而死。"],
+["regin","雷金","Reginn","西格爾德的養父兼鐵匠",10.8,19.6,"赫瑞德瑪爾之子，法夫尼爾之弟，精通鍛造與魔法的矮人般存在。他撫養並訓練少年英雄西格爾德，為其打造神劍格拉姆，慫恿他弒殺已化身巨龍的兄長法夫尼爾以奪回黃金——卻暗中盤算著殺死西格爾德獨吞寶藏。西格爾德烤食龍心時沾到龍血，因而聽懂飛鳥的警告，搶先誅殺了心懷不軌的雷金。"],
+["sigi","西吉","Sigi","弗爾松格家族的始祖",13.2,17.2,"據傳為奧丁之子，弗爾松格家族的第一代先祖，其子雷利爾、孫沃爾松（弗爾松格家族名祖）延續了這條與奧丁血脈相繫、屢受詛咒黃金牽連的英雄世系。"],
+["volsung","沃爾松","Völsungr","弗爾松格家族的名祖",8,18.4,"西吉之孫，弗爾松格家族之名即源自於他。育有西格蒙德等十子及女兒希格妮，一族的英勇與悲劇貫穿整部薩迦，最終在西格蒙德之子西格爾德身上達到高峰。"],
+["sigmund","西格蒙德","Sigmundr","西格爾德之父",8,19.6,"沃爾松之子，唯一能自巨樹中拔出奧丁所賜之劍格拉姆的英雄，一生征戰無數。原配王后逝去後，他迎娶的新妻希歐爾迪絲在他戰死沙場後懷著遺腹子——那便是日後的英雄西格爾德。"],
+["hjordis","希歐爾迪絲","Hjördís","西格爾德之母",9.4,19.6,"西格蒙德的第二任妻子。丈夫戰死後，她保存了他破碎的神劍格拉姆，將遺腹子西格爾德撫養成人，那柄斷劍後由雷金重新鍛造，成為屠龍之劍。"],
+["sigurd","西格爾德","Sigurðr","北歐傳說中最偉大的屠龍英雄",8.8,20.8,"西格蒙德與希歐爾迪絲之子，弗爾松格薩迦的核心英雄，德意志傳說中的齊格飛即為其對應人物。他持父親重鑄的神劍格拉姆，依養父雷金之計刺殺巨龍法夫尼爾，誤沾龍血而聽懂鳥語、識破雷金的殺機而反手誅之，奪得詛咒的黃金寶藏。他喚醒沉睡於火焰環繞高塔中的女武神布倫希爾德並與之定情，卻在中了迷藥後遺忘前盟，另娶古德露恩並助內兄贏得布倫希爾德——真相大白後，布倫希爾德悲憤策劃了他的死亡。他的一生完整應驗了安德瓦利對黃金的詛咒。",false,"key"],
+["brynhild","布倫希爾德","Brynhildr","被縛於火焰高塔的女武神",6.6,20.8,"曾是奧丁麾下的瓦爾基麗，因違逆其旨意、擅自決定戰場勝負而受懲——被以睡眠之刺刺入沉睡，困於烈焰環繞的高塔之上，直到有無畏的英雄穿越火牆將她喚醒。西格爾德完成此舉並與她互許終身，她卻在他中了迷藥失憶後被迫嫁與貢納爾（西格爾德所化）。得知自己受騙後，她策動西格爾德之死以償夙願，並在他的火葬柴堆上自盡殉情——這段悲劇是北歐英雄傳說中最悲愴的一章。"],
+["gjuki","吉尤基","Gjúki","勃艮第王・古德露恩之父",15,19.6,"勃艮第（尼伯龍根）之王，格林希爾德之夫，貢納爾、霍格尼與古德露恩之父。他的家族因收留西格爾德、覬覦其詛咒黃金而被牽連進安德瓦利詛咒的最終篇章。"],
+["grimhild","格林希爾德","Grímhildr","精通巫術的王后",16.4,19.6,"吉尤基之妻，精通魔法的王后。西格爾德抵達勃艮第宮廷後，她為使女兒古德露恩得嫁英雄，暗中調製使人遺忘前盟的迷藥予他飲下——他因此忘卻對布倫希爾德的誓約，轉而迎娶古德露恩，並代兄長貢納爾穿越火牆騙娶布倫希爾德，種下了日後滿門悲劇的種子。"],
+["gudrun","古德露恩","Guðrún","吉尤基王之女",10.2,20.8,"吉尤基與格林希爾德之女，貢納爾與霍格尼之妹。因母親所調的迷藥，使西格爾德忘卻對布倫希爾德的誓約而嫁與她為妻；丈夫死後又被迫改嫁匈人王阿特利——阿特利為奪詛咒黃金設局殺害她的兄長們，她憤而弒子復仇、火焚夫王的宮殿，其命運與布倫希爾德互為映照，同樣深陷詛咒黃金的漩渦。"],
+["gunnar","貢納爾","Gunnarr","古德露恩之兄",8.8,22.0,"吉尤基與格林希爾德之子，古德露恩之兄。藉西格爾德代為穿越火牆之計迎娶布倫希爾德，事後真相敗露種下禍根。妹夫死後，他因貪圖詛咒黃金拒絕吐露寶藏所在，被匈人王阿特利擲入毒蛇坑中，以撥弦琴聲鎮住群蛇直至氣力耗盡而亡。"],
+["hogni","霍格尼","Högni","貢納爾之弟",11.6,22.0,"吉尤基與格林希爾德之子，貢納爾與古德露恩之弟。與兄長一同赴匈人王阿特利之宴而遭伏擊，被生生剖出心臟——他至死含笑以證自己絕不吐露詛咒黃金的下落，其兄貢納爾見狀方知財寶祕密已隨兩人一同殉葬。"],
+["atli","阿特利","Atli","覬覦詛咒黃金的匈人王",13,22.0,"古德露恩的第二任丈夫，其原型與歷史上的匈人王阿提拉相關。他設局邀請古德露恩的兄弟前來作客，實則欲奪取西格爾德遺留的詛咒黃金，殺害貢納爾與霍格尼；古德露恩得知後憤而弒殺親生兒子為兄復仇，並將他們的心與血調入酒宴，最終縱火焚燒了他的宮殿與他本人同歸於盡。"],
+
+/* ---- 諸神黃昏 ---- */
+["fimbulwinter_note","芬布爾之冬","Fimbulvetr","末日前的三年寒冬",6.6,24,"諸神黃昏來臨前，將有一場連續三年、不見夏日間隔的酷寒冬季籠罩世界，人倫敗壞、兄弟相殘。緊接其後的是太陽與月亮被天狼吞噬、星辰墜落、世界樹震顫——諸神黃昏最終戰役的序幕。",true],
+["ragnarok_note","諸神黃昏","Ragnarök","諸神的最終命運",8,25.2,"眾神與巨人、怪物的終末之戰。芬里爾狼掙脫束縛吞噬奧丁，隨後被維達爾所殺；索爾與約爾曼岡德同歸於盡；提爾與地獄犬加爾姆互相殘殺；海姆達爾與洛基彼此刺穿；蘇爾特爾殺死弗雷後以烈焰焚盡九界，彩虹橋比伏羅斯特崩塌，世界沉入海底。然而預言並未止於毀滅：大地其後自海中重新升起，倖存的維達爾、瓦利與巴德爾、霍德爾自冥界歸來，人類始祖麗芙與麗芙特拉希爾自世界樹的庇護中走出，一個新生的世界就此展開。",false,"key"],
+];
+
+const NO_GROUPS = [
+  ["創世：冰與火", ["ginnungagap","niflheim","muspelheim","ymir","audhumla"], "#7fa8d8"],
+  ["布利一系與奧丁三兄弟", ["buri","bor","bestla","mimir","odin","vili","ve"], "#d8a06f"],
+  ["阿薩神族核心", ["odin","frigg","thor","baldr","hodr","vali_odinson","vidar","tyr","bragi","idunn","heimdall"], "#e0b060"],
+  ["華納神族", ["njord","freyr","freyja"], "#9fb87a"],
+  ["洛基與其子女", ["loki","sigyn","angrboda","fenrir","jormungandr","hel","sleipnir"], "#a06a8a"],
+  ["命運與戰場", ["norns_note","valkyrjur_note","einherjar_note"], "#8f86c8"],
+  ["巨人族（約頓海姆）", ["skadi","thiazi","gerd","utgard_loki","hymir","aegir_ran_note","surtr","bestla","angrboda"], "#c07a7a", false],
+  ["矮人與神器", ["ivaldi_sons_note","brokkr_eitri_note","andvari","mimir"], "#9a8f7a", false],
+  ["弗爾松格薩迦：詛咒的黃金", ["hreidmar_note","fafnir","regin","sigi","volsung","sigmund","hjordis","sigurd","brynhild","gjuki","grimhild","gudrun","gunnar","hogni","atli","andvari"], "#b08fd8"],
+  ["諸神黃昏", ["fimbulwinter_note","ragnarok_note","surtr","fenrir","jormungandr","loki","heimdall","vidar","tyr"], "#6a7fc0", false],
+];
+
+const NO_UNIONS = [
+  {spouses:["ginnungagap","niflheim"], marriage:"partner", label:"虛空以北的極寒"},
+  {spouses:["ginnungagap","muspelheim"], marriage:"partner", label:"虛空以南的烈焰"},
+  {spouses:["odin","mimir"], marriage:"partner", label:"以眼換取智慧之泉的一飲", labelClass:"blood"},
+  {spouses:["odin","valkyrjur_note"], marriage:"partner", label:"揀選戰死者"},
+  {spouses:["odin","einherjar_note"], marriage:"partner", label:"瓦爾哈拉的亡者軍團"},
+  {spouses:["thor","utgard_loki"], marriage:"partner", label:"幻術城堡的較量", labelClass:"blood"},
+  {spouses:["loki","ivaldi_sons_note"], marriage:"partner", label:"打造諸神寶物的賭局"},
+  {spouses:["loki","brokkr_eitri_note"], marriage:"partner", label:"打造묠爾尼爾的賭局"},
+  {parent:"ginnungagap", children:["ymir","audhumla"], label:"冰火交融而生", labelClass:"ritual"},
+  {parent:"audhumla", children:["buri"], label:"舐冰三日所現", labelClass:"ritual"},
+  {parent:"buri", children:["bor"]},
+  {spouses:["bor","bestla"], marriage:"primary", children:["odin","vili","ve"]},
+  {parent:"odin", children:["askr_embla_note","yggdrasil_note"], label:"賦予人類生命"},
+  {parent:"yggdrasil_note", children:["norns_note"], label:"世界樹下的司命者"},
+  {spouses:["odin","frigg"], marriage:"primary", children:["baldr","hodr"]},
+  {spouses:["odin","jord"], marriage:"secondary", children:["thor"]},
+  {parent:"loki", children:["mason_giant_note"], label:"化身牝馬拖延工期的騙局", labelClass:"ritual"},
+  {parent:"odin", children:["vidar","tyr","bragi","heimdall"], label:"與巨人女子等所生・部分傳承各異"},
+  {spouses:["bragi","idunn"], marriage:"primary"},
+  {parent:"odin", children:["vali_odinson"], label:"與琳德所生，為復仇而生", labelClass:"blood"},
+  {parent:"njord", children:["freyr","freyja"], label:"一說與親妹所生"},
+  {spouses:["njord","skadi"], marriage:"partner", label:"山林與海濱難以共居", labelClass:"blood"},
+  {spouses:["freyr","gerd"], marriage:"primary", label:"以神劍為聘"},
+  {parent:"loki", children:["sleipnir"], label:"化身牝馬所生", labelClass:"ritual"},
+  {spouses:["loki","sigyn"], marriage:"primary"},
+  {spouses:["loki","angrboda"], marriage:"partner", children:["fenrir","jormungandr","hel"]},
+  {parent:"thiazi", children:["skadi"]},
+  {parent:"hymir", children:["aegir_ran_note"], label:"同為海之巨人"},
+  {parent:"andvari", children:["hreidmar_note"], label:"詛咒黃金的牽連", labelClass:"blood"},
+  {parent:"hreidmar_note", children:["fafnir","regin"]},
+  {parent:"sigi", children:["volsung"]},
+  {parent:"volsung", children:["sigmund"]},
+  {spouses:["sigmund","hjordis"], marriage:"secondary", children:["sigurd"]},
+  {parent:"regin", children:["sigurd"], label:"養父兼授業之師"},
+  {spouses:["sigurd","brynhild"], marriage:"partner", label:"火焰高塔的重逢與背叛", labelClass:"blood"},
+  {spouses:["gjuki","grimhild"], marriage:"primary", children:["gunnar","hogni","gudrun"]},
+  {spouses:["sigurd","gudrun"], marriage:"secondary", label:"迷藥所致的婚姻", labelClass:"ritual"},
+  {spouses:["gunnar","brynhild"], marriage:"secondary", label:"假借西格爾德之貌迎娶", labelClass:"blood"},
+  {spouses:["atli","gudrun"], marriage:"secondary", label:"弒子復仇", labelClass:"blood"},
+  {parent:"fimbulwinter_note", children:["ragnarok_note"], label:"末日之戰的序幕"},
+  {parent:"surtr", children:["ragnarok_note"], label:"焚盡九界"},
+];
+
+
+const NO_NODE_NAMES = {
+  ginnungagap:{kojiki:"Ginnungagap",nihonshoki:"（古諾斯語）Ginnungagap",reading:"Ginnungagap",aliases:["金倫加鴻溝","金倫加深淵"]},
+  niflheim:{kojiki:"Niflheimr",nihonshoki:"Niflheim",reading:"Niflheimr",aliases:["尼福爾海姆","霧之國"]},
+  muspelheim:{kojiki:"Muspellsheimr",nihonshoki:"Muspelheim",reading:"Muspellsheimr",aliases:["穆斯貝爾海姆","烈焰之國"]},
+  ymir:{kojiki:"Ymir",nihonshoki:"Ymir／Aurgelmir",reading:"Ymir",aliases:["尤彌爾","伊米爾","奧格爾密爾"]},
+  audhumla:{kojiki:"Auðhumla",nihonshoki:"Audhumbla",reading:"Auðhumla",aliases:["歐德姆布拉","歐德姆拉"]},
+  buri:{kojiki:"Búri",nihonshoki:"Buri",reading:"Búri",aliases:["布利","布里"]},
+  bor:{kojiki:"Borr",nihonshoki:"Bor",reading:"Borr",aliases:["博爾","伯爾"]},
+  bestla:{kojiki:"Bestla",nihonshoki:"Bestla",reading:"Bestla",aliases:["貝斯特拉"]},
+  mimir:{kojiki:"Mímir",nihonshoki:"Mimir",reading:"Mímir",aliases:["密米爾","米米爾","智慧之泉"]},
+  odin:{kojiki:"Óðinn",nihonshoki:"Odin／Woden",reading:"Óðinn",aliases:["奧丁","沃登","星期三Wednesday","眾神之父","瓦爾哈拉"]},
+  vili:{kojiki:"Vili",nihonshoki:"Vili",reading:"Vili",aliases:["維利"]},
+  ve:{kojiki:"Vé",nihonshoki:"Ve",reading:"Vé",aliases:["威"]},
+  askr_embla_note:{kojiki:"Askr ok Embla",nihonshoki:"Ask and Embla",reading:"Askr ok Embla",aliases:["阿斯克","恩布拉","最初的人類"]},
+  yggdrasil_note:{kojiki:"Yggdrasill",nihonshoki:"Yggdrasil",reading:"Yggdrasill",aliases:["世界樹","尤克特拉希爾","九界"]},
+  frigg:{kojiki:"Frigg",nihonshoki:"Frigga",reading:"Frigg",aliases:["弗麗嘉","芙麗嘉","星期五Friday"]},
+  thor:{kojiki:"Þórr",nihonshoki:"Thor",reading:"Þórr",aliases:["索爾","托爾","雷神","묠爾尼爾","星期四Thursday"]},
+  jord:{kojiki:"Jörð",nihonshoki:"Jord／Fjörgyn",reading:"Jörð",aliases:["約爾德","大地女神","菲爾金"]},
+  baldr:{kojiki:"Baldr",nihonshoki:"Balder",reading:"Baldr",aliases:["巴德爾","巴爾德爾","光明之神"]},
+  hodr:{kojiki:"Höðr",nihonshoki:"Hodr／Hod",reading:"Höðr",aliases:["霍德爾","霍德"]},
+  vali_odinson:{kojiki:"Váli",nihonshoki:"Vali",reading:"Váli",aliases:["瓦利"]},
+  vidar:{kojiki:"Víðarr",nihonshoki:"Vidar",reading:"Víðarr",aliases:["維達爾","維達"]},
+  tyr:{kojiki:"Týr",nihonshoki:"Tyr",reading:"Týr",aliases:["提爾","蒂爾","星期二Tuesday","獨臂戰神"]},
+  bragi:{kojiki:"Bragi",nihonshoki:"Bragi",reading:"Bragi",aliases:["布拉基","布拉吉"]},
+  idunn:{kojiki:"Iðunn",nihonshoki:"Idun",reading:"Iðunn",aliases:["伊登","伊登娜","青春金蘋果"]},
+  heimdall:{kojiki:"Heimdallr",nihonshoki:"Heimdall",reading:"Heimdallr",aliases:["海姆達爾","彩虹橋","比伏羅斯特","加拉爾號"]},
+  njord:{kojiki:"Njörðr",nihonshoki:"Njord",reading:"Njörðr",aliases:["尼奧爾德","尼約德","華納神族"]},
+  freyr:{kojiki:"Freyr",nihonshoki:"Frey",reading:"Freyr",aliases:["弗雷","弗雷伊","古林博斯帝"]},
+  freyja:{kojiki:"Freyja",reading:"Freyja",nihonshoki:"Freya",aliases:["弗蕾亞","芙蕾雅","布里希嘉曼","星期五Friday（另說）"]},
+  loki:{kojiki:"Loki",nihonshoki:"Loki",reading:"Loki",aliases:["洛基","詭計之神"]},
+  sigyn:{kojiki:"Sigyn",nihonshoki:"Sigyn",reading:"Sigyn",aliases:["西格恩","希格恩"]},
+  angrboda:{kojiki:"Angrboða",nihonshoki:"Angrboda",reading:"Angrboða",aliases:["安格爾波達","安格爾波妲"]},
+  fenrir:{kojiki:"Fenrisúlfr",nihonshoki:"Fenrir",reading:"Fenrisúlfr",aliases:["芬里爾","芬里斯狼","格萊普尼爾"]},
+  jormungandr:{kojiki:"Jörmungandr",nihonshoki:"Jormungand",reading:"Jörmungandr",aliases:["約爾曼岡德","米德加德巨蟒","世界巨蛇"]},
+  hel:{kojiki:"Hel",nihonshoki:"Hel",reading:"Hel",aliases:["海拉","赫爾","海爾海姆"]},
+  sleipnir:{kojiki:"Sleipnir",nihonshoki:"Sleipnir",reading:"Sleipnir",aliases:["斯萊布尼爾","八足神駒"]},
+  mason_giant_note:{kojiki:"Hrímþursinn byggingameistari",nihonshoki:"The Master Builder",reading:"Hrímþursinn byggingameistari",aliases:["築城巨人","斯瓦迪爾法利","阿斯嘉特城牆"]},
+  norns_note:{kojiki:"Nornir",nihonshoki:"Norns",reading:"Nornir",aliases:["諾恩","命運三女神","烏爾德","薇兒丹蒂","斯庫爾德"]},
+  valkyrjur_note:{kojiki:"Valkyrjur",nihonshoki:"Valkyries",reading:"Valkyrjur",aliases:["瓦爾基麗","女武神","布倫希爾德"]},
+  einherjar_note:{kojiki:"Einherjar",nihonshoki:"Einherjar",reading:"Einherjar",aliases:["英靈戰士","瓦爾哈拉"]},
+  skadi:{kojiki:"Skaði",nihonshoki:"Skadi",reading:"Skaði",aliases:["斯卡蒂","斯卡蒂女神"]},
+  thiazi:{kojiki:"Þjazi",nihonshoki:"Thiazi",reading:"Þjazi",aliases:["夏基","希亞茲"]},
+  gerd:{kojiki:"Gerðr",nihonshoki:"Gerd",reading:"Gerðr",aliases:["格爾德","葛德"]},
+  utgard_loki:{kojiki:"Útgarða-Loki",nihonshoki:"Utgard-Loki",reading:"Útgarða-Loki",aliases:["烏特迦洛奇","烏特迦爾德・洛奇"]},
+  hymir:{kojiki:"Hymir",nihonshoki:"Hymir",reading:"Hymir",aliases:["希米爾"]},
+  aegir_ran_note:{kojiki:"Ægir ok Rán",nihonshoki:"Aegir and Ran",reading:"Ægir ok Rán",aliases:["埃吉爾","蘭","海洋巨人"]},
+  surtr:{kojiki:"Surtr",nihonshoki:"Surt",reading:"Surtr",aliases:["蘇爾特爾","蘇爾特","火焰巨人之王"]},
+  ivaldi_sons_note:{kojiki:"Ívaldasynir",nihonshoki:"Sons of Ivaldi",reading:"Ívaldasynir",aliases:["伊瓦爾迪之子","矮人工匠","永恆之槍","岡格尼爾"]},
+  brokkr_eitri_note:{kojiki:"Brokkr ok Eitri",nihonshoki:"Brokkr and Eitri",reading:"Brokkr ok Eitri",aliases:["布羅克","埃特里","묠爾尼爾","德勞普尼爾"]},
+  andvari:{kojiki:"Andvari",nihonshoki:"Andvari",reading:"Andvari",aliases:["安德瓦利","安德瓦利之戒","安德瓦拉諾特"]},
+  hreidmar_note:{kojiki:"Hreiðmarr",nihonshoki:"Hreidmar",reading:"Hreiðmarr",aliases:["赫瑞德瑪爾","水獺之贖"]},
+  fafnir:{kojiki:"Fáfnir",nihonshoki:"Fafnir",reading:"Fáfnir",aliases:["法夫尼爾","法夫納","巨龍"]},
+  regin:{kojiki:"Reginn",nihonshoki:"Regin",reading:"Reginn",aliases:["雷金"]},
+  sigi:{kojiki:"Sigi",nihonshoki:"Sigi",reading:"Sigi",aliases:["西吉"]},
+  volsung:{kojiki:"Völsungr",nihonshoki:"Volsung",reading:"Völsungr",aliases:["沃爾松","弗爾松格薩迦"]},
+  sigmund:{kojiki:"Sigmundr",nihonshoki:"Sigmund",reading:"Sigmundr",aliases:["西格蒙德","格拉姆之劍"]},
+  hjordis:{kojiki:"Hjördís",nihonshoki:"Hjordis",reading:"Hjördís",aliases:["希歐爾迪絲"]},
+  sigurd:{kojiki:"Sigurðr",nihonshoki:"Sigurd",reading:"Sigurðr",aliases:["西格爾德","齊格飛","Siegfried","屠龍者"]},
+  brynhild:{kojiki:"Brynhildr",nihonshoki:"Brynhild",reading:"Brynhildr",aliases:["布倫希爾德","布倫希爾特","女武神"]},
+  gjuki:{kojiki:"Gjúki",nihonshoki:"Gjuki",reading:"Gjúki",aliases:["吉尤基","紀尤基","勃艮第王"]},
+  grimhild:{kojiki:"Grímhildr",nihonshoki:"Grimhild",reading:"Grímhildr",aliases:["格林希爾德","迷藥"]},
+  gudrun:{kojiki:"Guðrún",nihonshoki:"Gudrun",reading:"Guðrún",aliases:["古德露恩","克里姆希爾特（德語傳承）"]},
+  gunnar:{kojiki:"Gunnarr",nihonshoki:"Gunnar",reading:"Gunnarr",aliases:["貢納爾","昆特爾（德語傳承）","毒蛇坑"]},
+  hogni:{kojiki:"Högni",nihonshoki:"Hogni",reading:"Högni",aliases:["霍格尼","哈根（德語傳承）"]},
+  atli:{kojiki:"Atli",nihonshoki:"Atli",reading:"Atli",aliases:["阿特利","阿提拉","匈人王"]},
+  fimbulwinter_note:{kojiki:"Fimbulvetr",nihonshoki:"Fimbulwinter",reading:"Fimbulvetr",aliases:["芬布爾之冬","三年寒冬"]},
+  ragnarok_note:{kojiki:"Ragnarök",nihonshoki:"Ragnarok",reading:"Ragnarök",aliases:["諸神黃昏","眾神的黃昏","世界末日"]},
+};
+
 /* ============ 版面轉換（多神話體系共用同一套繪製引擎） ============ */
 const COLW=185, ROWH=145, NODE_W=150, NODE_H=60;
 // @@EDITS_START
 const USER_EDITS = {};
 const GREEK_USER_EDITS = {};
+const NORSE_USER_EDITS = {};
 // @@EDITS_END
 
 const PANTHEONS = {
@@ -2184,6 +2405,11 @@ const PANTHEONS = {
     title:'🏛️ 希臘神話系譜', defs:GR_NODE_DEFS, groups:GR_GROUPS, unions:GR_UNIONS, names:GR_NODE_NAMES,
     seed:GREEK_USER_EDITS, storage:'greek_edits', yokai:false, placeholder:'搜尋神名或希臘原文…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（原文／轉寫）', kojiki:'希臘原文', nihonshoki:'羅馬神名', reading:'拉丁轉寫', aliases:'別稱', shrine:'主要聖地'},
+  },
+  norse: {
+    title:'⚡ 北歐神話系譜', defs:NO_NODE_DEFS, groups:NO_GROUPS, unions:NO_UNIONS, names:NO_NODE_NAMES,
+    seed:NORSE_USER_EDITS, storage:'norse_edits', yokai:false, placeholder:'搜尋神名或古諾斯語…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'古諾斯語', nihonshoki:'英語轉寫', reading:'古諾斯語', aliases:'別稱', shrine:'主要聖地'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -2921,13 +3147,14 @@ function resetNodeEdit(){
 async function exportHTML(){
   const editsJSON  = JSON.stringify(LIVE_EDITS.japan);
   const gEditsJSON = JSON.stringify(LIVE_EDITS.greek);
+  const nEditsJSON = JSON.stringify(LIVE_EDITS.norse);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -3190,6 +3417,7 @@ function openPantheon(key){
 }
 function openJapan(){ openPantheon('japan'); }
 function openGreek(){ openPantheon('greek'); }
+function openNorse(){ openPantheon('norse'); }
 function closeJapan(){
   document.getElementById('japan').style.display='none';
   document.getElementById('home').style.display='flex';
@@ -3870,7 +4098,7 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderG
 
 (function restorePage(){
   const page = localStorage.getItem('mythCurrentPage');
-  if(page==='japan' || page==='greek') openPantheon(page);
+  if(page==='japan' || page==='greek' || page==='norse') openPantheon(page);
   else if(page==='yokai') openYokai();
 })();
 </script>
