@@ -726,6 +726,7 @@ const JP_NODE_DEFS = [
 ["amenohiboko","天日槍","あめのひぼこ","新羅から渡来した王子",23,30.0,"新羅の王子。妻が日光に感じて産んだ赤い玉が美女に化したが、彼が驕ったため女は日本へ逃げ帰り、追って渡来したと伝わる。播磨・近江・若狭を経て但馬に落ち着き、七種の神宝をもたらした。出石神社の祭神であり、その五世の孫が葛城高額媛——神功皇后の母である。渡来系の血脈が皇統に接続する数少ない記述として重視される。"],
 ["kaguyahime","かぐや姫","かぐやひめ","竹取物語",27,19.5,"『竹取物語』の主人公。竹取の翁が光る竹の中から見出し、三月で美しい娘に育った。五人の貴公子には仏の御石の鉢・蓬萊の玉の枝・火鼠の裘・龍の頸の玉・燕の子安貝という到底得られぬ品を求めて退け、帝の求婚も受けなかった。八月十五夜、月からの迎えが来て、不死の薬と天の羽衣を残して昇天する。帝は薬を「天に最も近い山」で焼かせた——それが「不死（富士）の山」の名の由来と物語は結ぶ。現存する日本最古の物語文学である。"],
 ["yomotsukuni_note","黄泉国訪問","よもつくにほうもん","伊邪那岐命が亡き妻を訪ねた国境の物語",4,10.8,"火傷で死んだ伊邪那美神を追い、伊邪那岐神は黄泉の国まで下った。「決して姿を見るな」との約束を破って火を灯すと、そこには蛆の湧いた妻の変わり果てた姿があった。恥をかかされた伊邪那美神は黄泉醜女と八柱の雷神、さらに自ら追いすがって夫を追う。伊邪那岐神は桃の実を投げて退け、最後に千人力の大岩（道反大神）で黄泉比良坂を塞いだ。岩を挟んで妻は「あなたの国の民を一日に千人絞め殺す」と言い、夫は「ならば私は一日に千五百の産屋を建てよう」と応じた——生と死、増殖と衰滅の均衡を語る神話である。この境を越えて生還した伊邪那岐神は、筑紫の日向で禊を行い、三貴子を得た。",true],
+["sugawara_michizane","菅原道真","すがわらのみちざね","学問の神・天神",30,17.1,"平安時代の学者・政治家。右大臣にまで昇りながら藤原時平の讒言により大宰府へ左遷され、失意のうちに没した。死後、都では雷害や疫病、時平をはじめ政敵の相次ぐ変死が続き、清涼殿への落雷では貴族が命を落とした——朝廷はこれを道真の祟りと恐れ、正一位・太政大臣を追贈して霊を鎮めようとした。日本三大怨霊の一つに数えられる一方、生前は当代随一の学者・詩人であったことから、時代が下るにつれ祟り神から「天神様」として学問・書道の神へと信仰の性格を変えていった——荒ぶる怨霊が守り神へ転じた、日本の御霊信仰を代表する例である。牛を愛したという伝承から、天満宮には牛の像が置かれる。",true],
 ];
 
 const JP_GROUPS = [
@@ -804,6 +805,7 @@ const JP_UNIONS = [
   {parent:"futodama", children:["amenoiwatowake"]},
   {parent:"takamimusubi", children:["omoikane","takuhatachijihime"]},
   {parent:"amenohohi", children:["sugawara_note"]},
+  {parent:"sugawara_note", children:["sugawara_michizane"]},
   {spouses:["oshihomimi","takuhatachijihime"], marriage:"primary", children:["ninigi","amenohoakari","nigihayahi"]},
   {spouses:["susanoo","kushinadahime"], marriage:"primary", children:["yashimajinumi","konohanachiruhime"]},
   {spouses:["susanoo","kamuoichihime"], marriage:"secondary", children:["otoshi","ukanomitama"]},
@@ -991,6 +993,7 @@ const JP_NODE_NAMES = {
   "munakata_takitsu":{kojiki:"多岐都比売命",nihonshoki:"湍津姫（たきつひめ）",reading:"たきつひめ の みこと",aliases:["多岐都姬命（たきつひめのみこと）"]},
   "takuhatachijihime":{kojiki:"栲幡千千姫命",nihonshoki:"万幡豊秋津師比売命（よろずはたとよあきつしひめのみこと）",reading:"たくはたちぢひめ の みこと",aliases:[]},
   "sugawara_note":{kojiki:"（氏族）",nihonshoki:"（氏族）",reading:"",aliases:[]},
+  "sugawara_michizane":{kojiki:"（平安時代の実在人物）",nihonshoki:"菅原道真公",reading:"すがわらのみちざね",aliases:["天神様","菅公","天満大自在天神","学問の神"],shrine:"北野天満宮（京都）・太宰府天満宮（福岡）"},
   "ninigi":{kojiki:"邇邇芸命",nihonshoki:"天津彦彦火瓊瓊杵尊",reading:"ににぎ の みこと",aliases:["天邇岐志国邇岐志天津日高日子番能邇邇芸命（ほぼ全名）","瓊瓊杵尊（ににぎのみこと）"]},
   "amenohoakari":{kojiki:"天火明命",nihonshoki:"天照国照彦天火明命",reading:"あめのほあかり の みこと",aliases:["饒速日命と同一視される"]},
   "nigihayahi":{kojiki:"饒速日命",nihonshoki:"饒速日尊（にぎはやひのみこと）",reading:"にぎはやひ の みこと",aliases:["天照国照彦天火明命（あまてるくにてるひこあめのほあかりのみこと）"]},
@@ -3202,7 +3205,7 @@ const YOKAI_DEFS = [
 ["kasane","累","かさね",true,"幽靈・怪談","江戸時代の下総国に伝わる怨霊譚の主人公。醜貌を理由に殺された女性の怨念が後世の人々に取り憑いたとされ、歌舞伎などの題材となった。日本三大幽霊の一つ。"],
 ["ubume","産女","うぶめ",false,"幽靈・怪談","出産時に亡くなった女性の霊とされる妖怪。赤子を抱いた姿で現れ、通行人に子を抱かせようとするという。"],
 ["botanotsuyu","阿露","おつゆ",false,"幽靈・怪談","怪談『牡丹灯籠』に登場する幽霊。愛する男のもとへ牡丹灯籠を提げて夜な夜な通ったが、実は死者であったという恋物語。"],
-["sugawara_michizane","菅原道真","すがわらのみちざね",true,"日本三大怨靈","平安時代の学者・政治家。冤罪により左遷され失意のうちに没した後、都に雷や疫病をもたらす怨霊として恐れられ、後に天神として祀られた。日本三大怨霊の一つ。"],
+["sugawara_michizane_y","菅原道真","すがわらのみちざね",true,"日本三大怨靈","平安時代随一の学者・政治家でありながら、藤原時平の讒言で大宰府へ左遷され失意のうちに没した。死後、都に相次いだ落雷・疫病・政敵の変死は道真の祟りと恐れられ、日本三大怨霊の一つに数えられる。しかしその生前の学識の高さゆえに、荒ぶる怨霊は時代とともに「天神様」として学問・書道を守る神へと姿を変え、北野天満宮・太宰府天満宮をはじめ全国の天満宮に学問成就の神として篤く祀られている——祟り神が守護神へ転じた御霊信仰の代表例。"],
 ["taira_masakado","平將門","たいらのまさかど",true,"日本三大怨靈","平安時代中期に関東で自ら「新皇」を称して反乱を起こした武将。討たれた後もその首が祟りをなしたと伝わり、東京・大手町の首塚は今も畏怖されている。日本三大怨霊の一つ。"],
 ["sutoku_tenno","崇德天皇","すとくてんのう",true,"日本三大怨靈","保元の乱で敗れ讃岐国へ配流された天皇。恨みを抱いたまま没し、日本国を呪う大魔縁になったと伝わる。日本三大怨霊の一つ。"],
 ["tsukumogami_note","付喪神（總稱）","つくもがみ",false,"付喪神","長い年月を経た道具や器物に魂が宿って化けたとされる妖怪の総称。『百鬼夜行絵巻』などに描かれる。"],
@@ -3289,7 +3292,7 @@ const YOKAI_NAMES = {
   kasane:{original:"累（かさね）",aliases:[]},
   ubume:{original:"産女（うぶめ）",aliases:["姑獲鳥"]},
   botanotsuyu:{original:"お露（おつゆ）",aliases:["牡丹灯籠"]},
-  sugawara_michizane:{original:"菅原道真（すがわらのみちざね）",aliases:["天神様"]},
+  sugawara_michizane_y:{original:"菅原道真（すがわらのみちざね）",aliases:["天神様"]},
   taira_masakado:{original:"平将門（たいらのまさかど）",aliases:["将門塚"]},
   sutoku_tenno:{original:"崇徳天皇（すとくてんのう）",aliases:["大魔縁"]},
   tsukumogami_note:{original:"付喪神（つくもがみ）",aliases:["九十九神"]},
@@ -3343,7 +3346,7 @@ const YOKAI_NAMES = {
 const YOKAI_GROUPS = [
   ["日本三大妖怪", ["shutendoji","tamamonomae","otakemaru"], "#e0b060", true],
   ["日本三大幽靈", ["oiwa","okiku","kasane"], "#8fd0e0", true],
-  ["日本三大怨靈", ["sugawara_michizane","taira_masakado","sutoku_tenno"], "#c96f6f", true],
+  ["日本三大怨靈", ["sugawara_michizane_y","taira_masakado","sutoku_tenno"], "#c96f6f", true],
   ["鬼", ["shutendoji","ibarakidoji","suzukagozen","otakemaru","momiji","namahage","hannya"], "#c96f6f"],
   ["妖狐・妖狸", ["tamamonomae","kuzunoha","bunbukuchagama","shibaemontanuki","hakuzosu","jinshinkeibu","danzaburo"], "#d8a06f"],
   ["天狗", ["sojobo","karasutengu","tarobo","jirobo"], "#9fb87a"],
