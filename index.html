@@ -65,6 +65,20 @@
   #searchResults div{padding:8px 14px;cursor:pointer;font-size:.9em;border-bottom:1px solid #2c3155;}
   #searchResults div:hover,#searchResults div.focused{background:#2a3060;}
   #searchResults .r-kana{color:var(--dim);font-size:.8em;margin-left:6px;}
+  .groupPickerWrap{position:relative;flex:none;}
+  .groupPickerBtn{background:none;border:1px solid var(--line);color:var(--dim);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1em;flex:none;}
+  .groupPickerBtn:hover,.groupPickerBtn.active{color:var(--accent);border-color:var(--accent);}
+  .groupPickerList{
+    position:absolute;top:110%;right:0;min-width:230px;max-width:320px;background:var(--card);border-radius:10px;
+    border:1px solid var(--line);max-height:320px;overflow-y:auto;display:none;z-index:25;
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .groupPickerList::-webkit-scrollbar{display:none;}
+  .groupPickerList.open{display:block;}
+  .groupPickerList div{padding:8px 14px;cursor:pointer;font-size:.85em;border-bottom:1px solid #2c3155;}
+  .groupPickerList div:hover{background:#2a3060;}
+  .groupPickerList div.gp-active{color:var(--accent);font-weight:600;}
+  .r-shrine{display:block;color:#c9a86f;font-size:.74em;margin-top:2px;}
   #resetBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
   #resetBtn:hover{color:var(--accent);border-color:var(--accent);}
   #legend{margin-left:auto;display:flex;gap:13px;align-items:center;font-size:.7em;color:var(--dim);flex:1 1 auto;
@@ -120,6 +134,8 @@
   .groupbox.marker-only .glabel{opacity:.9;border:1px dashed rgba(0,0,0,.35);}
   .groupbox.marker-only.hl{outline:none;}
   .groupbox.marker-only.hl .glabel{box-shadow:0 0 18px rgba(255,159,63,.8);}
+  .ygroup.yhl{outline:2px solid rgba(255,159,63,.8);outline-offset:6px;border-radius:10px;}
+  .ygroup.ydim{opacity:.15;transition:opacity .25s;}
   .groupbox.dim-box{opacity:.1;}
   #searchResults .r-group{color:var(--accent);font-weight:600;}
   .edge-label.marriage{color:#e08a8a;background:#2a1c1c;}
@@ -314,6 +330,10 @@
       <button id="searchClear" aria-label="清除">✕</button>
       <div id="searchResults"></div>
     </div>
+    <div class="groupPickerWrap">
+      <button id="groupPickerBtn" class="groupPickerBtn" title="選擇群組" onclick="toggleGroupPicker()">☰</button>
+      <div id="groupPickerList" class="groupPickerList"></div>
+    </div>
     <button id="resetBtn" onclick="resetView()">重置檢視</button>
     <div id="legend">
       <span><i class="dbl"></i>正式婚姻</span>
@@ -381,6 +401,10 @@
       <input id="ysearchInput" placeholder="搜尋妖怪名或讀音…" autocomplete="off">
       <button id="ysearchClear" aria-label="清除">✕</button>
       <div id="yresults"></div>
+    </div>
+    <div class="groupPickerWrap">
+      <button id="ygroupPickerBtn" class="groupPickerBtn" title="選擇群組" onclick="toggleYGroupPicker()">☰</button>
+      <div id="ygroupPickerList" class="groupPickerList"></div>
     </div>
     <button id="favFilterBtn" onclick="toggleFavFilter()">⭐ 只看收藏</button>
     <button id="yResetBtn" onclick="yResetView()">重置檢視</button>
@@ -2917,6 +2941,13 @@ function dimLinesExcept(isRelated){
 function unionTouches(u, ids){
   return !!u && [...(u.spouses||[]), u.parent, ...(u.children||[])].some(id=>ids.has(id));
 }
+// 群組框（含其名稱標籤）只留下與選取對象有成員重疊的，其餘淡化
+function dimGroupsExcept(ids){
+  document.querySelectorAll('.groupbox').forEach(b=>{
+    const g = GROUPS[+b.dataset.gi];
+    b.classList.toggle('dim-box', !(g && g[1].some(id=>ids.has(id))));
+  });
+}
 function highlightUnion(uid){
   selectedUnionId = uid;
   document.querySelectorAll('.edge-label').forEach(l=>l.classList.toggle('dim-label', +l.dataset.uid !== uid));
@@ -2932,6 +2963,7 @@ function highlightUnion(uid){
     p.classList.toggle('hl', puid===uid);
     p.classList.toggle('dim-edge', puid!==uid);
   });
+  dimGroupsExcept(relIds);
 }
 function fitGroup(memberNodes){
   if(!memberNodes.length) return;
@@ -2976,6 +3008,7 @@ function focusNode(id){
   if(!n) return;
   clearHighlight();
   dimLinesExcept(u=> unionTouches(u, new Set([id])));
+  dimGroupsExcept(new Set([id]));
   const div = document.querySelector(`.node[data-id="${id}"]`);
   if(div) div.classList.add('highlight');
   const rect = wrap.getBoundingClientRect();
@@ -2987,6 +3020,29 @@ function focusNode(id){
   openPanel(n);
 }
 
+const groupPickerBtn = document.getElementById('groupPickerBtn');
+const groupPickerList = document.getElementById('groupPickerList');
+function renderGroupPicker(){
+  groupPickerList.innerHTML = GROUPS.length ? GROUPS.map((g,i)=>
+    `<div data-gi="${i}" class="${selectedGroupIdx===i?'gp-active':''}">${g[0]}</div>`
+  ).join('') : `<div style="color:var(--dim);cursor:default;">此體系尚無分類群組</div>`;
+}
+function toggleGroupPicker(){
+  const open = groupPickerList.classList.contains('open');
+  groupPickerList.classList.toggle('open', !open);
+  groupPickerBtn.classList.toggle('active', !open);
+  if(!open) renderGroupPicker();
+}
+groupPickerList.addEventListener('click', e=>{
+  const row = e.target.closest('div[data-gi]');
+  if(!row) return;
+  const idx = parseInt(row.dataset.gi);
+  if(selectedGroupIdx===idx) clearHighlight(); else highlightGroup(idx);
+  groupPickerList.classList.remove('open'); groupPickerBtn.classList.remove('active');
+});
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.groupPickerWrap')){ groupPickerList.classList.remove('open'); groupPickerBtn.classList.remove('active'); }
+});
 function matchGroups(q){
   return GROUPS.map((g,i)=>({idx:i,label:g[0]})).filter(g=>g.label.includes(q));
 }
@@ -3022,6 +3078,7 @@ function matchNodes(q){
       normKanji((nn.nihonshoki||'').toLowerCase()).includes(q) ||
       normKanji((nn.kojiki||'').toLowerCase()).includes(q) ||
       reading.includes(q) ||
+      normKanji((nn.shrine||'').toLowerCase()).includes(q) ||
       (nn.aliases||[]).some(a=>normKanji(a.toLowerCase().replace(/ /g,'')).includes(q));
   });
 }
@@ -3035,8 +3092,13 @@ function showSearchResults(){
   if(!q){ searchResults.style.display='none'; clearHighlight(); return; }
   const gm = matchGroups(q);
   const nm = matchNodes(q);
+  const qn = normKanji(q.toLowerCase().replace(/ /g,''));
   let html = gm.map(g=>`<div data-gi="${g.idx}" class="r-group">▸ ${g.label}</div>`).join('');
-  html += nm.map(n=>`<div data-id="${n.id}">${n.name}<span class="r-kana">${n.kana||''}</span></div>`).join('');
+  html += nm.map(n=>{
+    const nn = NODE_NAMES[n.id]||{};
+    const shrineHit = nn.shrine && normKanji(nn.shrine.toLowerCase()).includes(qn);
+    return `<div data-id="${n.id}">${n.name}<span class="r-kana">${n.kana||''}</span>${shrineHit?`<span class="r-shrine">⛩ ${nn.shrine}</span>`:''}</div>`;
+  }).join('');
   searchResults.innerHTML = html || `<div style="color:var(--dim);cursor:default;">找不到符合的神明或群組</div>`;
   searchResults.style.display='block';
 }
@@ -3408,6 +3470,7 @@ function yResetView(){
   yApplyTransform();
   closeYPanel();
   yClearSearch();
+  clearYGroupHighlight();
 }
 // 返回頂端＝同時重置縮放與位置（等同「重置檢視」，另外提供圖示按鈕方便隨手點擊）
 function yScrollTop(){ yResetView(); }
@@ -3468,11 +3531,11 @@ ycanvasWrap.addEventListener('touchend', e=>{
 const ycontent = document.getElementById('ycontent');
 function renderYokai(){
   let html = '';
-  YOKAI_GROUPS.forEach(([label, ids, color, special])=>{
+  YOKAI_GROUPS.forEach(([label, ids, color, special], gi)=>{
     let members = ids.map(id=>yokais[id]).filter(Boolean);
     if(SHOW_FAV_ONLY) members = members.filter(y=>YOKAI_FAVORITES[y.id]);
     if(!members.length) return;
-    html += `<div class="ygroup${special?' special':''}"><h3 style="color:${special?color:''}">${special?'🌟 ':''}${label}</h3><div class="ygrid">`;
+    html += `<div class="ygroup${special?' special':''}" data-gi="${gi}"><h3 style="color:${special?color:''}">${special?'🌟 ':''}${label}</h3><div class="ygrid">`;
     members.forEach(y=>{
       const fav = !!YOKAI_FAVORITES[y.id];
       html += `<div class="ycard${y.notable?' notable':''}${y.isNote?' note':''}${fav?' favorited':''}" data-id="${y.id}">
@@ -3691,6 +3754,58 @@ function yClearSearch(){
   yresults.style.display='none';
   ysearchFocusIdx=-1;
   document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('dim'));
+  clearYGroupHighlight();
+}
+
+/* ============ 妖怪頁：群組選擇下拉 ============ */
+let selectedYGroupIdx = null;
+const ygroupPickerBtn = document.getElementById('ygroupPickerBtn');
+const ygroupPickerList = document.getElementById('ygroupPickerList');
+function renderYGroupPicker(){
+  ygroupPickerList.innerHTML = YOKAI_GROUPS.map(([label,,,special],i)=>
+    `<div data-gi="${i}" class="${selectedYGroupIdx===i?'gp-active':''}">${special?'🌟 ':''}${label}</div>`
+  ).join('');
+}
+function toggleYGroupPicker(){
+  const open = ygroupPickerList.classList.contains('open');
+  ygroupPickerList.classList.toggle('open', !open);
+  ygroupPickerBtn.classList.toggle('active', !open);
+  if(!open) renderYGroupPicker();
+}
+ygroupPickerList.addEventListener('click', e=>{
+  const row = e.target.closest('div[data-gi]');
+  if(!row) return;
+  const idx = parseInt(row.dataset.gi);
+  if(selectedYGroupIdx===idx) clearYGroupHighlight(); else yFocusGroup(idx);
+  ygroupPickerList.classList.remove('open'); ygroupPickerBtn.classList.remove('active');
+});
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#ygroupPickerBtn') && !e.target.closest('#ygroupPickerList')){
+    ygroupPickerList.classList.remove('open'); ygroupPickerBtn.classList.remove('active');
+  }
+});
+function clearYGroupHighlight(){
+  selectedYGroupIdx = null;
+  document.querySelectorAll('.ygroup').forEach(el=>el.classList.remove('yhl','ydim'));
+}
+function yFocusGroup(idx){
+  selectedYGroupIdx = idx;
+  document.querySelectorAll('.ygroup').forEach(el=>{
+    const match = +el.dataset.gi === idx;
+    el.classList.toggle('yhl', match);
+    el.classList.toggle('ydim', !match);
+  });
+  const el = document.querySelector(`.ygroup[data-gi="${idx}"]`);
+  if(!el) return;
+  if(yIsMobile()){ el.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  const rect = ycanvasWrap.getBoundingClientRect();
+  const pad = 40;
+  ySetSmooth(true);
+  yscale = Math.min(1, (rect.width-pad*2)/el.offsetWidth);
+  yscale = Math.max(yscale, 0.3);
+  ytx = pad - el.offsetLeft*yscale;
+  yty = pad - el.offsetTop*yscale;
+  yApplyTransform();
 }
 
 /* ============ 妖怪頁：頁面切換 ============ */
