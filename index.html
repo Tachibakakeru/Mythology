@@ -350,6 +350,7 @@
       <div class="pe-label" id="pel-nihonshoki">日本書紀</div><input id="pe-nihonshoki" class="pe-inp">
       <div class="pe-label" id="pel-reading">読み</div><input id="pe-reading" class="pe-inp">
       <div class="pe-label" id="pel-aliases">別稱（逗號分隔）</div><input id="pe-aliases" class="pe-inp">
+      <div class="pe-label" id="pel-shrine">祭祀神社</div><input id="pe-shrine" class="pe-inp">
       <div class="pe-label">說明</div><textarea id="pe-desc" class="pe-inp"></textarea>
       <div class="pe-label">自訂欄位</div>
       <div id="pe-fields"></div>
@@ -700,9 +701,13 @@ const JP_NODE_DEFS = [
 ["hagoromo_note","羽衣伝説","はごろもでんせつ","天女の羽衣",27,9.2,"水浴する天女の羽衣を男が隠し、天に帰れなくなった天女が地上で妻となる説話。『丹後国風土記』では、老夫婦に羽衣を隠された天女が十余年ともに暮らし、万病に効く酒を醸して家を富ませたのち追い出され、嘆きながら奈具の村に留まって豊宇賀能売命——すなわち豊受大神になったと語られる。駿河の三保松原に伝わる話は謡曲『羽衣』となり、フランスの舞踊家エレーヌ・ジュグラリスがこれを愛したことから、三保には彼女の記念碑が立つ。",true],
 ["amenohiboko","天日槍","あめのひぼこ","新羅から渡来した王子",23,30.0,"新羅の王子。妻が日光に感じて産んだ赤い玉が美女に化したが、彼が驕ったため女は日本へ逃げ帰り、追って渡来したと伝わる。播磨・近江・若狭を経て但馬に落ち着き、七種の神宝をもたらした。出石神社の祭神であり、その五世の孫が葛城高額媛——神功皇后の母である。渡来系の血脈が皇統に接続する数少ない記述として重視される。"],
 ["kaguyahime","かぐや姫","かぐやひめ","竹取物語",27,19.5,"『竹取物語』の主人公。竹取の翁が光る竹の中から見出し、三月で美しい娘に育った。五人の貴公子には仏の御石の鉢・蓬萊の玉の枝・火鼠の裘・龍の頸の玉・燕の子安貝という到底得られぬ品を求めて退け、帝の求婚も受けなかった。八月十五夜、月からの迎えが来て、不死の薬と天の羽衣を残して昇天する。帝は薬を「天に最も近い山」で焼かせた——それが「不死（富士）の山」の名の由来と物語は結ぶ。現存する日本最古の物語文学である。"],
+["yomotsukuni_note","黄泉国訪問","よもつくにほうもん","伊邪那岐命が亡き妻を訪ねた国境の物語",4,10.8,"火傷で死んだ伊邪那美神を追い、伊邪那岐神は黄泉の国まで下った。「決して姿を見るな」との約束を破って火を灯すと、そこには蛆の湧いた妻の変わり果てた姿があった。恥をかかされた伊邪那美神は黄泉醜女と八柱の雷神、さらに自ら追いすがって夫を追う。伊邪那岐神は桃の実を投げて退け、最後に千人力の大岩（道反大神）で黄泉比良坂を塞いだ。岩を挟んで妻は「あなたの国の民を一日に千人絞め殺す」と言い、夫は「ならば私は一日に千五百の産屋を建てよう」と応じた——生と死、増殖と衰滅の均衡を語る神話である。この境を越えて生還した伊邪那岐神は、筑紫の日向で禊を行い、三貴子を得た。",true],
 ];
 
 const JP_GROUPS = [
+  ["高天原", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","amaterasu","tsukuyomi","amenouzume","futodama","amenoiwatowake","omoikane","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","amenomahitotsu","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","amenohoakari","amenokoyane","amenotajikarao","amatsukunitama","amewakahiko","amanosagume","takemikazuchi","torinoiwakusufune","ninigi","nigihayahi","amenoiwato_note","sanshu_note"], "#e0c890", false],
+  ["葦原中國", ["susanoo","sarutahiko","oyamatsumi","kagutsuchi","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","yamatsumi8","misogi_sutemono","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","owatatsumi","toyotamahime","tamayoribime","hoderi","hosuseri","hoori","ugayafukiaezu","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","otoshi","ukanomitama","yashimajinumi","konohanachiruhime","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","konohanasakuyahime","iwanagahime","oyamatsumi_kayanohime_note","mizutogami_note","mishima_mizokuhi","seyadatarahime","omononushi","jimmu","jimmu_toseikou","yatagarasu","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note"], "#9fb87a", false],
+  ["根之國・黄泉", ["izanami","yomotsukuni_note","susanoo","okuninushi","suseribime"], "#8a7fb8"],
   ["神話の事件と神器", ["amenoiwato_note","sanshu_note","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note","jimmu_toseikou","yatagarasu"], "#d8a06f", false],
   ["氏族の祖", ["nakatomi_note","inbe_note","mononobe_note","otomo_note","ohobiko","abe_note","takeuchi","soga_note"], "#8fb0d8", false],
   ["後世の信仰・神仏習合", ["ebisu","shichifukujin_note","hachiman","kumano_note","zao"], "#c9a86f", false],
@@ -731,6 +736,7 @@ const JP_GROUPS = [
 ];
 
 const JP_UNIONS = [
+  {spouses:["izanagi","izanami"], marriage:"partner", children:["yomotsukuni_note"], label:"黄泉比良坂で決別", labelClass:"blood"},
   /* 神話の事件と神器 */
   {parent:"amaterasu", children:["amenoiwato_note","sanshu_note"], label:"岩戸と神器", labelClass:"ritual"},
   {parent:"susanoo", children:["yamatanoorochi","kumano_note"], label:"八岐大蛇退治と熊野習合", labelClass:"blood"},
@@ -1086,6 +1092,68 @@ const JP_NODE_NAMES = {
   "suiko":{kojiki:"豊御食炊屋比売命",nihonshoki:"豊御食炊屋姫尊（とよみけかしきやひめのみこと）",reading:"とよみけかしきやひめ の みこと",aliases:["推古天皇（すいこてんのう）","額田部皇女（ぬかたべのひめみこ）"]},
   "shotoku":{kojiki:"上宮之厩戸豊聡耳命",nihonshoki:"厩戸皇子（うまやどのみこ）",reading:"うまやどのおうじ",aliases:["聖徳太子（しょうとくたいし）","厩戸王（うまやどおう）","豊聡耳命（とよとみみのみこと）"]},
 };
+
+// 祭祀神社データ（既存の JP_NODE_NAMES に合流）
+const JP_SHRINES = {
+  "izanagi":"伊弉諾神宮（兵庫・淡路島）",
+  "izanami":"伊弉諾神宮に配祀・花窟神社（三重）",
+  "amaterasu":"伊勢神宮内宮（皇大神宮）",
+  "tsukuyomi":"伊勢神宮内宮別宮 月読宮",
+  "susanoo":"八坂神社・氷川神社・須佐神社（島根）",
+  "kushinadahime":"八坂神社（配祀）・氷川神社（配祀）",
+  "ashinazuchi":"八重垣神社（配祀）",
+  "tenazuchi":"八重垣神社（配祀）",
+  "oyamatsumi":"大山祇神社（愛媛・大三島）",
+  "konohanasakuyahime":"富士山本宮浅間大社・木花咲耶姫神社",
+  "kagutsuchi":"秋葉山本宮秋葉神社・愛宕神社",
+  "toyoukebime":"伊勢神宮外宮（豊受大神宮）",
+  "takemikazuchi":"鹿島神宮（茨城）",
+  "amenokoyane":"春日大社・枚岡神社",
+  "futodama":"安房神社（千葉）",
+  "amenouzume":"椿岸神社・佐瑠女神社",
+  "sarutahiko":"椿大神社（三重）・猿田彦神社（伊勢）",
+  "omoikane":"戸隠神社中社（長野）",
+  "amenotajikarao":"戸隠神社奥社（長野）",
+  "sumiyoshi_soko":"住吉大社（大阪）",
+  "sumiyoshi_naka":"住吉大社（大阪）",
+  "sumiyoshi_uwa":"住吉大社（大阪）",
+  "watatsumi_soko":"志賀海神社（福岡）",
+  "watatsumi_naka":"志賀海神社（福岡）",
+  "watatsumi_uwa":"志賀海神社（福岡）",
+  "owatatsumi":"海神社（兵庫）・志賀海神社（福岡）",
+  "toyotamahime":"豊玉姫神社（宮崎・佐賀）",
+  "ugayafukiaezu":"鵜戸神宮（宮崎）",
+  "ninigi":"霧島神宮（鹿児島）・新田神社",
+  "hoori":"鹿児島神宮",
+  "hoderi":"潮嶽神社（宮崎）",
+  "okuninushi":"出雲大社（島根）",
+  "sukunabikona":"少彦名神社（大阪）・神田明神（配祀）",
+  "kotoshironushi":"美保神社（島根）",
+  "takeminakata":"諏訪大社（長野）",
+  "otoshi":"大歳神社（各地）",
+  "ukanomitama":"伏見稲荷大社（京都）",
+  "omononushi":"大神神社（奈良・三輪山）",
+  "ojin":"宇佐神宮・石清水八幡宮・鶴岡八幡宮（八幡神として）",
+  "hachiman":"宇佐神宮（大分）・石清水八幡宮（京都）・鶴岡八幡宮（鎌倉）",
+  "jingu":"住吉大社（配祀）・気比神宮（配祀）",
+  "takeuchi":"気比神宮（配祀）・宇倍神社（鳥取）",
+  "jimmu":"橿原神宮（奈良）",
+  "yamatotakeru":"大鳥大社（大阪）・熱田神宮（配祀）",
+  "kusanagi":"熱田神宮（愛知）",
+  "yamatohime":"伊勢神宮（斎宮の祖）・倭姫宮",
+  "ebisu":"西宮神社（兵庫）・今宮戎神社（大阪）",
+  "zao":"金峯山寺（奈良・吉野）",
+  "amenohiboko":"出石神社（兵庫）",
+  "urashima":"浦嶋神社（京都・伊根町）",
+  "yatagarasu":"熊野本宮大社の神使・八咫烏神社（奈良）",
+  "kumano_note":"熊野本宮大社・熊野速玉大社・熊野那智大社",
+  "munakata_ichikishima":"宗像大社辺津宮・厳島神社",
+  "munakata_takiri":"宗像大社沖津宮",
+  "munakata_takitsu":"宗像大社中津宮",
+  "shotoku":"四天王寺（大阪）・法隆寺（奈良）",
+  "amenomahitotsu":"多度大社（三重・配祀）",
+};
+Object.entries(JP_SHRINES).forEach(([id,shrine])=>{ if(!JP_NODE_NAMES[id]) JP_NODE_NAMES[id]={}; JP_NODE_NAMES[id].shrine = shrine; });
 
 /* ============================================================
    資料：希臘神話系譜（依赫西俄德《神譜》為主，參酌荷馬史詩與後世神話集成）
@@ -2063,12 +2131,12 @@ const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
     seed:USER_EDITS, storage:'jmyth_edits', yokai:true, placeholder:'搜尋神名或讀音…', editBtn:'✏️ 編輯此神明',
-    labels:{kana:'假名讀音', kojiki:'古事記', nihonshoki:'日本書紀', reading:'読み', aliases:'別稱'},
+    labels:{kana:'假名讀音', kojiki:'古事記', nihonshoki:'日本書紀', reading:'読み', aliases:'別稱', shrine:'祭祀神社'},
   },
   greek: {
     title:'🏛️ 希臘神話系譜', defs:GR_NODE_DEFS, groups:GR_GROUPS, unions:GR_UNIONS, names:GR_NODE_NAMES,
     seed:GREEK_USER_EDITS, storage:'greek_edits', yokai:false, placeholder:'搜尋神名或希臘原文…', editBtn:'✏️ 編輯此神祇',
-    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'希臘原文', nihonshoki:'羅馬神名', reading:'拉丁轉寫', aliases:'別稱'},
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'希臘原文', nihonshoki:'羅馬神名', reading:'拉丁轉寫', aliases:'別稱', shrine:'主要聖地'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -2689,6 +2757,7 @@ function openPanel(n){
   if(nn.kojiki && nn.kojiki!==n.name) html += row(P.labels.kojiki,nn.kojiki);
   if(nn.reading) html += row(P.labels.reading,nn.reading);
   if(nn.aliases && nn.aliases.length) html += row(P.labels.aliases,nn.aliases.join('　'));
+  if(nn.shrine) html += row(P.labels.shrine||'祭祀神社',nn.shrine);
   const rec = USER_EDITS_LIVE[n.id];
   html += customRowsHTML(rec);
   pnames.innerHTML = html;
@@ -2728,6 +2797,7 @@ function toggleNodeEdit(){
   document.getElementById('pe-nihonshoki').value  = nn.nihonshoki||'';
   document.getElementById('pe-reading').value     = nn.reading||'';
   document.getElementById('pe-aliases').value     = (nn.aliases||[]).join('，');
+  document.getElementById('pe-shrine').value      = nn.shrine||'';
   document.getElementById('pe-desc').value        = n.desc||'';
   const rec = USER_EDITS_LIVE[editingNodeId] || {};
   loadEditRows('pe-fields', rec.custom);
@@ -2752,6 +2822,7 @@ function saveNodeEdit(){
     nihonshoki:   document.getElementById('pe-nihonshoki').value.trim()||undefined,
     reading:      document.getElementById('pe-reading').value.trim()||undefined,
     aliases:      aliasRaw.trim() ? aliasRaw.split(/[，,、]+/).map(s=>s.trim()).filter(Boolean) : undefined,
+    shrine:       document.getElementById('pe-shrine').value.trim()||undefined,
     desc:         document.getElementById('pe-desc').value.trim()||undefined,
   };
   Object.keys(ov).forEach(k=>{ if(ov[k]===undefined) delete ov[k]; });
@@ -2769,7 +2840,7 @@ function saveNodeEdit(){
   if(ov.desc) n.desc=ov.desc;
   // Patch live NODE_NAMES
   if(!NODE_NAMES[id]) NODE_NAMES[id]={};
-  ['kojiki','nihonshoki','reading','aliases'].forEach(k=>{ if(ov[k]!==undefined) NODE_NAMES[id][k]=ov[k]; });
+  ['kojiki','nihonshoki','reading','aliases','shrine'].forEach(k=>{ if(ov[k]!==undefined) NODE_NAMES[id][k]=ov[k]; });
   // Patch visible node card
   const div = document.querySelector(`.node[data-id="${id}"]`);
   if(div){
