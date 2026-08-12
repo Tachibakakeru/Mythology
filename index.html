@@ -5,24 +5,26 @@
 <title>世界神話系譜計畫</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap">
 <style>
   :root{
-    --bg:#0f1220; --bg2:#171b2e; --card:#1e2340; --accent:#e0b060;
-    --text:#f0e8d8; --dim:#9098b8; --line:#5a5f88;
+    --bg:#0a0f1c; --bg2:#111826; --card:#182035; --accent:#5ab4ff;
+    --text:#deeaff; --dim:#7a9cc0; --line:#2e4a6a;
   }
   :root[data-theme="light"]{
-    --bg:#f6f1e4; --bg2:#ece3cd; --card:#ffffff; --accent:#a8710f;
-    --text:#2c2416; --dim:#7a7160; --line:#cdbf9e;
+    --bg:#edf4fc; --bg2:#d8eaf8; --card:#ffffff; --accent:#1a7ed4;
+    --text:#0e2035; --dim:#3a6080; --line:#90bce0;
   }
   *{box-sizing:border-box;}
   #themeBtn{background:none;border:1px solid var(--line);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.05em;flex:none;}
   #themeBtn:hover{border-color:var(--accent);}
   #homeThemeBtn{position:absolute;top:20px;right:20px;}
-  body{margin:0;font-family:"Noto Sans TC","Segoe UI",sans-serif;background:var(--bg);color:var(--text);}
+  body{margin:0;font-family:"Noto Serif TC","Noto Sans TC","Segoe UI",serif;background:var(--bg);color:var(--text);}
 
   /* ---------- HOME ---------- */
   #home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:40px;}
-  #home h1{font-size:2.2em;letter-spacing:.15em;margin:0;color:var(--accent);text-shadow:0 0 20px rgba(224,176,96,.4);}
+  #home h1{font-size:2.2em;letter-spacing:.15em;margin:0;color:var(--accent);text-shadow:0 0 20px rgba(90,180,255,.4);}
   #home p{color:var(--dim);margin:0;}
   /* 轉輪：卡牌繞著垂直軸旋轉，如轉經輪 */
   #wheelStage{
@@ -51,10 +53,11 @@
   .myth-icon .label{font-size:1.32em; font-weight:700; letter-spacing:.04em;}
   .myth-icon .sub{font-size:.82em; color:var(--dim); line-height:1.6;}
   /* 正面那張才完整呈現，其餘後退並淡化，做出景深 */
-  .myth-icon:not(.front){opacity:.42; filter:brightness(.62) saturate(.8); pointer-events:none;}
-  .myth-icon.front{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), 0 22px 60px rgba(224,176,96,.3);}
-  .myth-icon.front:hover:not(.disabled){box-shadow:0 0 0 2px var(--accent), 0 26px 70px rgba(224,176,96,.45);}
-  .myth-icon.disabled{cursor:not-allowed;}
+  .myth-icon:not(.front){opacity:.42; filter:brightness(.62) saturate(.8);}
+  .myth-icon:not(.front):not(.disabled){cursor:pointer;}
+  .myth-icon.front{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), 0 22px 60px rgba(90,180,255,.3);}
+  .myth-icon.front:hover:not(.disabled){box-shadow:0 0 0 2px var(--accent), 0 26px 70px rgba(90,180,255,.45);}
+  .myth-icon.disabled{cursor:not-allowed; pointer-events:none;}
   .myth-icon.disabled .glyph{filter:grayscale(1) drop-shadow(0 4px 12px rgba(0,0,0,.5));}
   .myth-icon.disabled .sub{font-style:italic;}
   /* 左右轉動鈕與指示點 */
@@ -78,6 +81,10 @@
 
   /* ---------- JAPAN VIEW ---------- */
   #japan{display:none;position:fixed;inset:0;background:var(--bg);}
+  @keyframes zoomIn  { from{opacity:0;transform:scale(.88)} to{opacity:1;transform:scale(1)} }
+  @keyframes zoomOut { from{opacity:1;transform:scale(1)} to{opacity:0;transform:scale(.88)} }
+  .zoom-in  { animation:zoomIn  .55s cubic-bezier(.22,.9,.32,1) both; }
+  .zoom-out { animation:zoomOut .42s cubic-bezier(.6,0,.8,.4) both; }
   #topbar{
     position:absolute;top:0;left:0;right:0;height:64px;z-index:10;
     display:flex;align-items:center;gap:16px;padding:0 20px;
@@ -117,7 +124,7 @@
   .groupPickerList div{padding:8px 14px;cursor:pointer;font-size:.85em;border-bottom:1px solid #2c3155;}
   .groupPickerList div:hover{background:#2a3060;}
   .groupPickerList div.gp-active{color:var(--accent);font-weight:600;}
-  .r-shrine{display:block;color:#c9a86f;font-size:.74em;margin-top:2px;}
+  .r-shrine{display:block;color:#7ec4f0;font-size:.74em;margin-top:2px;}
   #resetBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;}
   #resetBtn:hover{color:var(--accent);border-color:var(--accent);}
   #legend{margin-left:auto;display:flex;gap:13px;align-items:center;font-size:.7em;color:var(--dim);flex:1 1 auto;
@@ -129,7 +136,7 @@
   #legend i.dash{border-top:2px dashed #6fc2b4;}
   #legend b.box{display:inline-block;width:14px;height:10px;border:1px dashed var(--accent);border-radius:2px;flex:none;}
   #legend b.keybox{display:inline-block;width:14px;height:10px;border:2px solid var(--accent);border-radius:2px;flex:none;
-    box-shadow:0 0 6px rgba(224,176,96,.5);}
+    box-shadow:0 0 6px rgba(90,180,255,.5);}
 
   #canvasWrap{position:absolute;inset:0;top:64px;overflow:hidden;cursor:grab;touch-action:none;}
   #canvasWrap.grabbing{cursor:grabbing;}
@@ -148,8 +155,8 @@
   .node:hover{border-color:var(--accent);}
   .node .name{font-size:.85em;font-weight:700;line-height:1.2;}
   .node .kana{font-size:.63em;color:var(--dim);}
-  .node .role{font-size:.6em;color:#e0b06099;margin-top:2px;line-height:1.25;}
-  .node.key{border-color:var(--accent);border-width:2px;box-shadow:0 0 14px rgba(224,176,96,.25);}
+  .node .role{font-size:.6em;color:#5ab4ff80;margin-top:2px;line-height:1.25;}
+  .node.key{border-color:var(--accent);border-width:2px;box-shadow:0 0 14px rgba(90,180,255,.25);}
   .node.note{background:transparent;border-style:dashed;opacity:.75;}
   .node.note .name{font-size:.78em;font-style:italic;}
   .node.highlight{border-color:#ff5f5f !important;box-shadow:0 0 20px rgba(255,95,95,.65);background:#2a1c1c;z-index:6;}
@@ -188,7 +195,7 @@
   #panel.open,#ypanel.open{transform:translateX(0);}
   #panel .p-name,#ypanel .p-name{font-size:1.3em;font-weight:700;color:var(--accent);margin-bottom:2px;}
   #panel .p-kana,#ypanel .p-kana{color:var(--dim);font-size:.9em;margin-bottom:10px;}
-  #panel .p-role,#ypanel .p-role{display:inline-block;font-size:.78em;color:#e0b060;background:#e0b06022;padding:3px 10px;border-radius:12px;margin-bottom:14px;}
+  #panel .p-role,#ypanel .p-role{display:inline-block;font-size:.78em;color:#5ab4ff;background:#5ab4ff1a;padding:3px 10px;border-radius:12px;margin-bottom:14px;}
   #panel .p-desc,#ypanel .p-desc{font-size:.92em;line-height:1.75;color:var(--text);opacity:.9;}
   #panel .p-groups,#ypanel .p-groups{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;}
   #panel .p-groups span,#ypanel .p-groups span{font-size:.7em;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:10px;}
@@ -276,7 +283,7 @@
   .ycard:hover{border-color:var(--accent);transform:translateY(-3px);}
   .ycard .yname{font-size:.86em;font-weight:700;line-height:1.25;}
   .ycard .ykana{font-size:.6em;color:var(--dim);margin-top:3px;}
-  .ycard .ycat{font-size:.58em;color:#e0b06099;margin-top:5px;}
+  .ycard .ycat{font-size:.58em;color:#5ab4ff80;margin-top:5px;}
   .ycard .ystar{position:absolute;top:6px;right:8px;font-size:.7em;}
   .ycard.dim{opacity:.15;}
   .ycard.highlight{border-color:#ff5f5f !important;box-shadow:0 0 16px rgba(255,95,95,.55);}
@@ -822,24 +829,24 @@ const JP_GROUPS = [
   ["根之國・黄泉", ["izanami","yomotsukuni_note","susanoo","okuninushi","suseribime"], "#8a7fb8"],
   ["神話の事件と神器", ["amenoiwato_note","sanshu_note","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note","jimmu_toseikou","yatagarasu"], "#d8a06f", false],
   ["氏族の祖", ["nakatomi_note","inbe_note","mononobe_note","otomo_note","ohobiko","abe_note","takeuchi","soga_note"], "#8fb0d8", false],
-  ["後世の信仰・神仏習合", ["ebisu","shichifukujin_note","hachiman","kumano_note","zao"], "#c9a86f", false],
+  ["後世の信仰・神仏習合", ["ebisu","shichifukujin_note","hachiman","kumano_note","zao"], "#7ec4f0", false],
   ["伝説・昔話", ["urashima","hagoromo_note","kaguyahime","amenohiboko"], "#b08fd8", false],
-  ["造化三神", ["amenominakanushi","takamimusubi","kamimusubi"], "#e0b060"],
+  ["造化三神", ["amenominakanushi","takamimusubi","kamimusubi"], "#5ab4ff"],
   ["別天津神", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi"], "#7fa8d0"],
   ["神世七代", ["kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","izanagi","izanami"], "#9fb87a"],
-  ["三貴子", ["amaterasu","tsukuyomi","susanoo"], "#e0b060"],
+  ["三貴子", ["amaterasu","tsukuyomi","susanoo"], "#5ab4ff"],
   ["宗像三女神", ["munakata_takiri","munakata_ichikishima","munakata_takitsu"], "#e08ab0"],
   ["綿津見三神", ["watatsumi_soko","watatsumi_naka","watatsumi_uwa"], "#6fc2c9"],
   ["住吉三神", ["sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa"], "#6f9fc9"],
-  ["誓約の五男神", ["oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi"], "#c9a86f"],
+  ["誓約の五男神", ["oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi"], "#7ec4f0"],
   ["カグツチの血から生まれた神", ["iwasaku","nesaku","mikahayahi","hihayahi","takemikazuchi","kuraokami","kuramitsuha"], "#c96f6f"],
   ["出雲・大国主神の一族", ["okuninushi","suseribime","sukunabikona","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime"], "#b08fd8"],
   ["地神五代", ["amaterasu","oshihomimi","ninigi","hoori","ugayafukiaezu"], "#c8b870"],
   ["日向三代", ["ninigi","hoori","ugayafukiaezu"], "#d4956a"],
-  ["天孫降臨・皇統", ["ninigi","amenohoakari","nigihayahi","konohanasakuyahime","iwanagahime","hoderi","hosuseri","hoori","owatatsumi","toyotamahime","ugayafukiaezu","tamayoribime","jimmu","himetatarisuzuhime","ahiratsuhime","tagishimimi","kisumimi"], "#e0b060"],
+  ["天孫降臨・皇統", ["ninigi","amenohoakari","nigihayahi","konohanasakuyahime","iwanagahime","hoderi","hosuseri","hoori","owatatsumi","toyotamahime","ugayafukiaezu","tamayoribime","jimmu","himetatarisuzuhime","ahiratsuhime","tagishimimi","kisumimi"], "#5ab4ff"],
   ["岩戸隠れ・天孫降臨に関わった神々", ["futodama","omoikane","amenokoyane","sarutahiko","amenouzume","amenotajikarao"], "#e08ab0"],
   ["国生みの後に生まれた神々", ["okotooshio","iwatsuchibiko","iwasuhime","otohiwake","amenofukio","oyabiko","kazamotsuwake","owatatsumi","hayaakitsuhiko","hayaakitsuhime","mizutogami_note","shinatsuhiko","kukunochi","kayanohime","oyamatsumi_kayanohime_note","torinoiwakusufune"], "#9fb87a"],
-  ["家宅六神", ["iwatsuchibiko","iwasuhime","otohiwake","amenofukio","oyabiko","kazamotsuwake"], "#c9a86f"],
+  ["家宅六神", ["iwatsuchibiko","iwasuhime","otohiwake","amenofukio","oyabiko","kazamotsuwake"], "#7ec4f0"],
   ["欠史八代（第2〜9代）", ["suizei","kawamatabime","annei","akutohime","itoku","futomawakahime","kosho","yosotahohime","koan","oshikahime","korei","kuwashihime","kogen","utsushikome","kaika","ikagashikome"], "#8fb0d8"],
   ["崇神〜仁徳（人代の展開）", ["otataneko","sujin","mimatsuhime","suinin","hibasuhime","keiko","inabinooiratsume","yamatotakeru","ousu","ehime","otohime","futajiirihime","ototachibana","miyazuhime","seimu","chuai","okinagasukune","takanukahime","jingu","ojin","nakatsuhime","oyamamori","yakawaehime","ujinowakiiratsuko","kaminagahime","medori","hayabusawake","nintoku"], "#d8a06f"],
   ["17〜33代天皇（履中〜推古）", ["richu","suminoenonakatsu","hanzei","ingyo","wakakusakabe","anko","yuryaku","seinei","kenzo","ninken","buretsu","keitai","ankan","senka","kinmei","bidatsu","yomei","sushun","suiko","shotoku"], "#b08060"],
@@ -1707,7 +1714,7 @@ const GR_GROUPS = [
   ["巨匠與巨神", ["kyklopes_note","hekatoncheires_note"], "#9a8f7a"],
   ["光之神族（許珀里翁之子）", ["helios","selene","eos"], "#e0c060"],
   ["伊阿佩托斯之子", ["atlas","prometheus","epimetheus","menoitios"], "#8fb0d8"],
-  ["奧林帕斯十二主神", ["hestia","demeter","hades","poseidon","zeus","hera","hephaistos","aphrodite","ares","athena","apollon","artemis","hermes"], "#e0b060"],
+  ["奧林帕斯十二主神", ["hestia","demeter","hades","poseidon","zeus","hera","hephaistos","aphrodite","ares","athena","apollon","artemis","hermes"], "#5ab4ff"],
   ["三大處女神（永守貞潔）", ["hestia","athena","artemis"], "#bcd8e8", false],
   ["宙斯的七位妻子（赫西俄德所記）", ["metis","themis","eurynome","demeter","mnemosyne","leto","hera"], "#e8a0c0", false],
   ["宙斯的凡間伴侶", ["alkmene","danae","leda","europa","io","semele","kallisto"], "#c8a0d0", false],
@@ -2469,8 +2476,8 @@ const NO_GROUPS = [
   ["九界", ["asgard","vanaheim","alfheim","midgard","jotunheim","svartalfheim","nidavellir","helheim","niflheim","muspelheim"], "#8fb0d8", false],
   ["世界樹與其生靈", ["yggdrasil","nidhogg","ratatoskr","vedrfolnir","norns_note","bifrost"], "#7fc0a0"],
   ["九界的居民（種族）", ["ljosalfar_note","dvergar_note","jotnar_note","askr_embla_note"], "#a0b8a0", false],
-  ["阿薩神族", ["odin","frigg","thor","sif","baldr","nanna","hodr","tyr","bragi","idunn","heimdall","hermod","vidar","vali_odinson","forseti","ullr","magni","modi","thrud","vili","ve","hoenir","lodurr","gefjun"], "#e0b060", false],
-  ["瓦爾哈拉與英靈殿", ["valhalla","valkyrjur_note","einherjar_note","heidrun","eikthyrnir"], "#c9a86f"],
+  ["阿薩神族", ["odin","frigg","thor","sif","baldr","nanna","hodr","tyr","bragi","idunn","heimdall","hermod","vidar","vali_odinson","forseti","ullr","magni","modi","thrud","vili","ve","hoenir","lodurr","gefjun"], "#5ab4ff", false],
+  ["瓦爾哈拉與英靈殿", ["valhalla","valkyrjur_note","einherjar_note","heidrun","eikthyrnir"], "#7ec4f0"],
   ["華納神族與兩族之戰", ["njord","freyr","freyja","od","hnoss","gersemi","skirnir","aesir_vanir_war_note","gullveig","kvasir","gerd","skadi"], "#9fb87a", false],
   ["洛基與其子女", ["loki","farbauti","laufey","sigyn","angrboda","narfi","vali_lokison","fenrir","jormungandr","hel","sleipnir","skoll","hati"], "#a06a8a", false],
   ["巨人族（約頓海姆）", ["thiazi","gymir","hymir","hrungnir","thrym","geirrod","suttungr","gunnlod","utgard_loki","aegir","ran","aegir_daughters_note","hraesvelgr","naglfar","modgud"], "#c07a7a"],
@@ -3800,7 +3807,11 @@ document.addEventListener('click', e=>{
 function openPantheon(key){
   document.getElementById('home').style.display='none';
   document.getElementById('yokai').style.display='none';
-  document.getElementById('japan').style.display='block';
+  const japanEl = document.getElementById('japan');
+  japanEl.style.display='block';
+  japanEl.classList.remove('zoom-out');
+  void japanEl.offsetWidth;
+  japanEl.classList.add('zoom-in');
   if(key !== currentPantheon || !Object.keys(nodes).length) loadPantheon(key);
   requestAnimationFrame(()=>fitInitial());
   localStorage.setItem('mythCurrentPage', key);
@@ -3809,8 +3820,15 @@ function openJapan(){ openPantheon('japan'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
 function closeJapan(){
-  document.getElementById('japan').style.display='none';
+  const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
+  japanEl.classList.remove('zoom-in');
+  void japanEl.offsetWidth;
+  japanEl.classList.add('zoom-out');
+  japanEl.addEventListener('animationend', ()=>{
+    japanEl.style.display='none';
+    japanEl.classList.remove('zoom-out');
+  }, {once:true});
   localStorage.setItem('mythCurrentPage','home');
 }
 window.addEventListener('resize', ()=>{ if(document.getElementById('japan').style.display==='block'){ setSmooth(false); fitInitial(); } });
@@ -3982,7 +4000,7 @@ const YOKAI_NAMES = {
 };
 
 const YOKAI_GROUPS = [
-  ["日本三大妖怪", ["shutendoji","tamamonomae","otakemaru"], "#e0b060", true],
+  ["日本三大妖怪", ["shutendoji","tamamonomae","otakemaru"], "#5ab4ff", true],
   ["日本三大幽靈", ["oiwa","okiku","kasane"], "#8fd0e0", true],
   ["日本三大怨靈", ["sugawara_michizane_y","taira_masakado","sutoku_tenno"], "#c96f6f", true],
   ["鬼", ["shutendoji","ibarakidoji","suzukagozen","otakemaru","momiji","namahage","hannya"], "#c96f6f"],
@@ -4518,6 +4536,10 @@ document.addEventListener('keydown', e=>{
   if(document.getElementById('home').style.display === 'none') return;
   if(e.key === 'ArrowLeft')  wheelStep(-1);
   if(e.key === 'ArrowRight') wheelStep(1);
+  if(e.key === 'Enter'){
+    const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
+    if(!wheelCards[front].classList.contains('disabled')) wheelCards[front].click();
+  }
 });
 // 滾輪
 const wheelStage = document.getElementById('wheelStage');
@@ -4557,9 +4579,13 @@ wheelStage.addEventListener('touchstart', e=>{ if(e.touches.length===1) wheelDra
 wheelStage.addEventListener('touchmove',  e=>{ if(wheelDrag && e.touches.length===1){ e.preventDefault(); wheelDragMove(e.touches[0].clientX); } }, {passive:false});
 wheelStage.addEventListener('touchend',   ()=>{ if(wheelDrag) wheelDragEnd(); });
 // 拖曳後的那一下放開不應觸發卡牌的 onclick
-wheelCards.forEach(card=>{
+wheelCards.forEach((card, i)=>{
   card.addEventListener('click', e=>{
-    if(wheelJustDragged){ e.preventDefault(); e.stopPropagation(); }
+    if(wheelJustDragged){ e.preventDefault(); e.stopPropagation(); return; }
+    if(!card.classList.contains('front')){
+      e.preventDefault(); e.stopPropagation();
+      wheelGoTo(i);
+    }
   }, true);
 });
 
