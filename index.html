@@ -375,10 +375,10 @@
       <div class="label">埃及神話</div>
       <div class="sub">九柱神・歐西里斯・冥界審判</div>
     </div>
-    <div class="myth-icon disabled">
+    <div class="myth-icon" onclick="openMesopotamia()">
       <div class="glyph">𒀭</div>
       <div class="label">美索不達米亞神話</div>
-      <div class="sub">蘇美・阿卡德・巴比倫・敬請期待</div>
+      <div class="sub">提亞馬特・吉爾伽美什・伊絲塔</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">🔥</div>
@@ -2818,6 +2818,7 @@ const USER_EDITS = {};
 const GREEK_USER_EDITS = {};
 const NORSE_USER_EDITS = {};
 const EGYPT_USER_EDITS = {};
+const MESO_USER_EDITS = {};
 // @@EDITS_END
 
 /* ============================================================
@@ -2847,7 +2848,7 @@ const EG_NODE_DEFS = [
 ["tefnut","泰芙努特","Tfnt（Tefnut）","濕氣與雨露女神",16.5,1.3,"與舒同時自阿圖姆而生的孿生妹妹兼配偶，濕氣、雨露與腐蝕之力的女神，常作獅頭女子之形。她曾一度負氣出走努比亞化為兇猛母獅，令世間乾旱，眾神設法將她迎回，大地方復甦。她也是「拉之眼」的化身之一。",false,"key"],
 ["geb","蓋布","Gbb（Geb）","大地之神",13.5,2.6,"舒與泰芙努特之子，大地的化身，常被畫成仰臥於下、身覆綠色植被的男神——大地的起伏即他的身軀，地震是他的笑聲。他與姊妹兼妻子的天空女神努特難捨難分，被父親舒強行分開。他也是法老王權的授予者，早期法老被稱作「坐上蓋布之位者」。",false,"key"],
 ["nut","努特","Nwt（Nut）","天空女神",16.5,2.6,"蓋布之姊妹與配偶，天空的化身，常被畫成身綴繁星、以指尖與腳尖撐地、弓身覆蓋整片大地的女神。太陽神每晚被她吞入口中、穿行她的身體、次晨自她兩腿間重生。因拉禁止她在一年任何一天生產，托特為她從月亮贏得五個閏日，她才得以產下歐西里斯等五神。",false,"key"],
-["osiris","歐西里斯","Wsjr（Osiris）","冥界之王・復活與農業之神",9,3.9,"蓋布與努特的長子，埃及最初的賢王，教會人類農耕與律法。其弟賽特因嫉妒設宴誘他躺入量身訂做的華麗棺木，趁機封棺投入尼羅河；後又將尋回的遺體碎屍十四塊散棄各地。妻子伊西斯尋回碎塊、以繃帶纏裹使其成為第一具木乃伊並短暫復生，受孕生下荷魯斯。此後歐西里斯不再統治人間，而成為冥界杜阿特之主，審判並接納every亡者。",false,"key"],
+["osiris","歐西里斯","Wsjr（Osiris）","冥界之王・復活與農業之神",9,3.9,"蓋布與努特的長子，埃及最初的賢王，教會人類農耕與律法。其弟賽特因嫉妒設宴誘他躺入量身訂做的華麗棺木，趁機封棺投入尼羅河；後又將尋回的遺體碎屍十四塊散棄各地。妻子伊西斯尋回碎塊、以繃帶纏裹使其成為第一具木乃伊並短暫復生，受孕生下荷魯斯。此後歐西里斯不再統治人間，而成為冥界杜阿特之主，審判並接納每一位亡者。",false,"key"],
 ["isis","伊西斯","ꜣst（Isis）","魔法與母性女神・王座",11.5,3.9,"歐西里斯之妻與姊妹，古埃及最偉大的女神。她法力無邊，遍尋被賽特碎屍的丈夫遺體加以拼合復原，並以魔法自死者受孕、於沼澤中祕密撫養荷魯斯長大復仇。她是完美的妻子與母親典範，其名意為「王座」，法老即坐於她的膝上。她曾以詭計誘得拉說出真名而奪得無上魔力。其信仰後來遠播希臘羅馬全境。",false,"key"],
 ["set","賽特","Stẖ（Set）","混沌・風暴・沙漠之神",18,3.9,"蓋布與努特之子，力量兇猛的風暴、沙漠與異邦之神，形象為難以辨識的「賽特獸」。他因嫉妒謀殺兄長歐西里斯並篡奪王位，與姪子荷魯斯展開長達八十年的爭位之戰，最終敗訴。然而他並非全然的惡：每夜他站在太陽船首，以長矛擊退混沌巨蛇阿佩普，是守護太陽的關鍵力量——混沌對抗更大的混沌。",false,"key"],
 ["nephthys","奈芙蒂斯","Nbt-ḥwt（Nephthys）","哀悼與守護亡者的女神",20.5,3.9,"蓋布與努特的幼女，賽特之妻，其名意為「宅邸的女主人」。儘管身為賽特的配偶，她卻站在姊姊伊西斯一方，一同哀悼並協助拼合歐西里斯的遺體。她與伊西斯是守護亡者的一對哭泣女神，常立於棺木兩端張翼庇護逝者。"],
@@ -3053,6 +3054,270 @@ const EG_NODE_NAMES = {
   solar_barque:{kojiki:"Mꜥnḏt / Msktt",nihonshoki:"Solar Barque",reading:"Mandjet／Mesektet",aliases:["太陽船","曼傑特晨船","梅塞克泰特夜船"],shrine:"—"},
 };
 
+/* ============================================================
+   資料：美索不達米亞神話系譜（蘇美・阿卡德・巴比倫・亞述）
+   [id, name, kana(蘇美/阿卡德名), role, col, row, desc, isNote, tag]
+   ============================================================ */
+const MP_NODE_DEFS = [
+/* ---- 原初神（《埃努瑪·埃利什》創世） ---- */
+["nammu","南牟","𒀭𒇉（Nammu）","原初之海・眾神之母",2.5,0,"蘇美傳統中最古老的女神，象徵孕育一切的原初淡水海洋。她未經交合便獨自生下了天神安（An）與地母基（Ki），也是智慧之神恩基的母親。當諸神為勞役所苦，正是她喚醒恩基，指示他以泥土摻入神血造出人類來替神勞作。",false,"key"],
+["apsu","阿普蘇","𒀊𒍪（Apsû）","原初淡水",8.5,-1.4,"《埃努瑪·埃利什》開篇的原初淡水，甘甜的地下水之化身，與鹹水提亞馬特交融，孕育出最初的諸神。年輕諸神的喧鬧擾了他的安寧，他欲將子孫盡數殺滅，卻反被曾孫恩基（埃阿）以咒語催眠、奪去光環而誅殺——恩基就在他的軀體之上建起自己的居所「阿普蘇」。",false,"key"],
+["tiamat","提亞馬特","𒀭𒊹𒆳（Tiāmat）","原初鹹水・混沌母龍",11,-1.4,"《埃努瑪·埃利什》的原初鹹水女神，與淡水阿普蘇交融而生出諸神，是萬物之母。丈夫阿普蘇被恩基所殺後，她一度隱忍；直到眾神慫恿，她才化為巨龍，立金古為統帥、孕育出毒蛇、蠍人、獅龍等十一隻怪物大軍向新生諸神復仇。年輕的馬爾杜克挺身應戰，以狂風灌入她口中、彎弓射穿其腹，再將她的身軀劈成兩半——上半化為天穹、下半化為大地，世界由此成形。",false,"key"],
+["mummu","穆姆","𒀭𒈬𒌝𒈬（Mummu）","阿普蘇的參謀",6.5,-1.4,"原初迷霧的化身，阿普蘇的宰相與參謀。他慫恿阿普蘇除滅擾人的年輕諸神，恩基誅殺阿普蘇時，一併將他制伏、奪其光環並穿其鼻繩囚禁。"],
+["kingu","金古","𒀭𒆥𒄖（Qingu）","提亞馬特的統帥與第二任配偶",13.5,-1.4,"阿普蘇死後，提亞馬特所立的第二任丈夫與怪物大軍的統帥。她將象徵至高權柄的「命運泥板」繫於他胸前。馬爾杜克戰勝後將他處死，並以他的血液摻和泥土造出人類——人類自誕生起便帶著這位叛神的血，注定要替諸神承擔勞役。",false,"key"],
+["lahmu","拉赫穆","Laḫmu（拉赫穆）","最初誕生的男神",8.5,0,"阿普蘇與提亞馬特所生的第一對神祇之一，其名意為「泥濘、毛髮者」，常作留三綹捲髮、纏紅腰帶的守護神像立於門側，護衛居所免受邪祟侵擾。"],
+["lahamu","拉哈穆","Laḫamu（拉哈穆）","最初誕生的女神",11,0,"與拉赫穆同時誕生的女神，阿普蘇與提亞馬特之女。兩者結合，生下天地雙軸安沙爾與基沙爾。"],
+["anshar","安沙爾","𒀭𒊹（Anšar）","天之樞軸",8.5,1.2,"其名意為「天之整體」，拉赫穆與拉哈穆之子，象徵天空的軸極。面對提亞馬特的怪物大軍，正是他主持諸神會議、幾經推舉，最終將決戰之責託付給馬爾杜克。"],
+["kishar","基沙爾","𒀭𒆠𒊹（Kišar）","地之樞軸",11,1.2,"其名意為「地之整體」，安沙爾之妹與配偶，象徵大地的軸極。兩者結合生下天神安。"],
+
+/* ---- 天界主神 ---- */
+["anu","安（阿努）","𒀭𒀭（An／Anu）","天空之神・眾神之父",8.5,2.4,"蘇美的天神，阿卡德稱阿努，眾神譜系的至高源頭與名義上的王。他高居第九層天，極少直接干預世事，卻是一切權柄的授予者——「安權（Anuship）」即最高王權的象徵。他與地母基結合生下恩利爾，開啟了神界的統治。伊絲塔向他求得「天之公牛」去報復吉爾伽美什，也是出自他的權威。",false,"key"],
+["antu","安圖","𒀭𒌈（Antu）","阿努之后",11,2.4,"天神阿努的配偶，其名為阿努的陰性形，象徵天空的女性面向，在後期的烏魯克神學中與大地及伊絲塔的職能相繫。"],
+["ki","基","𒆠（Ki）","大地女神",5.5,2.4,"蘇美的大地女神，天神安的配偶。天（安）與地（基）本緊密相合，被其子恩利爾以「風」強行分開，天地之間才有了容納生命的空間。她常與大母神寧胡爾薩格視為同一女神。"],
+["ashur","阿舒爾","𒀭𒀸𒋩（Aššur）","亞述的至高民族神",0.5,2.4,"亞述帝國的守護神與至高神，本為亞述城的城市神，隨帝國擴張而躍升為統御萬神的主神。亞述神學將巴比倫馬爾杜克在《埃努瑪·埃利什》中的角色整套移植給他——擊殺提亞馬特、創造世界的英雄遂成了阿舒爾。他常被描繪為立於帶翼日輪中張弓的戰士，庇佑亞述諸王征伐四方。"],
+
+/* ---- 大神：恩利爾與恩基兩系 ---- */
+["enlil","恩利爾","𒀭𒂗𒆤（Enlil）","風暴之神・諸神之王",8.5,3.6,"安與基之子，蘇美萬神殿實際的統治者，掌管風、氣與風暴，其聖城為尼普爾。他手握「安權」與命運的裁決，諸神的決議須經他認可方能生效。他也是嚴厲而易怒的神：因人類繁衍喧囂擾其安眠，他接連降下瘟疫、旱災，最終發動大洪水欲滅絕人類，卻被恩基暗中破解。他曾因強暴少女寧利爾而被逐入冥界，寧利爾隨之而下，於途中生下月神南納。",false,"key"],
+["ninlil","寧利爾","𒀭𒎏𒆤（Ninlil）","穀物與空氣女神・恩利爾之后",10.5,3.6,"恩利爾的配偶，穀物與南風的女神。少女時在河邊沐浴，被恩利爾看中而結合，恩利爾因此被判逐入冥界；她懷著月神南納緊隨其後，恩利爾三度化為冥界的守門者與她相會，又生下三位冥界神祇，以之替換南納，使月亮得以升上天空而不被扣留在冥界。"],
+["enki","恩基（埃阿）","𒀭𒂗𒆠（Enki／Ea）","智慧、淡水與魔法之神",4,3.6,"蘇美的智慧之神，阿卡德稱埃阿，掌管淡水（阿普蘇）、工藝、魔法與造物，聖城為埃利都。他是諸神中最機敏睿智者，屢屢以計謀化解危局：催眠並誅殺原初的阿普蘇、指導馬爾杜克戰勝提亞馬特、以泥土摻血造出人類替神勞作，又在恩利爾降下大洪水時暗中透過蘆葦牆向烏特納皮什提姆洩露天機、授計造船，保全了人類與萬物的種子。",false,"key"],
+["damkina","丹基娜","𒀭𒁮𒆠𒈾（Damkina）","恩基之后・馬爾杜克之母",2.5,3.6,"恩基（埃阿）的配偶，其名意為「大地的真正女主人」，別名丹伽爾努娜。她是巴比倫主神馬爾杜克的母親。"],
+["ninhursag","寧胡爾薩格","𒀭𒎏𒄯𒊕（Ninḫursag）","大母神・生育與山巒",6,3.6,"蘇美最重要的大母神之一，其名意為「山巒的女主人」，別名寧瑪赫、寧圖，司掌生育、大地與群山，常與地母基視為一體。她與恩基在樂園迪爾蒙的故事中，因恩基擅食她所生的植物而詛咒他八處染疾，最後心軟，逐一生出八位療癒之神治癒他——其中之一寧提（「肋骨/生命的女主人」）常被學者與《創世記》夏娃自亞當肋骨而生的母題相比較。",false,"key"],
+
+/* ---- 恩利爾的子女與侍神 ---- */
+["nanna","南納（辛）","𒀭𒂗𒍪（Nanna／Sîn）","月神",7,4.8,"恩利爾與寧利爾在冥界所生之子，蘇美稱南納、阿卡德稱辛，月亮之神，聖城為烏爾與哈蘭。他乘新月之舟橫越夜空，其盈虧定下曆法與月份。他與寧加爾結合，生下太陽神烏圖與金星女神伊南娜。歷代蘇美王常任命女兒為烏爾的月神女祭司，最著名者即世界上第一位留名的作者——恩赫杜安娜。",false,"key"],
+["nusku","努斯庫","𒀭𒉀𒋀𒆤（Nusku）","光明與火之神・恩利爾的侍神",5.5,4.8,"恩利爾的宰相與傳令神，光明與火焰的化身，手持發光的權杖驅散黑暗。夜間人們向他祈求，讓他將訴願上達諸神。"],
+["ninurta","尼努爾塔","𒀭𒎏𒅁（Ninurta）","戰爭、農耕與狩獵之神",9,4.8,"恩利爾之子，勇武的戰神，同時也是農耕、灌溉與狩獵的守護者，聖城為吉爾蘇。他手持會說話的神權杖沙魯爾，屢建奇功：擊殺盤踞山中、以巨石軍團作亂的惡魔阿薩格，並奪回被風暴鳥安祖竊走的命運泥板、將其射落。他的事蹟《盧伽爾埃》是蘇美最重要的英雄史詩之一。",false,"key"],
+["nergal","內爾伽勒","𒀭𒄊𒀕𒃲（Nergal）","冥界、戰爭與瘟疫之神",10.5,4.8,"恩利爾之子，司掌戰爭、瘟疫、烈日與死亡，聖城為庫塔。他本是天界之神，因在冥界女王埃列什基伽勒的使者面前失禮而被召下冥界問罪；他反倒揪住女王的髮辮欲斬，兩人卻就此相戀，他遂留在冥界成為與她共治的冥王。"],
+["ninazu","寧阿祖","𒀭𒎏𒀀𒍪（Ninazu）","冥界與醫療之神",12,4.8,"恩利爾與寧利爾在冥界所生的神祇之一，其名意為「醫者之主」，兼具冥界與治療的雙重職能，是蛇形治療神寧吉什茲達之父。"],
+["adad","阿達德（伊什庫爾）","𒀭𒅎（Adad／Iškur）","風暴與雨水之神",13.5,4.8,"蘇美稱伊什庫爾、阿卡德稱阿達德，掌管風暴、雷電與雨水的神，手持閃電束、聖獸為公牛。他既帶來滋潤農田的甘霖，也降下毀滅性的暴雨與洪水——大洪水的滂沱正出自他的怒吼。他也司掌以天象占卜吉凶。"],
+
+/* ---- 巴比倫主神 ---- */
+["marduk","馬爾杜克","𒀭𒀫𒌓（Marduk）","巴比倫的至高神・屠龍創世者",2.5,4.8,"恩基（埃阿）與丹基娜之子，巴比倫的守護神，隨巴比倫崛起為兩河霸主而躍升為眾神之王。當提亞馬特的怪物大軍逼近、眾神束手，年輕的他挺身而出，條件是戰勝後諸神須奉他為首。他張開天網、駕風暴戰車、以四風灌入提亞馬特口中再彎弓穿其腹，將巨龍劈為兩半造出天地，又據金古之血造人。他奪得五十個尊名與命運泥板，於巴比倫建起通天神廟埃薩吉拉。《埃努瑪·埃利什》即歌頌他登上神界王座的史詩。",false,"key"],
+["sarpanit","莎爾帕尼圖","Ṣarpānītu（莎爾帕尼圖）","馬爾杜克之后",1.5,6,"馬爾杜克的配偶，巴比倫的守護女神，司掌生育與繁衍。她與馬爾杜克在巴比倫新年節慶（阿基圖）中舉行盛大的聖婚儀式，生下智慧之神那布。"],
+["nabu","那布","𒀭𒀝（Nabû）","書寫、智慧與命運之神",3,6,"馬爾杜克與莎爾帕尼圖之子，掌管書寫、文字、智慧與抄寫技藝，是諸神的書記官，手執記錄命運的蘆葦筆與泥板，聖城為波爾西帕。他在巴比倫新年時隨父親的神像遊行，被視為為眾人「銘定一年命運」者。書吏奉他為守護神。",false,"key"],
+
+/* ---- 月神辛的子女：日、愛、冥 ---- */
+["ningal","寧加爾","𒀭𒎏𒃲（Ningal）","蘆葦之女神・月神之后",5.5,6,"月神南納（辛）的配偶，其名意為「偉大的女主人」，司掌蘆葦叢與沼澤，聖城同為烏爾。她是太陽神烏圖與金星女神伊南娜之母。"],
+["utu","烏圖（沙瑪什）","𒀭𒌓（Utu／Šamaš）","太陽與正義之神",7,6,"南納與寧加爾之子，蘇美稱烏圖、阿卡德稱沙瑪什，太陽之神，聖城為西帕爾與拉爾薩。他每日自東方山門升起、駕車橫越天穹，目睹世間一切善惡，因而成為正義、真理與律法的守護神——著名的《漢摩拉比法典》石碑上，即刻著漢摩拉比從端坐的沙瑪什手中領受律法。他也是吉爾伽美什遠征雪松林時祈求庇佑的神。",false,"key"],
+["inanna","伊南娜（伊絲塔）","𒀭𒈹（Inanna／Ištar）","愛、戰爭與金星女神",8.5,6,"美索不達米亞最重要、最複雜的女神，蘇美稱伊南娜、阿卡德稱伊絲塔，司掌愛情、情慾、戰爭與金星，聖城為烏魯克。她既是情慾與生育的化身，又是嗜血好戰的戰神，集矛盾於一身。她從恩基處騙取了百項文明的神聖法則「美」；為擴張權柄親身闖入冥界，被姊姊埃列什基伽勒剝奪衣飾、化為屍體懸於釘上，靠恩基所造的使者救回，卻須尋一替身——她揀選了未為她哀悼的丈夫杜姆茲。她也曾向吉爾伽美什求愛遭拒，憤而借來天之公牛降災報復。",false,"key"],
+["ereshkigal","埃列什基伽勒","𒀭𒊩𒌆𒆠𒃲𒆷（Ereškigal）","冥界女王",10.5,6,"「大地的女主人」，統治冥界「不歸之地」伊爾卡拉的女王，伊南娜的姊姊。她的國度陰森無光，亡者食塵飲濁。妹妹伊南娜闖入她的領域時，她命其通過七道門、每過一門剝去一件衣飾，最終將赤裸的伊南娜化為屍體。後來戰神內爾伽勒闖入冥界，她本欲問罪，兩人卻相戀結為冥界的共治夫妻。",false,"key"],
+["dumuzi","杜姆茲（塔木茲）","𒀭𒌉𒍣（Dumuzi／Tammuz）","牧羊神・伊南娜之夫",12,6,"蘇美稱杜姆茲、阿卡德稱塔木茲，牧羊人與豐饒之神，伊南娜之夫。伊南娜自冥界脫身後，見他不但不為自己的死哀悼、反而安坐王位飲宴，盛怒之下將他指作替身交予冥界惡魔。他的姊姊格什提南娜自願分擔，於是兄妹各以半年輪替居於冥界——他每年春天重返人間時，草木復甦、萬物繁茂；他下冥界時則草木枯萎。這一「死而復生」的母題影響了後世諸多信仰。"],
+
+/* ---- 冥界 ---- */
+["namtar","那姆塔爾","𒀭𒉆𒋻（Namtar）","命運與瘟疫的冥界宰相",10.5,7.2,"冥界女王埃列什基伽勒的宰相與傳令，其名意為「命運（尤指死期）」。他是六十種疾病的化身，奉女王之命向世間降下瘟疫，也是決定亡者命運的冥界執法者。"],
+["neti","涅提","𒀭𒉈𒋾（Neti）","冥界七門的守衛",12,7.2,"冥界的首席門衛，看守通往不歸之地的七道大門。伊南娜下冥界時，正是他依女王之命逐門放行，每過一門便剝去她一件衣飾與權力象徵，直到她一無所有地跪伏於冥界王座之前。"],
+["geshtinanna","格什提南娜","𒀭𒃾𒁷𒀭𒈾（Geštinanna）","釀酒與解夢的女神",13.5,7.2,"杜姆茲的姊姊，司掌葡萄酒與釋夢的女神。弟弟被冥界惡魔追捕時她拚死掩護，又為他解讀死亡的凶夢。當杜姆茲被擄入冥界，她自願替弟分擔刑期，於是姊弟以半年為期輪流居於冥界與人間，成為四季枯榮輪替的緣由。"],
+
+/* ---- 戰爭、風暴與怪物 ---- */
+["anzu","安祖","Anzû／Imdugud（安祖）","盜取命運泥板的獅頭巨鷹",15,2.4,"獅頭巨鷹（或作巨大的風暴鳥伊姆杜古德），棲於恩利爾殿前。他趁恩利爾沐浴時盜走了象徵至高權柄的命運泥板飛入山中，一時間天地失序、神權旁落。眾神束手，最終由戰神尼努爾塔追上，以風與箭將他射落，奪回泥板，恢復了宇宙的秩序。",false,"key"],
+["asag","阿薩格","𒀭𒀉𒉺𒂅（Asag）","山中的岩石惡魔",16.5,2.4,"蘇美史詩《盧伽爾埃》中的惡魔，其存在本身即令江河沸騰、魚類死絕。他率領一支由岩石所生的軍團盤踞山中作亂，戰神尼努爾塔以神權杖沙魯爾將他擊殺，並將山中的亂石壘成堤壩、導引雪水灌溉兩河平原。"],
+["mushhushu","穆什胡什","𒈲𒍽（Mušḫuššu）","馬爾杜克的聖獸神龍",18,2.4,"「憤怒之蛇」，一種兼具蛇首蛇身、獅之前足、鷹之後爪的神龍。牠原是提亞馬特麾下的怪物，馬爾杜克戰勝後將牠降伏為自己的聖獸與座騎。巴比倫伊絲塔城門上以彩釉磚拼砌的神龍浮雕即是牠，與公牛、獅子並列守護城門。"],
+["humbaba","洪巴巴","𒀭𒄷𒺪𒁀（Ḫumbaba）","雪松林的守護巨怪",15,3.6,"恩利爾指派看守神聖雪松林的巨怪，面容如盤繞的腸子，吼聲如洪水、口吐烈焰，令入林者膽寒。吉爾伽美什與恩奇都為揚名而遠征雪松林，在太陽神沙瑪什降下十三道狂風相助下將他制伏。他跪地哀求饒命，恩奇都卻力主斬草除根——兩人終究砍下他的首級，也因此招致諸神的懲罰。",false,"key"],
+["bull_heaven","天之公牛","𒄞𒎏𒀭𒈾（Gugalanna）","伊絲塔降下的災厄神牛",16.5,3.6,"又名古伽蘭那，天神安所掌的巨大神牛。吉爾伽美什拒絕伊絲塔的求愛並出言羞辱後，她盛怒地向父親安索得此牛，放至烏魯克。神牛每一次噴鼻就裂開大地、吞沒百人。吉爾伽美什與恩奇都合力將牠制伏宰殺，恩奇都更將牛腿擲向伊絲塔洩憤——正是宰殺天牛與洪巴巴這兩樁罪，令諸神判定恩奇都須償命。",false,"key"],
+["lamashtu","拉瑪什圖","𒀭𒁮𒈾（Lamaštu）","戕害孕婦與嬰兒的女魔",18,3.6,"天神安之女，卻是最凶惡的女魔。她獅首、驢齒、鳥爪，潛入產房奪走胎兒與嬰孩的性命、使孕婦流產、令病者衰亡。人們佩戴刻著風魔帕祖祖的護符來對抗她——以一惡魔驅逐另一惡魔。"],
+["pazuzu","帕祖祖","𒀭𒉺𒍪𒍪（Pazuzu）","西南風的魔王・驅魔守護者",19.5,3.6,"漢比之子，乾旱與蝗災的西南風之王，狗面、鱗身、鷹爪、蠍尾、雙對羽翼。他本是帶來災病的凶魔，卻因能鎮壓比他更凶的女魔拉瑪什圖，反被人們奉為護符——孕婦與病榻旁常掛他的小像或以他的頭面銅牌鎮宅，是「以惡制惡」的典型。"],
+["lamassu","拉瑪蘇","𒀭𒆗𒈠（Lamassu）","人首翼牛的守護神",21,3.6,"人頭、牛（或獅）身、巨翼的守護精靈，其名意為「保護神」。牠們以巨大石雕的形式成對鎮守亞述王宮與城門，多雕作五條腿——正面看是佇立、側面看是行走，象徵永恆的警戒，庇佑宮室免受邪祟與敵人侵犯。"],
+["lilitu","莉莉圖","𒀭𒆤𒌆𒌅（Lilītu）","夜之女魔",15,4.8,"棲於荒野與廢墟的夜之女魔，趁夜潛入睡夢中的男子，或危害產婦與新生兒。她與莉露、阿爾達特莉莉等風魔同屬一系，被視為後世猶太傳說中「莉莉絲」的遠源。"],
+["gallu","加盧","𒄕𒆷（Gallû）","冥界的緝魂惡鬼",16.5,4.8,"冥界派出的無情惡鬼，成群追捕該入冥界者。牠們不食不飲、不知人情，正是這群惡鬼押著伊南娜、四處搜捕她的替身，最終將杜姆茲擄下冥界。"],
+["sebitti","塞比提","𒁹𒁹（Sebitti）","隨戰神出征的七神",18,4.8,"由天神安所生的七位戰鬥神祇，其名即「七」。他們是瘟神與戰神埃拉的隨從，象徵七方的殺伐之力；在天上則與昴宿七星相繫。亞述人以他們為軍隊的護佑。",true],
+["ugallu","烏加盧","𒌜𒃲𒆷（Ugallu）","獅首的守護巨魔",19.5,4.8,"「大天候獸」，獅頭、人身、鳥足、手持匕首與短棍的守護精靈。牠原是狂暴的天候怪物，後被馴為驅逐邪祟與疾病的門戶守護者，常繪於民居與宮室門旁。",true],
+
+/* ---- 半神英雄與吉爾伽美什史詩 ---- */
+["ninsun","寧孫","𒀭𒎏𒂍𒁀𒊏（Ninsun）","智慧的野牛女神・吉爾伽美什之母",7,7.2,"「野牛的女主人」，睿智的女神，英雄盧伽爾班達之妻、吉爾伽美什之母。正因母親是女神，吉爾伽美什才有三分之二的神性。她為兒子解讀預示恩奇都到來的夢，並收恩奇都為義子，是史詩中沉靜而充滿智慧的母親形象。"],
+["lugalbanda","盧伽爾班達","𒀭𒈗𒌉𒁕（Lugalbanda）","烏魯克的英雄王",5.5,7.2,"烏魯克的傳說君王與半神英雄，吉爾伽美什的父親，寧孫女神之夫。蘇美史詩記載他隨軍遠征時病倒被棄於山中，靠向諸神祈禱與神鷹安祖的祝福獲得神速與不倦之力，終能奔行如風、為軍隊傳訊建功。"],
+["gilgamesh","吉爾伽美什","𒀭𒄑𒂆𒈦（Gilgameš）","烏魯克之王・三分神性的英雄",6,8.4,"盧伽爾班達與女神寧孫之子，三分之二為神、三分之一為人的烏魯克之王，築起烏魯克的巍峨城牆。他起初暴虐無道，諸神造出野人恩奇都與他抗衡，兩人一番惡鬥後結為生死摯友，聯手屠殺雪松林的洪巴巴、宰殺天之公牛。恩奇都因此獲罪而死，吉爾伽美什悲慟欲絕、恐懼死亡，遂踏上尋求永生之路，尋訪洪水倖存者烏特納皮什提姆，卻在得到返老草後被蛇奪走——他最終領悟凡人終有一死，唯有功業與城牆長存。《吉爾伽美什史詩》是人類已知最古老的長篇史詩。",false,"key"],
+["enkidu","恩奇都","𒀭𒂗𒆠𒄭（Enkidu）","諸神造出的野人・吉爾伽美什之友",7.5,8.4,"諸神為制衡暴虐的吉爾伽美什，由造物女神以泥土捏成的野人。他渾身長毛、與野獸同群同飲，直到神妓沙姆哈特以七日的歡愛使他褪去獸性、學會人事。他進城與吉爾伽美什角力，不分軒輊而結為摯友，並肩冒險。因參與殺害洪巴巴與天之公牛，諸神判他償命，他在纏綿病榻十二日後死去——他的死讓吉爾伽美什第一次直面死亡的恐懼。",false,"key"],
+["shamhat","沙姆哈特","𒊩𒇷𒌷（Šamḫat）","開化野人的神妓",9,8.4,"烏魯克伊絲塔神廟的神妓，其名意為「豐美者」。獵人向吉爾伽美什求助對付野人恩奇都，吉爾伽美什便派她前去。她在水泉邊以六日七夜的歡愛使恩奇都失去與野獸為伍的本能、開啟了人的心智與言語，再引領他進入烏魯克的文明世界——她象徵情慾作為將人自蠻荒引向文明的力量。"],
+["utnapishtim","烏特納皮什提姆","𒌓𒍣（Ūta-napištim）","大洪水的倖存者・得永生的智者",4,9.6,"舒魯派克的賢王，阿卡德版大洪水的英雄。恩基（埃阿）不便直接違逆恩利爾的滅世之令，遂隔著蘆葦牆向他「自言自語」洩露天機，囑他拆屋造方舟、載入家人與百獸的種子。洪水肆虐七日，方舟停於尼西爾山，他放出鴿、燕、烏鴉探測水情。事後恩利爾息怒，賜他與妻子永生，安置於諸河之口。吉爾伽美什千里尋訪，正是要向他問出長生的祕密。",false,"key"],
+["siduri","西杜莉","𒀭𒉌（Siduri）","世界盡頭的酒館女主人",7,9.6,"居於世界盡頭、諸神花園旁的釀酒女神與酒館主人。吉爾伽美什形容枯槁地尋至此地，她起初閉門相拒，聽罷來由後勸他：永生非人所能得，不如珍惜眼前——「讓你的肚腹飽足，日夜歡愉，愛撫你懷中的孩子與妻子」，這段話被視為古代對「及時行樂、珍視此生」最動人的表述之一。她並為他指點渡海尋訪烏特納皮什提姆的去路。"],
+["urshanabi","烏爾莎納比","𒀭𒃲𒉣（Uršanabi）","冥河的擺渡人",8.5,9.6,"為烏特納皮什提姆擺渡、往來於「死亡之水」的船夫。吉爾伽美什盛怒中打碎了他船上不可或缺的「石人」，只得砍下大量長篙以避免徒手觸及致命之水，才得以渡海。他後來被逐出職守，隨吉爾伽美什返回烏魯克，見證了那座偉大城牆。"],
+["atrahasis","阿特拉哈西斯","Atra-ḫasīs（阿特拉哈西斯）","洪水史詩中的智者",2.5,9.6,"阿卡德史詩《阿特拉哈西斯》的主角，其名意為「絕頂聰慧」，是大洪水英雄的另一個名字與版本。該史詩完整記述了諸神造人替其勞作、人類繁衍喧囂觸怒恩利爾、恩利爾三度降災（瘟疫、旱災、洪水）欲滅人類，皆被恩基一一化解的來龍去脈，是理解兩河洪水傳說的關鍵文本。"],
+["ziusudra","茲烏蘇德拉","Ziusudra（茲烏蘇德拉）","蘇美版的洪水倖存者",2.5,10.8,"蘇美語《洪水記》中的虔敬國王，其名意為「生命綿長的日子」，是大洪水英雄最古老的蘇美原型。他因虔誠獲神示警，造船避過七日七夜的洪水，事後被賜予永生，安居於樂園迪爾蒙。烏特納皮什提姆與阿特拉哈西斯皆為此一原型的後世版本。"],
+
+/* ---- 傳說君王與智者 ---- */
+["etana","伊塔那","𒂊𒋫𒈾（Etana）","乘鷹升天的基什之王",0.5,8.4,"洪水之後基什的傳說君王，被王表尊為「使天下安定者」。他無嗣，為求得能助生育的「誕生之草」，救下一隻被蛇困於坑中的神鷹，鷹感恩馱他飛越層層高天直上安神的居所。傳說於飛升途中戛然而止，殘缺的泥板留下了他終獲子嗣的暗示。"],
+["adapa","阿達帕","𒀭𒀉𒁀（Adapa）","錯失永生的埃利都賢者",2,8.4,"恩基（埃阿）所造、賜予無上智慧的埃利都賢者，七位「阿普卡魯」始祖賢者之首。他出海捕魚時被南風掀翻，怒而折斷了南風之翼，因此被召上天庭受天神安審問。恩基預先叮囑他：天庭賜的食物與水切莫沾口（謊稱那是「死亡的飲食」）。豈料安賜的其實是「永生的飲食」，阿達帕謹遵師命而拒食，就此為全人類錯失了長生不死的機會。"],
+["sargon","薩爾貢","𒐈𒈗𒄀𒈾（Šarru-kīn）","阿卡德帝國的開創者",0.5,9.6,"阿卡德的薩爾貢，史上第一個帝國的締造者，其名意為「正統之王」。傳說他是女祭司的私生子，出生後被裝入瀝青封口的蘆葦籃、放入幼發拉底河漂流，由汲水人阿基所救、養為園丁，後蒙女神伊絲塔眷愛而登上王位、征服蘇美列城——這則「棄嬰漂流成王」的傳說，與後世摩西的故事如出一轍。"],
+["semiramis","塞米拉米斯","𒊹𒀜𒈹（Šammuramat）","亞述的傳說女帝",0.5,10.8,"希臘作家筆下的亞述傳奇女王，原型為真實存在、曾攝政的亞述王后沙穆拉瑪特。傳說她是女神德爾克托之女、由鴿群哺育，姿容絕世、智勇雙全；她建造了宏偉的巴比倫城與諸多工程，率軍遠征至印度，晚年化為鴿子飛升而去。後世常將巴比倫的偉大建設（包括空中花園）附會於她的名下。"],
+
+/* ---- 傳說・名物・神器 ---- */
+["enuma_elish","埃努瑪·埃利什","Enūma Eliš（埃努瑪·埃利什）","巴比倫創世史詩",15,6,"以開篇語「當上者……（天猶未名之時）」為名的巴比倫創世史詩，七塊泥板記述了諸神自原初淡水與鹹水誕生、馬爾杜克擊殺提亞馬特並以其身軀創造天地、據金古之血造人、最終在巴比倫受奉為眾神之王的全過程。它既是宇宙起源的神話，也是為巴比倫（與馬爾杜克）的霸權張本的政治神學，每逢新年在阿基圖節慶中誦讀。",true],
+["epic_gilgamesh","吉爾伽美什史詩","𒅆𒉺𒌑（Sha naqba īmuru）","人類最古老的史詩",16.5,6,"人類已知最古老的長篇文學，以阿卡德語書於十二塊泥板，記述烏魯克王吉爾伽美什與野人恩奇都的情誼、冒險、恩奇都之死，以及吉爾伽美什尋求永生而終究了悟生命有限的旅程。其中第十一塊泥板的大洪水記述與《創世記》挪亞方舟高度相似，十九世紀其譯解震動了學界。",true],
+["tablet_destinies","命運泥板","𒁾𒉆𒌆（Ṭuppi šīmāti）","裁定宇宙命運的至高信物",18,6,"銘刻著宇宙秩序與眾神命運的泥板，持有者即握有統御天地的至高權柄。它本屬天神安（或恩利爾），風暴鳥安祖曾將它盜走使天地失序，由尼努爾塔奪回；提亞馬特也曾將它繫於統帥金古胸前，馬爾杜克戰勝後取回並繫於己身，確立了自己的王權。",true],
+["me_note","美（神聖法則）","𒈨（Me）","文明的神聖法則",15,7.2,"由諸神掌管、支撐一切文明制度運行的抽象神聖力量與法則——舉凡王權、祭司職、真理、律法、樂器、乃至城市百工，皆各有其「美」。它們原由智慧之神恩基保管，愛神伊南娜設宴將恩基灌醉，騙得他將上百項「美」贈予自己、運回聖城烏魯克，恩基酒醒後追討不及，文明之力遂歸於烏魯克。",true],
+["kur_note","庫爾（冥界）","𒆳（Kur／Irkalla）","不歸之地",16.5,7.2,"美索不達米亞的冥界，又稱伊爾卡拉、「不歸之地」，位於大地之下，由埃列什基伽勒統治。無論生前貴賤，亡者一律墮入這片幽暗，身披羽衣、以塵為食、以濁為飲。它有七道門、由涅提看守，是伊南娜下冥界與內爾伽勒成為冥王等故事的舞台。",true],
+["flood_note","大洪水","𒀀𒈠𒊒（Abūbu）","諸神滅世的滔天洪水",18,7.2,"恩利爾因不堪人類繁衍的喧囂，決意以滔天洪水滅絕人類。恩基暗中示警，使少數義人造船避難，載入家人與百獸種子。洪水肆虐七日七夜，連諸神都為之驚懼退避高天。這則洪水傳說見於《阿特拉哈西斯》《吉爾伽美什史詩》與蘇美《洪水記》，是《聖經》挪亞方舟故事的近東先聲。",true],
+["cedar_forest","雪松林","𒄑𒂞𒌆（Cedar Forest）","諸神居所旁的神聖森林",15,8.4,"諸神居所旁一片廣袤神聖的雪松森林，由巨怪洪巴巴奉恩利爾之命看守。吉爾伽美什與恩奇都為求不朽的英名遠征至此，砍伐神木、斬殺守護者洪巴巴——這場僭越神域的壯舉為他們帶來榮耀，也埋下了恩奇都必死的禍根。",true],
+["plant_life","返老草","𒌑𒉌𒃶（Plant of Life）","海底的返老還童之草",16.5,8.4,"烏特納皮什提姆向吉爾伽美什透露的祕密：海底生有一株帶刺的水草，凡採得食之者可重返青春。吉爾伽美什在腳上綁石潛入深海將它採得，卻捨不得立刻服用，欲帶回烏魯克讓眾人共享；夜間他沐浴時，一條蛇聞香將草叼走、當場蛻皮重生——長生的最後一絲希望就此失去，這也是蛇蛻皮「重獲新生」的神話解釋。",true],
+["hanging_gardens","巴比倫空中花園","𒌦𒆠𒉺（Hanging Gardens）","古代世界七大奇蹟之一",18,8.4,"古典作家記載的巴比倫奇景，相傳為新巴比倫王尼布甲尼撒二世為思念故鄉山林的王后阿米蒂斯所建的層疊台階式屋頂花園，以精巧的提水裝置自幼發拉底河引水澆灌，使繁花草木彷彿懸於半空。它被列為古代世界七大奇蹟之一；然而巴比倫遺址至今未發現確證，希臘傳說又常將其附會於女帝塞米拉米斯，令它蒙上一層真偽難辨的傳奇色彩。",true],
+["etemenanki","埃特曼安基（通天塔）","𒂍𒋼𒌉𒀭𒆠（Etemenanki）","巴比倫的通天神廟",19.5,8.4,"巴比倫城中獻給馬爾杜克的巨大階梯神塔（金字形神塔），其名意為「天地根基之屋」，塔頂設有神殿。它被廣泛認為即《聖經》「巴別塔」的原型——那則人類欲築塔通天、反遭神變亂語言而四散的故事，正映照著巴比倫這座傲然指天的神塔。",true],
+["sharur","沙魯爾","Šarur（沙魯爾）","尼努爾塔會說話的神權杖",15,9.6,"戰神尼努爾塔那把擬人化、能言善謀的神權杖（一柄帶翼的雙獅頭權標），其名意為「殲敵者」。它既是主人的武器，也是他的參謀與傳令：正是沙魯爾偵知惡魔阿薩格的動向、往返傳遞恩利爾的指示，助尼努爾塔擊殺阿薩格。",true],
+["marduk_net","馬爾杜克的天網","𒊒𒌆（Saparru）","擒縛混沌之龍的神網",16.5,9.6,"馬爾杜克決戰提亞馬特時，由四風之神相助張開的巨大天網。他以此網將混沌母龍團團圍困、使其無從遁逃，再驅狂風灌入其口、彎弓穿其腹而制勝。這面網象徵秩序對混沌的網羅與制伏。",true],
+];
+
+const MP_GROUPS = [
+  ["原初神（埃努瑪·埃利什）", ["nammu","apsu","tiamat","mummu","kingu","lahmu","lahamu","anshar","kishar"], "#8f86c8"],
+  ["天界主神", ["anu","antu","ki","ashur","enlil","ninlil","enki","damkina","ninhursag"], "#7fa8d8"],
+  ["蘇美七大神（決定命運者）", ["anu","enlil","enki","ninhursag","nanna","utu","inanna"], "#5ab4ff", false],
+  ["恩利爾的子女與侍神", ["nanna","nusku","ninurta","nergal","ninazu","adad"], "#90c880"],
+  ["巴比倫與亞述主神", ["marduk","sarpanit","nabu","ashur","mushhushu"], "#d09a70", false],
+  ["月神辛的家族（日・愛・冥）", ["nanna","ningal","utu","inanna","ereshkigal","dumuzi"], "#e0c060", false],
+  ["冥界（不歸之地）", ["ereshkigal","nergal","namtar","neti","geshtinanna","dumuzi","kur_note"], "#8a8a9a", false],
+  ["戰爭・風暴與命運泥板", ["ninurta","adad","anzu","asag","sharur","tablet_destinies"], "#a06a8a", false],
+  ["怪物與魔物", ["tiamat","kingu","anzu","asag","mushhushu","humbaba","bull_heaven","lamashtu","lilitu","gallu","sebitti"], "#c07a7a", false],
+  ["守護精靈與驅魔者", ["lamassu","ugallu","pazuzu","lilitu","lamashtu"], "#8fb8c8", false],
+  ["吉爾伽美什史詩", ["gilgamesh","enkidu","ninsun","lugalbanda","shamhat","humbaba","bull_heaven","inanna","utnapishtim","siduri","urshanabi","plant_life","cedar_forest","epic_gilgamesh"], "#b08fd8", false],
+  ["半神英雄與傳說君王", ["gilgamesh","enkidu","lugalbanda","ninsun","etana","adapa","sargon","semiramis","utnapishtim"], "#70b0d0", false],
+  ["大洪水傳說", ["utnapishtim","atrahasis","ziusudra","enki","enlil","flood_note"], "#6fb0c0", false],
+  ["傳說・名物・神器", ["enuma_elish","epic_gilgamesh","tablet_destinies","me_note","kur_note","flood_note","cedar_forest","plant_life","hanging_gardens","etemenanki","sharur","marduk_net"], "#c8b090"],
+];
+
+const MP_UNIONS = [
+  /* 原初世系（埃努瑪·埃利什） */
+  {spouses:["apsu","tiamat"], marriage:"primary", children:["lahmu","lahamu"], label:"淡水與鹹水交融而生諸神", labelClass:"ritual"},
+  {spouses:["lahmu","lahamu"], marriage:"primary", children:["anshar","kishar"]},
+  {spouses:["anshar","kishar"], marriage:"primary", children:["anu"]},
+  {spouses:["tiamat","kingu"], marriage:"secondary", label:"阿普蘇死後所立的統帥", labelClass:"blood"},
+  {parent:"tiamat", children:["mushhushu","asag"], label:"孕育的怪物大軍", labelClass:"blood"},
+  {spouses:["apsu","mummu"], marriage:"partner", label:"參謀慫恿滅殺諸神"},
+  /* 蘇美原初：南牟 */
+  {parent:"nammu", children:["anu","ki","enki"], label:"原初之海所生（蘇美傳統）", labelClass:"ritual"},
+  {spouses:["anu","ki"], marriage:"primary", children:["enlil"], label:"天與地結合"},
+  {spouses:["anu","antu"], marriage:"secondary"},
+  {parent:"anu", children:["lamashtu"], label:"自行降災的安之女", labelClass:"blood"},
+  {parent:"anu", children:["bull_heaven","sebitti"], label:"天神所掌的神牛與七神"},
+  {parent:"anu", children:["tablet_destinies"], label:"至高權柄的信物", labelClass:"ritual"},
+  /* 恩利爾一系 */
+  {spouses:["enlil","ninlil"], marriage:"primary", children:["nanna","ninurta","nergal","ninazu"], label:"諸子傳承依版本而異"},
+  {parent:"enlil", children:["adad","nusku"], label:"風暴之子與光明侍神"},
+  {parent:"enlil", children:["flood_note"], label:"因人類喧囂降下大洪水", labelClass:"blood"},
+  {spouses:["ashur","enlil"], marriage:"partner", label:"亞述承襲其位", labelClass:"ritual"},
+  /* 恩基一系與巴比倫 */
+  {spouses:["enki","damkina"], marriage:"primary", children:["marduk"], label:"巴比倫主神之父"},
+  {spouses:["enki","ninhursag"], marriage:"secondary", label:"樂園迪爾蒙的療癒神話", labelClass:"ritual"},
+  {parent:"enki", children:["adapa"], label:"埃利都的賢者", labelClass:"ritual"},
+  {parent:"enki", children:["me_note"], label:"保管文明的神聖法則", labelClass:"ritual"},
+  {spouses:["enki","utnapishtim"], marriage:"partner", label:"隔蘆葦牆授計避洪", labelClass:"ritual"},
+  {spouses:["marduk","sarpanit"], marriage:"primary", children:["nabu"]},
+  {spouses:["marduk","tiamat"], marriage:"partner", label:"屠龍創世", labelClass:"blood"},
+  {spouses:["marduk","mushhushu"], marriage:"partner", label:"降伏為聖獸座騎"},
+  {parent:"marduk", children:["marduk_net","etemenanki","enuma_elish"], label:"天網・通天塔・創世史詩", labelClass:"ritual"},
+  /* 月神辛的子女 */
+  {spouses:["nanna","ningal"], marriage:"primary", children:["utu","inanna","ereshkigal"], label:"月神所生日・金星・冥界"},
+  /* 尼努爾塔的功業 */
+  {spouses:["ninurta","anzu"], marriage:"partner", label:"射落風暴鳥、奪回命運泥板", labelClass:"blood"},
+  {spouses:["ninurta","asag"], marriage:"partner", label:"擊殺山中岩魔", labelClass:"blood"},
+  {parent:"ninurta", children:["sharur"], label:"會說話的神權杖"},
+  {spouses:["anzu","tablet_destinies"], marriage:"partner", label:"盜走命運泥板", labelClass:"blood"},
+  /* 愛神伊南娜 */
+  {spouses:["inanna","dumuzi"], marriage:"primary", label:"聖婚後又將其交予冥界", labelClass:"blood"},
+  {spouses:["inanna","ereshkigal"], marriage:"partner", label:"下冥界的姊妹對峙", labelClass:"blood"},
+  {spouses:["inanna","me_note"], marriage:"partner", label:"灌醉恩基騙取百項神聖法則"},
+  {spouses:["inanna","gilgamesh"], marriage:"partner", label:"求愛被拒、降天牛報復", labelClass:"blood"},
+  /* 冥界 */
+  {spouses:["ereshkigal","nergal"], marriage:"primary", label:"闖入者反成冥后之婿"},
+  {parent:"ereshkigal", children:["namtar","neti"], label:"冥界的宰相與門衛"},
+  {parent:"ereshkigal", children:["kur_note"], label:"所統治的不歸之地"},
+  {spouses:["dumuzi","geshtinanna"], marriage:"partner", label:"姊代弟受過、半年輪替於冥界", labelClass:"ritual"},
+  {spouses:["dumuzi","gallu"], marriage:"partner", label:"被緝魂惡鬼擄下冥界", labelClass:"blood"},
+  /* 驅魔 */
+  {spouses:["pazuzu","lamashtu"], marriage:"partner", label:"以惡制惡・驅退害嬰女魔", labelClass:"blood"},
+  /* 吉爾伽美什史詩 */
+  {spouses:["lugalbanda","ninsun"], marriage:"primary", children:["gilgamesh"], label:"英雄王與野牛女神之子"},
+  {spouses:["gilgamesh","enkidu"], marriage:"partner", label:"生死摯友", labelClass:"ritual"},
+  {spouses:["enkidu","shamhat"], marriage:"partner", label:"以歡愛使野人開化", labelClass:"ritual"},
+  {spouses:["gilgamesh","humbaba"], marriage:"partner", label:"遠征雪松林・斬其首", labelClass:"blood"},
+  {parent:"humbaba", children:["cedar_forest"], label:"守護神聖的雪松林"},
+  {spouses:["gilgamesh","bull_heaven"], marriage:"partner", label:"與恩奇都合力宰殺天牛", labelClass:"blood"},
+  {spouses:["gilgamesh","utnapishtim"], marriage:"partner", label:"為求永生而尋訪", labelClass:"ritual"},
+  {parent:"gilgamesh", children:["plant_life"], label:"尋得返老草卻被蛇奪走", labelClass:"ritual"},
+  {parent:"gilgamesh", children:["epic_gilgamesh"], label:"人類最古老的史詩"},
+  {spouses:["gilgamesh","siduri"], marriage:"partner", label:"勸他珍惜此生的酒館女主人"},
+  {spouses:["gilgamesh","urshanabi"], marriage:"partner", label:"渡越死亡之水的船夫"},
+  /* 洪水傳說的三個版本 */
+  {spouses:["utnapishtim","atrahasis"], marriage:"partner", label:"同一洪水英雄的阿卡德異名"},
+  {spouses:["atrahasis","ziusudra"], marriage:"partner", label:"蘇美最古老的原型"},
+  /* 傳說君王 */
+  {spouses:["sargon","inanna"], marriage:"partner", label:"伊絲塔眷顧的開國者", labelClass:"ritual"},
+  {parent:"semiramis", children:["hanging_gardens"], label:"傳說附會的空中花園"},
+];
+
+const MP_NODE_NAMES = {
+  nammu:{kojiki:"𒀭𒇉 Nammu",nihonshoki:"Namma",reading:"Nammu",aliases:["南姆","原初之海","眾神之母"],shrine:"埃利都"},
+  apsu:{kojiki:"𒍪𒀊 Abzu",reading:"Apsû",nihonshoki:"Apsu／Abzu",aliases:["阿卜蘇","阿普蘇","原初淡水","地下甘泉"],shrine:"埃利都"},
+  tiamat:{kojiki:"Tiāmtu",nihonshoki:"Tiamat／Thalatth",reading:"Tiāmat",aliases:["蒂雅瑪特","提亞瑪特","混沌母龍","原初鹹水"],shrine:"—"},
+  mummu:{kojiki:"Mummu",nihonshoki:"Mummu",reading:"Mummu",aliases:["穆姆","原初迷霧","阿普蘇的參謀"],shrine:"—"},
+  kingu:{kojiki:"Qingu",nihonshoki:"Kingu／Qingu",reading:"Qingu",aliases:["金固","昆古","提亞馬特的統帥","人類血液之源"],shrine:"—"},
+  lahmu:{kojiki:"Laḫmu",nihonshoki:"Lahmu",reading:"Laḫmu",aliases:["拉赫姆","守護神像"],shrine:"—"},
+  lahamu:{kojiki:"Laḫamu",nihonshoki:"Lahamu",reading:"Laḫamu",aliases:["拉哈姆","拉赫穆的配偶"],shrine:"—"},
+  anshar:{kojiki:"Anšar",nihonshoki:"Anshar／Assorus",reading:"Anšar",aliases:["安莎爾","天之樞軸"],shrine:"—"},
+  kishar:{kojiki:"Kišar",nihonshoki:"Kishar／Kissare",reading:"Kišar",aliases:["基莎爾","地之樞軸"],shrine:"—"},
+  anu:{kojiki:"𒀭 An",nihonshoki:"Anu",reading:"An／Anu",aliases:["安神","阿努","天空之神","眾神之父"],shrine:"烏魯克"},
+  antu:{kojiki:"Antu",nihonshoki:"Antu／Antum",reading:"Antu",aliases:["安圖姆","阿努之后"],shrine:"烏魯克"},
+  ki:{kojiki:"𒆠 Ki",nihonshoki:"Ki",reading:"Ki",aliases:["基","大地女神","寧胡爾薩格"],shrine:"—"},
+  ashur:{kojiki:"Aššur",nihonshoki:"Ashur／Assur",reading:"Aššur",aliases:["阿述爾","亞述爾","亞述至高神"],shrine:"亞述城"},
+  enlil:{kojiki:"𒂗𒆤 Enlil",nihonshoki:"Ellil",reading:"Enlil",aliases:["恩利勒","埃利爾","風神","諸神之王"],shrine:"尼普爾"},
+  ninlil:{kojiki:"Ninlil",nihonshoki:"Ninlil／Mullissu",reading:"Ninlil",aliases:["寧利勒","穆莉蘇","穀物女神"],shrine:"尼普爾"},
+  enki:{kojiki:"𒂗𒆠 Enki",nihonshoki:"Ea",reading:"Enki／Ea",aliases:["恩奇","埃阿","埃亞","智慧之神","淡水之神"],shrine:"埃利都"},
+  damkina:{kojiki:"Damgalnuna",nihonshoki:"Damkina／Damkianna",reading:"Damkina",aliases:["丹伽爾努娜","達姆基娜","馬爾杜克之母"],shrine:"埃利都"},
+  ninhursag:{kojiki:"Ninḫursaĝ",nihonshoki:"Ninhursag",reading:"Ninḫursaĝ",aliases:["寧胡爾薩","寧瑪赫","寧圖","大母神","山巒女主人"],shrine:"基什"},
+  nanna:{kojiki:"𒂗𒍪 Nanna",nihonshoki:"Sin／Suen",reading:"Nanna／Sîn",aliases:["南納","辛","子恩","月神"],shrine:"烏爾・哈蘭"},
+  nusku:{kojiki:"Nuska",nihonshoki:"Nusku",reading:"Nusku",aliases:["努斯庫","光明與火之神"],shrine:"尼普爾"},
+  ninurta:{kojiki:"Ninurta",nihonshoki:"Ninurta／Ninĝirsu",reading:"Ninurta",aliases:["尼努爾塔","寧吉爾蘇","戰神","農耕神"],shrine:"尼普爾・吉爾蘇"},
+  nergal:{kojiki:"Nergal",nihonshoki:"Nergal／Erra",reading:"Nergal",aliases:["內爾伽","埃拉","冥王","瘟疫戰神"],shrine:"庫塔"},
+  ninazu:{kojiki:"Ninazu",nihonshoki:"Ninazu",reading:"Ninazu",aliases:["寧阿蘇","醫者之主","冥界醫神"],shrine:"埃什努納"},
+  adad:{kojiki:"Iškur",nihonshoki:"Adad／Hadad",reading:"Adad／Iškur",aliases:["伊什庫爾","哈達德","阿達德","風暴之神","雷雨神"],shrine:"卡爾卡拉"},
+  marduk:{kojiki:"Marduk",nihonshoki:"Marduk／Bel",reading:"Marduk",aliases:["馬爾杜克","貝爾","彌羅達","巴比倫主神","五十尊名"],shrine:"巴比倫"},
+  sarpanit:{kojiki:"Ṣarpānītu",nihonshoki:"Zarpanitu",reading:"Ṣarpānītu",aliases:["查爾帕尼圖","莎爾帕尼特","馬爾杜克之后"],shrine:"巴比倫"},
+  nabu:{kojiki:"Nabû",nihonshoki:"Nabu／Nebo",reading:"Nabû",aliases:["那步","尼波","書寫之神","抄寫守護神"],shrine:"波爾西帕"},
+  ningal:{kojiki:"Ningal",nihonshoki:"Nikkal",reading:"Ningal",aliases:["寧加","尼卡爾","月神之后"],shrine:"烏爾"},
+  utu:{kojiki:"𒌓 Utu",nihonshoki:"Shamash",reading:"Utu／Šamaš",aliases:["烏圖","沙瑪什","夏馬什","太陽神","正義之神"],shrine:"西帕爾・拉爾薩"},
+  inanna:{kojiki:"𒈹 Inanna",nihonshoki:"Ishtar／Astarte",reading:"Inanna／Ištar",aliases:["伊南娜","伊絲塔","伊什塔爾","阿斯塔蒂","金星女神","愛與戰爭"],shrine:"烏魯克"},
+  ereshkigal:{kojiki:"Ereškigal",nihonshoki:"Ereshkigal／Allatu",reading:"Ereškigal",aliases:["埃列什基伽","厄里斯奇格","冥界女王","不歸之地"],shrine:"庫塔"},
+  dumuzi:{kojiki:"Dumuzid",nihonshoki:"Tammuz／Adonis",reading:"Dumuzi／Tammuz",aliases:["杜牧茲","塔木茲","坦木茲","牧羊神","垂死之神"],shrine:"烏魯克・巴德提比拉"},
+  namtar:{kojiki:"Namtar",nihonshoki:"Namtar",reading:"Namtar",aliases:["那姆塔","南塔爾","命運","瘟疫使者"],shrine:"—"},
+  neti:{kojiki:"Neti",nihonshoki:"Neti／Nedu",reading:"Neti",aliases:["涅杜","冥界門衛"],shrine:"—"},
+  geshtinanna:{kojiki:"Ĝeštinanna",nihonshoki:"Geshtinanna",reading:"Ĝeštinanna",aliases:["格什提南","葡萄酒女神","解夢女神","杜姆茲之姊"],shrine:"—"},
+  anzu:{kojiki:"Anzû／Imdugud",nihonshoki:"Anzu",reading:"Anzû",aliases:["安祖鳥","伊姆杜古德","獅頭巨鷹","風暴鳥"],shrine:"—"},
+  asag:{kojiki:"Asag／Asakku",nihonshoki:"Asakku",reading:"Asag",aliases:["阿薩庫","岩石惡魔"],shrine:"—"},
+  mushhushu:{kojiki:"Mušḫuššu",nihonshoki:"Mushhushu／Sirrush",reading:"Mušḫuššu",aliases:["穆修修","西魯什","憤怒之蛇","伊絲塔門神龍"],shrine:"巴比倫"},
+  humbaba:{kojiki:"Ḫumbaba／Ḫuwawa",nihonshoki:"Humbaba",reading:"Ḫumbaba",aliases:["胡姆巴巴","洪巴巴","雪松林守護者"],shrine:"雪松林"},
+  bull_heaven:{kojiki:"Gugalanna",nihonshoki:"Bull of Heaven",reading:"Gugalanna",aliases:["古伽蘭那","天牛","金牛座"],shrine:"—"},
+  lamashtu:{kojiki:"Lamaštu",nihonshoki:"Lamashtu",reading:"Lamaštu",aliases:["拉瑪什圖","害嬰女魔"],shrine:"—"},
+  pazuzu:{kojiki:"Pazuzu",nihonshoki:"Pazuzu",reading:"Pazuzu",aliases:["帕祖祖","西南風魔王","驅魔護符"],shrine:"—"},
+  lamassu:{kojiki:"Lamassu／Šēdu",nihonshoki:"Lamassu／Shedu",reading:"Lamassu",aliases:["拉瑪蘇","舍杜","人首翼牛","宮門守護"],shrine:"亞述宮殿"},
+  lilitu:{kojiki:"Lilītu",nihonshoki:"Lilitu／Lilith",reading:"Lilītu",aliases:["莉莉圖","莉莉絲原型","夜之女魔"],shrine:"—"},
+  gallu:{kojiki:"Gallû",nihonshoki:"Gallu",reading:"Gallû",aliases:["加盧鬼","緝魂惡鬼"],shrine:"—"},
+  sebitti:{kojiki:"Sebitti",nihonshoki:"Sebitti／Sibitti",reading:"Sebitti",aliases:["西比提","七戰神","昴宿七星"],shrine:"—"},
+  ugallu:{kojiki:"Ugallu",nihonshoki:"Ugallu",reading:"Ugallu",aliases:["烏加盧","獅首守護魔"],shrine:"—"},
+  ninsun:{kojiki:"Ninsun",nihonshoki:"Ninsun／Rimat-Ninsun",reading:"Ninsun",aliases:["寧孫女神","野牛女主人","吉爾伽美什之母"],shrine:"烏魯克"},
+  lugalbanda:{kojiki:"Lugalbanda",nihonshoki:"Lugalbanda",reading:"Lugalbanda",aliases:["盧加班達","烏魯克英雄王"],shrine:"烏魯克"},
+  gilgamesh:{kojiki:"𒄑𒂆𒈦 Gilgameš",nihonshoki:"Gilgamesh／Bilgames",reading:"Gilgameš",aliases:["吉加美士","基加美修","比爾伽美什","烏魯克之王"],shrine:"烏魯克"},
+  enkidu:{kojiki:"Enkidu",nihonshoki:"Enkidu",reading:"Enkidu",aliases:["恩啟都","恩奇杜","野人","吉爾伽美什之友"],shrine:"—"},
+  shamhat:{kojiki:"Šamḫat",nihonshoki:"Shamhat",reading:"Šamḫat",aliases:["沙姆哈特","神妓","豐美者"],shrine:"烏魯克"},
+  utnapishtim:{kojiki:"Ūta-napišti",nihonshoki:"Utnapishtim／Xisuthros",reading:"Ūta-napištim",aliases:["烏塔納皮什提","得永生者","舒魯派克之王"],shrine:"—"},
+  siduri:{kojiki:"Šiduri",nihonshoki:"Siduri",reading:"Šiduri",aliases:["西杜里","酒館女神","及時行樂"],shrine:"—"},
+  urshanabi:{kojiki:"Uršanabi",nihonshoki:"Urshanabi",reading:"Uršanabi",aliases:["烏爾沙納比","冥河船夫"],shrine:"—"},
+  atrahasis:{kojiki:"Atra-ḫasīs",nihonshoki:"Atrahasis",reading:"Atra-ḫasīs",aliases:["阿特拉哈西","絕頂聰慧","洪水智者"],shrine:"—"},
+  ziusudra:{kojiki:"Ziusudra",nihonshoki:"Ziusudra／Xisuthros",reading:"Ziusudra",aliases:["茲烏蘇德","蘇美洪水王","生命綿長者"],shrine:"舒魯派克"},
+  etana:{kojiki:"Etana",nihonshoki:"Etana",reading:"Etana",aliases:["埃塔那","乘鷹升天","基什之王"],shrine:"基什"},
+  adapa:{kojiki:"Adapa",nihonshoki:"Adapa／Oannes",reading:"Adapa",aliases:["阿達巴","歐安尼斯","埃利都賢者","阿普卡魯"],shrine:"埃利都"},
+  sargon:{kojiki:"Šarru-kīn",nihonshoki:"Sargon of Akkad",reading:"Šarru-kīn",aliases:["薩爾恭","薩貢","阿卡德的薩爾貢","棄嬰成王"],shrine:"阿卡德"},
+  semiramis:{kojiki:"Šammuramat",nihonshoki:"Semiramis",reading:"Sammu-ramat",aliases:["沙穆拉瑪特","賽米拉米斯","亞述女帝"],shrine:"亞述・巴比倫"},
+  enuma_elish:{kojiki:"Enūma Eliš",nihonshoki:"Enuma Elish",reading:"Enūma Eliš",aliases:["天之高兮","巴比倫創世史詩","七塊泥板"],shrine:"—"},
+  epic_gilgamesh:{kojiki:"Ša naqba īmuru",nihonshoki:"Epic of Gilgamesh",reading:"",aliases:["吉爾伽美什史詩","十二塊泥板","最古老的史詩"],shrine:"—"},
+  tablet_destinies:{kojiki:"Ṭuppi šīmāti",nihonshoki:"Tablet of Destinies",reading:"Ṭuppi šīmāti",aliases:["命運石板","天命泥板","至高信物"],shrine:"—"},
+  me_note:{kojiki:"𒈨 Me",nihonshoki:"Me",reading:"Me",aliases:["美","神聖法則","文明之力","百項神權"],shrine:"—"},
+  kur_note:{kojiki:"𒆳 Kur",nihonshoki:"Irkalla／Kur",reading:"Kur／Irkalla",aliases:["伊爾卡拉","庫爾","不歸之地","冥界"],shrine:"—"},
+  flood_note:{kojiki:"Abūbu",nihonshoki:"The Great Flood",reading:"Abūbu",aliases:["大洪水","滅世洪水","方舟原型"],shrine:"—"},
+  cedar_forest:{kojiki:"Cedar Forest",nihonshoki:"Cedar Forest",reading:"",aliases:["雪松林","杉木林","神聖森林"],shrine:"黎巴嫩／札格羅斯"},
+  plant_life:{kojiki:"Šammu ša lā'i",nihonshoki:"Plant of Life",reading:"",aliases:["返老草","長生草","青春之草"],shrine:"—"},
+  hanging_gardens:{kojiki:"Hanging Gardens",nihonshoki:"Hanging Gardens of Babylon",reading:"",aliases:["空中花園","懸園","世界七大奇蹟"],shrine:"巴比倫"},
+  etemenanki:{kojiki:"É-temen-an-ki",nihonshoki:"Etemenanki",reading:"Etemenanki",aliases:["埃特曼安基","通天塔","巴別塔原型","金字形神塔"],shrine:"巴比倫"},
+  sharur:{kojiki:"Šarur",nihonshoki:"Sharur",reading:"Šarur",aliases:["沙魯爾","殲敵者","會說話的權杖"],shrine:"—"},
+  marduk_net:{kojiki:"Saparru",nihonshoki:"Net of Marduk",reading:"Saparru",aliases:["馬爾杜克之網","天網","四風之網"],shrine:"—"},
+};
+
 const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
@@ -3073,6 +3338,11 @@ const PANTHEONS = {
     title:'𓂀 埃及神話系譜', defs:EG_NODE_DEFS, groups:EG_GROUPS, unions:EG_UNIONS, names:EG_NODE_NAMES,
     seed:EGYPT_USER_EDITS, storage:'egypt_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（聖書體轉寫）', kojiki:'埃及語原名', nihonshoki:'希臘化／通用名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰中心'},
+  },
+  mesopotamia: {
+    title:'𒀭 美索不達米亞神話系譜', defs:MP_NODE_DEFS, groups:MP_GROUPS, unions:MP_UNIONS, names:MP_NODE_NAMES,
+    seed:MESO_USER_EDITS, storage:'meso_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（蘇美／阿卡德名）', kojiki:'蘇美語名', nihonshoki:'阿卡德／巴比倫名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰城市'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -3823,13 +4093,14 @@ async function exportHTML(){
   const gEditsJSON = JSON.stringify(LIVE_EDITS.greek);
   const nEditsJSON = JSON.stringify(LIVE_EDITS.norse);
   const eEditsJSON = JSON.stringify(LIVE_EDITS.egypt);
+  const mEditsJSON = JSON.stringify(LIVE_EDITS.mesopotamia);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -4098,6 +4369,7 @@ function openJapan(){ openPantheon('japan'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
 function openEgypt(){ openPantheon('egypt'); }
+function openMesopotamia(){ openPantheon('mesopotamia'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
