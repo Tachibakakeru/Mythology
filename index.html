@@ -370,10 +370,10 @@
       <div class="label">北歐神話</div>
       <div class="sub">埃達・阿薩神族・諸神黃昏</div>
     </div>
-    <div class="myth-icon disabled">
+    <div class="myth-icon" onclick="openEgypt()">
       <div class="glyph">𓂀</div>
       <div class="label">埃及神話</div>
-      <div class="sub">敬請期待</div>
+      <div class="sub">九柱神・歐西里斯・冥界審判</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">𒀭</div>
@@ -2790,7 +2790,241 @@ const COLW=185, ROWH=145, NODE_W=150, NODE_H=60;
 const USER_EDITS = {};
 const GREEK_USER_EDITS = {};
 const NORSE_USER_EDITS = {};
+const EGYPT_USER_EDITS = {};
 // @@EDITS_END
+
+/* ============================================================
+   資料：埃及神話系譜
+   [id, name, kana(聖書體轉寫/副標), role, col, row, desc, isNote, tag]
+   ============================================================ */
+const EG_NODE_DEFS = [
+/* ---- 赫爾莫波利斯八元神（Ogdoad）：創世前的原初混沌 ---- */
+["nun","努恩","Nnw（Nun）","原初之水・萬物之源",1.5,-1.4,"開天闢地之前，宇宙是一片無邊無際、黑暗而靜止的原初汪洋，這便是努恩。他不是被創造的，而是先於一切的存在本身；日後太陽神阿圖姆（拉）自這片死水中升起的原初之丘破水而出，創世才告開始。即使世界成形之後，努恩之水仍環繞並潛伏於世界四周，是一切秩序背後隨時可能回歸的混沌。赫爾莫波利斯八元神以他為首。",false,"key"],
+["naunet","娜烏涅特","Nnwt（Naunet）","原初之水的女性對偶",3,-1.4,"努恩的陰性對偶，與努恩共同組成八元神的第一對。埃及人以「陰陽成對」的方式想像原初力量，每一種混沌屬性都有一雄一雌兩位神格，娜烏涅特即原初汪洋的女性面向。"],
+["heh","胡赫","Ḥḥw（Heh）","無限與永恆",4.3,-1.4,"象徵空間與時間之無限的神，常被畫成跪坐、雙手各持一根刻著年歲的棕櫚枝的形象，寓意「億萬年」。他也是托舉天空的力量之一。"],
+["hauhet","豪赫特","Ḥḥwt（Hauhet）","無限的女性對偶",5.6,-1.4,"胡赫的陰性對偶，同司無邊無際的時空。八元神的第二對。"],
+["kek","凱克","Kkw（Kek）","原初的黑暗",6.9,-1.4,"創世之前那片絕對黑暗的神格，也被視為「黎明前的引路者」——因為最深的黑暗正孕育著即將到來的第一道曙光。"],
+["kauket","凱烏凱特","Kkwt（Kauket）","黑暗的女性對偶",8.2,-1.4,"凱克的陰性對偶，象徵黑暗轉向白晝的那一刻，別名「使白晝來臨者」。八元神的第三對。"],
+["amaunet","阿蒙涅特","Imnt（Amaunet）","隱藏之力的女性對偶",9.5,-1.4,"八元神第四對中的女性，與「隱藏者」阿蒙相對，象徵不可見的風與隱匿之力。阿蒙後來在底比斯崛起為眾神之王，阿蒙涅特則長伴其側，於卡奈克神廟受祀。"],
+
+/* ---- 太陽神拉的化身與眷屬 ---- */
+["ra","拉","Rꜥ（Ra）","太陽神・眾神之王",19,-0.2,"古埃及最崇高的神祇，正午烈日的化身，乘太陽船每日橫越天穹、每夜航行地底冥界杜阿特，於黎明重生。他與創世神阿圖姆融合為「阿圖姆-拉」，又在底比斯與阿蒙合為「阿蒙-拉」。法老自稱「拉之子」，其神廟聖城在赫利奧波利斯。每夜他都須擊退混沌巨蛇阿佩普，太陽才能再度升起。",false,"key"],
+["khepri","凱布利","Ḫprj（Khepri）","朝陽・聖甲蟲之神",21,-1.2,"清晨初升太陽的化身，形象為聖甲蟲（糞金龜）或甲蟲頭人身。埃及人見糞金龜推糞球前行，聯想到太陽被推過天際，其名意為「生成、變化者」。朝陽凱布利、午陽拉、夕陽阿圖姆，是同一太陽的三種相貌。"],
+["aten","阿頓","Jtn（Aten）","日輪本身",22.5,-0.4,"太陽的圓盤本體，光芒末端化為一雙雙賜予生命的手。法老阿肯那頓一度廢除諸神，獨尊阿頓為唯一真神，是人類史上早期的一神教嘗試；他死後埃及旋即恢復傳統多神信仰。"],
+["bennu","貝努鳥","Bnw（Bennu）","靈鳥・不死鳥原型",24,-1.2,"自原初之丘與奔奔石上飛起的蒼鷺形靈鳥，被視為拉的靈魂（巴）與歐西里斯的化身，象徵太陽的每日重生與週期性的死而復活。希臘人的不死鳥「菲尼克斯（Phoenix）」傳說即源於牠。",false,"key"],
+["apep","阿佩普","ꜥꜣpp（Apep）","混沌巨蛇・拉的宿敵",25.5,0.4,"潛伏於冥界的巨大惡蛇，是混沌與虛無的化身，永遠企圖吞噬太陽、使世界重歸黑暗。每夜太陽船經過時，賽特與諸神合力以矛刺、以火燒將牠擊退，這場永恆的戰鬥維繫著宇宙秩序（瑪亞特）的存續。牠從不被真正消滅，只是日復一日地被擊退。",false,"key"],
+
+/* ---- 赫利奧波利斯九柱神（Ennead） ---- */
+["atum","阿圖姆","Jtmw（Atum）","自生的創世神・夕陽",15,0,"赫利奧波利斯創世神話的核心。混沌之初，他自原初之水努恩中的原初之丘上自我生成，是「完成者」也是「尚未存在者」。他獨自一人（一說藉自身之手、一說藉唾液）生出了風神舒與濕氣女神泰芙努特，開啟了九柱神的世系。他也是夕陽的化身，日暮時分的太陽即阿圖姆，後與拉融合為阿圖姆-拉。",false,"key"],
+["shu","舒","Šw（Shu）","空氣與光之神",13.5,1.3,"阿圖姆所生的第一位神，乾燥空氣與陽光的化身。他站立於大地之上，雙手高舉將天空女神努特托起，使她與大地之神蓋布分離——這道被舉起的空氣間隙，正是萬物得以呼吸與生存的世界。",false,"key"],
+["tefnut","泰芙努特","Tfnt（Tefnut）","濕氣與雨露女神",16.5,1.3,"與舒同時自阿圖姆而生的孿生妹妹兼配偶，濕氣、雨露與腐蝕之力的女神，常作獅頭女子之形。她曾一度負氣出走努比亞化為兇猛母獅，令世間乾旱，眾神設法將她迎回，大地方復甦。她也是「拉之眼」的化身之一。",false,"key"],
+["geb","蓋布","Gbb（Geb）","大地之神",13.5,2.6,"舒與泰芙努特之子，大地的化身，常被畫成仰臥於下、身覆綠色植被的男神——大地的起伏即他的身軀，地震是他的笑聲。他與姊妹兼妻子的天空女神努特難捨難分，被父親舒強行分開。他也是法老王權的授予者，早期法老被稱作「坐上蓋布之位者」。",false,"key"],
+["nut","努特","Nwt（Nut）","天空女神",16.5,2.6,"蓋布之姊妹與配偶，天空的化身，常被畫成身綴繁星、以指尖與腳尖撐地、弓身覆蓋整片大地的女神。太陽神每晚被她吞入口中、穿行她的身體、次晨自她兩腿間重生。因拉禁止她在一年任何一天生產，托特為她從月亮贏得五個閏日，她才得以產下歐西里斯等五神。",false,"key"],
+["osiris","歐西里斯","Wsjr（Osiris）","冥界之王・復活與農業之神",9,3.9,"蓋布與努特的長子，埃及最初的賢王，教會人類農耕與律法。其弟賽特因嫉妒設宴誘他躺入量身訂做的華麗棺木，趁機封棺投入尼羅河；後又將尋回的遺體碎屍十四塊散棄各地。妻子伊西斯尋回碎塊、以繃帶纏裹使其成為第一具木乃伊並短暫復生，受孕生下荷魯斯。此後歐西里斯不再統治人間，而成為冥界杜阿特之主，審判並接納every亡者。",false,"key"],
+["isis","伊西斯","ꜣst（Isis）","魔法與母性女神・王座",11.5,3.9,"歐西里斯之妻與姊妹，古埃及最偉大的女神。她法力無邊，遍尋被賽特碎屍的丈夫遺體加以拼合復原，並以魔法自死者受孕、於沼澤中祕密撫養荷魯斯長大復仇。她是完美的妻子與母親典範，其名意為「王座」，法老即坐於她的膝上。她曾以詭計誘得拉說出真名而奪得無上魔力。其信仰後來遠播希臘羅馬全境。",false,"key"],
+["set","賽特","Stẖ（Set）","混沌・風暴・沙漠之神",18,3.9,"蓋布與努特之子，力量兇猛的風暴、沙漠與異邦之神，形象為難以辨識的「賽特獸」。他因嫉妒謀殺兄長歐西里斯並篡奪王位，與姪子荷魯斯展開長達八十年的爭位之戰，最終敗訴。然而他並非全然的惡：每夜他站在太陽船首，以長矛擊退混沌巨蛇阿佩普，是守護太陽的關鍵力量——混沌對抗更大的混沌。",false,"key"],
+["nephthys","奈芙蒂斯","Nbt-ḥwt（Nephthys）","哀悼與守護亡者的女神",20.5,3.9,"蓋布與努特的幼女，賽特之妻，其名意為「宅邸的女主人」。儘管身為賽特的配偶，她卻站在姊姊伊西斯一方，一同哀悼並協助拼合歐西里斯的遺體。她與伊西斯是守護亡者的一對哭泣女神，常立於棺木兩端張翼庇護逝者。"],
+["horus_elder","大荷魯斯","Ḥrw-wr（Haroeris）","天空之神・年長的荷魯斯",23,3.9,"「年長的荷魯斯」，一種傳統中他是蓋布與努特之子、與歐西里斯同輩的天空之神，其雙眼即太陽與月亮。他常與「歐西里斯之子荷魯斯」相混同——兩者同名，後世逐漸融為一位集天空、王權、復仇於一身的荷魯斯。"],
+["horus","荷魯斯","Ḥrw（Horus）","王權之神・法老的化身",10,5.2,"歐西里斯與伊西斯之子，鷹頭神，在位法老的守護者與化身——每一位法老在世時都是「活著的荷魯斯」，死後則化為歐西里斯。他自幼被母親藏於三角洲沼澤躲避賽特追殺，長成後為父復仇，與賽特纏鬥八十年；爭鬥中他被賽特挖去左眼，後由托特治癒，那復原的左眼即成為護符「荷魯斯之眼（瓦吉特之眼）」。眾神最終裁定荷魯斯繼承王位。",false,"key"],
+["anubis","阿努比斯","Jnpw（Anubis）","防腐與亡者引路之神",19,5.2,"胡狼頭神，掌管防腐、木乃伊製作與墓地。一說為奈芙蒂斯所生（生父或為歐西里斯），是最早為歐西里斯製作木乃伊者，因而成為防腐術的守護神。在冥界審判中，他將亡者引至天秤前，親手秤量其心臟與瑪亞特的羽毛，是引導靈魂穿越死亡的關鍵神祇。"],
+["hathor","哈托爾","Ḥwt-ḥrw（Hathor）","愛、音樂、歡愉與天空母牛女神",13,5.2,"其名意為「荷魯斯的宅邸」，是荷魯斯的配偶、拉的女兒，掌管愛、美、音樂、舞蹈、生育與歡樂，常作母牛或頭頂日輪牛角的女子之形。她溫柔慈愛，卻也是「拉之眼」的化身——當拉派她下凡懲罰忤逆的人類時，她化為嗜血的塞赫麥特幾乎滅絕人類，眾神以染紅的啤酒灌醉她方才止住殺戮。她也在冥界迎接、以無花果與清水款待亡者。",false,"key"],
+["ihy","伊希","Jḥy（Ihy）","音樂與歡愉之童神",13,6.4,"荷魯斯與哈托爾之子，手持叉鈴（西斯特琴）的孩童神，象徵音樂帶來的喜悅與新生，常伴母親哈托爾於丹德拉神廟受祀。"],
+["four_sons","荷魯斯四子","Four Sons of Horus","守護內臟的四神",8,6.5,"荷魯斯（或歐西里斯）的四個兒子：人頭的伊姆賽特、狒狒頭的哈碧、胡狼頭的多姆泰夫、鷹頭的凱布山納夫。他們分別守護木乃伊取出的肝、肺、胃、腸，對應盛裝內臟的四個卡諾卜罈，也各受一位女神庇護。",true],
+
+/* ---- 智慧與秩序 ---- */
+["thoth","托特","Ḏḥwtj（Thoth）","智慧、書寫與月亮之神",27.5,2.6,"朱鷺頭（或狒狒）之神，掌管智慧、書寫、曆法、魔法與月亮，是諸神的書記官與仲裁者。他發明了文字與科學，記錄一切；為努特從月光贏得五個閏日，使她得以生產；治癒荷魯斯受損的眼睛；在冥界審判中記錄心臟稱量的結果。希臘人將他等同於赫爾墨斯，「赫爾莫波利斯」即以他為名。",false,"key"],
+["maat","瑪亞特","Mꜣꜥt（Ma'at）","真理、正義與宇宙秩序女神",29.5,1.4,"拉之女，頭戴一根鴕鳥羽毛的女神，同時是女神與抽象原理本身——她代表真理、正義、平衡與維繫宇宙運行的根本秩序，與混沌（伊斯費特）相對。法老的首要職責即「維護瑪亞特」。在冥界審判中，亡者的心臟須與她的羽毛在天秤上等重，方能通過。",false,"key"],
+["seshat","塞莎特","Sšꜣt（Seshat）","書寫、測量與記錄女神",27.5,3.9,"托特的配偶（或女兒），掌管書寫、天文測量、建築丈量與檔案的女神，頭戴七角星徽。神廟奠基時由她主持「拉繩定界」之禮，也負責記錄法老的年歲與功業。"],
+
+/* ---- 孟菲斯三神（Memphis Triad） ---- */
+["ptah","卜塔","Ptḥ（Ptah）","造物神・工匠與建築之守護",31.5,0.4,"孟菲斯的至高創世神，被裹身如木乃伊、手持結合安卡、瓦斯與傑德的權杖。孟菲斯神學主張：卜塔以「心（思想）」構想萬物、以「舌（話語）」說出其名，世界便如此被創造——這是一種以思想與語言創世的高度抽象宇宙觀，早於一切肉體生殖式的創世。他是工匠、雕刻家與建築師的守護神，希臘人將他等同於赫淮斯托斯。",false,"key"],
+["sekhmet","塞赫麥特","Sḫmt（Sekhmet）","戰爭與瘟疫的獅女神",31.5,1.8,"卜塔之妻，獅頭女神，其名意為「強大者」。她是「拉之眼」最兇暴的化身：當人類密謀反叛年邁的拉，她奉命下凡屠戮，殺戮的狂喜使她幾近滅絕人類，眾神以染成血色的啤酒灌醉她才止住浩劫。她司掌戰爭、瘟疫，卻也因此被奉為能驅退疫病的醫療女神——法老的軍隊視她為戰場上的烈焰。",false,"key"],
+["nefertum","奈斐爾圖姆","Nfr-tm（Nefertum）","蓮花與芬芳之神",30.8,3.1,"卜塔與塞赫麥特之子，孟菲斯三神中最年輕者。他是自原初之水中綻放的第一朵藍蓮花之神——太陽即從這朵蓮花中初次升起。他象徵清晨的芬芳、美與重生，常被畫成頭頂蓮花的青年。"],
+["imhotep","印和闐","Jj-m-ḥtp（Imhotep）","被神化的賢者・醫藥之神",32.8,3.1,"史上真實存在的人物——第三王朝法老左塞爾的宰相、階梯金字塔的建築師、醫者與智者。他因功業卓絕，死後數百年被尊為神，奉為卜塔之子、醫藥與學問的守護神，是極少數由凡人升格為神的例子。希臘人將他等同於醫神阿斯克勒庇俄斯。",true],
+["bastet","巴斯特","Bꜣstt（Bastet）","貓女神・家庭與歡愉的守護",33.5,4.5,"貓頭（或母貓）女神，拉之女，同為「拉之眼」的化身，卻是其溫柔的一面——與烈焰的塞赫麥特恰成對比。她守護家庭、婦孺、生育與歡樂，也護佑人們免於疾疫與惡靈。聖城布巴斯提斯每年為她舉行盛大狂歡的節慶，貓在埃及因她而成為聖獸。"],
+
+/* ---- 底比斯三神（Theban Triad） ---- */
+["amun","阿蒙","Jmn（Amun）","隱藏者・眾神之王・阿蒙-拉",35.5,0.4,"其名意為「隱藏者」，本為赫爾莫波利斯八元神中象徵不可見之風的原初神，後於底比斯崛起，隨底比斯王朝統一埃及而登上眾神之王的寶座。他與太陽神拉融合為「阿蒙-拉」，集創世、王權、太陽於一身，成為新王國時期至高無上的國家主神，卡奈克神廟即其宏偉聖域。他隱而無形，卻遍在於萬物之中。",false,"key"],
+["mut","穆特","Mwt（Mut）","母神・阿蒙之后",38,0.4,"其名意為「母親」，阿蒙的配偶，底比斯的守護母神，常戴上下埃及雙王冠、著禿鷲頭巾。她是底比斯三神之首后，也吸收了眾多女神的母性職能，被尊為「諸神之母」與王權的守護者。"],
+["khonsu","孔蘇","Ḫnsw（Khonsu）","月亮之神・旅人的守護",36,1.8,"阿蒙與穆特之子，底比斯三神中的少年月神，其名意為「旅行者」——指月亮夜夜穿行天際。他掌管月亮、時間與治癒，能驅逐惡靈、醫治病痛，有一則著名故事記載他被送往異邦驅除附身公主的惡靈。"],
+["montu","蒙圖","Mnṯw（Montu）","戰爭與勇武之鷹神",38.5,1.8,"鷹頭戰神，頭頂日輪與雙羽，是底比斯地區早期的主神，象徵法老在戰場上的勇猛與所向披靡。中王國時期數位法老以「門圖霍特普（蒙圖滿意）」為名，即彰顯對他的崇奉。"],
+
+/* ---- 造物與生育神（Elephantine 與尼羅河） ---- */
+["khnum","克努姆","H̱nmw（Khnum）","陶匠造物神・尼羅河源",24,6.4,"公羊頭神，象島（Elephantine）的主神，被視為尼羅河氾濫的源頭掌控者。他坐在陶輪前，以尼羅河的泥土親手塑造出每一個嬰孩的肉體與其「卡（生命力）」，再送入母胎——他是諸神與人類肉身的塑造者，最原始的造物工匠。",false,"key"],
+["satis","薩蒂斯","Sṯt（Satis）","尼羅河氾濫女神",25.5,5.4,"克努姆之妻，象島三神之一，頭戴上埃及白冠與羚羊角。她掌管尼羅河一年一度帶來肥沃泥土的氾濫，被稱為「奔湧之水的女主人」，以河水淨化亡者。"],
+["anuket","阿努凱特","ꜥnqt（Anuket）","尼羅河與瞪羚女神",27,6.4,"克努姆與薩蒂斯之女，頭戴高聳羽冠的尼羅河女神，掌管河水的滋養之力，聖獸為瞪羚，於象島與努比亞邊境受祀。"],
+["neith","奈斯","Nt（Neith）","戰爭、狩獵與編織的創世女神",29,6.4,"最古老的女神之一，掌管戰爭、狩獵與編織，徽記為交叉的箭與盾。在賽易斯的神學中，她是自原初之水中自我生成、織就整個世界的創世母神，「眾神之母」，甚至是太陽神拉的母親。在荷魯斯與賽特的爭位仲裁中，眾神曾請她這位最睿智的女神裁決。",false,"key"],
+["heket","赫凱特","Ḥqt（Heket）","青蛙女神・生育與接生",30.5,6.4,"蛙頭（或青蛙）女神，掌管生育與分娩。埃及人見尼羅河氾濫後蛙群大量湧現，視青蛙為多產與新生的象徵。她在克努姆塑造嬰孩後賦予其生命氣息，是產婦與接生的守護神。"],
+["serqet","塞爾凱特","Srqt（Serqet）","蠍子女神・解毒與守護",32,6.4,"頭頂蠍子的女神，掌管治療蠍螫蛇咬等毒傷，也守護亡者。她與伊西斯、奈芙蒂斯、奈斯同為守護卡諾卜罈與內臟的四位女神之一，庇護荷魯斯四子中的凱布山納夫。"],
+["taweret","塔沃里特","Tꜣ-wrt（Taweret）","河馬女神・孕產守護",33.5,6.4,"集孕婦大腹的河馬、猛獅四肢與鱷魚脊背於一身的女神，形象駭人卻極為慈愛，是孕婦與嬰孩在分娩這一最危險時刻的守護神。她驅退威脅產房的惡靈，是埃及家庭中最受愛戴、護符最普及的神祇之一。"],
+["bes","貝斯","Bs（Bes）","家庭、孕產與歡樂的守護矮神",35,6.4,"面貌獰惡、伸舌吐齒、身材矮胖的侏儒神，卻是最親切的居家守護者。他以醜怪的容貌與喧鬧的鼓樂驅趕蛇、惡靈與噩夢，守護家庭、孕婦、幼兒與睡眠，也帶來音樂、舞蹈與歡笑，是尋常百姓日常生活中最貼近的神。"],
+["min","敏","Mnw（Min）","生殖、豐饒與旅隊之神",36.5,6.4,"最古老的神祇之一，男性生殖力與豐饒的化身，常作高舉連枷、勃起之姿。他掌管作物豐收、牲畜繁衍與東方沙漠商旅的平安，在收穫季的「敏之節慶」中，法老親自收割第一束穀物獻予他。"],
+["sobek","索貝克","Sbk（Sobek）","鱷魚神・尼羅河之力與軍威",38,6.4,"鱷魚頭（或鱷魚）神，尼羅河兇猛生命力的化身，一說為創世女神奈斯之子。埃及人敬畏尼羅河中的鱷魚，遂奉牠為象徵力量、多產與軍事威猛的神，也是法老王權的護持者。法尤姆的鱷魚城與孔翁波神廟是其信仰中心，當地曾飼養佩戴金飾的活體聖鱷供奉。"],
+
+/* ---- 守護與地方神 ---- */
+["wadjet","瓦吉特","Wꜣḏyt（Wadjet）","眼鏡蛇女神・下埃及守護",21,7.7,"下埃及（尼羅河三角洲）的守護女神，形象為一條昂首的眼鏡蛇。她盤踞於法老王冠正前方，化為隨時噴火退敵的「聖蛇（烏拉埃烏斯）」，是王權的守護與威嚴象徵。她也曾在沼澤中庇護幼年的荷魯斯。"],
+["nekhbet","奈赫貝特","Nḫbt（Nekhbet）","禿鷲女神・上埃及守護",22.5,7.7,"上埃及（尼羅河谷）的守護女神，形象為展翅的白禿鷲。她與眼鏡蛇女神瓦吉特並稱「兩位女主人（Nebty）」，一鷲一蛇共同守護統一後的法老，出現在法老的五重王名之一中。"],
+["wepwawet","韋普瓦韋特","Wp-wꜣwt（Wepwawet）","開路者・戰爭與冥界的豺狼神",24,7.7,"豺狼（或狼）頭神，其名意為「開路者」。他既為法老的軍隊在戰場上開闢前路，也為亡者在冥界開啟通往來生的道路，常與阿努比斯並列為引導靈魂的雙豺狼神，聖城在阿拜多斯與利科波利斯。"],
+["renenutet","瑞內努忒特","Rnnwtt（Renenutet）","眼鏡蛇豐收女神",25.5,7.7,"眼鏡蛇（或蛇頭女子）女神，掌管收穫、糧倉與哺育。她守護田地與穀物，也在嬰兒出生時賦予其名字與命運（「倫恩」），是滋養與豐饒的化身。"],
+["heka","赫卡","Ḥkꜣ（Heka）","魔法本身之神",27,7.7,"魔法與醫術的神格化——不只是掌管魔法的神，他本身就是「魔法」這股力量。埃及人相信魔法是拉在創世時賦予萬物、使諸神法術與醫者咒語得以生效的根本能量，赫卡即這股先於諸神的創世之力。"],
+["shai","沙伊","Šꜣj（Shai）","命運與定數之神",28.5,7.7,"命運的神格化，決定每個人的壽數與際遇。他在人出生時便已寫定其一生的「定數」，並在冥界審判時作為亡者一生善惡的見證出席天秤之旁。"],
+["meskhenet","梅斯赫奈特","Msḫnt（Meskhenet）","分娩與產磚女神",30,7.7,"掌管分娩的女神，化身為古埃及產婦生產時所蹲踞的「產磚」。她在嬰兒誕生的瞬間到場，宣告並塑定其命運（與沙伊、瑞內努忒特並司命運），也在冥界審判中協助亡者的「重生」。"],
+
+/* ---- 冥界杜阿特（Duat） ---- */
+["ammit","阿米特","ꜥm-mwt（Ammit）","吞噬者・亡者的第二次死亡",15,7.3,"蹲伏於冥界天秤旁的怪獸，集鱷魚之頭、獅子之前身、河馬之後身於一體——正是埃及人最懼怕的三種噬人猛獸。當亡者的心臟在稱量中重於瑪亞特的羽毛（即生前罪孽深重），阿米特便當場將那顆心臟吞食，令亡者永墮虛無、不得往生，是為「第二次死亡」。"],
+["duat_note","杜阿特（冥界）","Dwꜣt（Duat）","太陽夜航與亡者的國度",12,7.8,"位於地下（或天西）的冥界，太陽神拉每夜乘船穿行其十二道關卡與危險，於黎明重生。這裡也是歐西里斯統治、亡者接受審判與往生的國度，《亡靈書》與《來世之書》即詳載其地理與通關的咒語。",true],
+["aaru_note","蘆葦之野","Sḫt-jꜣrw（Aaru）","通過審判者的樂園",13.5,7.9,"通過冥界審判的義者最終抵達的樂土，位於東方日出之處，是一片水草豐美、作物永遠豐收的理想化尼羅河三角洲。亡者在此耕作安居、與歐西里斯同在，享永恆的來生。",true],
+
+/* ---- 神獸 ---- */
+["sphinx","斯芬克斯","Šps-ꜥnḫ（Shesep-ankh）","獅身人面的守護聖獸",40.5,2.4,"獅子的身軀配上法老（或神祇）的頭顱，是王權與太陽神力量的守護象徵，通常鎮守神廟與陵墓的入口。吉薩大斯芬克斯即其最宏偉者，面朝日出、守望法老的金字塔，一說其面容即法老卡夫拉。與希臘那隻出謎題的女妖斯芬克斯不同，埃及的斯芬克斯是威嚴的守護者。"],
+["apis","阿匹斯","Ḥꜣpj（Apis）","卜塔的顯靈神牛",40.5,3.6,"孟菲斯的聖牛，被視為造物神卜塔在人間的活體顯靈——祭司依額間白斑等特定聖記，在全國尋得那頭獨一無二的公牛供奉於神廟。牠死後被製成木乃伊，隆重葬於塞拉皮尤姆地下墓室，再尋覓下一頭轉世聖牛。牠也與歐西里斯結合為冥界之神「歐西里斯-阿匹斯（塞拉匹斯）」。"],
+["uraeus_note","烏拉埃烏斯（聖蛇）","Jꜥrt（Uraeus）","法老額前的噴火眼鏡蛇",40.5,4.8,"盤踞於法老與諸神額前、昂首欲噬的眼鏡蛇徽記，即眼鏡蛇女神瓦吉特的化身。牠是「拉之眼」的具象，隨時向敵人噴吐烈焰，象徵至高的王權、神власть與守護之力。",true],
+
+/* ---- 神器・名物 ---- */
+["ankh","安卡","ꜥnḫ（Ankh）","生命之符",43,0.4,"頂端為環、下接十字的符號，意為「生命」，是古埃及最普遍的聖符。諸神常手執其環、將它遞近法老口鼻，象徵賜予生命與永生的氣息。它出現在無數壁畫、護符與陪葬品中，是生命本身的象徵。",true],
+["was","瓦斯權杖","Wꜣs（Was）","力量與統治之杖",43,1.5,"頂端為犬形獸首、底端分叉的長杖，象徵權力、統治與福祉。諸神持之以彰顯其神власть，法老持之以示王權，它也代表對混沌的掌控與秩序的維繫。",true],
+["eye_horus","荷魯斯之眼","Wḏꜣt（Wedjat）","康復與守護的護符",43,2.6,"荷魯斯在與賽特的爭鬥中被挖去、後由托特治癒復原的左眼（月之眼），其名「瓦吉特」意為「完好者」。它象徵康復、完整、守護與獻祭，是古埃及最強大也最普及的護符，其六個部分還被用作分數的計量符號。",true],
+["eye_ra","拉之眼","Jrt-Rꜥ（Eye of Ra）","太陽的烈焰化身",43,3.7,"太陽神拉的右眼（日之眼），是他向外投射的暴烈力量，被擬人化為哈托爾、塞赫麥特、巴斯特、泰芙努特等女神——時而慈愛、時而毀滅。它既是懲罰叛逆者的烈焰，也是守護拉與法老的女性神力。",true],
+["djed","傑德柱","Ḏd（Djed）","歐西里斯的脊柱・穩固",43,4.8,"形似多層橫樑立柱的符號，被視為歐西里斯的脊柱，象徵穩固、恆久與復活。節慶中「豎立傑德柱」之禮，即重演歐西里斯的復活與秩序戰勝混沌，寓意王權與宇宙的長治久安。",true],
+["benben","奔奔石","Bnbn（Benben）","原初之丘的聖石",43,5.9,"創世之初自原初之水中最先浮現的原初之丘，其具象即赫利奧波利斯太陽神廟中的錐形聖石「奔奔」，靈鳥貝努即棲於其上。它是太陽最初升起之處的象徵，方尖碑尖頂與金字塔的塔尖形制皆源於它。",true],
+["book_dead","亡靈書","Book of the Dead","來世的通關咒語集",43,7,"並非單一部書，而是新王國時期隨葬的咒語、禱文與圖繪彙編，其原名意為「通往光明之書」。它為亡者提供穿越冥界杜阿特各關卡、應對心臟稱量、抵達蘆葦之野所需的知識與咒語，常書於莎草紙卷置於棺中，其中第125章「否定的告白」尤為著名。",true],
+["solar_barque","太陽船","Mꜥnḏt / Msktt","拉晝夜航行的座船",43,8.1,"太陽神拉巡行天地的座船。白晝他乘「曼傑特（晨船）」自東橫越天穹，夜晚換乘「梅塞克泰特（夜船）」潛入冥界杜阿特，與隨行諸神一同擊退混沌巨蛇阿佩普，於黎明重生東升。埃及法老亦於陵旁埋藏實體的太陽船，供來世之用。",true],
+];
+
+const EG_GROUPS = [
+  ["赫爾莫波利斯八元神", ["nun","naunet","heh","hauhet","kek","kauket","amaunet"], "#8f86c8"],
+  ["太陽神拉的化身與眷屬", ["ra","khepri","aten","bennu","apep"], "#e0a860"],
+  ["赫利奧波利斯九柱神", ["atum","shu","tefnut","geb","nut","osiris","isis","set","nephthys","horus_elder"], "#5ab4ff"],
+  ["歐西里斯神話核心", ["osiris","isis","set","nephthys","horus","anubis","horus_elder"], "#b08fd8", false],
+  ["拉之眼（獅貓女神）", ["sekhmet","bastet","hathor","tefnut"], "#e0a860", false],
+  ["智慧與宇宙秩序", ["thoth","maat","seshat"], "#7ec4f0"],
+  ["哈托爾與音樂", ["hathor","ihy"], "#c89ad0"],
+  ["孟菲斯三神", ["ptah","sekhmet","nefertum","imhotep"], "#d09a70"],
+  ["底比斯三神", ["amun","mut","khonsu","montu"], "#90c880"],
+  ["象島三神・造物與尼羅河", ["khnum","satis","anuket","neith","heket"], "#6fb0c0"],
+  ["生育與家庭守護神", ["taweret","bes","heket","meskhenet","renenutet","serqet","bastet"], "#c8a0d0", false],
+  ["守護與地方神", ["wadjet","nekhbet","wepwawet","min","montu","sobek","serqet","heka","shai","meskhenet","renenutet"], "#a0b8d8", false],
+  ["上下埃及的兩位女主人", ["nekhbet","wadjet"], "#c8b090", false],
+  ["冥界杜阿特與亡者審判", ["osiris","anubis","thoth","maat","ammit","four_sons","duat_note","aaru_note"], "#8a8a9a", false],
+  ["神獸", ["sphinx","apis","bennu","apep","ammit","uraeus_note"], "#c07a7a", false],
+  ["神器・名物", ["ankh","was","eye_horus","eye_ra","djed","benben","book_dead","solar_barque"], "#c8b090"],
+];
+
+const EG_UNIONS = [
+  /* 創世與九柱神世系 */
+  {parent:"nun", children:["atum"], label:"自原初之水中自我創生", labelClass:"ritual"},
+  {parent:"nun", children:["amun"], label:"八元神之一（隱藏者）"},
+  {spouses:["atum","ra"], marriage:"partner", label:"融合為阿圖姆-拉", labelClass:"ritual"},
+  {parent:"atum", children:["shu","tefnut"], label:"獨自生出風與濕氣", labelClass:"ritual"},
+  {spouses:["shu","tefnut"], marriage:"primary", children:["geb","nut"]},
+  {spouses:["geb","nut"], marriage:"primary", children:["osiris","isis","set","nephthys","horus_elder"], label:"大地與天空所生五神"},
+  {spouses:["osiris","isis"], marriage:"primary", children:["horus"], label:"死而復生後受孕", labelClass:"ritual"},
+  {spouses:["set","nephthys"], marriage:"primary"},
+  {parent:"nephthys", children:["anubis"], label:"一說生父為歐西里斯", labelClass:"blood"},
+  {spouses:["horus","set"], marriage:"partner", label:"爭奪王位的八十年之爭", labelClass:"blood"},
+  {spouses:["isis","nephthys"], marriage:"partner", label:"守護亡者的哭泣姊妹"},
+  {spouses:["horus","hathor"], marriage:"primary", children:["ihy"]},
+  {parent:"horus", children:["four_sons"], label:"守護內臟的四子"},
+  /* 太陽神與眷屬 */
+  {spouses:["ra","apep"], marriage:"partner", label:"每夜對抗混沌巨蛇", labelClass:"blood"},
+  {spouses:["khepri","atum"], marriage:"partner", label:"朝陽與夕陽：同一太陽的三相", labelClass:"ritual"},
+  {parent:"ra", children:["maat"], label:"真理女神為拉之女"},
+  {parent:"ra", children:["hathor"], label:"拉之女，亦為拉之眼", labelClass:"ritual"},
+  {parent:"ra", children:["bennu"], label:"自原初之丘飛起的靈魂之鳥", labelClass:"ritual"},
+  /* 智慧與秩序 */
+  {spouses:["thoth","seshat"], marriage:"primary", label:"書寫與測量的神侶"},
+  /* 孟菲斯三神 */
+  {spouses:["ptah","sekhmet"], marriage:"primary", children:["nefertum"]},
+  {parent:"ptah", children:["imhotep"], label:"後世尊為卜塔之子", labelClass:"ritual"},
+  {parent:"ptah", children:["apis"], label:"卜塔在人間的顯靈神牛", labelClass:"ritual"},
+  {spouses:["sekhmet","bastet"], marriage:"partner", label:"獅與貓：拉之眼的烈與柔"},
+  /* 底比斯三神 */
+  {spouses:["amun","mut"], marriage:"primary", children:["khonsu"]},
+  {spouses:["amun","ra"], marriage:"partner", label:"融合為阿蒙-拉", labelClass:"ritual"},
+  /* 象島與尼羅河 */
+  {spouses:["khnum","satis"], marriage:"primary", children:["anuket"]},
+  {parent:"neith", children:["sobek"], label:"創世女神奈斯之子", labelClass:"blood"},
+  /* 引路的雙豺狼 */
+  {spouses:["anubis","wepwawet"], marriage:"partner", label:"引導亡者的雙豺狼"},
+  {spouses:["ammit","maat"], marriage:"partner", label:"心臟稱量：不義者被吞噬", labelClass:"blood"},
+  /* 神器名物的來歷 */
+  {parent:"horus", children:["eye_horus"], label:"被奪又復原的左眼", labelClass:"ritual"},
+  {parent:"ra", children:["eye_ra"], label:"拉的烈焰右眼", labelClass:"ritual"},
+  {parent:"osiris", children:["djed"], label:"象徵其脊柱與復活", labelClass:"ritual"},
+  {parent:"atum", children:["benben"], label:"原初之丘的聖石", labelClass:"ritual"},
+  {parent:"ra", children:["solar_barque"], label:"晝夜航行的座船"},
+  {parent:"thoth", children:["book_dead"], label:"書記亡者的通關咒語", labelClass:"ritual"},
+  {parent:"wadjet", children:["uraeus_note"], label:"化為法老額前的聖蛇", labelClass:"ritual"},
+];
+
+const EG_NODE_NAMES = {
+  nun:{kojiki:"Nnw / Nwn",nihonshoki:"Nun／Nu",reading:"Nu",aliases:["努","原初之水","混沌汪洋"],shrine:"赫爾莫波利斯"},
+  naunet:{kojiki:"Nnwt",nihonshoki:"Naunet",reading:"Naunet",aliases:["娜烏內特","原初之水的陰面"],shrine:"赫爾莫波利斯"},
+  amaunet:{kojiki:"Imnt",nihonshoki:"Amaunet",reading:"Amunet",aliases:["阿蒙內特","隱藏者的陰面"],shrine:"卡奈克"},
+  ra:{kojiki:"Rꜥ",nihonshoki:"Ra／Re／Helios",reading:"Ra",aliases:["拉神","瑞","阿圖姆-拉","阿蒙-拉","太陽神"],shrine:"赫利奧波利斯"},
+  khepri:{kojiki:"Ḫprj",nihonshoki:"Khepri",reading:"Kheper",aliases:["赫普利","聖甲蟲","朝陽","凱普拉"],shrine:"赫利奧波利斯"},
+  aten:{kojiki:"Jtn",nihonshoki:"Aten／Aton",reading:"Aten",aliases:["阿吞","日輪","阿肯那頓的獨一神"],shrine:"阿瑪爾那"},
+  bennu:{kojiki:"Bnw",nihonshoki:"Bennu／Phoinix",reading:"Bennu",aliases:["貝努","不死鳥","菲尼克斯原型","靈鳥"],shrine:"赫利奧波利斯"},
+  apep:{kojiki:"ꜥꜣpp",nihonshoki:"Apep／Apophis",reading:"Apep",aliases:["阿波菲斯","混沌巨蛇","拉的宿敵"],shrine:"（無廟・混沌）"},
+  atum:{kojiki:"Jtmw",nihonshoki:"Atum／Atem",reading:"Atum",aliases:["阿圖","阿頓姆","完成者","夕陽","阿圖姆-拉"],shrine:"赫利奧波利斯"},
+  shu:{kojiki:"Šw",nihonshoki:"Shu",reading:"Shu",aliases:["休","空氣之神","舉天者"],shrine:"赫利奧波利斯"},
+  tefnut:{kojiki:"Tfnt",nihonshoki:"Tefnut",reading:"Tefnut",aliases:["特芙努特","濕氣女神","拉之眼"],shrine:"赫利奧波利斯"},
+  geb:{kojiki:"Gbb",nihonshoki:"Geb／Keb",reading:"Geb",aliases:["蓋伯","克布","大地之神"],shrine:"赫利奧波利斯"},
+  nut:{kojiki:"Nwt",nihonshoki:"Nut／Nuit",reading:"Nut",aliases:["努特女神","努伊特","天空女神","繁星之身"],shrine:"赫利奧波利斯"},
+  osiris:{kojiki:"Wsjr",nihonshoki:"Osiris",reading:"Usir／Wesir",aliases:["奧西里斯","歐西裡斯","冥王","復活之神","溫涅弗爾"],shrine:"阿拜多斯"},
+  isis:{kojiki:"ꜣst",nihonshoki:"Isis",reading:"Aset／Iset",aliases:["愛西斯","伊西絲","阿斯特","王座女神","大魔法師"],shrine:"菲萊島"},
+  set:{kojiki:"Stẖ",nihonshoki:"Set／Seth／Typhon",reading:"Sutekh",aliases:["賽特神","塞特","蘇泰赫","沙漠之神","風暴之神"],shrine:"翁布斯"},
+  nephthys:{kojiki:"Nbt-ḥwt",nihonshoki:"Nephthys",reading:"Nebet-het",aliases:["奈芙提斯","涅芙提斯","宅邸女主人","哀悼女神"],shrine:"赫利奧波利斯"},
+  horus_elder:{kojiki:"Ḥrw-wr",nihonshoki:"Haroeris／Horus the Elder",reading:"Herwer",aliases:["哈羅埃里斯","年長的荷魯斯","大荷魯斯","雙眼日月"],shrine:"孔翁波"},
+  horus:{kojiki:"Ḥrw",nihonshoki:"Horus／Horos",reading:"Hor",aliases:["何露斯","霍魯斯","荷魯斯之子","鷹神","王權之神"],shrine:"艾德芙"},
+  anubis:{kojiki:"Jnpw",nihonshoki:"Anubis／Anoubis",reading:"Anpu／Inpu",aliases:["阿奴比斯","胡狼神","防腐之神","引路者"],shrine:"庫諾波利斯"},
+  hathor:{kojiki:"Ḥwt-ḥrw",nihonshoki:"Hathor／Aphrodite",reading:"Hut-heru",aliases:["哈索爾","荷魯斯的宅邸","天空母牛","愛之女神","拉之眼"],shrine:"丹德拉"},
+  ihy:{kojiki:"Jḥy",nihonshoki:"Ihy",reading:"Ihy",aliases:["伊希神","叉鈴童神","音樂之子"],shrine:"丹德拉"},
+  four_sons:{kojiki:"Ḥꜣpj Jmstj Dwꜣ-mwtf Qbḥ-snw.f",nihonshoki:"Four Sons of Horus",reading:"",aliases:["伊姆賽特","哈碧","多姆泰夫","凱布山納夫","卡諾卜罈"],shrine:"—"},
+  thoth:{kojiki:"Ḏḥwtj",nihonshoki:"Thoth／Hermes",reading:"Djehuty",aliases:["托特神","圖特","朱鷺神","書記之神","赫爾墨斯"],shrine:"赫爾莫波利斯"},
+  maat:{kojiki:"Mꜣꜥt",nihonshoki:"Ma'at／Maat",reading:"Maat",aliases:["瑪特","瑪阿特","真理女神","羽毛女神","宇宙秩序"],shrine:"（遍在諸神廟）"},
+  seshat:{kojiki:"Sšꜣt",nihonshoki:"Seshat",reading:"Seshat",aliases:["塞夏特","書記女神","測量女神","七角星"],shrine:"赫爾莫波利斯"},
+  ptah:{kojiki:"Ptḥ",nihonshoki:"Ptah／Hephaistos",reading:"Ptah",aliases:["普塔","卜塔神","工匠之神","以言創世者","赫淮斯托斯"],shrine:"孟菲斯"},
+  sekhmet:{kojiki:"Sḫmt",nihonshoki:"Sekhmet／Sachmis",reading:"Sekhmet",aliases:["塞克美特","賽克邁特","強大者","獅頭女神","戰爭女神"],shrine:"孟菲斯"},
+  nefertum:{kojiki:"Nfr-tm",nihonshoki:"Nefertum／Nefertem",reading:"Nefertem",aliases:["奈弗爾圖姆","蓮花之神","芬芳之神"],shrine:"孟菲斯"},
+  imhotep:{kojiki:"Jj-m-ḥtp",nihonshoki:"Imhotep／Imouthes",reading:"Imhotep",aliases:["印何闐","伊姆霍特普","階梯金字塔的建築師","醫神","阿斯克勒庇俄斯"],shrine:"孟菲斯・薩卡拉"},
+  bastet:{kojiki:"Bꜣstt",nihonshoki:"Bastet／Bast",reading:"Bastet",aliases:["巴斯特女神","貝斯特","貓女神","布巴斯提斯"],shrine:"布巴斯提斯"},
+  amun:{kojiki:"Jmn",nihonshoki:"Amun／Ammon／Zeus",reading:"Amun／Amon",aliases:["阿蒙神","阿門","阿蒙-拉","隱藏者","眾神之王"],shrine:"卡奈克・底比斯"},
+  mut:{kojiki:"Mwt",nihonshoki:"Mut",reading:"Mut",aliases:["穆特女神","母親女神","諸神之母"],shrine:"卡奈克"},
+  khonsu:{kojiki:"Ḫnsw",nihonshoki:"Khonsu／Chons",reading:"Khonsu",aliases:["孔蘇神","洪蘇","月神","旅行者","驅魔者"],shrine:"卡奈克"},
+  montu:{kojiki:"Mnṯw",nihonshoki:"Montu／Month",reading:"Montu",aliases:["蒙圖神","門圖","戰神","鷹頭戰神"],shrine:"底比斯・爾曼特"},
+  khnum:{kojiki:"H̱nmw",nihonshoki:"Khnum／Chnum",reading:"Khnum",aliases:["克努姆神","公羊神","陶輪造物神","尼羅河源之主"],shrine:"象島・埃斯納"},
+  satis:{kojiki:"Sṯt",nihonshoki:"Satis／Satet",reading:"Satet",aliases:["薩泰特","氾濫女神","象島之后"],shrine:"象島"},
+  anuket:{kojiki:"ꜥnqt",nihonshoki:"Anuket／Anukis",reading:"Anuket",aliases:["阿努凱斯","瞪羚女神","尼羅河女神"],shrine:"象島・塞赫爾島"},
+  neith:{kojiki:"Nt",nihonshoki:"Neith／Neit",reading:"Neith",aliases:["奈特","涅特","戰爭與編織女神","創世母神","賽易斯"],shrine:"賽易斯"},
+  heket:{kojiki:"Ḥqt",nihonshoki:"Heqet／Heket",reading:"Heqet",aliases:["赫奎特","青蛙女神","接生女神"],shrine:"阿拜多斯"},
+  serqet:{kojiki:"Srqt",nihonshoki:"Serqet／Selket／Selkis",reading:"Serqet",aliases:["塞爾凱","塞爾克特","蠍子女神","解毒女神"],shrine:"—"},
+  taweret:{kojiki:"Tꜣ-wrt",nihonshoki:"Taweret／Thoeris",reading:"Taweret",aliases:["塔維瑞特","偉大女神","河馬女神","孕產守護"],shrine:"（家庭崇拜）"},
+  bes:{kojiki:"Bs",nihonshoki:"Bes",reading:"Bes",aliases:["貝斯神","矮神","居家守護神"],shrine:"（家庭崇拜）"},
+  min:{kojiki:"Mnw",nihonshoki:"Min／Menu",reading:"Min",aliases:["敏神","米恩","生殖之神","豐饒之神"],shrine:"科普托斯・阿赫米姆"},
+  wadjet:{kojiki:"Wꜣḏyt",nihonshoki:"Wadjet／Uto／Buto",reading:"Wadjet",aliases:["瓦吉特女神","眼鏡蛇女神","下埃及守護","綠色者"],shrine:"布托"},
+  nekhbet:{kojiki:"Nḫbt",nihonshoki:"Nekhbet",reading:"Nekhbet",aliases:["奈赫貝特女神","禿鷲女神","上埃及守護"],shrine:"涅赫布（艾爾卡布）"},
+  wepwawet:{kojiki:"Wp-wꜣwt",nihonshoki:"Wepwawet／Ophois",reading:"Wepwawet",aliases:["韋普瓦韋特","開路者","豺狼戰神"],shrine:"利科波利斯（阿修特）"},
+  renenutet:{kojiki:"Rnnwtt",nihonshoki:"Renenutet／Thermouthis",reading:"Renenutet",aliases:["瑞內努特","豐收蛇女神","哺育女神","賦名者"],shrine:"法尤姆"},
+  heka:{kojiki:"Ḥkꜣ",nihonshoki:"Heka",reading:"Heka",aliases:["赫卡神","魔法之神","創世能量"],shrine:"—"},
+  shai:{kojiki:"Šꜣj",nihonshoki:"Shai／Psais",reading:"Shai",aliases:["夏伊","命運之神","定數"],shrine:"—"},
+  meskhenet:{kojiki:"Msḫnt",nihonshoki:"Meskhenet",reading:"Meskhenet",aliases:["梅斯赫內特","產磚女神","分娩女神"],shrine:"—"},
+  sobek:{kojiki:"Sbk",nihonshoki:"Sobek／Suchos",reading:"Sobek",aliases:["索貝克神","鱷魚神","尼羅河之力"],shrine:"孔翁波・法尤姆"},
+  ammit:{kojiki:"ꜥm-mwt",nihonshoki:"Ammit／Ammut",reading:"Ammit",aliases:["阿米特","吞噬者","亡者的吞食者","第二次死亡"],shrine:"（冥界）"},
+  duat_note:{kojiki:"Dwꜣt",nihonshoki:"Duat／Tuat",reading:"Duat",aliases:["杜阿特","冥界","陰間","太陽夜航之地"],shrine:"—"},
+  aaru_note:{kojiki:"Sḫt-jꜣrw",nihonshoki:"Aaru／Field of Reeds",reading:"Sekhet-Aaru",aliases:["阿魯","蘆葦平原","來世樂園"],shrine:"—"},
+  sphinx:{kojiki:"Šps-ꜥnḫ",nihonshoki:"Sphinx",reading:"Shesep-ankh",aliases:["獅身人面像","吉薩大斯芬克斯","守護聖獸"],shrine:"吉薩"},
+  apis:{kojiki:"Ḥꜣpj",nihonshoki:"Apis／Hapis",reading:"Hapi-ankh",aliases:["阿匹斯神牛","聖牛","塞拉匹斯"],shrine:"孟菲斯・塞拉皮尤姆"},
+  uraeus_note:{kojiki:"Jꜥrt",nihonshoki:"Uraeus",reading:"Iaret",aliases:["烏拉埃烏斯","聖蛇徽","王冠上的眼鏡蛇"],shrine:"—"},
+  ankh:{kojiki:"ꜥnḫ",nihonshoki:"Ankh",reading:"Ankh",aliases:["生命之符","安可","永生符"],shrine:"—"},
+  was:{kojiki:"Wꜣs",nihonshoki:"Was-sceptre",reading:"Was",aliases:["瓦斯之杖","權力之杖","統治之杖"],shrine:"—"},
+  eye_horus:{kojiki:"Wḏꜣt",nihonshoki:"Eye of Horus／Wedjat",reading:"Wedjat",aliases:["瓦吉特之眼","完好之眼","荷魯斯左眼","月之眼"],shrine:"—"},
+  eye_ra:{kojiki:"Jrt-Rꜥ",nihonshoki:"Eye of Ra",reading:"Iret-Ra",aliases:["拉之右眼","太陽之眼","日之眼"],shrine:"—"},
+  djed:{kojiki:"Ḏd",nihonshoki:"Djed pillar",reading:"Djed",aliases:["傑德柱","歐西里斯之柱","穩固之柱"],shrine:"孟菲斯・阿拜多斯"},
+  benben:{kojiki:"Bnbn",nihonshoki:"Benben stone",reading:"Benben",aliases:["奔奔石","原初之丘","方尖碑之源"],shrine:"赫利奧波利斯"},
+  book_dead:{kojiki:"Rw-nw-prt-m-hrw",nihonshoki:"Book of the Dead",reading:"",aliases:["死者之書","通往光明之書","來世咒語集"],shrine:"—"},
+  solar_barque:{kojiki:"Mꜥnḏt / Msktt",nihonshoki:"Solar Barque",reading:"Mandjet／Mesektet",aliases:["太陽船","曼傑特晨船","梅塞克泰特夜船"],shrine:"—"},
+};
 
 const PANTHEONS = {
   japan: {
@@ -2807,6 +3041,11 @@ const PANTHEONS = {
     title:'⚡ 北歐神話系譜', defs:NO_NODE_DEFS, groups:NO_GROUPS, unions:NO_UNIONS, names:NO_NODE_NAMES,
     seed:NORSE_USER_EDITS, storage:'norse_edits', yokai:false, placeholder:'搜尋神名或古諾斯語…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（原文／轉寫）', kojiki:'古諾斯語', nihonshoki:'英語轉寫', reading:'古諾斯語', aliases:'別稱', shrine:'主要聖地'},
+  },
+  egypt: {
+    title:'𓂀 埃及神話系譜', defs:EG_NODE_DEFS, groups:EG_GROUPS, unions:EG_UNIONS, names:EG_NODE_NAMES,
+    seed:EGYPT_USER_EDITS, storage:'egypt_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（聖書體轉寫）', kojiki:'埃及語原名', nihonshoki:'希臘化／通用名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰中心'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -3411,6 +3650,17 @@ document.addEventListener('click', e=>{
   if(e.target.closest('#imgLightbox')) lb.classList.remove('open');
 });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('imgLightbox').classList.remove('open'); });
+// ESC 返回：燈箱 > 面板 > 妖怪頁 > 神話頁 > 首頁，逐層退出
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Escape') return;
+  if(document.getElementById('imgLightbox').classList.contains('open')) return;   // 交給燈箱處理
+  const ae = document.activeElement;
+  if(ae && (ae.tagName==='INPUT' || ae.tagName==='TEXTAREA')){ ae.blur(); return; }
+  if(document.getElementById('panel').classList.contains('open')){ closePanel(); return; }
+  if(document.getElementById('ypanel').classList.contains('open')){ closeYPanel(); return; }
+  if(document.getElementById('yokai').style.display==='block'){ closeYokai(); return; }
+  if(document.getElementById('japan').style.display==='block'){ closeJapan(); return; }
+});
 
 /* ============ 詳情面板（右側） ============ */
 const panel = document.getElementById('panel');
@@ -3545,13 +3795,14 @@ async function exportHTML(){
   const editsJSON  = JSON.stringify(LIVE_EDITS.japan);
   const gEditsJSON = JSON.stringify(LIVE_EDITS.greek);
   const nEditsJSON = JSON.stringify(LIVE_EDITS.norse);
+  const eEditsJSON = JSON.stringify(LIVE_EDITS.egypt);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -3819,6 +4070,7 @@ function openPantheon(key){
 function openJapan(){ openPantheon('japan'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
+function openEgypt(){ openPantheon('egypt'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
@@ -4607,7 +4859,7 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderG
 
 (function restorePage(){
   const page = localStorage.getItem('mythCurrentPage');
-  if(page==='japan' || page==='greek' || page==='norse') openPantheon(page);
+  if(page==='japan' || page==='greek' || page==='norse' || page==='egypt') openPantheon(page);
   else if(page==='yokai') openYokai();
 })();
 </script>
