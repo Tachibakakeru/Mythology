@@ -24,18 +24,57 @@
   #home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:40px;}
   #home h1{font-size:2.2em;letter-spacing:.15em;margin:0;color:var(--accent);text-shadow:0 0 20px rgba(224,176,96,.4);}
   #home p{color:var(--dim);margin:0;}
-  .icon-grid{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;}
-  .myth-icon{
-    width:160px;height:190px;border-radius:16px;background:var(--card);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    cursor:pointer;border:2px solid transparent;transition:.25s;position:relative;overflow:hidden;
+  /* 轉輪：卡牌繞著垂直軸旋轉，如轉經輪 */
+  #wheelStage{
+    perspective:1400px; perspective-origin:50% 45%;
+    width:100%; max-width:1100px; height:400px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; touch-action:pan-y;
   }
-  .myth-icon:hover:not(.disabled){transform:translateY(-6px);border-color:var(--accent);box-shadow:0 10px 30px rgba(224,176,96,.25);}
-  .myth-icon .glyph{font-size:3em;}
-  .myth-icon .label{font-size:1.05em;font-weight:600;}
-  .myth-icon .sub{font-size:.75em;color:var(--dim);}
-  .myth-icon.disabled{opacity:.35;cursor:not-allowed;}
+  #wheel{
+    position:relative; width:260px; height:330px;
+    transform-style:preserve-3d;
+    transition:transform .62s cubic-bezier(.25,.9,.3,1);
+  }
+  #wheel.dragging{transition:none;}
+  .myth-icon{
+    position:absolute; inset:0;
+    border-radius:20px; background:var(--card);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    cursor:pointer; border:2px solid var(--line); padding:18px;
+    box-sizing:border-box; text-align:center;
+    backface-visibility:hidden;
+    box-shadow:0 18px 44px rgba(0,0,0,.45);
+    transition:border-color .25s, box-shadow .25s, opacity .45s, filter .45s;
+  }
+  .myth-icon .glyph{font-size:4.6em; line-height:1; filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));}
+  .myth-icon .label{font-size:1.32em; font-weight:700; letter-spacing:.04em;}
+  .myth-icon .sub{font-size:.82em; color:var(--dim); line-height:1.6;}
+  /* 正面那張才完整呈現，其餘後退並淡化，做出景深 */
+  .myth-icon:not(.front){opacity:.42; filter:brightness(.62) saturate(.8); pointer-events:none;}
+  .myth-icon.front{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), 0 22px 60px rgba(224,176,96,.3);}
+  .myth-icon.front:hover:not(.disabled){box-shadow:0 0 0 2px var(--accent), 0 26px 70px rgba(224,176,96,.45);}
+  .myth-icon.disabled{cursor:not-allowed;}
+  .myth-icon.disabled .glyph{filter:grayscale(1) drop-shadow(0 4px 12px rgba(0,0,0,.5));}
   .myth-icon.disabled .sub{font-style:italic;}
+  /* 左右轉動鈕與指示點 */
+  .wheelArrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--card); border:1px solid var(--line); color:var(--text);
+    font-size:1.3em; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:.2s;
+  }
+  .wheelArrow:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-50%) scale(1.1);}
+  #wheelPrev{left:max(8px, calc(50% - 420px));}
+  #wheelNext{right:max(8px, calc(50% - 420px));}
+  #wheelDots{display:flex; gap:9px; justify-content:center;}
+  #wheelDots i{
+    width:8px; height:8px; border-radius:50%; background:var(--line);
+    cursor:pointer; transition:.2s; display:block;
+  }
+  #wheelDots i.on{background:var(--accent); transform:scale(1.45);}
+  #wheelHint{color:var(--dim); font-size:.76em; letter-spacing:.05em;}
 
   /* ---------- JAPAN VIEW ---------- */
   #japan{display:none;position:fixed;inset:0;background:var(--bg);}
@@ -259,9 +298,14 @@
   @media (max-width: 700px){
     #home{gap:26px;padding:24px;}
     #home h1{font-size:1.5em;letter-spacing:.08em;}
-    .icon-grid{gap:16px;}
-    .myth-icon{width:130px;height:158px;}
-    .myth-icon .glyph{font-size:2.3em;}
+    #wheelStage{height:330px; perspective:900px;}
+    #wheel{width:200px; height:260px;}
+    .myth-icon{padding:14px; gap:12px;}
+    .myth-icon .glyph{font-size:3.4em;}
+    .myth-icon .label{font-size:1.08em;}
+    .myth-icon .sub{font-size:.74em;}
+    .wheelArrow{width:44px; height:44px; font-size:1.1em;}
+    #wheelPrev{left:4px;} #wheelNext{right:4px;}
     #homeThemeBtn{top:14px;right:14px;}
     #topbar,#ytopbar{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:0 12px;gap:10px;}
     #topbar h2,#ytopbar h2{font-size:.92em;}
@@ -301,11 +345,13 @@
   <h1>世界神話系譜計畫</h1>
   <p>點選一個神話體系，探索諸神的血脈與傳說</p>
   <button id="homeThemeBtn" onclick="toggleTheme()" title="切換明暗模式">🌓</button>
-  <div class="icon-grid">
+  <div id="wheelStage">
+    <button id="wheelPrev" class="wheelArrow" aria-label="上一個" onclick="wheelStep(-1)">‹</button>
+    <div id="wheel">
     <div class="myth-icon" onclick="openJapan()">
       <div class="glyph">⛩️</div>
       <div class="label">日本神話・妖怪</div>
-      <div class="sub">古事記・日本書紀・妖怪伝承</div>
+      <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
     <div class="myth-icon" onclick="openGreek()">
       <div class="glyph">🏛️</div>
@@ -337,7 +383,11 @@
       <div class="label">天使與惡魔</div>
       <div class="sub">九級天使・所羅門七十二柱・敬請期待</div>
     </div>
+    </div>
+    <button id="wheelNext" class="wheelArrow" aria-label="下一個" onclick="wheelStep(1)">›</button>
   </div>
+  <div id="wheelDots"></div>
+  <div id="wheelHint">← → 方向鍵、滑鼠拖曳或滾輪皆可旋轉</div>
 </div>
 
 <div id="japan">
@@ -747,9 +797,26 @@ const JP_NODE_DEFS = [
 ["kaguyahime","かぐや姫","かぐやひめ","竹取物語",27,19.5,"『竹取物語』の主人公。竹取の翁が光る竹の中から見出し、三月で美しい娘に育った。五人の貴公子には仏の御石の鉢・蓬萊の玉の枝・火鼠の裘・龍の頸の玉・燕の子安貝という到底得られぬ品を求めて退け、帝の求婚も受けなかった。八月十五夜、月からの迎えが来て、不死の薬と天の羽衣を残して昇天する。帝は薬を「天に最も近い山」で焼かせた——それが「不死（富士）の山」の名の由来と物語は結ぶ。現存する日本最古の物語文学である。"],
 ["yomotsukuni_note","黄泉国訪問","よもつくにほうもん","伊邪那岐命が亡き妻を訪ねた国境の物語",4,10.8,"火傷で死んだ伊邪那美神を追い、伊邪那岐神は黄泉の国まで下った。「決して姿を見るな」との約束を破って火を灯すと、そこには蛆の湧いた妻の変わり果てた姿があった。恥をかかされた伊邪那美神は黄泉醜女と八柱の雷神、さらに自ら追いすがって夫を追う。伊邪那岐神は桃の実を投げて退け、最後に千人力の大岩（道反大神）で黄泉比良坂を塞いだ。岩を挟んで妻は「あなたの国の民を一日に千人絞め殺す」と言い、夫は「ならば私は一日に千五百の産屋を建てよう」と応じた——生と死、増殖と衰滅の均衡を語る神話である。この境を越えて生還した伊邪那岐神は、筑紫の日向で禊を行い、三貴子を得た。",true],
 ["sugawara_michizane","菅原道真","すがわらのみちざね","学問の神・天神",30,17.1,"平安時代の学者・政治家。右大臣にまで昇りながら藤原時平の讒言により大宰府へ左遷され、失意のうちに没した。死後、都では雷害や疫病、時平をはじめ政敵の相次ぐ変死が続き、清涼殿への落雷では貴族が命を落とした——朝廷はこれを道真の祟りと恐れ、正一位・太政大臣を追贈して霊を鎮めようとした。日本三大怨霊の一つに数えられる一方、生前は当代随一の学者・詩人であったことから、時代が下るにつれ祟り神から「天神様」として学問・書道の神へと信仰の性格を変えていった——荒ぶる怨霊が守り神へ転じた、日本の御霊信仰を代表する例である。牛を愛したという伝承から、天満宮には牛の像が置かれる。",true],
+["magatsuhi_note","八十禍津日神・大禍津日神","やそまがつひ・おおまがつひ","黄泉の穢れから化生した禍の神",19,10.0,"伊邪那岐神が黄泉から帰り、筑紫の日向の橘の小門の阿波岐原で禊を行った際、まず身に付いた黄泉の穢れから化生した二柱。あらゆる災厄・凶事・過ちを司る。悪しき神として畏れられる一方、罪穢という「避けがたく積もるもの」を人格化した存在でもあり、続いて生まれた直毘神がただちにこれを直すという対の構造をなす。",true],
+["naobi_note","神直毘神・大直毘神","かむなおひ・おおなおひ","禍を直す神",21,10.0,"禍津日神に続いて化生した二柱で、その名の「直」が示すとおり、禍津日神のもたらした災厄と歪みをただちに直し、元に復する神。伊豆能売神とともに、日本の祓（はらえ）の思想——穢れは消し去るのではなく流し直すもの——を体現している。",true],
+["izunome","伊豆能賣神","いづのめ","禊で化生した清めの女神",25,11.2,"直毘神に続いて化生した神。「厳（いつ）の女」の意とされ、穢れを清め祓う神威を表す。記では性別を明示しないが、古来より女神として扱われてきた。大祓の思想における「清め」そのものの神格化。"],
+["haraedo_note","祓戸四神","せおりつひめ・はやあきつひめ・いぶきどぬし・はやさすらひめ","罪穢を流し去る四柱",25,12.4,"大祓詞に説かれる祓の四神。瀬織津比賣が人の罪穢を川瀬から大海原へ流し、速開都比賣が海の底でこれを飲み込み、氣吹戸主が根の国・底の国へ息吹に乗せて吹き放ち、速佐須良比賣がこれを受け取って跡形もなく持ち去る——四柱がリレーのように罪穢を処理してゆく。この四神は記紀本文には現れず、大祓詞に基づいて後世に体系化されたもので、伊邪那岐神の禊から生まれた祓の神々と同じ思想圏に属する。",true],
+["kukurihime","菊理媛神","くくりひめ","黄泉比良坂の仲裁者",27,11.2,"『日本書紀』の一書にのみ、ただ一度だけ現れる女神。黄泉比良坂で伊邪那岐神と伊邪那美神が罵り合ったとき、彼女が何事かを申し上げると伊邪那岐神はそれを褒め、そのまま立ち去ったという——その言葉の内容は記されていない。名の「くくり」が「括る（結ぶ）」に通じることから、離別しようとする二神を調停し縁を結んだ神と解され、後に縁結びの神として信仰された。加賀の白山比咩神社を総本社とする白山信仰の主祭神であり、全国二千余社に祀られる。"],
+["amenoohabari","天之尾羽張","あめのおはばり","迦具土を斬った十拳剣の神格",19,8.8,"伊邪那岐神が我が子・火之迦具土神の首を斬った十拳剣そのものが神格化されたもの。伊都之尾羽張とも。国譲りの段では、建御雷之男神を派遣するにあたり天照大御神がまずこの神に使者を送るが、天安河の水を逆さに塞き上げて道を塞いでいたため、子の建御雷之男神が代わりに遣わされた——武神・建御雷之男神がこの剣から生まれた神であることと呼応する。"],
+["itsuse","五瀬命","いつせのみこと","神武天皇の長兄",29,18.8,"鸕鶿草葺不合尊と玉依媛の長子、神武天皇の長兄。東征では兄として軍を率いたが、浪速の白肩津で長髄彦の軍に阻まれ、流れ矢を肘に受けて重傷を負った。「われは日の神の御子でありながら、日に向かって戦った。これは道理に背く」と悟り、迂回を命じたのち紀伊の竈山で息絶えた。彼の死は、神武東征が「日を背にして戦う」方針へ転じる転機となる。"],
+["inahi","稻氷命","いなひのみこと","神武天皇の兄・海原へ入る",31,18.8,"神武天皇の兄。東征の途上、暴風に遭った際に「母も叔母も海神であるのに、なぜ我らを苦しめるのか」と嘆じ、剣を抜いて海に入り、母の国である海原へ去ったと伝わる。新羅の祖になったとする異伝もある。"],
+["mikenu","御毛沼命","みけぬのみこと","神武天皇の兄・常世へ渡る",33,18.8,"神武天皇の兄。東征の途上で波頭を踏んで常世の国へ渡ったと記される。四兄弟のうち二人が海と常世へ去り、長兄が戦死し、末弟の神倭伊波禮毘古命だけが大和に至る——この構図自体が、神武天皇の即位に神話的な正統性を与えている。"],
+["nagasunehiko","長髄彥","ながすねひこ","東征に抗した大和の豪族",29,20.0,"大和を支配していた豪族の長。神武軍を浪速の白肩津で撃退し、五瀬命に致命傷を負わせた。彼は饒速日命を君として仰いでおり、神武もまた天神の子であると知ると「天神の子が二人もいるはずがない」として頑として認めず、なおも抗戦を続けた。最終的に饒速日命自身が彼を誅して神武に帰順したと伝わる。記紀のなかで、天孫の権威に最後まで理屈で反論した稀有な人物である。"],
+["takakuraji","高倉下","たかくらじ","布都御魂を献じた熊野の人",31,20.0,"熊野で神武軍が荒ぶる神の毒気に当てられ全員が倒れ伏したとき、夢で武甕槌大神の託宣を受けた人物。目覚めると倉の中に一振りの太刀——布都御魂剣——が刺さっており、これを神武天皇に献上した。剣を手にした途端、天皇も兵士たちも目覚め、熊野の荒ぶる神は自ずと斬り倒されたという。天香山命と同一視する伝承もあり、尾張氏・海部氏の祖とされる。"],
+["shiotsuchi","塩椎神","しおつちのかみ","潮流を司る導きの神",33,17.6,"潮流・製塩を司る老翁の姿の神。兄の釣針を失って泣く火遠理命（山幸彦）の前に現れ、隙間なく編んだ籠の小舟を作って乗せ、綿津見神の宮へ至る海路を教えた。神武天皇に対しても「東に良き地あり」と東征を勧めたとされ、二度にわたり物語を次の段階へ押し出す役割を担う。塩竈神社の祭神。"],
+["mitoshi","御年神","みとしのかみ","大年神の子・稲の稔り",15.4,16.4,"大年神と香用比賣の子。「年（とし）」は稲の稔りを意味し、父の大年神とともに一年の収穫を司る。田の神として各地の御歳神社に祀られ、正月に迎える年神信仰の中核をなす。"],
+["hayamato","羽山戸神","はやまとのかみ","大年神の子・山裾の神",17,16.4,"大年神と大氣都比賣神の子。山の裾野（羽山）を司る神。大氣都比賣神との間に、若山咋神・若年神・夏高津日神・秋毘賣神など、季節と穀物の稔りに関わる八柱の子神をもうけたと記される。"],
+["amenohaduchio","天羽槌雄神","あめのはづちお","倭文氏の祖・機織の神",29,13,"天岩戸神話において、天照大御神を誘い出すための文布（あや ぬの）を織った神。倭文（しづり）氏の祖とされ、機織の神として信仰される。星神・香香背男の討伐に遣わされたという伝承も持つ。"],
 ];
 
 const JP_GROUPS = [
+  ["禊と祓の神々", ["magatsuhi_note","naobi_note","izunome","haraedo_note","misogi_sutemono","kukurihime"], "#7fc0b0"],
+  ["神武東征の人物", ["jimmu","itsuse","inahi","mikenu","nagasunehiko","takakuraji","yatagarasu","jimmu_toseikou"], "#d08a70", false],
   ["高天原", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","amaterasu","tsukuyomi","amenouzume","futodama","amenoiwatowake","omoikane","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","amenomahitotsu","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","amenohoakari","amenokoyane","amenotajikarao","amatsukunitama","amewakahiko","amanosagume","takemikazuchi","torinoiwakusufune","ninigi","nigihayahi","amenoiwato_note","sanshu_note"], "#e0c890", false],
   ["葦原中國", ["susanoo","sarutahiko","oyamatsumi","kagutsuchi","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","yamatsumi8","misogi_sutemono","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","owatatsumi","toyotamahime","tamayoribime","hoderi","hosuseri","hoori","ugayafukiaezu","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","otoshi","ukanomitama","yashimajinumi","konohanachiruhime","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","konohanasakuyahime","iwanagahime","oyamatsumi_kayanohime_note","mizutogami_note","mishima_mizokuhi","seyadatarahime","omononushi","jimmu","jimmu_toseikou","yatagarasu","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note"], "#9fb87a", false],
   ["根之國・黄泉", ["izanami","yomotsukuni_note","susanoo","okuninushi","suseribime"], "#8a7fb8"],
@@ -781,6 +848,17 @@ const JP_GROUPS = [
 ];
 
 const JP_UNIONS = [
+  {parent:"izanagi", children:["magatsuhi_note","naobi_note","izunome"], label:"禊で化生した禍と直しの神", labelClass:"ritual"},
+  {parent:"izunome", children:["haraedo_note"], label:"大祓詞の祓の神々"},
+  {spouses:["izanagi","izanami"], marriage:"partner", children:["kukurihime"], label:"黄泉比良坂で仲裁", labelClass:"ritual"},
+  {parent:"kagutsuchi", children:["amenoohabari"], label:"斬った剣の神格", labelClass:"blood"},
+  {parent:"amenoohabari", children:["takemikazuchi"], label:"剣より生じた武神"},
+  {parent:"ugayafukiaezu", children:["itsuse","inahi","mikenu"], label:"神武天皇の兄たち"},
+  {spouses:["jimmu","nagasunehiko"], marriage:"partner", label:"東征最大の抵抗", labelClass:"blood"},
+  {spouses:["jimmu","takakuraji"], marriage:"partner", label:"布都御魂を献じる"},
+  {spouses:["hoori","shiotsuchi"], marriage:"partner", label:"海神の宮への導き"},
+  {parent:"otoshi", children:["mitoshi","hayamato"], label:"稔りを司る子神"},
+  {parent:"futodama", children:["amenohaduchio"], label:"天岩戸で文布を織る"},
   {spouses:["izanagi","izanami"], marriage:"partner", children:["yomotsukuni_note"], label:"黄泉比良坂で決別", labelClass:"blood"},
   /* 神話の事件と神器 */
   {parent:"amaterasu", children:["amenoiwato_note","sanshu_note"], label:"岩戸と神器", labelClass:"ritual"},
@@ -900,6 +978,21 @@ const JP_UNIONS = [
 
 /* ============ 各神名稱對照（古事記・日本書紀・読み・別稱） ============ */
 const JP_NODE_NAMES = {
+  "magatsuhi_note":{kojiki:"八十禍津日神・大禍津日神",nihonshoki:"八十枉津日神",reading:"やそまがつひ の かみ",aliases:["八十禍津日","大禍津日","禍津日神","禍の神"]},
+  "naobi_note":{kojiki:"神直毘神・大直毘神",nihonshoki:"神直日神・大直日神",reading:"かむなおひ の かみ",aliases:["神直毘","大直毘","直毘神","直日神"]},
+  "izunome":{kojiki:"伊豆能賣",nihonshoki:"（日本書紀には記載なし）",reading:"いづのめ",aliases:["伊豆能賣神","伊豆能売","厳の女"]},
+  "haraedo_note":{kojiki:"（大祓詞）",nihonshoki:"祓戸大神",reading:"はらえどのよはしら",aliases:["祓戸四神","瀬織津比賣","速開都比賣","氣吹戸主","速佐須良比賣","大祓詞","祓戸大神"]},
+  "kukurihime":{kojiki:"（古事記には記載なし）",nihonshoki:"菊理媛神（くくりひめのかみ）",reading:"くくりひめ の かみ",aliases:["菊理媛","白山比咩","白山信仰","縁結び"],shrine:"白山比咩神社（石川）"},
+  "amenoohabari":{kojiki:"天之尾羽張・伊都之尾羽張",nihonshoki:"天之尾羽張",reading:"あめのおはばり",aliases:["天之尾羽張","伊都之尾羽張","十拳剣"]},
+  "itsuse":{kojiki:"五瀬命",nihonshoki:"彦五瀬命（ひこいつせのみこと）",reading:"いつせ の みこと",aliases:["五瀬命","彦五瀬命","竈山"],shrine:"竈山神社（和歌山）"},
+  "inahi":{kojiki:"稻氷命",nihonshoki:"稲飯命",reading:"いなひ の みこと",aliases:["稻氷命","稲飯命"]},
+  "mikenu":{kojiki:"御毛沼命",nihonshoki:"三毛入野命",reading:"みけぬ の みこと",aliases:["御毛沼命","三毛入野命","常世"]},
+  "nagasunehiko":{kojiki:"那賀須泥毘古",nihonshoki:"長髄彦（ながすねひこ）",reading:"ながすねひこ",aliases:["長髄彥","長髄彦","登美毘古","那賀須泥毘古"]},
+  "takakuraji":{kojiki:"高倉下",nihonshoki:"高倉下（たかくらじ）",reading:"たかくらじ",aliases:["高倉下","布都御魂","石上神宮"]},
+  "shiotsuchi":{kojiki:"鹽椎神",nihonshoki:"塩土老翁（しおつちのおじ）",reading:"しおつち の かみ",aliases:["塩椎神","鹽椎神","塩土老翁","製塩"],shrine:"鹽竈神社（宮城）"},
+  "mitoshi":{kojiki:"御年神",nihonshoki:"御歳神",reading:"みとし の かみ",aliases:["御年神","御歳神","年神","田の神"]},
+  "hayamato":{kojiki:"羽山戸神",nihonshoki:"（日本書紀には記載なし）",reading:"はやまと の かみ",aliases:["羽山戸神","羽山"]},
+  "amenohaduchio":{kojiki:"天羽槌雄神",nihonshoki:"天羽槌雄神",reading:"あめのはづちお の かみ",aliases:["天羽槌雄","倭文神","しづり","機織"]},
   "yomotsukuni_note":{kojiki:"黄泉国",nihonshoki:"黄泉国",reading:"よもつくに",aliases:["黄泉","黄泉比良坂","根之國","黄泉醜女","道反大神","千引の石"]},
   "amenoiwato_note":{kojiki:"天石屋戸",nihonshoki:"天石窟（あまのいわや）",reading:"あまのいわとがくれ",aliases:["天岩戸","岩戸隠れ","天安河原","日蝕神話"]},
   "sanshu_note":{kojiki:"八尺鏡・八尺勾玉・草那藝劍",nihonshoki:"三種神器",reading:"さんしゅのじんぎ",aliases:["三種の神器","八咫鏡","八尺瓊勾玉","草薙剣","伊勢神宮","熱田神宮"]},
@@ -4376,6 +4469,99 @@ function backToMyth(){
   openJapan();
 }
 function toGreek(){ openGreek(); }
+
+/* ============ 首頁轉輪 ============ */
+const wheelEl   = document.getElementById('wheel');
+const wheelDots = document.getElementById('wheelDots');
+const wheelCards = [...document.querySelectorAll('.myth-icon')];
+const WHEEL_N = wheelCards.length;
+const WHEEL_STEP = 360 / WHEEL_N;
+// 半徑須大於卡牌半寬 / tan(半格角)，相鄰卡牌才不會互相穿插
+let WHEEL_R = 420;
+function wheelMeasure(){
+  const w = wheelEl.offsetWidth || 260;
+  WHEEL_R = Math.round((w / 2) / Math.tan(Math.PI / WHEEL_N) + w * 0.55);
+  wheelCards.forEach((card, i) => {
+    card.style.transform = `rotateY(${i * WHEEL_STEP}deg) translateZ(${WHEEL_R}px)`;
+  });
+}
+let wheelIndex = 0;
+
+wheelCards.forEach((card, i) => {
+  const dot = document.createElement('i');
+  dot.addEventListener('click', () => wheelGoTo(i));
+  wheelDots.appendChild(dot);
+});
+wheelMeasure();
+window.addEventListener('resize', ()=>{ wheelMeasure(); wheelRender(); });
+
+function wheelRender(){
+  wheelEl.style.transform = `translateZ(${-WHEEL_R}px) rotateY(${-wheelIndex * WHEEL_STEP}deg)`;
+  const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
+  wheelCards.forEach((c,i)=>c.classList.toggle('front', i === front));
+  [...wheelDots.children].forEach((d,i)=>d.classList.toggle('on', i === front));
+}
+function wheelGoTo(i){
+  // 轉往最近的等價角度，避免從尾端跳回開頭時整圈倒轉
+  const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
+  let delta = i - front;
+  if(delta >  WHEEL_N/2) delta -= WHEEL_N;
+  if(delta < -WHEEL_N/2) delta += WHEEL_N;
+  wheelIndex += delta;
+  wheelRender();
+}
+function wheelStep(dir){ wheelIndex += dir; wheelRender(); }
+wheelRender();
+
+// 鍵盤
+document.addEventListener('keydown', e=>{
+  if(document.getElementById('home').style.display === 'none') return;
+  if(e.key === 'ArrowLeft')  wheelStep(-1);
+  if(e.key === 'ArrowRight') wheelStep(1);
+});
+// 滾輪
+const wheelStage = document.getElementById('wheelStage');
+let wheelScrollLock = 0;
+wheelStage.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const now = Date.now();
+  if(now - wheelScrollLock < 380) return;   // 節流，一次滾動只轉一格
+  wheelScrollLock = now;
+  wheelStep(Math.sign(e.deltaY || e.deltaX));
+}, {passive:false});
+// 拖曳（滑鼠與觸控）
+let wheelDrag = null;
+function wheelDragStart(x){ wheelDrag = {x0:x, base:wheelIndex, moved:false}; wheelEl.classList.add('dragging'); }
+function wheelDragMove(x){
+  if(!wheelDrag) return;
+  const dx = x - wheelDrag.x0;
+  if(Math.abs(dx) > 4) wheelDrag.moved = true;
+  wheelIndex = wheelDrag.base - dx / 120;   // 每 120px 轉一格
+  wheelEl.style.transform = `translateZ(${-WHEEL_R}px) rotateY(${-wheelIndex * WHEEL_STEP}deg)`;
+}
+let wheelJustDragged = false;
+function wheelDragEnd(){
+  if(!wheelDrag) return;
+  wheelEl.classList.remove('dragging');
+  wheelIndex = Math.round(wheelIndex);
+  wheelRender();
+  // 旗標須撐過緊接而來的 click，否則拖曳完放開會誤點進該神話
+  wheelJustDragged = wheelDrag.moved;
+  wheelDrag = null;
+  if(wheelJustDragged) setTimeout(()=>{ wheelJustDragged = false; }, 0);
+}
+wheelStage.addEventListener('mousedown', e=>{ e.preventDefault(); wheelDragStart(e.clientX); });
+window.addEventListener('mousemove', e=>wheelDragMove(e.clientX));
+window.addEventListener('mouseup', ()=>{ if(wheelDrag) wheelDragEnd(); });
+wheelStage.addEventListener('touchstart', e=>{ if(e.touches.length===1) wheelDragStart(e.touches[0].clientX); }, {passive:true});
+wheelStage.addEventListener('touchmove',  e=>{ if(wheelDrag && e.touches.length===1){ e.preventDefault(); wheelDragMove(e.touches[0].clientX); } }, {passive:false});
+wheelStage.addEventListener('touchend',   ()=>{ if(wheelDrag) wheelDragEnd(); });
+// 拖曳後的那一下放開不應觸發卡牌的 onclick
+wheelCards.forEach(card=>{
+  card.addEventListener('click', e=>{
+    if(wheelJustDragged){ e.preventDefault(); e.stopPropagation(); }
+  }, true);
+});
 
 /* ============ 明暗模式 ============ */
 function toggleTheme(){
