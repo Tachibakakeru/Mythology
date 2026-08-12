@@ -3274,7 +3274,7 @@ const MP_UNIONS = [
 
 const MP_NODE_NAMES = {
   nammu:{kojiki:"𒀭𒇉 Nammu",nihonshoki:"Namma",reading:"Nammu",aliases:["南姆","原初之海","眾神之母"],shrine:"埃利都"},
-  apsu:{kojiki:"𒍪𒀊 Abzu",reading:"Apsû",nihonshoki:"Apsu／Abzu",aliases:["阿卜蘇","阿普蘇","原初淡水","地下甘泉"],shrine:"埃利都"},
+  apsu:{kojiki:"𒍪𒀊 Abzu",reading:"Apsû",nihonshoki:"Apsu／Abzu",aliases:["阿卜蘇","阿普蘇","阿勃祖","恩古拉","原初淡水","地下甘泉"],shrine:"埃利都"},
   tiamat:{kojiki:"Tiāmtu",nihonshoki:"Tiamat／Thalatth",reading:"Tiāmat",aliases:["蒂雅瑪特","提亞瑪特","混沌母龍","原初鹹水"],shrine:"—"},
   mummu:{kojiki:"Mummu",nihonshoki:"Mummu",reading:"Mummu",aliases:["穆姆","原初迷霧","阿普蘇的參謀"],shrine:"—"},
   kingu:{kojiki:"Qingu",nihonshoki:"Kingu／Qingu",reading:"Qingu",aliases:["金固","昆古","提亞馬特的統帥","人類血液之源"],shrine:"—"},
@@ -3340,7 +3340,7 @@ const MP_NODE_NAMES = {
   gilgamesh:{kojiki:"𒄑𒂆𒈦 Gilgameš",nihonshoki:"Gilgamesh／Bilgames",reading:"Gilgameš",aliases:["吉加美士","基加美修","比爾伽美什","烏魯克之王"],shrine:"烏魯克"},
   enkidu:{kojiki:"Enkidu",nihonshoki:"Enkidu",reading:"Enkidu",aliases:["恩啟都","恩奇杜","野人","吉爾伽美什之友"],shrine:"—"},
   shamhat:{kojiki:"Šamḫat",nihonshoki:"Shamhat",reading:"Šamḫat",aliases:["沙姆哈特","神妓","豐美者"],shrine:"烏魯克"},
-  utnapishtim:{kojiki:"Ūta-napišti",nihonshoki:"Utnapishtim／Xisuthros",reading:"Ūta-napištim",aliases:["烏塔納皮什提","得永生者","舒魯派克之王"],shrine:"—"},
+  utnapishtim:{kojiki:"Ūta-napišti",nihonshoki:"Utnapishtim／Xisuthros",reading:"Ūta-napištim",aliases:["烏塔納皮什提","烏特納匹什提姆","烏特納皮什提姆","得永生者","舒魯派克之王"],shrine:"—"},
   siduri:{kojiki:"Šiduri",nihonshoki:"Siduri",reading:"Šiduri",aliases:["西杜里","酒館女神","及時行樂"],shrine:"—"},
   urshanabi:{kojiki:"Uršanabi",nihonshoki:"Urshanabi",reading:"Uršanabi",aliases:["烏爾沙納比","冥河船夫"],shrine:"—"},
   atrahasis:{kojiki:"Atra-ḫasīs",nihonshoki:"Atrahasis",reading:"Atra-ḫasīs",aliases:["阿特拉哈西","絕頂聰慧","洪水智者"],shrine:"—"},
@@ -3836,7 +3836,7 @@ wrap.addEventListener('mousedown', e=>{
   dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY; wrap.classList.add('grabbing');
   setSmooth(false);
 });
-window.addEventListener('mouseup', ()=>{ dragging=false; wrap.classList.remove('grabbing'); });
+window.addEventListener('mouseup', ()=>{ dragging=false; wrap.classList.remove('grabbing'); /* moved 留給 click 判斷後自清 */ });
 window.addEventListener('mousemove', e=>{
   if(!dragging) return;
   moved=true;
@@ -3865,14 +3865,17 @@ function zoomAt(mx,my,factor){
 /* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放 ---- */
 let touchMode = null; // 'pan' | 'pinch'
 let pinchStartDist = 0, pinchStartScale = 1, pinchCx = 0, pinchCy = 0;
+// ponytail: touchMoved 防止 pan 後的 touchend 觸發 document click 關掉 panel
+let touchMoved = false;
+const TOUCH_DRAG_THRESHOLD = 6; // px，低於此視為 tap，不算 pan
 function touchDist(a,b){ return Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY); }
 wrap.addEventListener('touchstart', e=>{
   setSmooth(false);
   if(e.touches.length===1){
-    touchMode='pan'; dragging=true; moved=false;
+    touchMode='pan'; dragging=true; moved=false; touchMoved=false;
     lastX=e.touches[0].clientX; lastY=e.touches[0].clientY;
   } else if(e.touches.length===2){
-    touchMode='pinch'; dragging=false;
+    touchMode='pinch'; dragging=false; touchMoved=true; // pinch 一定算「移動過」
     const rect = wrap.getBoundingClientRect();
     pinchStartDist = touchDist(e.touches[0], e.touches[1]);
     pinchStartScale = scale;
@@ -3883,9 +3886,11 @@ wrap.addEventListener('touchstart', e=>{
 wrap.addEventListener('touchmove', e=>{
   if(touchMode==='pan' && e.touches.length===1){
     e.preventDefault();
-    moved=true;
     const t=e.touches[0];
-    tx += (t.clientX-lastX); ty += (t.clientY-lastY);
+    const dx=t.clientX-lastX, dy=t.clientY-lastY;
+    if(!touchMoved && Math.hypot(dx,dy) < TOUCH_DRAG_THRESHOLD) return; // 還在 tap 範圍，不 pan
+    touchMoved=true; moved=true;
+    tx += dx; ty += dy;
     lastX=t.clientX; lastY=t.clientY;
     applyTransform();
   } else if(touchMode==='pinch' && e.touches.length===2){
@@ -4394,6 +4399,9 @@ searchClear.addEventListener('click', ()=>{
 
 document.addEventListener('click', e=>{
   if(!e.target.closest('#searchBox')) searchResults.style.display='none';
+  // 觸控 pan 後 touchend 會冒出一個 click，用 touchMoved 擋掉，避免誤關 panel
+  if(touchMoved){ touchMoved=false; return; }
+  if(moved){ moved=false; return; }
   if(!e.target.closest('.node') && !e.target.closest('#panel') && !e.target.closest('#imgLightbox')) closePanel();
 });
 
