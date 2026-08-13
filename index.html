@@ -380,10 +380,10 @@
       <div class="label">美索不達米亞神話</div>
       <div class="sub">提亞馬特・吉爾伽美什・伊絲塔</div>
     </div>
-    <div class="myth-icon disabled">
+    <div class="myth-icon" onclick="openPersia()">
       <div class="glyph">🔥</div>
       <div class="label">波斯神話</div>
-      <div class="sub">瑣羅亞斯德教・敬請期待</div>
+      <div class="sub">阿胡拉·馬茲達・羅斯坦・王書</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">🕊️</div>
@@ -2819,6 +2819,7 @@ const GREEK_USER_EDITS = {};
 const NORSE_USER_EDITS = {};
 const EGYPT_USER_EDITS = {};
 const MESO_USER_EDITS = {};
+const PERSIA_USER_EDITS = {};
 // @@EDITS_END
 
 /* ============================================================
@@ -3404,6 +3405,264 @@ const MP_NODE_NAMES = {
   enheduanna:{kojiki:"Enḫeduana",nihonshoki:"Enheduanna",reading:"Enḫeduana",aliases:["恩海杜安娜","第一位作者","南納的女祭司"],shrine:"烏爾"},
 };
 
+/* ============================================================
+   資料：波斯神話系譜（瑣羅亞斯德教・《王書》Shahnameh）
+   [id, name, 阿維斯陀/波斯語轉寫, role, col, row, desc, isNote, tag]
+   ============================================================ */
+const PS_NODE_DEFS = [
+/* ---- 原初：祖爾萬與二元對立 ---- */
+["zurvan","祖爾萬","𐬰𐬭𐬎𐬎𐬀𐬥（Zurvan）","無限時間之神",8.5,0,"部分瑣羅亞斯德教派（祖爾萬派）所奉的「無限時間」原初神，先於善惡二元而存在。傳說他渴望得子、獻祭千年以求生下善神，臨末一刻心生疑慮，因這一念之疑，竟同時孕出兩子：先破膜而出的即是暗昧的安格拉·曼紐，其後誕生的才是他真正祈求的阿胡拉·馬茲達——善惡雙生由此而始，祖爾萬只得將世界統治權暫交予先出者，約定一萬兩千年後由善神最終勝出。"],
+["ahura_mazda","阿胡拉·馬茲達","𐬀𐬵𐬎𐬭𐬀𐬬𐬀𐬀𐬬𐬀𐬵𐬌𐬌𐬀（Ahura Mazdā）","智慧之主・至善造物主",6,1.2,"瑣羅亞斯德教的至高神，「智慧之主」，全知全善、光明真理的化身，一切美好造物的創造者。他先造出七位不朽聖神輔佐，再造天地日月星辰、原初之人與原初公牛。他與其孿生的暗面安格拉·曼紐展開跨越世界史的善惡大戰，終將率領聖界在末日審判中徹底戰勝黑暗，使世界復歸完美純淨。祆教先知瑣羅亞斯德正是奉他之名傳布真道。",false,"key"],
+["angra_mainyu","安格拉·曼紐（阿里曼）","𐬀𐬢𐬭𐬀𐬨𐬀𐬌𐬥𐬌𐬌𐬎（Aŋra Mainyu）","破壞之靈・萬惡之源",11,1.2,"「破壞的靈」，中古波斯語稱阿里曼，一切邪惡、謊言、死亡與混亂的根源，阿胡拉·馬茲達的孿生對立面。他不創造，只污染與破壞：以旱魃、猛獸、疾病、寒冬回應馬茲達的每一項美好造物，殺死原初之人與原初公牛，並率領惡靈大軍與六大死罪魔纏鬥世界。祆教教義預言：在世界末日的最終清算中，他終將被真理與光明徹底消滅，永遠逐出存在之外。",false,"key"],
+["spenta_mainyu","斯彭塔·曼紐","𐬯𐬞𐬆𐬧𐬙𐬀⸱𐬨𐬀𐬌𐬥𐬌𐬌𐬎（Spənta Mainyu）","善靈・馬茲達的能動化身",6,2.4,"「豐饒／神聖的靈」，阿胡拉·馬茲達選擇良善的能動意志與化身，與安格拉·曼紐的抉擇相對而立，象徵每個生靈皆須在善與惡之間自主抉擇的核心教義。他統領七位不朽聖神，是人類行善、追求「阿沙」（真理秩序）時所倚靠的神聖力量。"],
+
+/* ---- 七位不朽聖神 Amesha Spentas ---- */
+["vohu_manah","沃胡·瑪納","𐬬𐬊𐬵𐬎⸱𐬨𐬀𐬥𐬀𐬵（Vohu Manah）","善念之神",2.5,3.6,"「善良的心念」，七位不朽聖神之首，守護家畜與良善的思維，正是他在天界迎接瑣羅亞斯德、引領他初見阿胡拉·馬茲達。他的對立面是惡念魔阿卡·瑪納。"],
+["asha_vahishta","阿沙·瓦希什塔","𐬀𐬴𐬀⸱𐬬𐬀𐬵𐬌𐬱𐬙𐬀（Aša Vahišta）","至善真理與宇宙秩序",4,3.6,"「最佳真理／秩序」，掌管貫穿宇宙的正義法則與火焰，是瑣羅亞斯德教倫理的核心概念——生命的目的即是奉行「阿沙」以對抗謊言「德魯吉」。他也是烈火與正義審判的守護者，對立於謊言魔因德拉。"],
+["khshathra_vairya","赫沙特拉·瓦伊里亞","𐬑𐬱𐬀𐬚𐬭𐬀⸱𐬬𐬀𐬌𐬭𐬌𐬌𐬀（Xšaθra Vairya）","理想國度與金屬之神",5.5,3.6,"「應許的統治／王國」，象徵天國般公正的理想政權與金屬礦藏，守護寡孤與弱者，是末日戰爭中熔金審判亡靈的執行者。"],
+["spenta_armaiti","斯彭塔·阿爾邁蒂","𐬯𐬞𐬆𐬧𐬙𐬀⸱𐬁𐬭𐬨𐬀𐬌𐬙𐬌（Spənta Ārmaiti）","大地與虔誠女神",7,3.6,"「聖潔的虔誠」，大地本身的女性化身，司掌謙遜、虔敬與孝順，是阿胡拉·馬茲達所生的第一位不朽聖神，深受農牧民信奉。"],
+["haurvatat","豪爾瓦塔特","𐬵𐬀𐬎𐬭𐬎𐬎𐬀𐬙𐬁𐬙（Haurvatāt）","完整與水之女神",8.5,3.6,"「完整、康健」，掌管水域與身心的完滿，與姊妹阿梅雷塔特共同守護生命所需的滋養，是六月與新年慶典中特別祈求的神祇。"],
+["ameretat","阿梅雷塔特","𐬀𐬨𐬆𐬭𐬆𐬙𐬁𐬙（Amərətāt）","不朽與植物女神",10,3.6,"「不死、不朽」，司掌草木植物與永生，與姊妹豪爾瓦塔特一同守護世間的滋養與延續，兩者常並列祈求豐收與長壽。"],
+
+/* ---- 亞扎塔眾神 Yazatas ---- */
+["mithra","密特拉","𐬨𐬌𐬚𐬭𐬀（Miθra）","契約、光明與誓約之神",18,4.8,"最重要的亞扎塔之一，「契約」的神格化，監視一切誓言與盟約的履行，破誓者必遭其嚴懲。他駕金車巡遊天際、於黎明先於太陽升起，是戰士與牧人共同的守護神。他的信仰後來遠播羅馬帝國，衍生出秘儀性的「密特拉教」，影響力橫跨整個古代地中海世界。",false,"key"],
+["anahita","阿娜希塔","𐬀𐬭𐬆𐬛𐬎𐬎𐬍⸱𐬯𐬏𐬭𐬁⸱𐬀𐬥𐬁𐬵𐬌𐬙𐬁（Ardvī Sūrā Anāhitā）","純潔之水與豐饒女神",19.5,4.8,"「無垢、強大的水」，掌管江河湖泊、生育與豐饒的女神，駕四馬金車自天界高處傾瀉聖水潤澤大地。她被描繪為佩戴星冠、身披水獺皮斗篷的美麗女戰神，深受歷代波斯王朝崇奉，阿契美尼德與薩珊王室皆為她建有壯麗神廟。",false,"key"],
+["sraosha","斯羅沙","𐬯𐬭𐬀𐬊𐬱𐬀（Sraoša）","服從、祈禱與秩序守護神",21,4.8,"「聽從、服從」，守護正確的祈禱儀軌與宗教秩序的神祇，夜間持棍棒巡邏、驅趕邪靈與惡魔德弗。人死後三日內他負責守護靈魂免受惡靈侵擾，並在欽瓦特橋審判時協助引渡義者的靈魂。"],
+["rashnu","拉什努","𐬭𐬀𐬴𐬥𐬎（Rašnu）","公正審判之神",22.5,4.8,"「正直、公道」，死後審判時與密特拉、斯羅沙三神共同秤量亡者一生的善惡功過，其天平絲毫不偏，是欽瓦特橋審判庭中最不可收買的裁判者。"],
+["vayu","瓦尤","𐬬𐬀𐬌𐬎（Vayu）","風之神・生死之間的力量",6,4.8,"風的神格化，兼具生育、戰鬥與死亡的雙重性格，被視為介於光明與黑暗兩界之間、連善惡二神都須敬畏的中立強大力量，象徵生命氣息本身的無常與威能。"],
+["atar","阿塔爾","𐬁𐬙𐬀𐬭（Ātar）","聖火之神",7.5,4.8,"阿胡拉·馬茲達之子，聖火的神格化，祆教信仰的核心象徵——瑣羅亞斯德教徒（拜火教徒）正因於神廟中恆燃聖火祈禱而得名。他曾與惡龍阿茲赫達哈卡搏鬥爭奪王權光輝「法爾」，雖未能取勝，卻確立了火焰作為淨化與真理見證的神聖地位。"],
+["tishtrya","提什特里亞","𐬙𐬌𐬱𐬙𐬭𐬌𐬌𐬀（Tištrya）","天狼星・降雨之神",9,4.8,"天狼星（天狼恆星）的神格化，帶來夏雨與豐收的守護神。他化作白馬與旱魃惡魔阿帕奧沙（化作黑馬）在海邊苦戰三日三夜，起初落敗，因人類虔誠獻祭才重獲神力，終將旱魔擊退，使甘霖普降人間——這場天馬之戰是波斯降雨神話的核心敘事。",false,"key"],
+["verethragna","韋雷斯拉格納","𐬬𐬆𐬭𐬆𐬚𐬭𐬀𐬖𐬥𐬀（Vərəθraγna）","勝利之神",10.5,4.8,"「擊敗抵抗」，戰鬥與勝利的神格化，能化為十種形相現身人間：疾風、公牛、白馬、駱駝、野豬、青年、烏鴉、公羊、野山羊，以及最終最威猛的化身——持金劍的戰士。戰士出征前常向他祈求庇佑。"],
+["chista","奇斯塔（達埃娜）","𐬜𐬌𐬱𐬙𐬍 ／ 𐬛𐬀𐬉𐬥𐬁（Daēnā）","宗教良知與靈魂之鏡女神",12,4.8,"「宗教／良知」的神格化，象徵每個人靈魂深處映照其一生善惡言行的內在明鏡。亡魂步上欽瓦特橋時，會遇見達埃娜化作自己一生行為的具象：義者見她是絕美少女，引其安然過橋；惡人見她化為醜怪老嫗，將其拽落深淵。"],
+["ashi","阿什","𐬀𐬴𐬌（Aši）","福運與獎賞女神",13.5,4.8,"「獎賞、福報」，掌管財富、繁榮與命運饋贈的女神，虔誠奉行阿沙真理者將蒙她賜福，是與姊妹達埃娜相輔相成的正向命運力量。"],
+["zam","扎姆","𐬰𐬁𐬨（Zam）","大地女神",15,4.8,"大地本身的神格化，孕育萬物生長的沃土，與斯彭塔·阿爾邁蒂的虔誠面向相輔，同為大地崇拜的具象。"],
+["rapithwina","拉皮特維那","𐬭𐬀𐬞𐬌𐬚𐬬𐬌𐬥𐬀（Rapithwina）","正午與夏季之神",16.5,4.8,"司掌正午時分與夏季暖陽的神祇，冬季時退隱地下，直到春分歸來——他的隱退與復返被視為波斯新年（諾魯茲）慶典所紀念的天象循環之一。"],
+
+/* ---- 惡靈與魔物 Divs／Daevas ---- */
+["aeshma","埃什瑪（阿斯莫德）","𐬀𐬉𐬢𐬨𐬀（Aēšma）","狂怒之魔",6,6,"「狂怒、暴虐」，六大死罪魔之一，煽動戰爭與無節制的暴力，是最兇惡的德弗之一。他的名字經由猶太次經傳入西方，演變為著名的惡魔「阿斯莫德」，在後世惡魔學中位居七宗罪「憤怒」的代表。",false,"key"],
+["aka_manah","阿卡·瑪納","𐬀𐬐𐬆𐬨⸱𐬨𐬀𐬥𐬀𐬵（Aka Manah）","惡念之魔",7.5,6,"「邪惡的心念」，善念之神沃胡·瑪納的對立面，煽動人心生出貪婪、嫉妒與惡意的思維，是六大死罪魔之一，象徵思想層面的墮落根源。"],
+["indra_daeva","因德拉（謊言魔）","𐬌𐬥𐬛𐬭𐬀（Indra）","抗拒真理之魔",9,6,"祆教將吠陀信仰中的雷神因陀羅貶為惡魔，六大死罪魔之一，象徵抗拒阿沙真理、慫恿人背離正道的力量——這反映了瑣羅亞斯德教改革古老多神信仰、重新劃分善惡陣營的歷史痕跡。"],
+["saurva","紹爾瓦","𐬱𐬀𐬎𐬭𐬎𐬎𐬀（Saurva）","無序與壓迫之魔",10.5,6,"六大死罪魔之一，象徵暴政、混亂與對正當權柄「赫沙特拉」的顛覆，與理想王權之神赫沙特拉·瓦伊里亞相對立。"],
+["naonhaithya","瑙恩海希亞","𐬥𐬀𐬊𐬧𐬵𐬀𐬌𐬚𐬌𐬌𐬀（Nåŋhaiθya）","不滿與異端之魔",12,6,"祆教貶抑的另一組吠陀神祇（對應吠陀雙子神那薩提亞），六大死罪魔之一，象徵對神聖秩序的不滿與離經叛道。"],
+["az_daeva","阿茲","𐬁𐬰（Āz）","貪婪之魔",13.5,6,"「貪慾」的化身，無止盡的欲望與匱乏感之魔，被中古波斯文獻視為僅次於安格拉·曼紐本身最危險的邪惡力量之一，煽動眾生永不滿足的渴求。"],
+["apaosha","阿帕奧沙","𐬀𐬞𐬀𐬴𐬀（Apaoša）","旱魃惡魔",15,6,"化身黑色駿馬的旱災惡魔，於海畔與降雨神提什特里亞的白馬苦戰三日，起初佔上風使天下亢旱，終因人類虔誠獻祭助長提什特里亞神力而落敗，甘霖因而普降。"],
+["jeh","傑赫","𐬘𐬀𐬵𐬀𐬍（Jahī）","污穢的原魔",16.5,6,"神話中最早的女性魔物，安格拉·曼紐在惡靈陣營士氣低落時喚醒的原魔，她獻吻於他、注入新的邪惡力量，並將污穢與經血的詛咒帶給世間女性——是祆教文獻中厭女色彩最濃厚的一則神話。"],
+["azhi_dahaka_myth","阿茲赫達哈卡","𐬀𐬲𐬌⸱𐬛𐬀𐬵𐬁𐬐𐬀（Aži Dahāka）","三頭巨龍・暴君原型",18,6,"上古經文中的三頭六眼巨龍，安格拉·曼紐所造最強大的爪牙之一，能吐火噴毒、遮天蔽日。在《王書》中他化為人形暴君佐哈克（見後），肩生雙蛇、日食人腦——龍與暴君合而為一，是波斯神話中「惡的具現」跨越千年最鮮明的形象。",false,"key"],
+
+/* ---- 創世神話 ---- */
+["gayomard","蓋約瑪特","𐬔𐬀𐬌𐬌𐬀⸱𐬨𐬀𐬭𐬆𐬙𐬀𐬥（Gayō.marətan）","原初之人",4,7.2,"「有死的生命」，阿胡拉·馬茲達所造的第一個人類，光輝如太陽、與原初公牛並列而生。安格拉·曼紐率軍入侵世界之初便將他與原初公牛一同殺害，然而蓋約瑪特的種子灑落大地淨化四十年後，長出一株大黃根莖，分裂成人類始祖瑪希亞與瑪希亞娜——全人類皆出自他死後的種子。",false,"key"],
+["primordial_ox","原初公牛（戈沙烏爾萬）","𐬔𐬀𐬎𐬎𐬀⸱𐬀𐬉𐬎𐬛𐬁𐬙（Gav Aēwōdāta）","單獨受造的原初之牛",5.5,7.2,"與蓋約瑪特並列受造、最早的生靈，被安格拉·曼紐所殺。牠死後身軀化生出各種穀物、藥草與動物，牠的靈魂「戈沙烏爾萬」升上天界，向阿胡拉·馬茲達控訴世間的殘暴，成為畜牧信仰中守護家畜的原型靈魂。"],
+["mashya_mashyana","瑪希亞與瑪希亞娜","𐬨𐬀𐬴𐬌𐬌𐬁 ／ 𐬨𐬀𐬴𐬌𐬌𐬁𐬥𐬀（Mašya ／ Mašyānā）","人類的始祖",7,7.2,"自蓋約瑪特種子所生的大黃根莖分裂而成的第一對男女，起初緊密相連如一株植物，經阿胡拉·馬茲達注入靈魂才分開成人形。兩人本應虔誠事奉造物主，卻被安格拉·曼紐誘惑而說出「安格拉·曼紐創造了水、土、樹木」的謊言，種下人類原罪的種子——這是祆教版本的人類墮落神話。"],
+["chinvat_bridge","欽瓦特橋","𐬗𐬌𐬥𐬬𐬀𐬙（Cinvatō Pərətu）","分辨者之橋・生死審判所",8.5,7.2,"「分辨者之橋」，架於現世與冥界之間的審判之橋，亡魂死後第四日須經此橋接受密特拉、斯羅沙、拉什努三神秤量善惡。義者眼前橋面寬廣如原野，由達埃娜化身的絕美少女引渡至光明天堂；惡人眼前橋面窄如刀刃，達埃娜化為醜怪老嫗，令其墜入深淵地獄——是瑣羅亞斯德教死後審判觀的核心意象。",true],
+
+/* ---- 先王朝（皮什達德王朝）Pishdadian ---- */
+["keyumars","凱尤瑪爾斯","𐬐𐬍𐬎𐬎𐬀（Kayūmarθ）","《王書》開篇的第一位國王",2.5,8.4,"《王書》（Shahnameh）中人類的第一位國王，與瑣羅亞斯德教創世神話的蓋約瑪特同源異流，居於山巔、身披豹皮，教導人類穿衣飲食。他的孫子被邪惡的黑暗之魔阿赫里曼派出的惡狼所殺，他悲痛而終，其孫胡尚繼位為其復仇。"],
+["hushang","胡尚","𐬵𐬎𐬎𐬊𐬱𐬀𐬥𐬄（Hōšang）","發現火與鍛鐵的君王",4,8.4,"凱尤瑪爾斯之孫，波斯神話中的文明締造者：一次投石擊蛇未中，石塊擦出火花點燃乾草，他因而發現了火，訂立「火節」慶典年年紀念；他也教導人類冶鐵鍛器、開渠灌溉、馴養家畜，奠定了農牧文明的基礎。"],
+["tahmuras","塔赫穆拉斯","𐬙𐬀𐬵𐬨𐬎𐬎𐬭𐬀𐬯（Taxma Urupi）","制服惡魔的「縛魔王」",5.5,8.4,"胡尚之子，綽號「縛魔王」，以其威能降伏了大批的德弗惡魔，甚至騎乘阿赫里曼本人如坐騎般巡遊天下。他從被降伏的惡魔口中逼問出三十種文字的祕密，教給人類——文字之始，正出自制伏魔鬼的戰果。"],
+["jamshid","賈姆希德","Yima Xšaēta（賈姆希德）","黃金時代的光輝之王",7,8.4,"塔赫穆拉斯之弟，統治波斯的黃金時代長達七百年，是文明的集大成者：教人紡織、建屋、分辨階級、製造武器與珠寶、乘坐由惡魔抬起的飛天寶座巡遊四方。極盛之世，他因功業而心生驕傲，自稱為神，「王權光輝」法爾因此離他而去——王國陷入分裂，最終被暴君佐哈克所篡，他本人流亡多年後被鋸成兩半慘死，是波斯神話中最深刻的「驕者必敗」寓言。",false,"key"],
+["jam_e_jam","賈姆希德的寶盞（占世杯）","𐬘𐬁𐬨⸱𐬔𐬌𐬙𐬍⸱𐬥𐬨𐬁（Jām-e Jam）","映照世界的魔法酒杯",8.5,8.4,"賈姆希德所擁有的魔法寶盞，斟滿時能映照出世間萬象、預知未來與遠方戰局，是波斯文學中智慧、遠見與王權神授的象徵物，後世詩人常以「賈姆之杯」比喻洞悉一切的至高智慧。",true],
+
+/* ---- 佐哈克與費里頓 ---- */
+["zahhak","佐哈克","𐬀𐬲𐬌⸱𐬛𐬀𐬵𐬁𐬐𐬀（Zahhāk）","肩生雙蛇的暴君",10,8.4,"阿拉伯貴族之子，被阿赫里曼扮作廚師誘惑弒父篡位，又被阿赫里曼親吻雙肩——肩上竟長出兩條黑蛇，需日日以人腦餵食才能止痛，佐哈克因而下令每日處死兩名青年取腦。他篡奪賈姆希德的王位，以恐怖統治波斯近千年，直到鐵匠卡維與王子費里頓揭竿而起，將他鎖鏈鎮壓於達馬萬德山中，等待世界末日前的最終覺醒——他正是上古巨龍阿茲赫達哈卡在《王書》中的人形化身。",false,"key"],
+["kaveh","卡維","𐬐𐬁𐬬𐬀（Kāve）","揭竿起義的鐵匠",11.5,8.4,"痛失十七名兒子的鐵匠，在佐哈克第十八次徵召自己最後一子取腦餵蛇時忍無可忍，將皮製圍裙高舉為旗，率民眾揭竿而起，擁立費里頓為王——他的皮裙旗「卡維揚旗」後成為波斯王權正統的傳世聖物，歷代波斯帝國奉為國旗典範。"],
+["fereydun","費里頓","𐬚𐬭𐬀𐬉𐬙𐬀𐬊𐬥𐬀（Θraētaona）","擊敗巨龍暴君的英雄王",13,8.4,"擊敗佐哈克、重振波斯正統的英雄君王，瑣羅亞斯德經文中屠龍英雄斯拉埃塔奧那的《王書》化身。他以牛頭權杖擊倒佐哈克，卻在天使蘇魯什的示意下，並未殺他，而是將他鎖鏈鎮於達馬萬德山的地牢中永世監禁。他晚年將天下三分授予三子：伊拉治得波斯、圖爾得圖蘭、薩勒姆得羅馬，卻埋下了骨肉相殘的禍根。",false,"key"],
+["salm","薩勒姆","𐬯𐬀𐬭𐬨（Salm）","費里頓的長子",14.5,9.6,"費里頓的長子，因不滿幼弟伊拉治獲得最富庶的波斯領地，與次弟圖爾合謀弒殺伊拉治，種下波斯與圖蘭世代交戰的血仇。"],
+["tur","圖爾","𐬙𐬏𐬭（Tūr）","費里頓的次子・圖蘭的祖先",16,9.6,"費里頓的次子，圖蘭（中亞遊牧民族）的傳說祖先。他與兄長薩勒姆合謀殺害幼弟伊拉治，此後波斯（伊朗）與圖蘭之間的世仇貫穿整部《王書》，成為全史詩最核心的敵對主軸。"],
+["iraj","伊拉治","𐬀𐬍𐬭𐬀𐬘（Ēraj）","伊朗的傳說始祖",13,9.6,"費里頓的幼子，繼承最富庶美好的波斯領地，卻因此招來兩位兄長的嫉恨而遭謀害，其血肉被送回悼念的父親面前。伊朗（Iran）的國名即傳說源自他的名字，他的犧牲是波斯民族認同神話的奠基悲劇。"],
+["manuchehr","馬努切赫爾","𐬨𐬀𐬥𐬎𐬴⸱𐬗𐬌𐬚𐬭𐬀（Manuščiθra）","為父復仇的伊拉治之孫",13,10.8,"伊拉治被害後，其孫（一說遺腹之後裔）馬努切赫爾在祖父費里頓扶持下起兵伐討圖蘭，擊殺薩勒姆與圖爾，一雪血海深仇，即位為波斯之王，開啟了《王書》中綿延數代的伊朗－圖蘭戰爭序幕。"],
+
+/* ---- 神鳥、薩姆家族與羅斯坦 ---- */
+["simurgh","西摩爾格（神鳥）","𐬯𐬀𐬉𐬥𐬀⸱𐬨𐬆𐬭𐬆𐬖𐬊（Saēna Mərəγō）","撫養扎爾的智慧神鳥",2.5,10.8,"棲於世界樹頂端、閱盡千年智慧的巨大神鳥，通曉萬事萬物與醫藥祕方。英雄薩姆因兒子扎爾生來滿頭白髮而棄之荒山，神鳥憐憫將他攜回鳥巢撫育成人，授予過人的力量與智慧。後來扎爾之妻魯達貝難產垂危，正是神鳥指點以利爪剖腹取出巨嬰羅斯坦（波斯版剖腹產傳說），此後她的一根羽毛更成為扎爾家族屢次化險為夷的護身法寶。",false,"key"],
+["sam","薩姆","𐬯𐬁𐬨（Sām）","扎爾之父・薩姆王朝英雄",4,10.8,"波斯神話中著名的英雄家族之祖，力大無窮的勇士。因兒子扎爾出生時滿頭白髮，他以為是魔物所生的凶兆，狠心棄子於荒山，多年後在神鳥的巢穴前尋回長大成人的扎爾，父子相認、悔恨不已。"],
+["zal","扎爾","𐬰𐬁𐬍（Zāl）","白髮英雄・羅斯坦之父",5.5,10.8,"薩姆之子，生來滿頭白髮而遭棄，由神鳥西摩爾格撫養成人，通曉鳥語、精於謀略與醫理。他與喀布爾公主魯達貝相戀成婚，育有波斯第一勇士羅斯坦。晚年他仍多次以智謀與神鳥的羽毛為子孫解圍，是貫穿《王書》數代的智慧長者。"],
+["rudabeh","魯達貝","𐬭𐬎𐬛𐬁𐬀𐬥𐬎𐬴（Rūdābe）","扎爾之妻・羅斯坦之母",7,10.8,"喀布爾王之女，容貌絕美，與扎爾一見鍾情，衝破兩國宿怨與門第之別而結為連理，是《王書》中最動人的愛情故事之一。她懷胎羅斯坦難產瀕死，靠神鳥指點剖腹取子而母子均安。"],
+["rostam","羅斯坦","𐬭𐬎𐬎𐬯𐬙𐬀𐬈𐬨（Rustahm）","波斯第一勇士",8.5,12,"扎爾與魯達貝之子，《王書》中最偉大的英雄，力敵千軍、壽逾三百歲，畢生守護波斯王權。他騎神駒拉赫什縱橫沙場，歷經七大關的降魔試煉（七功績）擊殺白魔迪弗，屢次於王朝危亡之際力挽狂瀾。晚年在一場命運的悲劇中，於邊境陣前不識來將，與遠征的敵軍將領惡戰——那人正是他失散多年、素未謀面的親生兒子索赫拉布，他親手刺穿了愛子的胸膛，成為波斯文學史上最椎心泣血的一幕。",false,"key"],
+["rakhsh","拉赫什","𐬭𐬀𐬑𐬴（Raxš）","羅斯坦的神駒",10,12,"羅斯坦畢生的坐騎，力大無窮、通曉人性，是羅斯坦親手自一群烈馬中相中、唯一能承受他重量與甲冑的神駒。牠曾在主人熟睡時憑一己之力擊退偷襲的獅子，也曾在七功績試煉中助主人踏破重重險阻，人馬情誼是《王書》中最動人的篇章之一。"],
+["tahmineh","塔赫米娜","𐬙𐬀𐬵𐬨𐬍𐬥𐬀（Tahmīna）","索赫拉布之母",7,13.2,"薩曼干國的公主，羅斯坦借宿其國時傾心於他、主動夜訪求婚，兩人一夜結緣後羅斯坦即束裝離去，留下臂環為信物。她獨自撫養兒子索赫拉布成人，多年後兒子率軍出征波斯尋父，母子的殷切期盼終究換來父子相殘的悲劇。"],
+["sohrab","索赫拉布","𐬯𐬎𐬵𐬭𐬁𐬈（Suhrāb）","羅斯坦未曾相認的兒子",8.5,13.2,"羅斯坦與塔赫米娜之子，自幼力大無窮、驍勇善戰，一心尋訪從未謀面的父親、渴望與其並肩共創功業。他率圖蘭大軍犯境，兩軍陣前與一名蒙面老將惡戰三日——雙方皆未能認出對方身分，羅斯坦最終將他刺倒在地，索赫拉布臨死前展示臂環，父親這才驚駭認出自己殺死的正是親生骨肉。羅斯坦悲慟欲絕，此後終身鬱鬱難平，是整部《王書》最沉痛的悲劇核心。",false,"key"],
+["faramarz","法拉馬爾茲","𐬟𐬭𐬁𐬨𐬀𐬭𐬰（Farāmarz）","羅斯坦之子・王國的復仇者",10,13.2,"羅斯坦的另一名兒子，繼承父親的勇武，在後續王朝征戰中屢建戰功，最終為報父仇興兵伐喀布爾，是薩姆家族英雄血脈的延續者。"],
+["div_sepid","白魔（迪弗·賽皮德）","𐬛𐬀𐬉𐬎𐬎𐬀⸱𐬯𐬏𐬐𐬀𐬥𐬀（Dēw ī Spēd）","七功績中最強的巨魔",11.5,12,"馬贊德蘭妖境中最強大的巨魔，通體雪白、力大無窮，擁有能治百病的心臟與肝臟。羅斯坦為救被其施法致盲的國王凱卡烏斯，隻身闖入妖穴，於七功績的最終一關與牠死戰，剖其心肝取血療癒眾人的眼疾，是「七功績」（哈夫特·汗）系列試煉中最艱險輝煌的一役。"],
+
+/* ---- 凱揚王朝與圖蘭戰爭 ---- */
+["kay_kavus","凱卡烏斯","𐬐𐬀𐬬𐬀⸱𐬎𐬎𐬎𐬀𐬎𐬎𐬀（Kavi Usan）","屢屢闖禍卻蒙庇佑的君王",2.5,12,"凱揚王朝的君主，性情剛愎、屢次因狂妄冒進招致大禍——曾率軍侵犯馬贊德蘭妖境而全軍被白魔所困致盲，又曾異想天開命工匠以鷹拉戰車企圖飛天，結果墜毀荒野。每每命懸一線，皆靠忠臣羅斯坦捨命相救，是《王書》中警示君王不可剛愎自用的反面教材。"],
+["siyavash","西亞武什","𐬯𐬎𐬎𐬁𐬀𐬬𐬀𐬭𐬴𐬀𐬥（Syāvarshān）","含冤慘死的悲劇王子",4,12,"凱卡烏斯之子，品德高潔、俊美無雙。繼母蘇達貝欲勾引他遭拒後反誣他非禮，他為自證清白毅然策馬穿越熊熊烈火，安然無恙證明了清白。然而父王聽信讒言終究疏遠了他，他憤而流亡圖蘭，本受敵國國王阿弗拉西亞卜禮遇並娶其女，卻遭朝中奸臣構陷謀反，最終在毫無反抗之下引頸就戮——他含冤而死之地日後湧出泉水，被奉為聖地永世哀悼，其血脈與冤仇成為往後數十年伊朗・圖蘭戰爭延燒不休的核心引信。",false,"key"],
+["afrasiyab","阿弗拉西亞卜","𐬟𐬭𐬀𐬧𐬭𐬀𐬯𐬌𐬌𐬁𐬧（Frangrasyan）","圖蘭的宿敵之王",5.5,12,"圖蘭最強大的君主，波斯世代的頭號宿敵，驍勇善戰卻猜忌多疑。他曾禮遇流亡的西亞武什並招為東床快婿，卻聽信奸臣讒言下令將其處死，種下不可挽回的血海深仇；此後數十年間，他屢與波斯名將羅斯坦、後來的凱霍斯羅交鋒，最終在西亞武什之子凱霍斯羅的復仇大軍前節節敗退，逃亡途中被擒殺，為這場延燒數代的世仇畫下句點。"],
+["kay_khosrow","凱霍斯羅","𐬐𐬀𐬬𐬍⸱𐬵𐬎𐬯𐬭𐬀𐬬𐬀𐬵（Kavi Haosravah）","為父復仇的聖王",4,14.4,"西亞武什與圖蘭公主之子，自幼流落圖蘭牧羊，長大後歷經艱險逃回波斯即位，率軍討伐外祖父阿弗拉西亞卜為父復仇雪恨，終結了圖蘭的威脅、成就波斯凱揚王朝的鼎盛。晚年的他洞悉世事無常，在功業巔峰之際毅然禪位隱退，於雪山中安然羽化——是《王書》中少數得享圓滿善終、被奉為聖王典範的君主。"],
+["bijan","比讓","𐬀𐬥𐬀（Bijan）","被囚枯井的青年勇士",6.5,14.4,"波斯貴族青年，奉命出征誤入圖蘭境內，與敵國公主馬妮傑一見鍾情私訂終身，事洩後被阿弗拉西亞卜打入深坑枯井囚禁多年。羅斯坦憑其神通探得下落，喬裝商隊潛入圖蘭，力舉巨石救出比讓，成就了《王書》中曲折浪漫的一段冒險傳奇。"],
+["manijeh","馬妮傑","𐬨𐬀𐬥𐬍𐬘𐬀（Manijeh）","忠貞的圖蘭公主",8,14.4,"阿弗拉西亞卜之女，不顧父命與波斯青年比讓相戀，愛人被囚枯井後，她甘願淪為乞丐、每日乞食餵養井中戀人達數年之久，其忠貞至死不渝的愛情感動羅斯坦出手相救，是《王書》中歌頌真情的代表篇章。"],
+["esfandiyar","埃斯凡迪亞爾","𐬀𐬎𐬎𐬮𐬀𐬧𐬛𐬁𐬙𐬀（Spəntōdāta）","刀槍不入卻雙眼致命的王子",9.5,14.4,"波斯王古什塔斯普之子，虔誠護教的聖裔王子，因阿胡拉·馬茲達的恩賜而渾身刀槍不入，卻獨獨雙眼是唯一破綻。他奉父命出征迫使年邁的羅斯坦就縛，兩位英雄惺惺相惜卻各為忠義所困，終須一戰——羅斯坦得神鳥指點，以一支雙叉檉柳箭射中他的雙目，含淚了結了這場沒有勝者的悲劇對決，埃斯凡迪亞爾臨終仍不忘將復國重任託付給殺死自己的英雄。",false,"key"],
+["gordafarid","戈爾達芙麗德","𐬔𐬀𐬭𐬛𐬁𐬟𐬭𐬍𐬛（Gordāfarīd）","女扮男裝的巾幗英雄",11,14.4,"波斯守將胡蒙之女，圖蘭大軍圍城時，她女扮男裝披甲上陣、單騎迎戰敵將蘇赫拉布，一番惡鬥後佯裝落敗誘敵、趁隙摘盔露出真容以美色惑敵拖延，助城池爭取撤退時間，是《王書》中巾幗不讓鬚眉的著名女戰士形象。"],
+
+/* ---- 史詩、名物與聖典 ---- */
+["shahnameh","王書（列王紀）","𐬱𐬁𐬵𐬥𐬁𐬨𐬀（Šāhnāme）","波斯民族的史詩巨著",13,7.2,"詩人費爾多西耗時三十餘年寫成的波斯民族史詩，逾五萬對句，記述自開天闢地、神話諸王、英雄傳說直至薩珊王朝滅亡的完整波斯歷史觀。它不僅保存了大量前伊斯蘭時期的波斯神話與英雄敘事，更以純正的波斯語寫成，在阿拉伯征服後的年代裡守護了波斯民族的語言與文化認同，被譽為波斯文學的巔峰之作。",true],
+["avesta","阿維斯陀","Avesta（阿維斯陀）","瑣羅亞斯德教的聖典總集",14.5,7.2,"瑣羅亞斯德教最核心的聖典總集，以古老的阿維斯陀語寫成，包含先知瑣羅亞斯德親自吟誦的《伽薩》讚歌、禮拜文《耶斯納》、驅魔律法《文迪達德》等篇章，是理解波斯神話宇宙觀、善惡二元教義與諸神體系最原始的文獻根據。",true],
+["gathas","伽薩讚歌","𐬔𐬁𐬚𐬁（Gāθā）","瑣羅亞斯德親筆的讚美詩",16,7.2,"《阿維斯陀》中最古老、最核心的部分，相傳為先知瑣羅亞斯德本人親自吟誦創作的十七首讚美詩，以第一人稱直抒對阿胡拉·馬茲達的信仰、對善惡抉擇的深刻沉思，是全世界現存最早的宗教哲理詩篇之一。",true],
+["haft_khan","七功績（哈夫特·汗）","𐬵𐬀𐬟𐬙⸱𐬑𐬁𐬥（Haft Xān）","羅斯坦降魔救主的七道試煉",13,12,"羅斯坦為救被妖法所困的君王凱卡烏斯，隻身踏入馬贊德蘭妖境，接連闖過雄獅、荒漠烈日、惡龍、妖女誘惑、迷霧幻術、山神巨怪等六道生死關卡，終在第七關力戰白魔、剖心療眼——這場「七功績」試煉是波斯英雄史詩中最負盛名的降魔遠征，其結構與後世諸多「英雄試煉」敘事母題遙相呼應。",true],
+["farr","王權光輝（法爾）","𐬓𐬀𐬭𐬥𐬀𐬵（Xᵛarənah）","君權神授的神聖光環",14.5,12,"瑣羅亞斯德教信仰中環繞正統君王的神聖光輝，象徵天命所歸的統治正當性。它會眷顧德行配位的明君，一旦君王失德（如賈姆希德的驕矜），法爾便會離他而去、轉附他人，是波斯政治神學中判定王朝興衰的核心概念。",true],
+["mount_damavand","達馬萬德山","𐬛𐬎𐬎𐬦𐬎𐬎𐬁𐬥𐬙（Duvunāvant）","囚禁佐哈克的聖山地牢",16,12,"波斯最高峰，傳說費里頓將暴君佐哈克以鐵鏈鎖入此山的地下深牢，命其永世不得脫身。祆教末世傳說預言，佐哈克終有一日將掙脫鎖鏈重返人間作亂，屆時將由英雄格爾沙斯普（羅斯坦的先祖之一）將其徹底誅滅，為世界史畫下最終句點。",true],
+];
+
+const PS_GROUPS = [
+  ["祖爾萬與二元對立", ["zurvan","ahura_mazda","angra_mainyu","spenta_mainyu"], "#8f86c8"],
+  ["七位不朽聖神（阿梅沙·斯彭塔）", ["ahura_mazda","vohu_manah","asha_vahishta","khshathra_vairya","spenta_armaiti","haurvatat","ameretat"], "#5ab4ff", false],
+  ["亞扎塔眾神", ["mithra","anahita","sraosha","rashnu","vayu","atar","tishtrya","verethragna","chista","ashi","zam","rapithwina"], "#7fa8d8"],
+  ["惡靈與死罪魔（德弗）", ["aeshma","aka_manah","indra_daeva","saurva","naonhaithya","az_daeva","apaosha","jeh","azhi_dahaka_myth"], "#c07a7a", false],
+  ["創世神話", ["gayomard","primordial_ox","mashya_mashyana","chinvat_bridge"], "#90c880"],
+  ["先王朝（皮什達德王朝）", ["keyumars","hushang","tahmuras","jamshid","jam_e_jam"], "#d09a70"],
+  ["佐哈克與費里頓三子", ["zahhak","kaveh","fereydun","salm","tur","iraj","manuchehr"], "#a06a8a"],
+  ["神鳥與薩姆家族", ["simurgh","sam","zal","rudabeh"], "#8fb8c8", false],
+  ["羅斯坦與索赫拉布悲劇", ["rostam","rakhsh","tahmineh","sohrab","faramarz","div_sepid"], "#b08fd8"],
+  ["凱揚王朝與圖蘭戰爭", ["kay_kavus","siyavash","afrasiyab","kay_khosrow"], "#70b0d0", false],
+  ["比讓與馬妮傑", ["bijan","manijeh","rostam"], "#e0a0c0", false],
+  ["埃斯凡迪亞爾之死", ["esfandiyar","rostam","simurgh"], "#c0708a", false],
+  ["巾幗英雄", ["gordafarid"], "#d8b090", false],
+  ["史詩、聖典與名物", ["shahnameh","avesta","gathas","haft_khan","farr","mount_damavand","jam_e_jam"], "#c8b090"],
+];
+
+const PS_UNIONS = [
+  /* 原初二元 */
+  {parent:"zurvan", children:["ahura_mazda","angra_mainyu"], label:"千年獻祭一念之疑・雙生善惡", labelClass:"ritual"},
+  {spouses:["ahura_mazda","angra_mainyu"], marriage:"partner", label:"跨越世界史的善惡大戰", labelClass:"blood"},
+  {spouses:["ahura_mazda","spenta_mainyu"], marriage:"partner", label:"能動的善靈化身"},
+  /* 七位不朽聖神 */
+  {parent:"ahura_mazda", children:["vohu_manah","asha_vahishta","khshathra_vairya","spenta_armaiti","haurvatat","ameretat"], label:"所造的七位不朽聖神"},
+  {spouses:["vohu_manah","aka_manah"], marriage:"partner", label:"善念與惡念的對立", labelClass:"blood"},
+  {spouses:["asha_vahishta","indra_daeva"], marriage:"partner", label:"真理與謊言的對立", labelClass:"blood"},
+  {spouses:["khshathra_vairya","saurva"], marriage:"partner", label:"理想王權與顛覆的對立", labelClass:"blood"},
+  {spouses:["haurvatat","ameretat"], marriage:"partner", label:"完整與不朽・並列祈求豐收長壽"},
+  /* 亞扎塔與惡魔對抗 */
+  {spouses:["tishtrya","apaosha"], marriage:"partner", label:"天馬海畔苦戰三日・甘霖普降", labelClass:"blood"},
+  {spouses:["atar","azhi_dahaka_myth"], marriage:"partner", label:"為爭奪王權光輝而戰", labelClass:"blood"},
+  {parent:"mithra", children:["chinvat_bridge"], label:"與斯羅沙、拉什努共審亡魂"},
+  {spouses:["rashnu","chinvat_bridge"], marriage:"partner", label:"秤量善惡的公正裁判"},
+  {spouses:["sraosha","chinvat_bridge"], marriage:"partner", label:"引渡靈魂過橋"},
+  {spouses:["chista","chinvat_bridge"], marriage:"partner", label:"化身引渡者或墜落之因"},
+  {spouses:["angra_mainyu","jeh"], marriage:"partner", label:"喚醒原魔・注入邪惡新力", labelClass:"blood"},
+  /* 創世神話 */
+  {parent:"ahura_mazda", children:["gayomard","primordial_ox"], label:"所造的原初之人與原初公牛"},
+  {spouses:["angra_mainyu","gayomard"], marriage:"partner", label:"率軍入侵・殺害原初之人", labelClass:"blood"},
+  {spouses:["angra_mainyu","primordial_ox"], marriage:"partner", label:"殺害原初公牛", labelClass:"blood"},
+  {parent:"gayomard", children:["mashya_mashyana"], label:"種子淨化四十年後所生"},
+  {spouses:["mashya_mashyana","angra_mainyu"], marriage:"partner", label:"誘使說謊・人類墮落的開端", labelClass:"blood"},
+  /* 先王朝 */
+  {parent:"keyumars", children:["hushang"], label:"孫輩繼位復仇"},
+  {parent:"hushang", children:["tahmuras"], label:"發現火與鍛鐵的傳承"},
+  {parent:"tahmuras", children:["jamshid"], label:"縛魔王之弟繼位"},
+  {parent:"jamshid", children:["jam_e_jam"], label:"映照世界的寶盞"},
+  {spouses:["jamshid","farr"], marriage:"partner", label:"因驕矜而失去王權光輝", labelClass:"blood"},
+  /* 佐哈克與費里頓 */
+  {spouses:["angra_mainyu","zahhak"], marriage:"partner", label:"扮作廚師誘惑弒父篡位", labelClass:"blood"},
+  {spouses:["zahhak","jamshid"], marriage:"partner", label:"篡奪王位・鋸殺前王", labelClass:"blood"},
+  {spouses:["kaveh","fereydun"], marriage:"partner", label:"揭竿而起・擁立英雄王"},
+  {spouses:["fereydun","zahhak"], marriage:"partner", label:"以牛頭權杖擊倒暴君", labelClass:"blood"},
+  {parent:"zahhak", children:["mount_damavand"], label:"永世鎮鏈之地"},
+  {parent:"fereydun", children:["salm","tur","iraj"], label:"三分天下授予三子"},
+  {spouses:["salm","iraj"], marriage:"partner", label:"與次兄合謀弒害幼弟", labelClass:"blood"},
+  {spouses:["tur","iraj"], marriage:"partner", label:"合謀弒害幼弟・世仇之始", labelClass:"blood"},
+  {parent:"iraj", children:["manuchehr"], label:"孫輩起兵復仇"},
+  {spouses:["manuchehr","salm"], marriage:"partner", label:"起兵伐討・一雪深仇", labelClass:"blood"},
+  {spouses:["manuchehr","tur"], marriage:"partner", label:"起兵伐討・一雪深仇", labelClass:"blood"},
+  /* 神鳥與薩姆家族 */
+  {spouses:["sam","simurgh"], marriage:"partner", label:"棄子荒山・神鳥攜回撫育", labelClass:"ritual"},
+  {parent:"sam", children:["zal"], label:"因白髮而棄・多年後相認"},
+  {spouses:["zal","rudabeh"], marriage:"primary", children:["rostam"], label:"衝破宿怨的絕美姻緣"},
+  {spouses:["zal","simurgh"], marriage:"partner", label:"羽毛法寶・屢次化險為夷"},
+  /* 羅斯坦一系 */
+  {spouses:["rostam","rakhsh"], marriage:"partner", label:"人馬情誼・畢生相伴"},
+  {spouses:["rostam","tahmineh"], marriage:"secondary", children:["sohrab"], label:"借宿一夜・臂環為信"},
+  {parent:"rostam", children:["faramarz"], label:"另一子・興兵復父仇"},
+  {spouses:["rostam","sohrab"], marriage:"partner", label:"陣前不識父子相殘", labelClass:"blood"},
+  {spouses:["rostam","div_sepid"], marriage:"partner", label:"七功績終戰・剖心療眼", labelClass:"blood"},
+  {spouses:["rostam","esfandiyar"], marriage:"partner", label:"箭射雙目・惺惺相惜的悲劇", labelClass:"blood"},
+  {spouses:["rostam","haft_khan"], marriage:"partner", label:"隻身闖關的七道試煉"},
+  {spouses:["simurgh","esfandiyar"], marriage:"partner", label:"指點制敵雙眼弱點的祕方"},
+  /* 凱揚王朝 */
+  {parent:"kay_kavus", children:["siyavash"], label:"剛愎之王的悲劇之子"},
+  {spouses:["kay_kavus","div_sepid"], marriage:"partner", label:"侵犯妖境致盲・羅斯坦相救", labelClass:"blood"},
+  {spouses:["siyavash","afrasiyab"], marriage:"partner", label:"受禮遇招為東床快婿・終被構陷處死", labelClass:"blood"},
+  {parent:"siyavash", children:["kay_khosrow"], label:"含冤而死・遺孤流落圖蘭"},
+  {spouses:["kay_khosrow","afrasiyab"], marriage:"partner", label:"為父復仇・終結圖蘭外祖", labelClass:"blood"},
+  /* 比讓與馬妮傑 */
+  {spouses:["bijan","manijeh"], marriage:"primary", label:"敵國姻緣・枯井蒙冤數年"},
+  {spouses:["rostam","bijan"], marriage:"partner", label:"喬裝商隊救出枯井"},
+  /* 巾幗英雄 */
+  {spouses:["gordafarid","sohrab"], marriage:"partner", label:"女扮男裝迎戰・美色惑敵拖延", labelClass:"blood"},
+];
+
+const PS_NODE_NAMES = {
+  zurvan:{kojiki:"Zurvān",nihonshoki:"Zurvan",reading:"Zurvān",aliases:["祖爾凡","無限時間神","祖爾萬教派"],shrine:"—"},
+  ahura_mazda:{kojiki:"Ahura Mazdā",nihonshoki:"Ohrmazd（中古波斯語）",reading:"Ahura Mazdā",aliases:["歐爾馬茲德","霍爾木茲","馬茲達","智慧之主"],shrine:"波斯波利斯"},
+  angra_mainyu:{kojiki:"Aŋra Mainyu",nihonshoki:"Ahriman（中古波斯語）",reading:"Aŋra Mainyu",aliases:["阿赫里曼","阿里曼","破壞之靈"],shrine:"—"},
+  spenta_mainyu:{kojiki:"Spənta Mainyu",nihonshoki:"Spenta Mainyu",reading:"Spənta Mainyu",aliases:["斯彭塔曼紐","善靈","豐饒之靈"],shrine:"—"},
+  vohu_manah:{kojiki:"Vohu Manah",nihonshoki:"Bahman（中古波斯語）",reading:"Vohu Manah",aliases:["巴赫曼","沃胡瑪納","善念之神"],shrine:"—"},
+  asha_vahishta:{kojiki:"Aša Vahišta",nihonshoki:"Ardvahisht（中古波斯語）",reading:"Aša Vahišta",aliases:["阿爾德瓦希什特","阿沙瓦希什塔","真理秩序神"],shrine:"—"},
+  khshathra_vairya:{kojiki:"Xšaθra Vairya",nihonshoki:"Shahrevar（中古波斯語）",reading:"Xšaθra Vairya",aliases:["沙赫雷瓦爾","理想王國之神","金屬之神"],shrine:"—"},
+  spenta_armaiti:{kojiki:"Spənta Ārmaiti",nihonshoki:"Spandarmad（中古波斯語）",reading:"Spənta Ārmaiti",aliases:["斯潘達爾瑪德","大地女神","虔誠女神"],shrine:"—"},
+  haurvatat:{kojiki:"Haurvatāt",nihonshoki:"Hordad（中古波斯語）",reading:"Haurvatāt",aliases:["霍爾達德","豪爾瓦塔特","康健女神"],shrine:"—"},
+  ameretat:{kojiki:"Amərətāt",nihonshoki:"Amordad（中古波斯語）",reading:"Amərətāt",aliases:["阿莫爾達德","阿梅雷塔特","不朽女神"],shrine:"—"},
+  mithra:{kojiki:"Miθra",nihonshoki:"Mehr／Mithras（羅馬密特拉教）",reading:"Miθra",aliases:["米特拉","密斯拉","梅赫爾","密特拉教"],shrine:"塔赫特蘇萊曼"},
+  anahita:{kojiki:"Ardvī Sūrā Anāhitā",nihonshoki:"Anahid（中古波斯語）",reading:"Anāhitā",aliases:["阿娜希德","娜希德","純潔水神"],shrine:"卡爾克・費魯扎巴德"},
+  sraosha:{kojiki:"Sraoša",nihonshoki:"Srosh（中古波斯語）",reading:"Sraoša",aliases:["蘇魯什","斯羅什","服從之神"],shrine:"—"},
+  rashnu:{kojiki:"Rašnu",nihonshoki:"Rashn（中古波斯語）",reading:"Rašnu",aliases:["拉什恩","正義審判神"],shrine:"—"},
+  vayu:{kojiki:"Vayu",nihonshoki:"Vay（中古波斯語）",reading:"Vayu",aliases:["瓦伊","風神"],shrine:"—"},
+  atar:{kojiki:"Ātar",nihonshoki:"Adar（中古波斯語）",reading:"Ātar",aliases:["阿達爾","聖火神"],shrine:"亞茲德"},
+  tishtrya:{kojiki:"Tištrya",nihonshoki:"Tir（中古波斯語）",reading:"Tištrya",aliases:["提爾","天狼星神","降雨神"],shrine:"—"},
+  verethragna:{kojiki:"Vərəθraγna",nihonshoki:"Bahram（中古波斯語）",reading:"Vərəθraγna",aliases:["巴赫拉姆","韋拉斯拉格納","勝利之神"],shrine:"—"},
+  chista:{kojiki:"Daēnā",nihonshoki:"Din（中古波斯語）",reading:"Daēnā",aliases:["達埃娜","丁","良知女神","靈魂之鏡"],shrine:"—"},
+  ashi:{kojiki:"Aši Vaŋuhī",nihonshoki:"Ard（中古波斯語）",reading:"Aši",aliases:["阿爾德","阿希","福運女神"],shrine:"—"},
+  zam:{kojiki:"Zam",nihonshoki:"Zamyad（中古波斯語）",reading:"Zam",aliases:["扎米亞德","大地女神"],shrine:"—"},
+  rapithwina:{kojiki:"Rapiθwina",nihonshoki:"Rapithwin（中古波斯語）",reading:"Rapiθwina",aliases:["拉皮特溫","正午之神"],shrine:"—"},
+  aeshma:{kojiki:"Aēšma",nihonshoki:"Xešm（中古波斯語）",reading:"Aēšma",aliases:["赫什姆","阿斯莫德","狂怒魔"],shrine:"—"},
+  aka_manah:{kojiki:"Aka Manah",nihonshoki:"Akoman（中古波斯語）",reading:"Aka Manah",aliases:["阿科曼","惡念魔"],shrine:"—"},
+  indra_daeva:{kojiki:"Indra",nihonshoki:"Andar（中古波斯語）",reading:"Indra",aliases:["安達爾","謊言魔"],shrine:"—"},
+  saurva:{kojiki:"Saurva",nihonshoki:"Sovar（中古波斯語）",reading:"Saurva",aliases:["索瓦爾","無序之魔"],shrine:"—"},
+  naonhaithya:{kojiki:"Nåŋhaiθya",nihonshoki:"Nanghaith（中古波斯語）",reading:"Nåŋhaiθya",aliases:["南海希亞","不滿之魔"],shrine:"—"},
+  az_daeva:{kojiki:"Āz",nihonshoki:"Az（中古波斯語）",reading:"Āz",aliases:["阿茲魔","貪婪之魔"],shrine:"—"},
+  apaosha:{kojiki:"Apaoša",nihonshoki:"Apaosh（中古波斯語）",reading:"Apaoša",aliases:["阿保沙","旱魃惡魔"],shrine:"—"},
+  jeh:{kojiki:"Jahī",nihonshoki:"Jeh（中古波斯語）",reading:"Jahī",aliases:["賈希","污穢原魔"],shrine:"—"},
+  azhi_dahaka_myth:{kojiki:"Aži Dahāka",nihonshoki:"Dahāg（中古波斯語）",reading:"Aži Dahāka",aliases:["阿茲達哈卡","三頭龍","佐哈克原型"],shrine:"—"},
+  gayomard:{kojiki:"Gayō.marətan",nihonshoki:"Gayomard（中古波斯語）",reading:"Gayō.marətan",aliases:["嘉約瑪特","蓋歐瑪特","原初之人"],shrine:"—"},
+  primordial_ox:{kojiki:"Gav Aēwōdāta",nihonshoki:"Gōšūrvan",reading:"Gav Aēwōdāta",aliases:["戈沙烏爾萬","原初公牛","單獨受造之牛"],shrine:"—"},
+  mashya_mashyana:{kojiki:"Mašya／Mašyānā",nihonshoki:"Mashye／Mashyane",reading:"Mašya／Mašyānā",aliases:["瑪什亞","瑪什亞娜","人類始祖"],shrine:"—"},
+  chinvat_bridge:{kojiki:"Cinvatō Pərətu",nihonshoki:"Chinvat Bridge",reading:"Cinvatō Pərətu",aliases:["秦瓦特橋","分辨者之橋","審判之橋"],shrine:"—"},
+  keyumars:{kojiki:"Kayūmarθ",nihonshoki:"Gayomard（王書版）",reading:"Kayūmarθ",aliases:["凱尤馬爾斯","王書第一位王"],shrine:"—"},
+  hushang:{kojiki:"Hōšang",nihonshoki:"Hushang",reading:"Hōšang",aliases:["胡尚王","發現火者"],shrine:"—"},
+  tahmuras:{kojiki:"Taxma Urupi",nihonshoki:"Tahmuras",reading:"Taxma Urupi",aliases:["塔赫穆拉斯","縛魔王"],shrine:"—"},
+  jamshid:{kojiki:"Yima Xšaēta",nihonshoki:"Jamshid",reading:"Yima Xšaēta",aliases:["吉姆希德","閻魔（同源）","黃金時代之王"],shrine:"波斯波利斯"},
+  jam_e_jam:{kojiki:"Jām-e Jam",nihonshoki:"Cup of Jamshid",reading:"Jām-e Jam",aliases:["占世杯","賈姆之杯","世界之鏡"],shrine:"—"},
+  zahhak:{kojiki:"Zahhāk",nihonshoki:"Zahhak／Azhdahak",reading:"Zahhāk",aliases:["扎哈克","查哈克","雙蛇暴君"],shrine:"達馬萬德山"},
+  kaveh:{kojiki:"Kāve",nihonshoki:"Kaveh the Blacksmith",reading:"Kāve",aliases:["卡韋","起義鐵匠","卡維揚旗"],shrine:"—"},
+  fereydun:{kojiki:"Θraētaona",nihonshoki:"Fereydun／Faridun",reading:"Θraētaona",aliases:["費雷敦","法里東","屠龍英雄王"],shrine:"—"},
+  salm:{kojiki:"Salm",nihonshoki:"Salm",reading:"Salm",aliases:["薩爾姆","長子・羅馬之祖"],shrine:"—"},
+  tur:{kojiki:"Tūr",nihonshoki:"Tur",reading:"Tūr",aliases:["圖爾王子","圖蘭之祖"],shrine:"—"},
+  iraj:{kojiki:"Ēraj",nihonshoki:"Iraj",reading:"Ēraj",aliases:["伊拉吉","伊朗國名之源"],shrine:"—"},
+  manuchehr:{kojiki:"Manuščiθra",nihonshoki:"Manuchehr",reading:"Manuščiθra",aliases:["馬努切爾","復仇之孫"],shrine:"—"},
+  simurgh:{kojiki:"Saēna Mərəγō",nihonshoki:"Simorgh／Senmurv",reading:"Saēna Mərəγō",aliases:["西摩夫","森穆爾夫","神鳥","鳳凰原型"],shrine:"世界樹"},
+  sam:{kojiki:"Sām",nihonshoki:"Sam",reading:"Sām",aliases:["薩姆王","棄子英雄"],shrine:"—"},
+  zal:{kojiki:"Zāl",nihonshoki:"Zal",reading:"Zāl",aliases:["扎勒","白髮英雄","鳥語智者"],shrine:"—"},
+  rudabeh:{kojiki:"Rūdābe",nihonshoki:"Rudabeh",reading:"Rūdābe",aliases:["魯達貝","喀布爾公主"],shrine:"喀布爾"},
+  rostam:{kojiki:"Rustahm",nihonshoki:"Rostam／Rustam",reading:"Rustahm",aliases:["魯斯塔姆","羅斯塔姆","波斯赫拉克勒斯"],shrine:"錫斯坦"},
+  rakhsh:{kojiki:"Raxš",nihonshoki:"Rakhsh",reading:"Raxš",aliases:["拉克什","神駒"],shrine:"—"},
+  tahmineh:{kojiki:"Tahmīna",nihonshoki:"Tahmineh",reading:"Tahmīna",aliases:["塔赫米娜","薩曼干公主"],shrine:"薩曼干"},
+  sohrab:{kojiki:"Suhrāb",nihonshoki:"Sohrab",reading:"Suhrāb",aliases:["蘇赫拉布","悲劇之子"],shrine:"—"},
+  faramarz:{kojiki:"Farāmarz",nihonshoki:"Faramarz",reading:"Farāmarz",aliases:["法拉姆爾茲"],shrine:"—"},
+  div_sepid:{kojiki:"Dēw ī Spēd",nihonshoki:"Div-e Sepid",reading:"Dēw ī Spēd",aliases:["斯佩德迪弗","白魔","白妖"],shrine:"馬贊德蘭"},
+  kay_kavus:{kojiki:"Kavi Usan",nihonshoki:"Kay Kavus／Kay Kaus",reading:"Kavi Usan",aliases:["凱卡烏斯王","凱考斯"],shrine:"—"},
+  siyavash:{kojiki:"Syāvarshān",nihonshoki:"Siyavash／Siyavush",reading:"Syāvarshān",aliases:["夏沃什","西亞瓦什","悲劇王子"],shrine:"—"},
+  afrasiyab:{kojiki:"Frangrasyan",nihonshoki:"Afrasiyab",reading:"Frangrasyan",aliases:["阿夫拉西亞卜","圖蘭之王"],shrine:"圖蘭"},
+  kay_khosrow:{kojiki:"Kavi Haosravah",nihonshoki:"Kay Khosrow／Kai Khosrow",reading:"Kavi Haosravah",aliases:["凱霍斯魯","聖王凱霍斯羅"],shrine:"—"},
+  bijan:{kojiki:"Bižan",nihonshoki:"Bizhan",reading:"Bižan",aliases:["比詹","比讓王子"],shrine:"—"},
+  manijeh:{kojiki:"Manižē",nihonshoki:"Manizheh",reading:"Manižē",aliases:["瑪妮潔","圖蘭公主"],shrine:"—"},
+  esfandiyar:{kojiki:"Spəntōdāta",nihonshoki:"Esfandiyar／Isfandiyar",reading:"Spəntōdāta",aliases:["伊斯凡迪亞爾","聖裔王子","雙眼弱點"],shrine:"—"},
+  gordafarid:{kojiki:"Gordāfarīd",nihonshoki:"Gordafarid",reading:"Gordāfarīd",aliases:["戈爾達法麗德","女扮男裝戰士"],shrine:"—"},
+  shahnameh:{kojiki:"Šāhnāme",nihonshoki:"Shahnameh／The Book of Kings",reading:"Šāhnāme",aliases:["列王紀","王之書","費爾多西史詩"],shrine:"—"},
+  avesta:{kojiki:"Avesta",nihonshoki:"Avesta",reading:"Avesta",aliases:["阿維斯塔","祆教聖典"],shrine:"—"},
+  gathas:{kojiki:"Gāθā",nihonshoki:"Gathas",reading:"Gāθā",aliases:["伽塔","瑣羅亞斯德讚歌"],shrine:"—"},
+  haft_khan:{kojiki:"Haft Xān",nihonshoki:"Haft Khan-e Rostam",reading:"Haft Xān",aliases:["七關","七試煉","羅斯坦七功績"],shrine:"馬贊德蘭"},
+  farr:{kojiki:"Xᵛarənah",nihonshoki:"Farr／Khvarenah",reading:"Xᵛarənah",aliases:["法拉赫","可瓦雷納","王權神光"],shrine:"—"},
+  mount_damavand:{kojiki:"Duvunāvant",nihonshoki:"Damavand",reading:"Duvunāvant",aliases:["達馬萬德","佐哈克之獄"],shrine:"馬贊德蘭"},
+};
+
 const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
@@ -3429,6 +3688,11 @@ const PANTHEONS = {
     title:'𒀭 美索不達米亞神話系譜', defs:MP_NODE_DEFS, groups:MP_GROUPS, unions:MP_UNIONS, names:MP_NODE_NAMES,
     seed:MESO_USER_EDITS, storage:'meso_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（蘇美／阿卡德名）', kojiki:'蘇美語名', nihonshoki:'阿卡德／巴比倫名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰城市'},
+  },
+  persia: {
+    title:'🔥 波斯神話系譜', defs:PS_NODE_DEFS, groups:PS_GROUPS, unions:PS_UNIONS, names:PS_NODE_NAMES,
+    seed:PERSIA_USER_EDITS, storage:'persia_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（阿維斯陀語）', kojiki:'阿維斯陀語名', nihonshoki:'中古波斯語／王書名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰地'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -4185,13 +4449,14 @@ async function exportHTML(){
   const nEditsJSON = JSON.stringify(LIVE_EDITS.norse);
   const eEditsJSON = JSON.stringify(LIVE_EDITS.egypt);
   const mEditsJSON = JSON.stringify(LIVE_EDITS.mesopotamia);
+  const pEditsJSON = JSON.stringify(LIVE_EDITS.persia);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -4464,6 +4729,7 @@ function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
 function openEgypt(){ openPantheon('egypt'); }
 function openMesopotamia(){ openPantheon('mesopotamia'); }
+function openPersia(){ openPantheon('persia'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
