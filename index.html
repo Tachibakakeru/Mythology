@@ -60,6 +60,7 @@
   .myth-icon.front{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), 0 22px 60px rgba(90,180,255,.3);}
   .myth-icon.front:hover:not(.disabled){box-shadow:0 0 0 2px var(--accent), 0 26px 70px rgba(90,180,255,.45);}
   .myth-icon.disabled{cursor:not-allowed; pointer-events:none;}
+  .myth-icon.region-hidden{display:none;}
   .myth-icon.disabled .glyph{filter:grayscale(1) drop-shadow(0 4px 12px rgba(0,0,0,.5));}
   .myth-icon.disabled .sub{font-style:italic;}
   /* 左右轉動鈕與指示點 */
@@ -80,6 +81,34 @@
   }
   #wheelDots i.on{background:var(--accent); transform:scale(1.45);}
   #wheelHint{color:var(--dim); font-size:.76em; letter-spacing:.05em;}
+
+  /* 首頁地區群組篩選 */
+  #regionFilterWrap{position:relative; display:inline-block;}
+  #regionFilterBtn{
+    background:none; border:1px solid var(--line); color:var(--dim); padding:8px 16px;
+    border-radius:20px; cursor:pointer; font-size:.82em; font-family:inherit;
+    display:inline-flex; align-items:center; gap:6px; letter-spacing:.04em;
+  }
+  #regionFilterBtn:hover, #regionFilterBtn.active{color:var(--accent); border-color:var(--accent);}
+  #regionFilterList{
+    position:absolute; top:120%; left:50%; transform:translateX(-50%); min-width:220px;
+    background:var(--card); border-radius:12px; border:1px solid var(--line);
+    max-height:320px; overflow-y:auto; display:none; z-index:30; padding:6px 0;
+    box-shadow:0 18px 40px rgba(0,0,0,.35);
+  }
+  #regionFilterList.open{display:block;}
+  .rf-row{
+    display:flex; align-items:center; gap:10px; padding:8px 16px; cursor:pointer;
+    font-size:.86em; user-select:none;
+  }
+  .rf-row:hover, .rf-row.rf-focused{background:#2a306033;}
+  .rf-check{
+    width:16px; height:16px; border-radius:4px; border:1px solid var(--line); flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:.75em; color:var(--bg);
+  }
+  .rf-row.rf-checked .rf-check{background:var(--accent); border-color:var(--accent);}
+  .rf-count{margin-left:auto; color:var(--dim); font-size:.85em;}
+  .rf-sep{height:1px; background:var(--line); margin:6px 10px;}
 
   /* ---------- JAPAN VIEW ---------- */
   #japan{display:none;position:fixed;inset:0;background:var(--bg);}
@@ -359,32 +388,35 @@
   <div id="wheelStage">
     <button id="wheelPrev" class="wheelArrow" aria-label="上一個" onclick="wheelStep(-1)">‹</button>
     <div id="wheel">
-    <div class="myth-icon" onclick="openJapan()">
+    <!-- 東亞 -->
+    <div class="myth-icon" data-region="east_asia" onclick="openJapan()">
       <div class="glyph">⛩️</div>
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
-    <div class="myth-icon" onclick="openGreek()">
+    <!-- 歐洲 -->
+    <div class="myth-icon" data-region="europe" onclick="openGreek()">
       <div class="glyph">🏛️</div>
       <div class="label">希臘神話</div>
       <div class="sub">神譜・奧林帕斯・英雄傳說</div>
     </div>
-    <div class="myth-icon" onclick="openNorse()">
+    <div class="myth-icon" data-region="europe" onclick="openNorse()">
       <div class="glyph">⚡</div>
       <div class="label">北歐神話</div>
       <div class="sub">埃達・阿薩神族・諸神黃昏</div>
     </div>
-    <div class="myth-icon" onclick="openEgypt()">
-      <div class="glyph">𓂀</div>
-      <div class="label">埃及神話</div>
-      <div class="sub">九柱神・歐西里斯・冥界審判</div>
+    <div class="myth-icon" data-region="europe" onclick="openCeltic()">
+      <div class="glyph">🍀</div>
+      <div class="label">凱爾特神話</div>
+      <div class="sub">圖阿哈德達南・庫丘林・芬尼亞</div>
     </div>
-    <div class="myth-icon" onclick="openMesopotamia()">
+    <!-- 中東 -->
+    <div class="myth-icon" data-region="middle_east" onclick="openMesopotamia()">
       <div class="glyph">𒀭</div>
       <div class="label">美索不達米亞神話</div>
       <div class="sub">提亞馬特・吉爾伽美什・伊絲塔</div>
     </div>
-    <div class="myth-icon" onclick="openPersia()">
+    <div class="myth-icon" data-region="middle_east" onclick="openPersia()">
       <div class="glyph faravahar-glyph">
         <svg class="faravahar-icon" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path fill="currentColor" d="M130,42 150,15 156,30 172,8 180,26 198,10 206,30 222,18 228,36 240,32 232,50 130,58 Z"/>
@@ -405,12 +437,20 @@
       <div class="label">波斯神話</div>
       <div class="sub">法拉瓦哈・阿胡拉·馬茲達・羅斯坦</div>
     </div>
-    <div class="myth-icon" onclick="openCeltic()">
-      <div class="glyph">🍀</div>
-      <div class="label">凱爾特神話</div>
-      <div class="sub">圖阿哈德達南・庫丘林・芬尼亞</div>
+    <!-- 非洲 -->
+    <div class="myth-icon" data-region="africa" onclick="openEgypt()">
+      <div class="glyph">𓂀</div>
+      <div class="label">埃及神話</div>
+      <div class="sub">九柱神・歐西里斯・冥界審判</div>
     </div>
-    <div class="myth-icon disabled">
+    <!-- 近代創作神話 -->
+    <div class="myth-icon" data-region="modern" onclick="openCthulhu()">
+      <div class="glyph">🐙</div>
+      <div class="label">克蘇魯神話</div>
+      <div class="sub">舊日支配者・偉大種族・瘋狂邊緣</div>
+    </div>
+    <!-- 其他傳說（非神話） -->
+    <div class="myth-icon disabled" data-region="other">
       <div class="glyph">🕊️</div>
       <div class="label">天使與惡魔</div>
       <div class="sub">九級天使・所羅門七十二柱・敬請期待</div>
@@ -420,6 +460,10 @@
   </div>
   <div id="wheelDots"></div>
   <div id="wheelHint">← → 方向鍵、滑鼠拖曳或滾輪皆可旋轉</div>
+  <div id="regionFilterWrap">
+    <button id="regionFilterBtn" onclick="toggleRegionFilter()">🌐 顯示地區：全部 ▾</button>
+    <div id="regionFilterList" role="listbox" aria-label="選擇要顯示的地區"></div>
+  </div>
 </div>
 
 <div id="japan">
@@ -2875,6 +2919,7 @@ const EGYPT_USER_EDITS = {};
 const MESO_USER_EDITS = {};
 const PERSIA_USER_EDITS = {};
 const CELTIC_USER_EDITS = {};
+const CTHULHU_USER_EDITS = {};
 // @@EDITS_END
 
 /* ============================================================
@@ -4010,6 +4055,180 @@ const CL_NODE_NAMES = {
   teutates:{kojiki:"Toutatis",nihonshoki:"Teutates",reading:"Toutatis",aliases:["圖塔提斯","部族之神"],shrine:"高盧"},
 };
 
+/* ============================================================
+   資料：克蘇魯神話系譜（洛夫克拉夫特及其後繼者的架空神話體系）
+   [id, name, 英文原名, role, col, row, desc, isNote, tag]
+   ============================================================ */
+const CT_NODE_DEFS = [
+/* ---- 外神（Outer Gods）：宇宙核心的盲目力量 ---- */
+["azathoth","阿撒托斯","Azathoth","盲目痴愚之神・萬物核心的原始渾沌",8.5,0,"蟄伏於宇宙中心之外、超越時空本身的「盲目痴愚之神」，一切存在的終極源頭與虛無的化身。祂本身沒有意志、沒有思想，只是無定形、冒著泡沫的原始渾沌核心，卻被無數奇形怪狀的侍從舞者與吹笛人環繞，以單調刺耳的橫笛聲永遠哄著祂不致甦醒——一旦阿撒托斯真正「醒來」，據信整個宇宙將隨之瓦解崩潰。祂是克蘇魯神話中最接近「終極虛無」概念的存在，比任何邪惡更加可怖，因為祂根本毫無意圖。",false,"key"],
+["yog_sothoth","犽格·索托斯","Yog-Sothoth","萬門之匙・與時空共存的知曉者",6,1.2,"「萬事萬物的關鍵與守門者」，與宇宙的時間、空間本身共存共廣延，過去、現在、未來對祂而言同時可見。祂的外貌被描述為一團由發光球體構成的聚合體，是唯一能開啟通往其他次元與時代之門的存在——瘋狂術士企圖召喚外神或使異界生物降臨人間，多半須先向犽格·索托斯祈請借道。《敦威治恐怖事件》中的雙胞胎威爾伯·惠特利兄弟，正是祂與人類女子結合所誕下的可怖後裔。",false,"key"],
+["nyarlathotep","奈亞拉托提普","Nyarlathotep","爬行渾沌・千面使者",10,1.2,"外神們在人間的信使與代言人，唯一會主動、蓄意與人類互動甚至以人類姿態行走於世的外神，因而被稱為「爬行渾沌」。祂擁有無數化身——黑法老、蘇丹的黑影、彗星使者等等，總在人類最脆弱、最傲慢的時刻現身，以看似理性的姿態引領文明走向自我毀滅的瘋狂，其惡意（相較其他外神的純粹無意識）是克蘇魯神話中少數帶有「主動作惡」意味的存在。",false,"key"],
+["shub_niggurath","莎布·尼古拉絲","Shub-Niggurath","千仔之黑山羊・豐饒外神",8.5,2.4,"「林中的黑山羊，擁有千仔」，掌管生育、豐饒與不受控的野性繁殖力的外神，形象模糊卻總與無數觸手狀後裔、黑暗森林及儀式性狂歡祭典相繫。祂的信眾遍布世界各地隱密的邪教組織，常在月圓之夜舉行以牲畜獻祭的儀式呼求祂的降臨與賜福，是克蘇魯神話中少數帶有明確「生殖與繁衍」象徵的外神。"],
+
+/* ---- 舊日支配者（Great Old Ones） ---- */
+["cthulhu","克蘇魯","Cthulhu","沉睡於拉萊耶的舊日支配者",4,3.6,"神話體系中最著名的舊日支配者，形似巨大章魚、龍與人形的混合體，身軀龐大如山、雙翼可拍打星際虛空。祂沉睡於太平洋深處沉沒的石造都市拉萊耶之中，當星辰運行至正確方位時將會甦醒、重返人間統治。祂雖然沉睡，心靈卻能透過夢境向敏感的人類（尤其藝術家與瘋子）發送訊息，全球各地的邪教徒因而不約而同創作出相似的詭異意象與呢喃咒語「Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn」（祂長眠於拉萊耶的宅邸中等死，做著似死非死的夢）。",false,"key"],
+["hastur","哈斯塔","Hastur","黃衣之王・不可名狀者",5.5,3.6,"「不可名狀者」，其名諱在信眾間被視為禁忌、輕易道出便會招致厄運，常以委婉語「那位不可提及者」代稱。祂與神祕的劇作《黃衣之王》及戴著蒼白面具、身披襤褸黃袍的化身「黃衣之王」緊密相連——閱讀劇本第二幕者往往陷入無可挽回的瘋狂。祂據信棲居於畢宿五附近的哈利湖畔，其神話形象在後繼作家的擴充下逐漸與外太空的星際空間及風暴意象相繫，是克蘇魯神話中最曖昧、跨作者詮釋歧異最大的舊日支配者之一。"],
+["dagon_ct","達貢","Dagon","深潛者所奉的巨大海神",7,3.6,"深潛者一族所信奉崇拜的巨大水棲神祇，體型如山、鱗甲遍布，棲息於大西洋深海溝壑之中，與美索不達米亞古神達貢同名卻是全然不同的存在。祂被視為克蘇魯的臣屬或血親，統率深潛者與人類雜交產下的混血後裔，印斯茅斯鎮的居民正是因與深潛者及其信仰達貢而逐漸產生魚類般的變異體貌，最終盡數遁入海底、永生不死地侍奉祂。",false,"key"],
+["cthugha","克圖格亞","Cthugha","火焰化身的舊日支配者",8.5,3.6,"棲居於北落師門星系、由熾烈火焰構成的舊日支配者，形似巨大的燃燒生物，所到之處萬物盡焚。祂的信眾以召喚祂來焚燒、對抗其他更難以應付的異界威脅，卻往往因無法控制祂的破壞力而引火自焚，是克蘇魯神話中少數被人類拿來「以邪制邪」的危險力量。"],
+["ithaqua","伊塔誇","Ithaqua","極地凜風的行者",10,3.6,"游走於極地雪原與凍原之上的巨大人形舊日支配者，能在極寒的暴風雪中無聲無息地行走，擄走迷途的旅人凌空帶往極遠之地，被擄者即便僥倖生還也已被凍傷、瘋狂並帶有詭異的星界烙印。因紐特與加拿大原住民傳說中的「溫迪戈」被部分神話擴充作者援引為與伊塔誇相繫的傳說原型。"],
+["tsathoggua","查托古亞","Tsathoggua","蟄伏於恩格伯洞窟的蟾蜍神",11.5,3.6,"外形似巨大蟾蜍與蝙蝠混合的舊日支配者，慵懶蟄伏於地底深處的恩格伯洞窟中，性喜幽暗陰冷、極少主動行動，信眾須深入地底才能覲見祂。祂是克蘇魯神話中少數帶有「懶散」性格特徵的存在，比起主動作惡更近乎冷漠地接受供奉，其形象最早由克拉克·艾希頓·史密斯所創，後經洛夫克拉夫特納入共通神話體系。"],
+["yig","伊格","Yig","眾蛇之父",13,3.6,"北美原住民傳說中蛇類的守護神與化身，性情喜怒無常——虔誠敬奉者將蒙庇佑，冒犯蛇類或褻瀆其信仰者則遭其化身的蛇群噬咬報復，中毒者甚至可能產生駭人的蛇形變異後裔。祂每年秋季會陷入類似冬眠的沉睡狀態，其子嗣「蛇人」一族則散居世界各地隱祕角落，是舊日支配者中與美洲原住民信仰融合最深的一位。"],
+["nyogtha","尼奧格塔","Nyogtha","不可名狀之物・地底潛藏者",14.5,3.6,"「不可名狀之物」，蟄伏於地表深處的黑暗無定形存在，僅在極罕見的邪教儀式中被召喚至地表，所過之處萬物腐化崩解。祂的形象與存在細節在神話文獻中記載稀少，正因其「不可名狀」的核心特質，愈發加深了敘事中的恐怖曖昧感。",true],
+
+/* ---- 侍從種族 ---- */
+["great_race_yith","伊斯的偉大種族","The Great Race of Yith","能夠心靈換位穿越時空的錐形生物",3,4.8,"外貌呈巨大錐形、以觸手代替感官器官的高度文明種族，掌握將自身心靈投射、與其他時空生物交換軀體的祕術，藉此縱橫億萬年的時間長河進行研究考察，其龐大的圖書檔案「那卡提克手稿」記錄了宇宙間近乎所有已知文明的興衰。祂們畏懼一種名為「飛掠者」的無形生物，曾因其侵擾而集體換位遷往未來的甲蟲軀體之中逃亡，是克蘇魯神話中少數以「知識與求生」而非純粹恐怖為主軸的種族。"],
+["elder_things","古老者","Elder Things","南極冰原下的桶狀星際先驅文明",4.5,4.8,"外形呈桶狀軀幹、頭頂五角星狀感官器官、背生蝙蝠般薄翼的古老星際種族，遠在數億年前便降臨地球，建造出宏偉的石造都市，並以基因工程創造出修格斯作為勞役奴僕。祂們的文明最終因修格斯叛亂與極地嚴寒而衰亡，殘存個體長眠於南極冰層之下，直至現代探險隊意外將其喚醒——牠們的科學成就與最終的悲劇性衰亡，使其成為神話體系中形象最接近「悲劇英雄」而非純粹恐怖的種族。"],
+["mi_go","米・戈","Mi-Go","來自幽果思的真菌類外星生物",6,4.8,"來自冥王星（神話中稱為「幽果思」）、外形介於甲殼類與真菌之間的星際種族，擅長精密的外科手術與生化科技，能將人類大腦完好取出、封存於特製金屬罐中攜帶至星際各處「旅行」而不損及意識。祂們在地球山區祕密開採稀有礦物，佛蒙特山區的目擊事件與失蹤案件常被神話擴充作者歸咎於祂們的活動。"],
+["deep_ones","深潛者","Deep Ones","與人類雜交的不死水棲種族",7.5,4.8,"棲居深海、外貌類似人形蛙魚混合體的水棲種族，長生不老、信奉海神達貢與克蘇魯，會與沿海人類部族締結契約、以財富與豐收交換人類獻祭與通婚。麻薩諸塞州印斯茅斯鎮的居民正因歷代與深潛者通婚而逐漸產生俗稱「印斯茅斯面容」的魚類特徵，年長後終將完全變異、遁入海底過著永生不死的生活。",false,"key"],
+["shoggoths","修格斯","Shoggoths","古老者創造的無定形黏液勞役生物",9,4.8,"由古老者以生物工程創造、原始無定形的巨大黏液生物，通體布滿臨時性的眼睛、嘴巴與偽足，能隨意變形、模仿任何形狀以執行各種勞役。祂們在漫長的奴役歲月中逐漸演化出自主意識，最終發動叛亂推翻了創造者古老者的統治，殘存個體至今仍潛伏於南極冰原與海底深處，遇上入侵者時會發出令人牙齒發酸的「特庫力！特庫力！」怪叫聲。",false,"key"],
+["ghouls","食屍鬼","Ghouls","棲居墓地與夢境邊界的犬面生物",10.5,4.8,"外形介於人與犬之間、以屍體為食的地底生物，棲居於世界各地的墓穴與地下墓道之中，部分個體原是因長期食屍或受詛咒而逐漸變異的人類。祂們與夢境國度往來密切，作家蘭道夫·卡特在夢境歷險中甚至結識了一位由人類友人變異而成的食屍鬼首領，顯示這一物種比起純粹的恐怖存在，更帶有一絲灰色地帶的悲哀與可親近性。"],
+["star_vampires","星之精","Star Vampires","肉眼不可見的吸血飛行生物",12,4.8,"僅能透過特殊器物（如伊格之眼寶石）方能窺見其形的隱形飛行生物，靠吸食生物的血液與生命力維生，來源被認為與外太空或異次元有關。牠們無聲無息地獵殺獵物，受害者往往在毫無防備間被榨乾致死，是克蘇魯神話中「不可見的恐怖」此一母題的代表物種。"],
+["serpent_people","蛇人","Serpent People","伊格所生的蛇形擬人種族",13.5,4.8,"眾蛇之父伊格的子嗣，外貌介於人類與蛇類之間，擁有高度發展卻已然沒落的古老文明，殘存部族隱居於世界各地人跡罕至之處，偶爾會與人類接觸或發生衝突。祂們的形象融合了美洲原住民蛇神信仰與失落文明母題，是神話體系中種族設定最具悲劇色彩的沒落文明之一。"],
+["flying_polyps","飛掠者","Flying Polyps","古老者天敵・無形的風之生物",15,4.8,"半實體、幾乎無法被人類感官直接察覺的古老外星生物，能操縱強風與氣壓製造毀滅性的破壞，曾與伊斯的偉大種族爆發長期戰爭，迫使後者集體換位遷逃至未來的甲蟲軀體以避難。牠們如今仍封印棲息於澳洲內陸的地底遺跡之中，是少數令「偉大種族」都心生畏懼的存在。"],
+
+/* ---- 典籍與神器 ---- */
+["necronomicon","死靈之書","Necronomicon","阿拉伯瘋狂詩人所著的禁忌典籍",4,6,"由「瘋狂的阿拉伯人」阿卜杜·阿爾哈茲萊德於西元八世紀所著的禁忌典籍，原名《基塔布·阿爾阿齊夫》，記載了大量關於外神、舊日支配者及召喚儀式的危險知識。此書歷經多次翻譯與刪節版本流傳於世（拉丁文版尤為知名），世界各地圖書館多將其列為禁書、嚴加看管，然而每每仍有瘋狂學者或邪教徒設法取得並因書中知識而萬劫不復——閱讀本身即被視為足以侵蝕心智的危險行為。",false,"key"],
+["elder_sign","老者印記","Elder Sign","古老者用以封印邪物的護符符號",5.5,6,"一種形似五角星加上觸手狀紋樣的古老符號，相傳為古老者所創，具有封印、驅逐修格斯及其他異界邪物的力量。後世的神話擴充故事中，這枚符號被廣泛用作抵禦舊日支配者與其信眾的護身法器，佩戴或刻畫於門戶、封印之上以求平安。",true],
+["silver_key","銀鑰匙","Silver Key","開啟夢境與時空之門的神祕鑰匙",7,6,"一把外形古樸、雕滿難解符文的銀製鑰匙，相傳能開啟通往夢境國度、其他時空乃至意識深處的隱密之門。夢境旅人蘭道夫·卡特正是憑藉此鑰匙一度重返童年的夢境時空，並在其後的歷險中利用它與外神、異界文明的知識穿梭於不同的存在維度之間。",true],
+["pnakotic_manuscripts","那卡提克手稿","Pnakotic Manuscripts","伊斯種族留下的龐大知識檔案",8.5,6,"由伊斯的偉大種族在其漫長的時間旅行考察中所編纂留下的浩瀚知識檔案，記錄了地球乃至宇宙間近乎所有已知文明的興衰與各類禁忌知識。部分殘卷流落人間，被視為與死靈之書齊名的重要神話文獻，狂熱的學者往往窮盡一生尋訪其蹤跡。",true],
+["king_in_yellow_book","黃衣之王（劇本）","The King in Yellow","導致讀者瘋狂的禁忌劇作",10,6,"一部虛構的兩幕劇作，第一幕看似平凡無害，第二幕卻蘊藏著足以令任何讀者陷入無可挽回瘋狂與絕望的駭人真相，被普遍視為足以摧毀心智的禁忌讀物。劇本內容與舊日支配者哈斯塔及神祕的「黃衣之王」化身緊密相繫，是神話體系中「知識本身即是詛咒」此一核心母題最直接的體現。",true],
+
+/* ---- 重要地點 ---- */
+["rlyeh","拉萊耶","R'lyeh","太平洋海底沉睡的石造死城",4,7.2,"沉沒於南太平洋深處的巨大石造都市，以違反常理的非歐幾里得幾何建築而聞名——牆角看似凸出實則凹陷，透視法在此徹底失效。舊日支配者克蘇魯正沉睡於此城深處的巨大石棺之中，等待星辰運行至正確方位時破棺而出、重返人間。一九二五年一艘船隻曾意外目睹此城短暫浮出海面，船員因目睹其違反理性的建築結構而陷入瘋狂。",true],
+["yuggoth","幽果思","Yuggoth","米・戈所居的冥王星",5.5,7.2,"太陽系最外緣的行星（即冥王星），終年幽暗酷寒，是米・戈一族的家鄉與礦業基地。祂們自此星際往返地球開採稀有礦物，並將地球人的大腦帶回此地供研究之用，是神話體系中「地球並非孤立存在」此一宇宙恐怖核心命題的具體地理象徵。",true],
+["kadath","卡達斯","Kadath","眾神隱居的夢境國度祕境",7,7.2,"矗立於夢境國度極北荒寒之地的傳說之城，地球諸神——那些較為溫和、近乎人性化的「地球神明」——在此隱居，逃避外神與舊日支配者的注視與統治。夢境旅人蘭道夫·卡特曾三度深入夢境國度尋訪此地，其歷險記述構成了神話體系中最富奇幻色彩、相對較不恐怖的支線敘事。",true],
+["dreamlands","夢境國度","The Dreamlands","與清醒世界平行存在的夢中異境",8.5,7.2,"一片透過特定咒語或天賦異稟者的睡夢即可進入的平行異境，擁有自身獨立的地理、種族與神祇體系，食屍鬼、樹人夜魘及較溫和的地球諸神皆棲居於此。它與清醒世界的關係曖昧不明，部分神話擴充作者將其詮釋為死者靈魂或潛意識投射所匯聚而成的集體異空間。",true],
+["arkham","阿卡姆","Arkham","虛構的麻薩諸塞州古老城鎮",10,7.2,"洛夫克拉夫特虛構的新英格蘭古老城鎮，米斯卡塔尼克大學的所在地，城中古舊的維多利亞式建築與濃厚的清教徒歷史氛圍，使其成為神話體系中多起怪異事件與禁忌研究的舞台核心，堪稱「克蘇魯神話宇宙」的地理原點。",true],
+["innsmouth","印斯茅斯","Innsmouth","與深潛者締結契約的沒落漁港",11.5,7.2,"麻薩諸塞州一座衰敗的沿海漁村，鎮民數代以來與深潛者通婚並信奉海神達貢，換取豐收的漁獲與財富，代價則是後代逐漸顯現出俗稱「印斯茅斯面容」的魚類變異特徵，年長後終將完全變異遁入海底。整座城鎮瀰漫著頹敗、隱祕與被外界排斥的詭異氛圍，是神話體系中「血脈詛咒」母題最著名的舞台。",true],
+["dunwich","敦威治","Dunwich","惠特利家族所在的窮鄉僻壤",13,7.2,"麻薩諸塞州一處人煙稀少、土地貧瘠的窮鄉僻壤，瘋狂的惠特利家族世居於此，家族成員威爾伯·惠特利正是犽格·索托斯與人類女子所生的可怖後裔，其胎生的雙胞胎兄弟因未能維持人形而被幽禁於農莊中扶養，最終釀成震動整個地區的「敦威治恐怖事件」。",true],
+["miskatonic_u","米斯卡塔尼克大學","Miskatonic University","收藏死靈之書的虛構學府",8.5,8.4,"位於阿卡姆的虛構大學，以其禁書室收藏有死靈之書等多部禁忌典籍而聞名，校內學者屢屢因研究這些危險知識而陷入瘋狂或招致異界威脅——瘋狂山脈探險隊、赫伯特·韋斯特的復生實驗，皆與這所學府淵源深厚，是神話體系中「學術追求招致毀滅」母題的核心舞台。",true],
+
+/* ---- 重要人物 ---- */
+["alhazred","阿卜杜·阿爾哈茲萊德","Abdul Alhazred","撰寫死靈之書的瘋狂阿拉伯詩人",4,9.6,"西元八世紀葉門的阿拉伯詩人，相傳曾親身遊歷無人之城「有柱之城伊倫」並窺見禁忌知識，因而撰寫下記載外神與舊日支配者祕密的《基塔布·阿爾阿齊夫》（即後世所稱死靈之書），晚年在眾目睽睽下被某種無形怪物於光天化日之下當街生吞，其死狀之離奇更為此書增添了一層不祥的傳奇色彩。",false,"key"],
+["randolph_carter","蘭道夫·卡特","Randolph Carter","貫穿多篇故事的夢境旅人",6,9.6,"洛夫克拉夫特筆下反覆登場的主角，一位對夢境與異界懷有異常天賦與執著的波士頓紳士，多次憑藉銀鑰匙等神祕法器遊歷夢境國度、尋訪失落之城卡達斯，並在後期故事中因逾越常人所能承受的知識邊界而經歷了自我存在本質的瓦解與轉化，是神話體系中最具連貫性的敘事視角人物。"],
+["herbert_west","赫伯特·韋斯特","Herbert West","癡迷於死者復生實驗的醫學生",8,9.6,"米斯卡塔尼克大學醫學院的天才學生，執著於研發能使死者復生的血清，屢次以新鮮屍體進行實驗，卻總是製造出喪失理智、僅存原始獸性衝動的復生怪物。他的瘋狂實驗最終反噬己身，是神話體系中「科學狂妄招致自我毀滅」母題的代表性人物，其故事也常被視為對瑪麗·雪萊《科學怪人》的黑暗致敬。"],
+["wilbur_whateley","威爾伯·惠特利","Wilbur Whateley","犽格·索托斯之子・敦威治恐怖的核心",10,9.6,"敦威治的惠特利家族之子，實為外神犽格·索托斯與人類女子拉維妮亞·惠特利所生的胎生雙胞胎之一，外貌逐漸顯現出非人的特徵，一心企圖誦念咒語為父親開啟通往地球的大門。他在闖入米斯卡塔尼克大學圖書館竊取死靈之書手稿時意外死於守衛犬之口，其未能維持人形的孿生兄弟則在他死後失控肆虐鄉野，釀成「敦威治恐怖事件」。",false,"key"],
+["armitage","阿米蒂奇教授","Henry Armitage","阻止敦威治恐怖的圖書館員學者",11.5,9.6,"米斯卡塔尼克大學的圖書館員與資深學者，在識破威爾伯·惠特利的真實目的後，聯合同僚鑽研死靈之書中的驅逐咒語，在敦威治恐怖事件的最終關頭成功詠誦反制咒語，將惠特利那頭失控的孿生兄弟逐回其父犽格·索托斯所在的異次元，是神話體系中少數成功挫敗外神圖謀的人類角色典範。"],
+["charles_dexter_ward","查爾斯·德克斯特·瓦德","Charles Dexter Ward","被先祖亡魂附身的年輕人",13,9.6,"羅德島普洛威頓斯的年輕紳士，因醉心研究先祖約瑟夫·柯溫（一名曾修習禁忌煉金術與死者復生術的殖民時代術士）的事蹟，竟意外成功復活了先祖的殘存魂魄，最終被其反噬奪舍、取代自己的身分繼續作惡，是神話體系中「先祖之罪殃及後人」母題的代表性悲劇。"],
+
+/* ---- 故事與事件 ---- */
+["call_of_cthulhu_note","克蘇魯的呼喚","The Call of Cthulhu","確立克蘇魯神話核心宇宙觀的短篇",4,10.8,"洛夫克拉夫特一九二八年發表的短篇小說，透過一份遺留手稿拼湊出世界各地邪教徒同步夢見拉萊耶與克蘇魯的詭異事件，並記述了一艘船隻意外撞見浮出海面的拉萊耶、水手與甦醒的克蘇魯短兵相接的驚悚遭遇。此篇奠定了整個神話體系「人類的理性與存在在宇宙尺度下微不足道」的核心宇宙觀，被公認為克蘇魯神話的開山代表作。",true],
+["dunwich_horror_note","敦威治恐怖事件","The Dunwich Horror","惠特利兄弟與犽格·索托斯之子的浩劫",6,10.8,"記述敦威治鄉間惠特利家族豢養、幽禁著一頭外神犽格·索托斯所生的隱形巨大怪物，其在兄長威爾伯死後失控肆虐鄉野、殘殺牲畜與村民，最終被阿米蒂奇教授等學者以死靈之書中的咒語逐回異次元的驚悚事件，是少數以人類智慧成功挫敗外神圖謀作結的神話故事。",true],
+["mountains_madness_note","瘋狂山脈","At the Mountains of Madness","南極探險隊喚醒古老者的災難紀實",8,10.8,"記述米斯卡塔尼克大學南極科學考察隊，在冰層下發現古老者建造的史前石造都市遺跡，意外喚醒了沉睡億萬年的古老者個體，並目睹了修格斯仍在遺跡深處潛伏遊蕩的驚悚景象。這部作品詳盡描繪了古老者文明由盛轉衰的悲劇歷程，被視為神話體系中「宇宙尺度歷史」書寫的巔峰之作。",true],
+["shadow_innsmouth_note","印斯茅斯的陰影","The Shadow over Innsmouth","揭露深潛者血脈詛咒的調查紀行",10,10.8,"記述一名年輕遊客在造訪衰敗的印斯茅斯鎮期間，逐步揭開鎮民與深潛者通婚換取財富與豐收的祕密，並驚駭發現自己血脈中竟也帶有印斯茅斯的詛咒基因。故事結尾主角非但沒有抗拒這一發現，反倒逐漸期待著自己終將完全變異、遁入海底與親族一同永生的未來——這種「恐怖轉為認同」的結局手法，使其成為神話體系中最具爭議與討論價值的篇章之一。",true],
+
+/* ---- 創作者 ---- */
+["lovecraft_note","H・P・洛夫克拉夫特","H. P. Lovecraft","克蘇魯神話體系的創始作者",4,12,"二十世紀美國恐怖小說家，克蘇魯神話體系的原始創造者，畢生窮困潦倒、作品生前罕受重視，卻在身後透過友人與後繼作家的整理推廣，逐漸成為二十世紀最具影響力的恐怖文學宗師之一。他筆下「宇宙恐怖」的核心精神——人類的理性、道德與存在意義在浩瀚冷漠的宇宙尺度下根本無足輕重——徹底顛覆了傳統哥德恐怖以超自然邪惡為核心的敘事範式，深刻影響了此後近百年的奇幻、恐怖與科幻創作。",true],
+["derleth_note","奧古斯特·德勒斯","August Derleth","擴充並體系化神話架構的後繼作家",6,12,"洛夫克拉夫特的友人與後繼者，在其身故後致力整理、出版其手稿與書信，並創立「阿卡姆之家」出版社延續神話體系的傳播。他進一步將原本零散、彼此矛盾的諸神設定體系化，提出「舊日支配者對抗古神」的善惡二元框架、發明「老者印記」等重要神話元素——儘管部分洛夫克拉夫特純粹主義者認為此舉簡化甚至扭曲了原作曖昧難測的宇宙恐怖精神，德勒斯的整理工作仍是克蘇魯神話得以系統化流傳至今的關鍵推手。",true],
+];
+
+const CT_GROUPS = [
+  ["外神（Outer Gods）", ["azathoth","yog_sothoth","nyarlathotep","shub_niggurath"], "#8f86c8", false],
+  ["舊日支配者（Great Old Ones）", ["cthulhu","hastur","dagon_ct","cthugha","ithaqua","tsathoggua","yig","nyogtha"], "#5ab4ff"],
+  ["侍從種族", ["great_race_yith","elder_things","mi_go","deep_ones","shoggoths","ghouls","star_vampires","serpent_people","flying_polyps"], "#7fa8d8", false],
+  ["典籍與神器", ["necronomicon","elder_sign","silver_key","pnakotic_manuscripts","king_in_yellow_book"], "#c8b090"],
+  ["重要地點", ["rlyeh","yuggoth","kadath","dreamlands","arkham","innsmouth","dunwich","miskatonic_u"], "#90c880", false],
+  ["重要人物", ["alhazred","randolph_carter","herbert_west","wilbur_whateley","armitage","charles_dexter_ward"], "#b08fd8"],
+  ["敦威治恐怖事件", ["wilbur_whateley","armitage","dunwich","yog_sothoth","necronomicon","dunwich_horror_note"], "#c0708a", false],
+  ["印斯茅斯血脈詛咒", ["innsmouth","deep_ones","dagon_ct","shadow_innsmouth_note"], "#6fb0c0", false],
+  ["瘋狂山脈探險", ["elder_things","shoggoths","mountains_madness_note","miskatonic_u"], "#8fb090", false],
+  ["經典故事與事件", ["call_of_cthulhu_note","dunwich_horror_note","mountains_madness_note","shadow_innsmouth_note"], "#a06a8a"],
+  ["創作者與神話體系化", ["lovecraft_note","derleth_note","necronomicon","alhazred"], "#8fb8c8", false],
+];
+
+const CT_UNIONS = [
+  /* 外神體系 */
+  {parent:"azathoth", children:["yog_sothoth","nyarlathotep","shub_niggurath"], label:"盲目渾沌核心・環繞而生的外神眷屬", labelClass:"ritual"},
+  {spouses:["yog_sothoth","nyarlathotep"], marriage:"partner", label:"外神門庭・時空之匙與千面使者"},
+  {parent:"yog_sothoth", children:["wilbur_whateley"], label:"與人類女子所生的胎生雙胞胎", labelClass:"blood"},
+  {spouses:["nyarlathotep","cthulhu"], marriage:"partner", label:"外神信使與舊日支配者的傳訊"},
+  /* 舊日支配者與其眷屬種族 */
+  {spouses:["cthulhu","rlyeh"], marriage:"partner", label:"沉睡於此城深處的石棺", labelClass:"ritual"},
+  {spouses:["cthulhu","deep_ones"], marriage:"partner", label:"深潛者所奉的血親尊者"},
+  {spouses:["dagon_ct","deep_ones"], marriage:"partner", label:"深潛者所信奉的巨大海神", labelClass:"ritual"},
+  {spouses:["dagon_ct","innsmouth"], marriage:"partner", label:"鎮民世代信奉以換取財富漁獲", labelClass:"ritual"},
+  {spouses:["hastur","king_in_yellow_book"], marriage:"partner", label:"劇作中若隱若現的化身", labelClass:"ritual"},
+  {parent:"yig", children:["serpent_people"], label:"眾蛇之父所生的蛇形子嗣"},
+  {spouses:["mi_go","yuggoth"], marriage:"partner", label:"棲居的冥王星礦業基地"},
+  {spouses:["elder_things","shoggoths"], marriage:"partner", label:"以生物工程創造的勞役生物・後叛亂", labelClass:"blood"},
+  {spouses:["elder_things","mountains_madness_note"], marriage:"partner", label:"南極冰層下甦醒的悲劇文明", labelClass:"ritual"},
+  {spouses:["great_race_yith","flying_polyps"], marriage:"partner", label:"曾爆發長期戰爭・集體換位遷逃", labelClass:"blood"},
+  {parent:"great_race_yith", children:["pnakotic_manuscripts"], label:"考察億萬年歷史所編纂的知識檔案"},
+  {spouses:["ghouls","dreamlands"], marriage:"partner", label:"棲居於夢境國度的墓穴生物"},
+  {spouses:["ghouls","randolph_carter"], marriage:"partner", label:"夢境歷險中結識的人類故友", labelClass:"ritual"},
+  /* 典籍 */
+  {parent:"alhazred", children:["necronomicon"], label:"窺見禁忌知識後所撰寫的禁書", labelClass:"ritual"},
+  {spouses:["necronomicon","miskatonic_u"], marriage:"partner", label:"禁書室珍藏的手抄本"},
+  {spouses:["necronomicon","wilbur_whateley"], marriage:"partner", label:"闖入圖書館竊取手稿而亡", labelClass:"blood"},
+  {spouses:["necronomicon","armitage"], marriage:"partner", label:"鑽研驅逐咒語以阻止災厄"},
+  {spouses:["randolph_carter","silver_key"], marriage:"partner", label:"憑此鑰匙重返夢境時空", labelClass:"ritual"},
+  {spouses:["randolph_carter","kadath"], marriage:"partner", label:"三度深入夢境尋訪此地"},
+  /* 地點 */
+  {parent:"arkham", children:["miskatonic_u"], label:"城中的虛構學府"},
+  {spouses:["dunwich","wilbur_whateley"], marriage:"partner", label:"惠特利家族世居的窮鄉僻壤", labelClass:"ritual"},
+  /* 人物與事件 */
+  {spouses:["herbert_west","miskatonic_u"], marriage:"partner", label:"醫學院學生的復生實驗"},
+  {parent:"wilbur_whateley", children:["dunwich_horror_note"], label:"死後其孿生兄弟失控肆虐鄉野", labelClass:"blood"},
+  {spouses:["armitage","dunwich_horror_note"], marriage:"partner", label:"以咒語成功挫敗外神圖謀", labelClass:"ritual"},
+  {spouses:["charles_dexter_ward","necronomicon"], marriage:"partner", label:"研究先祖禁忌煉金術而招致反噬", labelClass:"blood"},
+  {spouses:["cthulhu","call_of_cthulhu_note"], marriage:"partner", label:"確立宇宙恐怖核心觀的開山之作"},
+  {spouses:["deep_ones","shadow_innsmouth_note"], marriage:"partner", label:"揭露血脈詛咒的調查紀行"},
+  /* 創作者 */
+  {parent:"lovecraft_note", children:["cthulhu","yog_sothoth","nyarlathotep","azathoth","necronomicon","arkham"], label:"原始創造者所構築的神話核心", labelClass:"ritual"},
+  {spouses:["lovecraft_note","derleth_note"], marriage:"partner", label:"身故後整理手稿・體系化神話架構"},
+  {parent:"derleth_note", children:["elder_sign"], label:"發明的重要神話元素"},
+];
+
+const CT_NODE_NAMES = {
+  azathoth:{kojiki:"Azathoth",nihonshoki:"The Blind Idiot God",reading:"Azathoth",aliases:["阿薩托斯","盲目痴愚之神","渾沌之主"],shrine:"—"},
+  yog_sothoth:{kojiki:"Yog-Sothoth",nihonshoki:"The Gate and the Key",reading:"Yog-Sothoth",aliases:["猶格·索托斯","萬門之匙","門之鑰"],shrine:"—"},
+  nyarlathotep:{kojiki:"Nyarlathotep",nihonshoki:"The Crawling Chaos",reading:"Nyarlathotep",aliases:["奈亞拉托提普","尼亞拉托提普","爬行渾沌","黑法老"],shrine:"—"},
+  shub_niggurath:{kojiki:"Shub-Niggurath",nihonshoki:"The Black Goat of the Woods",reading:"Shub-Niggurath",aliases:["莎布·尼古拉絲","黑山羊","千仔之母"],shrine:"—"},
+  cthulhu:{kojiki:"Cthulhu",nihonshoki:"Great Cthulhu",reading:"Cthulhu",aliases:["克蘇魯","偉大的克蘇魯","拉萊耶之主"],shrine:"拉萊耶"},
+  hastur:{kojiki:"Hastur",nihonshoki:"The Unspeakable One",reading:"Hastur",aliases:["哈斯特","黃衣之王","不可名狀者"],shrine:"哈利湖"},
+  dagon_ct:{kojiki:"Dagon",nihonshoki:"Father Dagon",reading:"Dagon",aliases:["達根","深潛者之父"],shrine:"印斯茅斯"},
+  cthugha:{kojiki:"Cthugha",nihonshoki:"Cthugha",reading:"Cthugha",aliases:["庫多古","火焰之神"],shrine:"北落師門"},
+  ithaqua:{kojiki:"Ithaqua",nihonshoki:"The Wind-Walker",reading:"Ithaqua",aliases:["伊薩庫瓦","風行者","溫迪戈"],shrine:"—"},
+  tsathoggua:{kojiki:"Tsathoggua",nihonshoki:"Tsathoggua",reading:"Tsathoggua",aliases:["查斯古亞","蟾蜍神"],shrine:"恩格伯洞窟"},
+  yig:{kojiki:"Yig",nihonshoki:"Father of Serpents",reading:"Yig",aliases:["伊格神","眾蛇之父"],shrine:"—"},
+  nyogtha:{kojiki:"Nyogtha",nihonshoki:"The Thing That Should Not Be",reading:"Nyogtha",aliases:["尼奧克塔","不應存在之物"],shrine:"—"},
+  great_race_yith:{kojiki:"The Great Race of Yith",nihonshoki:"Yithians",reading:"",aliases:["伊斯人","偉大種族"],shrine:"—"},
+  elder_things:{kojiki:"Elder Things",nihonshoki:"The Old Ones",reading:"",aliases:["古老一族","遠古種族"],shrine:"南極"},
+  mi_go:{kojiki:"Mi-Go",nihonshoki:"Fungi from Yuggoth",reading:"Mi-Go",aliases:["米戈","幽果思真菌"],shrine:"幽果思"},
+  deep_ones:{kojiki:"Deep Ones",nihonshoki:"Deep Ones",reading:"",aliases:["深海巨人","印斯茅斯之民"],shrine:"印斯茅斯"},
+  shoggoths:{kojiki:"Shoggoths",nihonshoki:"Shoggoths",reading:"",aliases:["修格斯族","無形怪物"],shrine:"—"},
+  ghouls:{kojiki:"Ghouls",nihonshoki:"Ghouls",reading:"",aliases:["食屍鬼族","墓穴生物"],shrine:"夢境國度"},
+  star_vampires:{kojiki:"Star Vampires",nihonshoki:"Star Vampires",reading:"",aliases:["星之精怪","隱形吸血者"],shrine:"—"},
+  serpent_people:{kojiki:"Serpent People",nihonshoki:"Serpent Folk",reading:"",aliases:["蛇族","瓦盧西亞蛇人"],shrine:"—"},
+  flying_polyps:{kojiki:"Flying Polyps",nihonshoki:"Flying Polyps",reading:"",aliases:["飛行水螅","風之生物"],shrine:"澳洲內陸"},
+  necronomicon:{kojiki:"Necronomicon",nihonshoki:"Al Azif",reading:"Necronomicon",aliases:["死靈之書","阿爾阿齊夫"],shrine:"米斯卡塔尼克大學"},
+  elder_sign:{kojiki:"Elder Sign",nihonshoki:"Elder Sign",reading:"",aliases:["古神徽記","封印符號"],shrine:"—"},
+  silver_key:{kojiki:"Silver Key",nihonshoki:"The Silver Key",reading:"",aliases:["銀之鑰","夢境之鑰"],shrine:"—"},
+  pnakotic_manuscripts:{kojiki:"Pnakotic Manuscripts",nihonshoki:"Pnakotic Manuscripts",reading:"",aliases:["帕那科特手稿","那卡提克文獻"],shrine:"—"},
+  king_in_yellow_book:{kojiki:"The King in Yellow",nihonshoki:"The King in Yellow",reading:"",aliases:["黃衣之王劇本","禁忌劇作"],shrine:"—"},
+  rlyeh:{kojiki:"R'lyeh",nihonshoki:"R'lyeh",reading:"R'lyeh",aliases:["拉埃","非歐幾里得之城"],shrine:"南太平洋海底"},
+  yuggoth:{kojiki:"Yuggoth",nihonshoki:"Yuggoth",reading:"Yuggoth",aliases:["尤格斯","冥王星"],shrine:"—"},
+  kadath:{kojiki:"Kadath",nihonshoki:"Kadath",reading:"Kadath",aliases:["卡達斯之城","眾神隱居地"],shrine:"夢境國度極北"},
+  dreamlands:{kojiki:"The Dreamlands",nihonshoki:"Dreamlands",reading:"",aliases:["夢境之地","夢中異境"],shrine:"—"},
+  arkham:{kojiki:"Arkham",nihonshoki:"Arkham, Massachusetts",reading:"Arkham",aliases:["阿卡漢","麻薩諸塞古鎮"],shrine:"—"},
+  innsmouth:{kojiki:"Innsmouth",nihonshoki:"Innsmouth, Massachusetts",reading:"Innsmouth",aliases:["印斯茅斯鎮","沒落漁港"],shrine:"—"},
+  dunwich:{kojiki:"Dunwich",nihonshoki:"Dunwich, Massachusetts",reading:"Dunwich",aliases:["敦威治鄉","惠特利家鄉"],shrine:"—"},
+  miskatonic_u:{kojiki:"Miskatonic University",nihonshoki:"Miskatonic University",reading:"",aliases:["米斯卡塔尼克大學","禁書室"],shrine:"阿卡姆"},
+  alhazred:{kojiki:"Abdul Alhazred",nihonshoki:"The Mad Arab",reading:"Abdul Alhazred",aliases:["阿爾哈茲萊德","瘋狂的阿拉伯人"],shrine:"—"},
+  randolph_carter:{kojiki:"Randolph Carter",nihonshoki:"Randolph Carter",reading:"",aliases:["卡特","夢境旅人"],shrine:"波士頓"},
+  herbert_west:{kojiki:"Herbert West",nihonshoki:"Herbert West—Reanimator",reading:"",aliases:["韋斯特","復生者赫伯特"],shrine:"米斯卡塔尼克大學"},
+  wilbur_whateley:{kojiki:"Wilbur Whateley",nihonshoki:"Wilbur Whateley",reading:"",aliases:["惠特利","犽格·索托斯之子"],shrine:"敦威治"},
+  armitage:{kojiki:"Henry Armitage",nihonshoki:"Dr. Henry Armitage",reading:"",aliases:["亨利·阿米蒂奇","圖書館員學者"],shrine:"米斯卡塔尼克大學"},
+  charles_dexter_ward:{kojiki:"Charles Dexter Ward",nihonshoki:"Charles Dexter Ward",reading:"",aliases:["瓦德","被附身的年輕人"],shrine:"普洛威頓斯"},
+  call_of_cthulhu_note:{kojiki:"The Call of Cthulhu",nihonshoki:"The Call of Cthulhu (1928)",reading:"",aliases:["克蘇魯的呼喚","開山代表作"],shrine:"—"},
+  dunwich_horror_note:{kojiki:"The Dunwich Horror",nihonshoki:"The Dunwich Horror (1929)",reading:"",aliases:["敦威治恐怖","惠特利兄弟事件"],shrine:"敦威治"},
+  mountains_madness_note:{kojiki:"At the Mountains of Madness",nihonshoki:"At the Mountains of Madness (1931)",reading:"",aliases:["瘋狂山脈","南極考察隊紀實"],shrine:"南極"},
+  shadow_innsmouth_note:{kojiki:"The Shadow over Innsmouth",nihonshoki:"The Shadow over Innsmouth (1931)",reading:"",aliases:["印斯茅斯的陰影","血脈詛咒紀行"],shrine:"印斯茅斯"},
+  lovecraft_note:{kojiki:"H. P. Lovecraft",nihonshoki:"Howard Phillips Lovecraft",reading:"",aliases:["洛夫克拉夫特","HPL","宇宙恐怖之父"],shrine:"普洛威頓斯"},
+  derleth_note:{kojiki:"August Derleth",nihonshoki:"August William Derleth",reading:"",aliases:["德勒斯","阿卡姆之家創辦人"],shrine:"—"},
+};
+
 const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
@@ -4045,6 +4264,11 @@ const PANTHEONS = {
     title:'🍀 凱爾特神話系譜', defs:CL_NODE_DEFS, groups:CL_GROUPS, unions:CL_UNIONS, names:CL_NODE_NAMES,
     seed:CELTIC_USER_EDITS, storage:'celtic_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（蓋爾語）', kojiki:'蓋爾語名', nihonshoki:'英語通用名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰地'},
+  },
+  cthulhu: {
+    title:'🐙 克蘇魯神話系譜', defs:CT_NODE_DEFS, groups:CT_GROUPS, unions:CT_UNIONS, names:CT_NODE_NAMES,
+    seed:CTHULHU_USER_EDITS, storage:'cthulhu_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（英文原名）', kojiki:'英文原名', nihonshoki:'別稱／出處', reading:'轉寫', aliases:'別稱', shrine:'相關地點'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -4805,13 +5029,14 @@ async function exportHTML(){
   const mEditsJSON = JSON.stringify(LIVE_EDITS.mesopotamia);
   const pEditsJSON = JSON.stringify(LIVE_EDITS.persia);
   const clEditsJSON = JSON.stringify(LIVE_EDITS.celtic);
+  const ctEditsJSON = JSON.stringify(LIVE_EDITS.cthulhu);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\nconst CELTIC_USER_EDITS = ${clEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\nconst CELTIC_USER_EDITS = ${clEditsJSON};\nconst CTHULHU_USER_EDITS = ${ctEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -5097,6 +5322,7 @@ function openEgypt(){ openPantheon('egypt'); }
 function openMesopotamia(){ openPantheon('mesopotamia'); }
 function openPersia(){ openPantheon('persia'); }
 function openCeltic(){ openPantheon('celtic'); }
+function openCthulhu(){ openPantheon('cthulhu'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
@@ -5769,9 +5995,10 @@ function toGreek(){ openGreek(); }
 /* ============ 首頁轉輪 ============ */
 const wheelEl   = document.getElementById('wheel');
 const wheelDots = document.getElementById('wheelDots');
-const wheelCards = [...document.querySelectorAll('.myth-icon')];
-const WHEEL_N = wheelCards.length;
-const WHEEL_STEP = 360 / WHEEL_N;
+const allWheelCards = [...document.querySelectorAll('.myth-icon')]; // 固定不變，用於地區篩選枚舉
+let wheelCards = allWheelCards.slice();  // 篩選後目前顯示的卡片，可重建
+let WHEEL_N = wheelCards.length;
+let WHEEL_STEP = 360 / WHEEL_N;
 // 半徑須大於卡牌半寬 / tan(半格角)，相鄰卡牌才不會互相穿插
 let WHEEL_R = 420;
 function wheelMeasure(){
@@ -5782,14 +6009,6 @@ function wheelMeasure(){
   });
 }
 let wheelIndex = 0;
-
-wheelCards.forEach((card, i) => {
-  const dot = document.createElement('i');
-  dot.addEventListener('click', () => wheelGoTo(i));
-  wheelDots.appendChild(dot);
-});
-wheelMeasure();
-window.addEventListener('resize', ()=>{ wheelMeasure(); wheelRender(); });
 
 function wheelRender(){
   wheelEl.style.transform = `translateZ(${-WHEEL_R}px) rotateY(${-wheelIndex * WHEEL_STEP}deg)`;
@@ -5807,11 +6026,33 @@ function wheelGoTo(i){
   wheelRender();
 }
 function wheelStep(dir){ wheelIndex += dir; wheelRender(); }
-wheelRender();
+
+// 地區篩選變動後，重新枚舉可見卡片、重排轉輪與圓點
+function rebuildWheel(){
+  const prevFrontCard = wheelCards.length ? wheelCards[((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N] : null;
+  wheelCards = allWheelCards.filter(c=>!c.classList.contains('region-hidden'));
+  if(!wheelCards.length) wheelCards = allWheelCards.slice(); // 安全防線：不允許篩到一張都不剩
+  WHEEL_N = wheelCards.length;
+  WHEEL_STEP = 360 / WHEEL_N;
+  wheelDots.innerHTML = '';
+  wheelCards.forEach((card, i) => {
+    const dot = document.createElement('i');
+    dot.addEventListener('click', () => wheelGoTo(i));
+    wheelDots.appendChild(dot);
+  });
+  wheelMeasure();
+  // 盡量停留在原本正面的那張卡片上；若它被篩掉了則回到第一張
+  const keepIdx = prevFrontCard ? wheelCards.indexOf(prevFrontCard) : -1;
+  wheelIndex = keepIdx >= 0 ? keepIdx : 0;
+  wheelRender();
+}
+rebuildWheel();
+window.addEventListener('resize', ()=>{ wheelMeasure(); wheelRender(); });
 
 // 鍵盤
 document.addEventListener('keydown', e=>{
   if(document.getElementById('home').style.display === 'none') return;
+  if(document.getElementById('regionFilterList').classList.contains('open')) return; // 篩選面板開著時交給它處理
   if(e.key === 'ArrowLeft')  wheelStep(-1);
   if(e.key === 'ArrowRight') wheelStep(1);
   if(e.key === 'Enter'){
@@ -5856,16 +6097,147 @@ window.addEventListener('mouseup', ()=>{ if(wheelDrag) wheelDragEnd(); });
 wheelStage.addEventListener('touchstart', e=>{ if(e.touches.length===1) wheelDragStart(e.touches[0].clientX); }, {passive:true});
 wheelStage.addEventListener('touchmove',  e=>{ if(wheelDrag && e.touches.length===1){ e.preventDefault(); wheelDragMove(e.touches[0].clientX); } }, {passive:false});
 wheelStage.addEventListener('touchend',   ()=>{ if(wheelDrag) wheelDragEnd(); });
-// 拖曳後的那一下放開不應觸發卡牌的 onclick
-wheelCards.forEach((card, i)=>{
-  card.addEventListener('click', e=>{
-    if(wheelJustDragged){ e.preventDefault(); e.stopPropagation(); return; }
-    if(!card.classList.contains('front')){
-      e.preventDefault(); e.stopPropagation();
-      wheelGoTo(i);
-    }
-  }, true);
+// 拖曳後的那一下放開不應觸發卡牌的 onclick（事件委派，卡片重建後無需重新綁定）
+wheelEl.addEventListener('click', e=>{
+  const card = e.target.closest('.myth-icon');
+  if(!card) return;
+  const i = wheelCards.indexOf(card);
+  if(i === -1) return;
+  if(wheelJustDragged){ e.preventDefault(); e.stopPropagation(); return; }
+  if(!card.classList.contains('front')){
+    e.preventDefault(); e.stopPropagation();
+    wheelGoTo(i);
+  }
+}, true);
+
+/* ============ 首頁地區群組篩選 ============ */
+const REGION_META = {
+  east_asia:   '東亞',
+  europe:      '歐洲',
+  middle_east: '中東',
+  africa:      '非洲',
+  modern:      '近代創作神話',
+  other:       '其他傳說（非神話）',
+};
+const REGION_ORDER = ['east_asia','europe','middle_east','africa','modern','other'];
+const REGION_FILTER_KEY = 'mythRegionFilter';
+// 由卡片上實際出現的 data-region 動態枚舉，未來新增地區也會自動列入
+const presentRegions = [...new Set(allWheelCards.map(c=>c.dataset.region).filter(Boolean))];
+presentRegions.sort((a,b)=> REGION_ORDER.indexOf(a) - REGION_ORDER.indexOf(b));
+// -1（不在預設順序表中的新地區）一律排到最後
+presentRegions.sort((a,b)=>{
+  const ia = REGION_ORDER.indexOf(a), ib = REGION_ORDER.indexOf(b);
+  return (ia===-1?999:ia) - (ib===-1?999:ib);
 });
+
+let hiddenRegions = new Set();
+(function loadRegionFilter(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(REGION_FILTER_KEY) || '[]');
+    hiddenRegions = new Set(saved.filter(r=>presentRegions.includes(r)));
+  }catch(e){ hiddenRegions = new Set(); }
+})();
+
+const regionFilterBtn  = document.getElementById('regionFilterBtn');
+const regionFilterList = document.getElementById('regionFilterList');
+let rfFocusIdx = -1;
+
+function regionCount(key){ return allWheelCards.filter(c=>c.dataset.region===key).length; }
+
+function renderRegionFilterBtn(){
+  const n = presentRegions.length - hiddenRegions.size;
+  const label = hiddenRegions.size===0 ? '全部' : `已選 ${n}/${presentRegions.length}`;
+  regionFilterBtn.textContent = `🌐 顯示地區：${label} ▾`;
+}
+
+function buildRegionFilterList(){
+  regionFilterList.innerHTML = presentRegions.map((key,i)=>{
+    const checked = !hiddenRegions.has(key);
+    return `<div class="rf-row${checked?' rf-checked':''}" data-region="${key}" data-i="${i}" role="option" aria-selected="${checked}">
+      <span class="rf-check">${checked?'✓':''}</span><span>${esc(REGION_META[key]||key)}</span>
+      <span class="rf-count">${regionCount(key)}</span>
+    </div>`;
+  }).join('') + `<div class="rf-sep"></div>
+    <div class="rf-row" data-action="all" data-i="${presentRegions.length}" role="option">
+      <span class="rf-check">${hiddenRegions.size===0?'✓':''}</span><span>全部顯示</span>
+    </div>`;
+}
+
+function applyRegionFilter(){
+  allWheelCards.forEach(c=>{
+    c.classList.toggle('region-hidden', hiddenRegions.has(c.dataset.region));
+  });
+  localStorage.setItem(REGION_FILTER_KEY, JSON.stringify([...hiddenRegions]));
+  renderRegionFilterBtn();
+  buildRegionFilterList();
+  rebuildWheel();
+}
+
+function toggleRegionRow(row){
+  if(!row) return;
+  if(row.dataset.action === 'all'){ hiddenRegions.clear(); }
+  else{
+    const key = row.dataset.region;
+    if(hiddenRegions.has(key)) hiddenRegions.delete(key); else hiddenRegions.add(key);
+    // 全部地區都被關掉的話，視同「全部顯示」，避免畫面空空如也
+    if(hiddenRegions.size === presentRegions.length) hiddenRegions.clear();
+  }
+  applyRegionFilter();
+  // 重新整理後保持在同一列聚焦，方便連續勾選多個地區
+  const rows = [...regionFilterList.children].filter(r=>r.classList.contains('rf-row'));
+  rfFocusIdx = Math.min(rfFocusIdx, rows.length-1);
+  rows.forEach((r,i)=>r.classList.toggle('rf-focused', i===rfFocusIdx));
+}
+
+function toggleRegionFilter(){
+  const open = regionFilterList.classList.contains('open');
+  if(open){ closeRegionFilter(); return; }
+  buildRegionFilterList();
+  regionFilterList.classList.add('open');
+  regionFilterBtn.classList.add('active');
+  rfFocusIdx = -1;
+}
+function closeRegionFilter(){
+  regionFilterList.classList.remove('open');
+  regionFilterBtn.classList.remove('active');
+  rfFocusIdx = -1;
+}
+regionFilterList.addEventListener('click', e=>{
+  const row = e.target.closest('.rf-row');
+  if(row) toggleRegionRow(row);
+});
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#regionFilterWrap')) closeRegionFilter();
+});
+// 方向鍵在選項間移動、Enter 切換勾選、Esc 關閉
+document.addEventListener('keydown', e=>{
+  if(!regionFilterList.classList.contains('open')) return;
+  const rows = [...regionFilterList.children].filter(r=>r.classList.contains('rf-row'));
+  if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    rfFocusIdx = Math.min(rfFocusIdx+1, rows.length-1);
+    rows.forEach((r,i)=>r.classList.toggle('rf-focused', i===rfFocusIdx));
+    rows[rfFocusIdx]?.scrollIntoView({block:'nearest'});
+  }else if(e.key === 'ArrowUp'){
+    e.preventDefault();
+    rfFocusIdx = Math.max(rfFocusIdx-1, 0);
+    rows.forEach((r,i)=>r.classList.toggle('rf-focused', i===rfFocusIdx));
+    rows[rfFocusIdx]?.scrollIntoView({block:'nearest'});
+  }else if(e.key === 'Enter'){
+    e.preventDefault();
+    if(rfFocusIdx>=0 && rows[rfFocusIdx]) toggleRegionRow(rows[rfFocusIdx]);
+  }else if(e.key === 'Escape'){
+    e.preventDefault();
+    closeRegionFilter();
+  }
+});
+// 在面板外滾動滑鼠滾輪時收起面板（同搜尋類下拉選單的收合習慣）
+document.addEventListener('wheel', e=>{
+  if(regionFilterList.classList.contains('open') && !e.target.closest('#regionFilterWrap')) closeRegionFilter();
+}, {passive:true});
+
+renderRegionFilterBtn();
+applyRegionFilter();
 
 /* ============ 明暗模式 ============ */
 function toggleTheme(){
