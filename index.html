@@ -404,6 +404,11 @@
       <div class="label">波斯神話</div>
       <div class="sub">法拉瓦哈・阿胡拉·馬茲達・羅斯坦</div>
     </div>
+    <div class="myth-icon" onclick="openCeltic()">
+      <div class="glyph">🍀</div>
+      <div class="label">凱爾特神話</div>
+      <div class="sub">圖阿哈德達南・庫丘林・芬尼亞</div>
+    </div>
     <div class="myth-icon disabled">
       <div class="glyph">🕊️</div>
       <div class="label">天使與惡魔</div>
@@ -2863,6 +2868,7 @@ const NORSE_USER_EDITS = {};
 const EGYPT_USER_EDITS = {};
 const MESO_USER_EDITS = {};
 const PERSIA_USER_EDITS = {};
+const CELTIC_USER_EDITS = {};
 // @@EDITS_END
 
 /* ============================================================
@@ -3706,6 +3712,275 @@ const PS_NODE_NAMES = {
   mount_damavand:{kojiki:"Duvunāvant",nihonshoki:"Damavand",reading:"Duvunāvant",aliases:["達馬萬德","佐哈克之獄"],shrine:"馬贊德蘭"},
 };
 
+/* ============================================================
+   資料：凱爾特神話系譜（愛爾蘭四循環・威爾斯・大陸凱爾特）
+   [id, name, 蓋爾語/威爾斯語轉寫, role, col, row, desc, isNote, tag]
+   ============================================================ */
+const CL_NODE_DEFS = [
+/* ---- 達奴女神與圖阿哈德達南主神 ---- */
+["danu","達奴","Danu／Anu","圖阿哈德達南的母神・原初大地女神",8.5,0,"愛爾蘭神族「圖阿哈德達南」（達奴的族人）名字所自出的原初母神，象徵大地、河流與豐饒本身。她的形象在現存文獻中極為模糊——幾乎沒有直接的神話事蹟流傳下來，卻正因如此更顯其地位崇高：她是先於一切具體神話事件、作為整個神族血脈與土地本身根基而存在的始源女神，常與威爾斯神話中的董恩（Dôn）相提並論。",false,"key"],
+["dagda","達格達","An Dagda（善良之神）","圖阿哈德達南之父・善良與豐饒之神",6,1.2,"圖阿哈德達南的父神與族長，其名意為「善良的神」，兼具智慧、豐饒、魔法與戰鬥之力，形象樸拙卻威能無窮。他擁有兩件傳奇法器：一根能一端擊殺、一端復活的巨棒，以及一口「豐饒之釜」（undry），永遠不會有人因飢餓而空手離去。他還彈奏一把能操縱四季與人心情緒（喜、悲、眠）的豎琴「Uaithne」。他曾與戰爭女神摩莉甘在薩溫節前夕的河邊交合以換取她助戰的承諾，也曾以貪吃著稱——弗摩爾族曾以巨量粥食戲弄他，他卻照吃不誤。",false,"key"],
+["eriu","埃柳","Ériu","愛爾蘭島的化身女神",10,1.2,"圖阿哈德達南女神，愛爾蘭島名「Éire」的來源與化身之一，與姊妹班芭、佛德拉並稱「愛爾蘭三女神」。米利都人（蓋爾人）登陸時，她出面迎接並預言此島將永遠以她之名為稱，詩人阿梅爾金應允了她的請求——「愛爾蘭」之名由此而定。"],
+["banba","班芭","Banba","愛爾蘭島的化身女神",11.5,1.2,"愛爾蘭三女神之一，與姊妹埃柳、佛德拉同為愛爾蘭島的化身與守護女神，「Banba」至今仍是愛爾蘭的詩意別稱之一。"],
+["fodla","佛德拉","Fódla","愛爾蘭島的化身女神",13,1.2,"愛爾蘭三女神之一，與姊妹埃柳、班芭同為愛爾蘭島的化身，「Fódla」同樣是愛爾蘭的古典代稱。三姊妹分別要求米利都人以自己之名稱呼此島，詩人阿梅爾金巧妙地應允了全部三人。"],
+["nuada","努阿達","Nuada Airgetlám（銀臂努阿達）","圖阿哈德達南初代之王",4,2.4,"圖阿哈德達南初代之王，率族人擊敗弗爾勃格族奪得愛爾蘭統治權，卻在第一次莫伊圖拉戰役中失去一臂，依當時「王者不得有殘疾」的律法被迫讓位。醫神狄安克特之子米亞赫為他打造了一隻能感知冷熱、宛如活肉的銀臂，使他得以重登王位，率族人在第二次莫伊圖拉戰役中擊敗弗摩爾族，最終於陣中死於獨眼巨魔巴羅之手。",false,"key"],
+["lugh","盧訶","Lugh Lámfada（長臂盧訶）","萬能全才的戰神與光明之神",6,2.4,"「薩姆爾達奈赫」（Samildánach，萬能全才），一位半弗摩爾血統的年輕戰神，精通武藝、工藝、魔法、詩歌與音樂樣樣皆通。他持有一支百發百中的魔法投槍「布里歐納克」，並率圖阿哈德達南在第二次莫伊圖拉戰役中，以魔法投石索擊中外祖父巴羅唯一致命的邪眼、將其反彈射殺，終結了弗摩爾族的統治。他也是阿爾斯特傳說第一勇士庫丘林的天神生父，愛爾蘭古老的收穫節「盧納薩」（Lughnasadh）即以他之名紀念。",false,"key"],
+["brigid","布麗姬","Brigid／Brigit","詩歌、工藝與醫療的三重女神",8,2.4,"詩歌、工藝與醫療的三重女神，達格達之女，深受愛爾蘭人愛戴，其信仰之盛使她在基督教化後直接被轉化為「聖布麗姬」——愛爾蘭僅次於聖派翠克的守護聖人，象徵著本土信仰與新宗教間最鮮明的融合實例。她掌管的三項神聖領域（詩藝、鍛造、醫術）分別對應三位同名的姊妹神格，常被視為三位一體的女神。"],
+["ogma","奧格瑪","Ogma","雄辯與力量之神・歐甘文發明者",10,2.4,"圖阿哈德達南的雄辯與力量之神，達格達之子，以其無窮的口才與武力著稱，相傳正是他發明了愛爾蘭最古老的文字「歐甘文」（Ogham），以刻於石柱與木杖上的線條記錄語言。他也是族中的先鋒戰士，在兩次莫伊圖拉戰役中皆有戰功。"],
+
+/* ---- 摩莉甘與戰爭女神群 ---- */
+["morrigan","摩莉甘","An Mhórrígan（大女王）","戰爭、命運與死亡的女神",4,3.6,"戰爭、命運與死亡的女神，其名意為「大女王」或「幻影女王」，常與姊妹巴伊夫、瑪卡合稱三重女神，或化身為在戰場上空盤旋、預示死者的烏鴉群。她既能決定戰局勝負，也能以幻術與詛咒左右英雄的命運——庫丘林曾因拒絕她化身美女的求愛而遭她多次化身野獸阻撓，最終在他死前，她化作烏鴉停駐於他綁在石柱上、仍屹立而死的軀體肩頭，宣告這位英雄氣絕的終局。",false,"key"],
+["badb","巴伊夫","Badb（烏鴉）","戰場烏鴉・死亡先兆女神",5.5,3.6,"摩莉甘三重女神之一，其名直譯即「烏鴉」，戰場上以烏鴉之姿盤旋、以尖嘯與幻象擾亂敵軍心智，預示血流成河的death-omen（死亡先兆）女神。"],
+["macha","瑪卡","Macha","土地、主權與詛咒女神",7,3.6,"摩莉甘三重女神之一，土地與主權的女神，同時是傳說中阿爾斯特王國名稱「Emain Macha」的由來。相傳她被迫在臨盆之際與國王的駿馬賽跑，戰勝後隨即產下雙胞胎，痛苦中詛咒阿爾斯特全體男丁在危難時將承受如產痛般的虛弱——這則詛咒正是《奪牛長征記》中阿爾斯特戰士集體癱瘓、唯獨庫丘林因非純血統得以倖免的緣由。"],
+["nemain","涅梅茵","Nemain（恐慌）","恐慌與戰場狂亂女神",8.5,3.6,"摩莉甘或其姊妹群中代表「恐慌、狂亂」的戰爭女神，戰場上以駭人的尖叫聲使敵軍陷入瘋狂潰散，是三重戰爭女神體系中最直接體現「戰場恐懼」本身的化身。"],
+
+/* ---- 工藝與醫療諸神 ---- */
+["goibniu","戈布紐","Goibniu","神匠・三工神之首",2.5,4.8,"圖阿哈德達南的神匠，「三工神」之首，掌管鍛造，能以三擊打造出永不失手的武器。他在第二次莫伊圖拉戰役前為族人鍛造大量兵器，並主持「戈布紐的盛宴」（Fled Goibnenn）款待諸神以永保青春不老，功能類似北歐的伊登金蘋果。"],
+["credne","克雷德涅","Credne","金工與銅器鑄造之神",4,4.8,"三工神之一，掌管金工與銅器的鑄造之神，曾為銀臂努阿達打造銀臂的部件、為戰士鑄造劍柄與盾釘，與戈布紐、路赫塔並稱為圖阿哈德達南備戰弗摩爾族的兵工三神。"],
+["luchta","路赫塔","Luchta","木工與雕造之神",5.5,4.8,"三工神之一，掌管木工的雕匠之神，負責打造長矛柄與盾牌的木質部件，以三下斧劈便能完工，與戈布紐、克雷德涅共同構成愛爾蘭神話中效率驚人的軍備生產體系。"],
+["dian_cecht","狄安克特","Dian Cécht","醫神・掌健康之井",7,4.8,"圖阿哈德達南的醫神，掌管療癒的「健康之井」——任何在戰鬥中死去（未曾斷頭或心臟未毀者）皆可被投入此井而復活。他曾嫉妒兒子米亞赫的醫術青出於藍（能親手為努阿達重造一隻血肉之臂而非義肢），憤而將其殺害，米亞赫墓上竟長出三百六十五種對應人體各部位的療癒藥草，狄安克特盛怒之下將藥草盡數打亂，人類自此再也無法窮盡藥理全貌。",false,"key"],
+["miach","米亞赫","Míach","青出於藍的年輕醫神",8.5,4.8,"狄安克特之子，醫術青出於藍的年輕醫神，為努阿達重造出一隻能感知冷熱、如真肉般的手臂，技藝遠勝父親所造的銀製義肢，卻也因此招來父親妒火而被殺害。"],
+["airmid","艾爾米德","Airmed","草藥與治療女神",10,4.8,"狄安克特之女，草藥與治療之女神，在兄長米亞赫墓上長出的三百六十五種藥草間辨識分類、悉心整理其療效，父親卻盛怒地將她的心血打翻散亂——這則神話解釋了何以人類醫術終究無法窮盡草藥的全部奧祕。"],
+
+/* ---- 阿恩古斯、馬南南與河流女神 ---- */
+["aengus","恩古斯","Aengus Óg（年輕的恩古斯）","愛情與青春之神",2.5,6,"達格達與河流女神博安私通所生的愛情與青春之神。他的母親博安以魔法使太陽停駐九個月又一天，讓他得以在一日之內受孕並誕生，避開了達格達正妻的察覺。他以巧計向養父米迪爾（一說努阿達）騙得布魯納波涅的宮殿——聲稱只需借住「一日一夜」，卻鑽了愛爾蘭語中「日與夜」即代表「永遠」的語言漏洞，從此永久佔有此地。他四周總有四隻化身為鳥兒的吻縈繞飛舞，亦是成人版「丘比特」般的角色。"],
+["manannan","馬南南","Manannán mac Lir","海洋之神・蒂爾納諾之主",4,6,"海洋之神，其名意為「利爾之子馬南南」，統治位於海平面之下、時間流速不同的常青樂土「蒂爾納諾」。他擁有一件能隱身的「迷霧斗篷」、一艘無需船槳、心念一動即能航行的魔法船「掃浪者」（Wave Sweeper），以及一匹能踏浪如平地的駿馬。愛爾蘭與曼島之間的海域、乃至曼島（Isle of Man）之名，皆與他密切相繫。"],
+["boann","博安","Boann","波因河的化身女神",5.5,6,"河流女神，愛爾蘭最重要的河流波因河（Boyne）的化身與命名由來。傳說她不顧禁忌親近「智慧之井」（凡人不可直視此井，唯其夫努赫馬有此特權），井水暴湧成河將她捲走、化為河流本身——她也因與達格達私通而生下愛神恩古斯。"],
+["cailleach","凱利亞赫","An Chailleach（老嫗）","冬季與地形創造之老嫗女神",7,6,"蓋爾神話中的冬季與地形創造之老嫗女神，其名意即「老嫗、蒙面者」，相傳以巨石自肩上落下的方式塑造了愛爾蘭與蘇格蘭的山巒地貌。她掌管冬季，與代表夏季、青春的女神布麗姬形成季節循環中的一體兩面——蓋爾曆法中她被認為在薩溫節（十一月一日）掌權，直至貝爾坦節（五月一日）才將統治權交還布麗姬，是解釋四季更迭的擬人化神話。"],
+
+/* ---- 弗摩爾族 ---- */
+["balor","巴羅","Balor of the Evil Eye（邪眼巴羅）","弗摩爾族之王・邪眼巨魔",15,7.2,"弗摩爾族之王，額間或獨眼中央長著一隻能瞬間毀滅一切、令敵軍成片倒地的「邪眼」，平時以厚重眼皮遮蓋，須動用多人以鉤索合力才能掀開。預言指出他終將死於自己外孫之手，他因而將女兒埃斯尼囚禁高塔以杜絕生育，然而工匠之神基安仍設法與她相會生下三胞胎，其中一子正是後來的盧訶。第二次莫伊圖拉戰役中，盧訶以魔法投石索擊中他睜開的邪眼，將毀滅之力反彈射穿他自己的後腦，弗摩爾族因此王死而潰敗。",false,"key"],
+["bres","布雷斯","Bres","半血王子・失德之王",16.5,7.2,"半弗摩爾、半圖阿哈德達南血統的王子，因努阿達失去手臂而暫代王位，卻治國無方、吝嗇待客又向弗摩爾族屈膝納貢，終被詩人卡布雷以一首毀謗詩「褫奪」王位的正當性（愛爾蘭神話中詩歌本身具有實質的政治魔力）而下台，憤而返回弗摩爾族搬來父族大軍，引發了第二次莫伊圖拉戰役。"],
+["elatha","埃拉塔","Elatha","弗摩爾王族",18,7.2,"弗摩爾王族，布雷斯之父，傳說中他乘一艘銀色戰船於月夜降臨，與圖阿哈德達南的女神埃莉歐私通生下布雷斯——這場跨族結合正是布雷斯得以繼承圖阿哈德達南王位、卻終究因血統認同引發戰爭的根源。"],
+["tethra","泰特拉","Tethra","弗摩爾王族・海底樂土之主",19.5,7.2,"弗摩爾王族之一，第二次莫伊圖拉戰役後率殘部退守海外，統治著弗摩爾族戰死者靈魂所往的海底樂土，是弗摩爾一系在神話地理中最後的據點象徵。"],
+
+/* ---- 入侵神話循環（愛爾蘭來襲書） ---- */
+["cessair","凱莎爾","Cessair","首批登陸愛爾蘭的人類領袖",0.5,8.4,"《愛爾蘭來襲書》記載中第一批登陸愛爾蘭的人類，相傳為挪亞的孫女，於大洪水前率隨從逃至愛爾蘭卻仍難逃劫數——除她的丈夫芬坦外，全體皆歿於隨後而至的大洪水，芬坦則化身鮭魚、鷹、鷹隼等形態存活數千年，成為愛爾蘭最古老的見證者與智慧來源。"],
+["partholon","帕索隆","Partholón","第二波移民領袖",2,8.4,"《愛爾蘭來襲書》記載中大洪水後第二批入侵愛爾蘭的族群領袖，率眾開墾土地、建立初步的農牧與律法制度，卻也帶來了愛爾蘭第一場爭執與謀殺。其族人最終被一場瘟疫盡數消滅，為下一波移民騰出了空地。"],
+["nemed","涅梅德","Nemed","第三波移民領袖",3.5,8.4,"《愛爾蘭來襲書》第三批入侵者的領袖，率族人與早期的弗摩爾族反覆征戰，屢建功業卻終究難敵瘟疫與弗摩爾的壓迫，殘部四散逃亡——一支後裔輾轉演變為日後的弗爾勃格族，另一支則遠赴北方島嶼修習法術，最終以圖阿哈德達南之姿榮歸愛爾蘭。"],
+["fir_bolg","弗爾勃格族","Fir Bolg","涅梅德後裔・愛爾蘭早期族群",5,8.4,"涅梅德後裔輾轉遷徙、返回愛爾蘭後所建立的族群，以「皮袋之民」為名，建立了愛爾蘭最早的五省劃分制度與王權體系。他們在第一次莫伊圖拉戰役中敗於新來的圖阿哈德達南之手，卻因其王歐希爾表現的騎士風度贏得對手敬重，戰後獲准保留西部康納赫特一隅之地繼續居住。"],
+["milesians","米利都人（蓋爾人）","Milesians／Clanna Míled","米利都之子・蓋爾人的神話祖先",6.5,8.4,"《愛爾蘭來襲書》記載中最後一波、也是「成功定居」的入侵者，相傳源出西班牙的米利都之子們，即今日愛爾蘭蓋爾人的神話祖先。他們登陸時與圖阿哈德達南幾經談判與交戰，最終達成劃分協議：地表世界歸米利都人統治，圖阿哈德達南則退居於名為「希伊」（Sídhe）的地下丘塚仙境，繼續以隱形的精怪、仙靈之姿存在於愛爾蘭的傳說之中。"],
+["amergin","阿梅爾金","Amergin Glúingel","米利都人的詩人與德魯伊",8,8.4,"米利都人的詩人與德魯伊，登陸愛爾蘭時吟誦出被視為愛爾蘭文學最古老起源的《阿梅爾金之歌》（「我是海上之風、我是海中之浪……」），並奉命公正裁決米利都人與圖阿哈德達南的領地劃分，正是他應允了埃柳、班芭、佛德拉三女神各自以其名稱呼此島的請求。"],
+["ith","伊斯","Íth","米利都人的先遣探路者",9.5,8.4,"米利都人抵達愛爾蘭前的先遣探路者，登島時見識了圖阿哈德達南的富庶與美麗，卻被其三位國王疑其別有居心而暗殺——他的死正是促使米利都人大舉興兵、為其復仇而全面入侵愛爾蘭的直接導火線。"],
+["donn_ancestor","多恩","Donn","死者祖靈之神",11,8.4,"米利都人之一，遠征途中因對愛爾蘭女神口出不敬之言而遭詛咒，在登陸前於海中喪生，其軀體葬於愛爾蘭西南外海的岩島「Tech Duinn」（多恩之家）。後世信仰中，他轉化為死者的祖靈之神，相傳蓋爾人死後靈魂皆須先聚集於此地，才能踏上通往來世的旅程。"],
+
+/* ---- 兩次莫伊圖拉戰役與四聖物 ---- */
+["mag_tuired_first","第一次莫伊圖拉戰役","Cath Maige Tuired I","圖阿哈德達南對弗爾勃格族的戰役",13,9.6,"圖阿哈德達南初登愛爾蘭時與先住的弗爾勃格族爆發的戰役。努阿達率族人苦戰得勝，卻在陣中失去一臂，依「王者不得殘缺」的律法被迫讓位給半弗摩爾血統的布雷斯——這場勝利埋下了日後第二場戰爭的種子。",true],
+["mag_tuired_second","第二次莫伊圖拉戰役","Cath Maige Tuired II","圖阿哈德達南對弗摩爾族的戰役",14.5,9.6,"愛爾蘭神話最重要的戰役，銀臂重生的努阿達復位後，率盧訶等圖阿哈德達南諸神與昔日壓迫者弗摩爾族決戰。盧訶以魔法投石索擊穿外祖父巴羅的邪眼，扭轉戰局大敗弗摩爾，自此圖阿哈德達南確立了對愛爾蘭的統治，直至日後米利都人到來。",true],
+["four_treasures_note","圖阿哈德達南四聖物","Cethair Prímṡeóit","圖阿哈德達南自北方帶回的四件至寶",16,9.6,"圖阿哈德達南自北方四座神祕城邦帶回愛爾蘭的四件至寶：法爾之石（王權石，能為真王發出吼聲）、努阿達之劍（出鞘必勝、無人能敵）、盧訶之槍（百發百中）、達格達之釜（豐饒之釜，永不見底）。這四件聖物分別象徵王權、戰無不勝、命中不移與豐饒無盡，是整個神族力量的具體化身。",true],
+["lia_fail","法爾之石","Lia Fáil（命運之石）","塔拉丘上的加冕聖石",17.5,9.6,"愛爾蘭古都塔拉丘上的加冕聖石，四聖物之一，相傳唯有真正命定的王者踏上此石，石頭便會發出雷鳴般的吼聲以示認可——是愛爾蘭神話中「君權天授」最直接的物質見證，至今仍矗立於塔拉丘遺址。",true],
+["sword_nuada","努阿達之劍","Claíomh Solais（光之劍）","出鞘必勝的聖劍",19,9.6,"圖阿哈德達南自北方城邦芬迪亞斯帶回的聖劍，四聖物之一，一旦出鞘便無人能夠抵擋、亦無人能夠逃脫其鋒芒，是努阿達王權與戰無不勝的象徵法器。",true],
+["spear_lugh","盧訶之槍","Sleá Bua（勝利之槍）","百發百中的魔法投槍",20.5,9.6,"圖阿哈德達南自北方城邦戈里亞斯帶回的魔法投槍，四聖物之一，握持者百發百中、投擲後必能取勝，正是盧訶在第二次莫伊圖拉戰役中倚仗的神兵之一。",true],
+["cauldron_dagda","達格達之釜","Coire Ansic（永不枯竭之釜）","豐饒神釜・永不枯竭",22,9.6,"圖阿哈德達南自北方城邦墨里亞斯帶回的豐饒神釜，四聖物之一，永遠盛滿食物、任誰取用皆不會枯竭，是達格達身為部族豐饒與慷慨守護者的具體象徵。",true],
+
+/* ---- 阿爾斯特傳說：王庭與英雄 ---- */
+["conchobar","康拿哈爾","Conchobar mac Nessa","阿爾斯特王國之王",2.5,10.8,"阿爾斯特王國之王，庫丘林的舅父與君主，統治著以埃文瑪哈為首都的紅枝騎士團。他年少即位頗富爭議，晚年因迎娶絕美的黛爾德拉不成、反因構陷其愛人納歐斯而背負惡名，這場悲劇也間接導致麾下大將弗格斯叛逃至康諾特，成為《奪牛長征記》中敵對陣營的關鍵人物。"],
+["fergus","弗格斯","Fergus mac Róich","前任阿爾斯特王・叛逃大將",4,10.8,"前任阿爾斯特王，讓位給康拿哈爾後仍留任王庭大將，卻因康拿哈爾背信殺害黛爾德拉的愛人納歐斯一事憤而叛逃投奔康諾特女王梅芙，成為《奪牛長征記》中率軍反攻故國、與昔日袍澤兵戎相見的悲劇人物，亦是庫丘林幼時的武藝啟蒙恩師之一。"],
+["medb","梅芙","Medb（陶醉者）","康諾特省的女王",5.5,10.8,"康諾特省的女王，好強善妒、性喜掌控，因不甘丈夫艾利爾與自己財富僅是「幾乎」相當（一頭公牛之差），發動了整場《奪牛長征記》——率大軍奪取阿爾斯特的褐牛以求財富反超丈夫。她本人也是庫丘林在這場戰爭中最大的對手，是愛爾蘭神話中少見、極具主體性與野心的女性統治者形象。",false,"key"],
+["ailill","艾利爾","Ailill mac Máta","康諾特女王梅芙之夫",7,10.8,"康諾特女王梅芙之夫，兩人臥榻間一場「誰的財富更多」的枕邊爭執，正是點燃《奪牛長征記》戰火的直接導火線——梅芙不甘僅因對方多擁有一頭公牛芬本納赫而屈居下風，執意奪取阿爾斯特的褐牛唐恩庫林亞以求扳平。"],
+
+/* ---- 庫丘林與紅枝騎士團 ---- */
+["cu_chulainn","庫丘林","Cú Chulainn（庫林之犬）","阿爾斯特傳說第一勇士",4,12,"阿爾斯特傳說第一勇士，天神盧訶之子，本名塞坦塔，因幼時誤殺鐵匠庫林的看門犬，自願代替該犬看守家宅一年而得此名。他七歲便獨力擊敗百名孩童、十七歲隻身抵禦康諾特大軍入侵，戰鬥時會陷入名為「戰狂」（ríastrad）的變形狀態——身軀扭曲、一眼凹陷一眼暴突、口噴血沫，恐怖駭人。他使用女戰士斯卡塔赫所授、由怪物內臟製成的神槍「加耶伯格」（一擊三十倒鉤，無人生還），最終在與昔日盟友之子的戰鬥中，明知敵計仍因騎士榮譽而受死於自己親手所造的兵器，臨終前自縛於石柱之上、站立而亡，令敵軍直到烏鴉停於其肩才敢確認他已氣絕。",false,"key"],
+["emer","艾梅爾","Emer","庫丘林之妻・六德之女",2.5,12,"庫丘林之妻，以智慧、貞潔、美貌、歌喉、女紅與端莊六大美德聞名全愛爾蘭，庫丘林正是通過她刁鑽父親設下的重重試煉（包括遠赴蘇格蘭向女戰士斯卡塔赫習武）才得以迎娶她，兩人的婚姻是阿爾斯特傳說中少數善終的愛情故事。"],
+["scathach","斯卡塔赫","Scáthach（陰影者）","蘇格蘭的傳奇女戰士與武術導師",5.5,12,"蘇格蘭斯凱島上的傳奇女戰士與武術導師，庫丘林遠赴海外向她學習終極戰技，包括著名的神槍「加耶伯格」的使用祕法。她也預言了他悲劇性的結局與英年早逝，是凱爾特神話中罕見、以純粹武力與智慧著稱而非以美貌或神格見長的女性形象。"],
+["ferdiad","菲迪亞","Ferdiad","庫丘林的結義兄弟與宿敵",7,12,"庫丘林在斯卡塔赫門下習武時的結義兄弟與摯友，後來卻在《奪牛長征記》中效命康諾特女王梅芙，被迫與昔日同窗兵戎相見。兩人在淺灘連戰三日三夜、以昔日情誼互贈飲食與藥草療傷，第四日庫丘林終究以加耶伯格神槍將他刺穿——這場摯友相殘的決鬥是整部《奪牛長征記》中最悲愴動人的篇章。",false,"key"],
+["conall_cernach","康納爾·凱爾納赫","Conall Cernach","紅枝騎士團第二勇士",8.5,12,"阿爾斯特紅枝騎士團中僅次於庫丘林的第二勇士，以「戰勝者不使敵人不流血倒地」的武德著稱，庫丘林死後正是他率軍為摯友復仇，誅殺了策劃陷害的仇敵，為這部悲劇史詩畫下血腥的句點。"],
+
+/* ---- 黛爾德拉的悲劇 ---- */
+["deirdre","黛爾德拉","Deirdre of the Sorrows（哀愁的黛爾德拉）","命運最悲慘的女子",2.5,13.2,"阿爾斯特傳說中命運最悲慘的女子，出生時德魯伊便預言她將傾國傾城卻招致血流成河，國王康拿哈爾不顧預言將她自幼撫養、意圖成年後納為妃子。她卻與年輕勇士納歐斯一見鍾情、私奔至蘇格蘭避難多年，後被康拿哈爾以假意寬恕誘騙返回、卻設局殺害納歐斯——她終日以淚洗面，最終在被迫嫁予仇人一年後，趁乘車出行之際一頭撞向岩石殉情而死，是凱爾特文學中最著名的悲戀傳說之一。",false,"key"],
+["naoise","納歐斯","Naoise","烏斯尼長子・黛爾德拉之真愛",4,13.2,"烏斯尼之子三兄弟中的長兄，黛爾德拉的真愛，兩人私奔蘇格蘭多年後被阿爾斯特王康拿哈爾誘騙返鄉，儘管有弗格斯以名譽擔保安全通行，仍遭康拿哈爾背信設伏殺害——這場背叛直接促使弗格斯憤而叛逃投奔康諾特，成為《奪牛長征記》爆發的遠因之一。"],
+["sons_of_uisneach","烏斯尼之子","Clann Uisnigh","納歐斯與二弟的合稱",5.5,13.2,"納歐斯與其二弟艾爾雷、阿爾丹的合稱，三兄弟情同手足、共同護送黛爾德拉私奔蘇格蘭並肩作戰多年，最終在阿爾斯特王設下的騙局中一同罹難，其死是黛爾德拉終身無法釋懷之痛，也是阿爾斯特王庭信譽崩壞的關鍵事件。",true],
+
+/* ---- 《奪牛長征記》 ---- */
+["tain_epic","奪牛長征記","Táin Bó Cúailnge","愛爾蘭最重要的英雄史詩",4,14.4,"愛爾蘭最重要的英雄史詩，記述康諾特女王梅芙為求奪取阿爾斯特的神牛唐恩庫林亞、以與丈夫財富打平而發動的大舉入侵。阿爾斯特全體戰士因瑪卡的古老詛咒而陷入產痛般的癱瘓，唯獨並非純血阿爾斯特人的庫丘林得以倖免，隻身在淺灘一次次以「單挑戰鬥」的古老戰爭禮法拖延康諾特大軍，直至阿爾斯特戰士脫離詛咒、及時馳援反攻——這部史詩並稱愛爾蘭的「伊利亞德」，是整個阿爾斯特傳說循環的核心敘事。",true],
+["donn_cuailnge","唐恩庫林亞（褐牛）","Donn Cúailnge","阿爾斯特的神牛",5.5,14.4,"阿爾斯特的神牛，全愛爾蘭最雄壯的公牛，正是梅芙發動整場《奪牛長征記》意圖奪取的目標。牠與康諾特神牛芬本納赫本為一對曾多次轉世纏鬥的宿敵，史詩終局兩牛在戰爭落幕後決一死戰，唐恩庫林亞獲勝卻也在狂奔返鄉途中力竭而亡，為這部史詩畫下淒美而諷刺的句點——一整場血流成河的戰爭，最終仍以雙牛皆亡收場。"],
+["finnbennach","芬本納赫（白角牛）","Finnbennach","康諾特的神牛",7,14.4,"康諾特的神牛，梅芙之夫艾利爾所擁有的雄壯公牛，正是牠比唐恩庫林亞略勝一籌的身價，觸發了梅芙不甘示弱、執意奪牛以求扳平的整場戰爭。牠與唐恩庫林亞在史詩終局殊死一戰，最終落敗身亡。"],
+["gae_bulg","加耶伯格","Gáe Bulg（腹刺之槍）","庫丘林的傳奇神槍",8.5,14.4,"庫丘林自女戰士斯卡塔赫處習得的傳奇神槍，以怪物骨刺製成，須以腳趾投擲、入水後倒鉤盡張，一擊便能貫穿全身要害、造成三十處致命傷口，中槍者絕無生還可能。他正是以此槍刺殺了結義兄弟菲迪亞——這件武器象徵著武藝的巔峰，也承載著他一生中最痛的抉擇。",true],
+
+/* ---- 芬尼亞傳說：芬恩與芬尼亞戰士團 ---- */
+["fionn","芬恩·麥克庫爾","Fionn mac Cumhaill","芬尼亞戰士團的首領",10,15.6,"芬尼亞傳說的核心英雄，愛爾蘭戰士團「芬尼亞」的首領，幼年時意外舔到手指上飛濺的「知識鮭魚」油脂，從此只要拇指含入口中便能得知天下萬事、預知未來。他率芬尼亞戰士團守衛愛爾蘭海岸、狩獵惡魔、對抗來犯的異界入侵者，晚年因迎娶葛蘭妮卻遭她與麾下勇士迪爾姆德私奔而黯然神傷，是貫穿整個芬尼亞循環的智慧型領袖與悲劇性丈夫。",false,"key"],
+["fianna_note","芬尼亞戰士團","Na Fianna","芬恩統領的傳奇戰士兄弟會",11.5,15.6,"由芬恩·麥克庫爾統領的傳奇愛爾蘭戰士兄弟會，成員須通過嚴苛的武藝、詩藝與體能考驗方能入團，平時漁獵於荒野、戰時捍衛王國免受異族與異界侵擾，是凱爾特版本「游俠騎士團」的原型，其冒險故事構成了整個芬尼亞循環的敘事骨幹。",true],
+["oisin","奧伊辛","Oisín（小鹿）","芬恩之子・芬尼亞團最傑出的詩人",13,15.6,"芬恩之子，芬尼亞團中最傑出的詩人，其名意為「小鹿」，源於其母莎伊夫被巫術化為鹿身時所生。他隨仙女妮亞芙遠赴長生樂土「蒂爾納諾」共度良緣，多年後思鄉返回愛爾蘭，卻在觸地的一瞬間急速衰老——樂土的多年在人間已是數百載光陰，他成了跨越時代、向後世講述芬尼亞傳奇的「最後見證者」。"],
+["oscar","奧斯卡","Oscar","奧伊辛之子・剛烈的少壯戰士",14.5,15.6,"奧伊辛之子、芬恩之孫，芬尼亞團中以勇猛剛烈著稱的少壯戰士，在芬尼亞團與愛爾蘭高王爆發的加烏拉之戰（Cath Gabhra）中戰死沙場，這場慘烈的內戰也標誌著芬尼亞戰士團黃金時代的終結。"],
+
+/* ---- 迪爾姆德與葛蘭妮 ---- */
+["diarmuid","迪爾姆德","Diarmuid Ua Duibhne","芬尼亞團中最英俊的勇士",10,16.8,"芬尼亞團中最英俊的勇士，額間有一枚「愛情之痣」，任何女子只要見其真容便會不由自主地愛上他，因此他平時總以頭巾遮掩。老年芬恩迎娶年輕的葛蘭妮，她卻在婚宴上對迪爾姆德一見傾心，以格西（geis，蓋爾神話中不可違逆的神聖禁制）強迫他與自己私奔——他們在愛爾蘭各地流亡多年，終被芬恩以巧計設局，讓迪爾姆德命喪一頭受詛咒的野豬獠牙之下，芬恩本可以魔法之水救他卻遲遲不肯，是芬尼亞循環中最糾結的三角悲劇。",false,"key"],
+["grainne","葛蘭妮","Gráinne","愛爾蘭高王之女",11.5,16.8,"愛爾蘭高王之女，被許配給年邁的芬恩·麥克庫爾，卻在婚宴上對俊美的迪爾姆德一見鍾情，以格西之咒強逼他與自己私奔天涯。兩人流亡多年，最終迪爾姆德命喪野豬之下，她在悲痛之餘竟又轉而嫁予芬恩——這樁令芬尼亞團其餘成員憤而與芬恩決裂的結局，為這則愛情悲劇增添了複雜而現實的餘韻。"],
+["sadhbh","莎伊夫","Sadhbh","芬恩之妻・化為鹿身的女子",13,16.8,"芬恩·麥克庫爾之妻，奧伊辛之母，被黑暗德魯伊以巫術化為一頭母鹿長達數年，芬恩狩獵時偶然相遇並助她暫時恢復人形，兩人相戀誕下奧伊辛。然而她後來被德魯伊的幻術誘騙離開芬恩的庇護，自此永遠化為鹿身、消失於荒野，徒留芬恩終身尋覓不獲的遺憾。"],
+["salmon_knowledge","知識鮭魚","An Bradán Feasa","食盡榛果而擁有天下知識的鮭魚",14.5,16.8,"棲息於博因河深潭中的傳奇鮭魚，因食盡九株智慧榛樹落下的榛果而擁有天下一切知識，相傳凡食其肉者即得全知全能。詩人費格斯苦候七年終於將牠釣起，命年少的芬恩代為炙烤，芬恩卻被濺起的滾油燙傷拇指、下意識含入口中，就此意外獲得了本應屬於費格斯的無上智慧——「拇指知識」自此成為芬恩終身可隨時取用的預知能力。",true],
+
+/* ---- 常青樂土與聖地 ---- */
+["tir_na_nog","蒂爾納諾","Tír na nÓg（青春之地）","凱爾特神話中的常青異界樂土",10,18,"凱爾特神話中的常青異界樂土，時間流速與人間迥異、居者青春永駐、萬物豐美不朽，由圖阿哈德達南退居於此、或以妖精仙靈之姿統治。奧伊辛曾隨仙女妮亞芙在此度過看似數年的良緣，返回人間時才驚覺已過數百年光陰，是凱爾特「異界時間扭曲」母題最著名的例證。",true],
+["bru_na_boinne","布魯納波涅","Brú na Bóinne","波因河畔的巨石通道墓遺址群",11.5,18,"波因河畔的巨石通道墓遺址群（今紐格萊奇墓所在地），神話中相傳是達格達與河神博安所居的宮殿，後為其子恩古斯以「一日一夜」的巧計騙得而永久佔據。真實的紐格萊奇墓已逾五千年歷史，每年冬至日出的第一道光正巧貫穿墓道深處，是史前建築與神話敘事交融的著名實例。",true],
+
+/* ---- 大陸凱爾特（高盧）諸神 ---- */
+["cernunnos","科爾努諾斯","Cernunnos（有角者）","頭生鹿角的自然與豐饒之神",6,19.2,"大陸凱爾特（高盧）最富盛名的神祇之一，頭生鹿角、常盤坐於野獸與蛇群之間，掌管自然、豐饒、野性與陰間循環，其形象見於法國巴黎「船夫之柱」等重要考古遺物。由於文獻記載匱乏，他的具體神話事蹟已大多失傳，卻因其鮮明的視覺形象而成為後世最廣為人知的「凱爾特角神」象徵。",false,"key"],
+["epona","埃波娜","Epona（大母馬）","高盧的馬匹與豐饒女神",7.5,19.2,"高盧的馬匹與豐饒女神，其名意為「大母馬」，是少數被羅馬人直接吸收入自身信仰體系的凱爾特神祇之一，廣受羅馬騎兵部隊崇奉，信仰範圍遍及整個羅馬帝國西部行省，象徵著凱爾特與羅馬文化交融的典型案例。"],
+["taranis","塔拉尼斯","Taranis（雷鳴者）","高盧的雷神",9,19.2,"高盧的雷神，其名字詞根與「雷」（如威爾斯語taran）同源，古羅馬作家盧坎將他與朱庇特相提並論，並記載其信眾以活人獻祭（浸入木桶溺斃）取悅祂——盧坎筆下與埃蘇斯、圖塔提斯並稱高盧信仰中最令羅馬人驚駭的「殘酷三神」。"],
+["esus","埃蘇斯","Esus（主宰者）","高盧的森林與伐木之神",10.5,19.2,"高盧神祇，「殘酷三神」之一，其崇拜與森林、伐木及一位收割柳條的神祕儀式相關，古典文獻記載其信眾以懸吊獻祭者於樹上、任其流血而亡的方式敬拜他，是大陸凱爾特信仰中最陰森神祕的一面。"],
+["teutates","圖塔提斯","Toutatis（部族之神）","高盧的部族守護神",12,19.2,"高盧的部族守護神，其名直譯即「部族之神」，被視為戰爭與部族認同的核心信仰對象，「殘酷三神」之一——信眾以將獻祭者頭朝下浸入大桶溺斃的方式敬拜他。後世漫畫《高盧英雄傳》中「Par Toutatis！」（以圖塔提斯之名！）的口頭禪，正是這位古神留存至今最廣為人知的文化痕跡。"],
+];
+
+const CL_GROUPS = [
+  ["圖阿哈德達南主神", ["danu","dagda","nuada","lugh","brigid","ogma","eriu","banba","fodla"], "#5ab4ff", false],
+  ["摩莉甘與戰爭女神群", ["morrigan","badb","macha","nemain"], "#a06a8a"],
+  ["工藝與醫療諸神", ["goibniu","credne","luchta","dian_cecht","miach","airmid"], "#90c880"],
+  ["愛情、海洋與大地諸神", ["aengus","manannan","boann","cailleach"], "#7fa8d8"],
+  ["弗摩爾族", ["balor","bres","elatha","tethra"], "#c07a7a", false],
+  ["愛爾蘭來襲書：五波入侵者", ["cessair","partholon","nemed","fir_bolg","milesians","amergin","ith","donn_ancestor"], "#8f86c8"],
+  ["兩次莫伊圖拉戰役", ["mag_tuired_first","mag_tuired_second","balor","lugh","nuada","bres"], "#d09a70", false],
+  ["圖阿哈德達南四聖物", ["four_treasures_note","lia_fail","sword_nuada","spear_lugh","cauldron_dagda"], "#c8b090"],
+  ["阿爾斯特王庭", ["conchobar","fergus","medb","ailill"], "#70b0d0", false],
+  ["庫丘林與紅枝騎士團", ["cu_chulainn","emer","scathach","ferdiad","conall_cernach"], "#b08fd8"],
+  ["黛爾德拉的悲劇", ["deirdre","naoise","sons_of_uisneach","conchobar"], "#e0a0c0", false],
+  ["奪牛長征記", ["tain_epic","donn_cuailnge","finnbennach","gae_bulg","cu_chulainn","medb","ferdiad"], "#c0708a", false],
+  ["芬尼亞戰士團", ["fionn","fianna_note","oisin","oscar"], "#8fb8c8"],
+  ["迪爾姆德與葛蘭妮", ["diarmuid","grainne","sadhbh","salmon_knowledge","fionn"], "#d8a06f", false],
+  ["常青樂土與聖地", ["tir_na_nog","bru_na_boinne","oisin","aengus"], "#a8c890", false],
+  ["大陸凱爾特（高盧）諸神", ["cernunnos","epona","taranis","esus","teutates"], "#9a8fc8"],
+];
+
+const CL_UNIONS = [
+  /* 圖阿哈德達南世系 */
+  {parent:"danu", children:["dagda","nuada","ogma"], label:"母神所出的達奴族人", labelClass:"ritual"},
+  {spouses:["dagda","brigid"], marriage:"partner", label:"父女關係（一說）"},
+  {parent:"dagda", children:["brigid","aengus"], label:"達格達之女與私生之子"},
+  {spouses:["dagda","boann"], marriage:"secondary", children:["aengus"], label:"河邊私通・魔法延長的白晝", labelClass:"blood"},
+  {spouses:["dian_cecht","miach"], marriage:"partner", label:"醫術青出於藍反遭殺害", labelClass:"blood"},
+  {parent:"dian_cecht", children:["miach","airmid"], label:"醫神之子女"},
+  {parent:"nuada", children:["sword_nuada"], label:"出鞘必勝的聖劍"},
+  {spouses:["nuada","balor"], marriage:"partner", label:"二戰陣中殞命於邪眼巨魔", labelClass:"blood"},
+  {parent:"lugh", children:["spear_lugh"], label:"百發百中的魔法投槍"},
+  {spouses:["lugh","balor"], marriage:"partner", label:"外孫弒殺・應驗預言", labelClass:"blood"},
+  {parent:"lugh", children:["cu_chulainn"], label:"天神之子・阿爾斯特第一勇士", labelClass:"blood"},
+  {parent:"dagda", children:["cauldron_dagda"], label:"永不枯竭的豐饒之釜"},
+  /* 摩莉甘 */
+  {spouses:["dagda","morrigan"], marriage:"partner", label:"薩溫節前夕河邊交合換取助戰", labelClass:"blood"},
+  {spouses:["morrigan","cu_chulainn"], marriage:"partner", label:"求愛遭拒・化獸屢次阻撓", labelClass:"blood"},
+  {parent:"morrigan", children:["badb","macha","nemain"], label:"三重戰爭女神的化身"},
+  /* 弗摩爾族與莫伊圖拉 */
+  {spouses:["elatha","bres"], marriage:"partner", label:"跨族私通所生之子", labelClass:"blood"},
+  {parent:"balor", children:["mag_tuired_second"], label:"死於此役・弗摩爾潰敗"},
+  {spouses:["nuada","fir_bolg"], marriage:"partner", label:"第一次莫伊圖拉戰役擊敗", labelClass:"blood"},
+  {parent:"mag_tuired_first", children:["mag_tuired_second"], label:"努阿達失臂讓位・埋下戰因"},
+  {parent:"lugh", children:["mag_tuired_second"], label:"擊殺巴羅・扭轉戰局"},
+  /* 入侵神話循環 */
+  {parent:"nemed", children:["fir_bolg"], label:"後裔輾轉演變"},
+  {spouses:["milesians","eriu"], marriage:"partner", label:"登陸迎接・以其名為島名"},
+  {spouses:["milesians","banba"], marriage:"partner", label:"登陸迎接・以其名為島名"},
+  {spouses:["milesians","fodla"], marriage:"partner", label:"登陸迎接・以其名為島名"},
+  {spouses:["amergin","eriu"], marriage:"partner", label:"應允三女神之請・裁定島名", labelClass:"ritual"},
+  {spouses:["ith","milesians"], marriage:"partner", label:"先遣遇害・招致復仇遠征", labelClass:"blood"},
+  {spouses:["milesians","nuada"], marriage:"partner", label:"談判劃分・退居希伊丘塚", labelClass:"ritual"},
+  /* 阿爾斯特傳說 */
+  {spouses:["conchobar","cu_chulainn"], marriage:"partner", label:"舅甥與君臣之誼"},
+  {spouses:["conchobar","deirdre"], marriage:"secondary", label:"預言凶兆・幼時撫養意圖納妃", labelClass:"blood"},
+  {spouses:["deirdre","naoise"], marriage:"primary", label:"一見鍾情・私奔蘇格蘭"},
+  {parent:"naoise", children:["sons_of_uisneach"]},
+  {spouses:["conchobar","naoise"], marriage:"partner", label:"背信誘騙・設伏殺害", labelClass:"blood"},
+  {spouses:["fergus","conchobar"], marriage:"partner", label:"名譽擔保被背叛・憤而叛逃", labelClass:"blood"},
+  {spouses:["cu_chulainn","emer"], marriage:"primary", label:"通過重重試煉迎娶"},
+  {spouses:["cu_chulainn","scathach"], marriage:"partner", label:"遠赴蘇格蘭習武・授以神槍"},
+  {parent:"scathach", children:["gae_bulg"], label:"傳授神槍的祕法"},
+  {spouses:["cu_chulainn","ferdiad"], marriage:"partner", label:"結義兄弟・淺灘三日死戰", labelClass:"blood"},
+  {spouses:["cu_chulainn","conall_cernach"], marriage:"partner", label:"死後由其復仇"},
+  /* 奪牛長征記 */
+  {spouses:["medb","ailill"], marriage:"primary", label:"枕邊財富之爭引發戰事"},
+  {spouses:["medb","donn_cuailnge"], marriage:"partner", label:"發兵奪取的目標神牛", labelClass:"blood"},
+  {spouses:["ailill","finnbennach"], marriage:"partner", label:"引發攀比之心的公牛"},
+  {spouses:["donn_cuailnge","finnbennach"], marriage:"partner", label:"宿敵神牛終局死戰", labelClass:"blood"},
+  {spouses:["medb","cu_chulainn"], marriage:"partner", label:"淺灘單挑拖延大軍", labelClass:"blood"},
+  {spouses:["cu_chulainn","gae_bulg"], marriage:"partner", label:"貫穿要害的必殺神槍"},
+  {parent:"macha", children:["tain_epic"], label:"古老詛咒使阿爾斯特戰士癱瘓", labelClass:"ritual"},
+  /* 芬尼亞循環 */
+  {parent:"fionn", children:["oisin"], label:"父子・拇指知識的傳承"},
+  {spouses:["fionn","sadhbh"], marriage:"primary", children:["oisin"], label:"鹿身之戀"},
+  {spouses:["fionn","salmon_knowledge"], marriage:"partner", label:"意外燙傷拇指・獲得全知"},
+  {parent:"oisin", children:["oscar"], label:"父子・芬尼亞第三代"},
+  {spouses:["fionn","grainne"], marriage:"secondary", label:"老王迎娶年輕王女"},
+  {spouses:["grainne","diarmuid"], marriage:"primary", label:"格西之咒強迫私奔"},
+  {spouses:["fionn","diarmuid"], marriage:"partner", label:"設局借野豬之口除去情敵", labelClass:"blood"},
+  {spouses:["oisin","tir_na_nog"], marriage:"partner", label:"隨仙女遠赴樂土・歸來已逾百年", labelClass:"ritual"},
+  {spouses:["boann","bru_na_boinne"], marriage:"partner", label:"河神所居的宮殿"},
+  {spouses:["aengus","bru_na_boinne"], marriage:"partner", label:"一日一夜巧計騙得永居", labelClass:"ritual"},
+];
+
+const CL_NODE_NAMES = {
+  danu:{kojiki:"Danu",nihonshoki:"Anu",reading:"Danu",aliases:["丹努","阿努","大地母神"],shrine:"—"},
+  dagda:{kojiki:"An Dagda",nihonshoki:"The Good God",reading:"An Dagda",aliases:["達格達神","善良之神","眾神之父"],shrine:"布魯納波涅"},
+  eriu:{kojiki:"Ériu",nihonshoki:"Eire",reading:"Ériu",aliases:["埃麗屋","愛爾蘭島化身"],shrine:"塔拉丘"},
+  banba:{kojiki:"Banba",nihonshoki:"Banba",reading:"Banba",aliases:["班芭女神","愛爾蘭古稱"],shrine:"—"},
+  fodla:{kojiki:"Fódla",nihonshoki:"Fódla／Fóla",reading:"Fódla",aliases:["佛德拉女神","愛爾蘭古稱"],shrine:"—"},
+  nuada:{kojiki:"Nuada Airgetlám",nihonshoki:"Nuada of the Silver Hand",reading:"Nuada",aliases:["努阿達王","銀臂王"],shrine:"塔拉丘"},
+  lugh:{kojiki:"Lugh Lámfada",nihonshoki:"Lugh／Lug",reading:"Lugh",aliases:["盧格","盧夫","長臂盧訶","薩姆爾達奈赫"],shrine:"塔拉丘・盧納薩節"},
+  brigid:{kojiki:"Brigid",nihonshoki:"Brigit／St. Brigid",reading:"Brigid",aliases:["布麗姬女神","聖布麗姬"],shrine:"基爾代爾"},
+  ogma:{kojiki:"Ogma",nihonshoki:"Ogmios",reading:"Ogma",aliases:["奧格米奧斯","歐甘文發明者"],shrine:"—"},
+  morrigan:{kojiki:"An Mhórrígan",nihonshoki:"The Morrígan",reading:"Mórrígan",aliases:["莫莉甘","戰爭女神","烏鴉女神"],shrine:"—"},
+  badb:{kojiki:"Badb",nihonshoki:"Badb Catha",reading:"Badb",aliases:["巴德","戰場烏鴉"],shrine:"—"},
+  macha:{kojiki:"Macha",nihonshoki:"Macha",reading:"Macha",aliases:["瑪查","埃文瑪哈之名源"],shrine:"埃文瑪哈"},
+  nemain:{kojiki:"Nemain",nihonshoki:"Nemain",reading:"Nemain",aliases:["涅曼","恐慌女神"],shrine:"—"},
+  goibniu:{kojiki:"Goibniu",nihonshoki:"Goibniu",reading:"Goibniu",aliases:["戈布紐神匠","三工神之首"],shrine:"—"},
+  credne:{kojiki:"Credne",nihonshoki:"Credne",reading:"Credne",aliases:["克雷德涅","金工神"],shrine:"—"},
+  luchta:{kojiki:"Luchta",nihonshoki:"Luchtaine",reading:"Luchta",aliases:["路赫塔","木工神"],shrine:"—"},
+  dian_cecht:{kojiki:"Dian Cécht",nihonshoki:"Dian Cécht",reading:"Dian Cécht",aliases:["狄安克特神","健康之井"],shrine:"—"},
+  miach:{kojiki:"Míach",nihonshoki:"Miach",reading:"Míach",aliases:["米亞赫","青出於藍的醫神"],shrine:"—"},
+  airmid:{kojiki:"Airmed",nihonshoki:"Airmid",reading:"Airmed",aliases:["艾爾米德","草藥女神"],shrine:"—"},
+  aengus:{kojiki:"Aengus Óg",nihonshoki:"Aonghus／Mac Óc",reading:"Aengus",aliases:["安格斯","奧恩格斯","愛神"],shrine:"布魯納波涅"},
+  manannan:{kojiki:"Manannán mac Lir",nihonshoki:"Manannan",reading:"Manannán",aliases:["馬納南","利爾之子","海神"],shrine:"曼島"},
+  boann:{kojiki:"Boann",nihonshoki:"Boand",reading:"Boann",aliases:["博安女神","波因河化身"],shrine:"波因河"},
+  cailleach:{kojiki:"An Chailleach",nihonshoki:"Cailleach Bhéara",reading:"Cailleach",aliases:["凱利亞","貝拉的老嫗","冬之女神"],shrine:"—"},
+  balor:{kojiki:"Balor",nihonshoki:"Balor of the Evil Eye",reading:"Balor",aliases:["巴洛爾","邪眼巴羅","弗摩爾王"],shrine:"—"},
+  bres:{kojiki:"Bres",nihonshoki:"Eochaid Bres",reading:"Bres",aliases:["布雷斯王","半血王子"],shrine:"塔拉丘"},
+  elatha:{kojiki:"Elatha",nihonshoki:"Elatha",reading:"Elatha",aliases:["埃拉塔王","銀船之王"],shrine:"—"},
+  tethra:{kojiki:"Tethra",nihonshoki:"Tethra",reading:"Tethra",aliases:["泰特拉王","海底樂土之主"],shrine:"—"},
+  cessair:{kojiki:"Cessair",nihonshoki:"Cesair",reading:"Cessair",aliases:["凱莎爾","首波移民領袖"],shrine:"—"},
+  partholon:{kojiki:"Partholón",nihonshoki:"Partholon",reading:"Partholón",aliases:["帕索隆","第二波移民領袖"],shrine:"—"},
+  nemed:{kojiki:"Nemed",nihonshoki:"Nemed",reading:"Nemed",aliases:["涅梅德","第三波移民領袖"],shrine:"—"},
+  fir_bolg:{kojiki:"Fir Bolg",nihonshoki:"Fir Bolg",reading:"Fir Bolg",aliases:["皮袋之民","弗爾勃格族"],shrine:"康納赫特"},
+  milesians:{kojiki:"Clanna Míled",nihonshoki:"Milesians",reading:"Míled",aliases:["米利都之子","蓋爾人祖先"],shrine:"塔拉丘"},
+  amergin:{kojiki:"Amergin Glúingel",nihonshoki:"Amergin",reading:"Amergin",aliases:["阿梅金","首位愛爾蘭詩人"],shrine:"—"},
+  ith:{kojiki:"Íth",nihonshoki:"Ith",reading:"Íth",aliases:["伊斯","遇害的先遣者"],shrine:"—"},
+  donn_ancestor:{kojiki:"Donn",nihonshoki:"Donn of Tech Duinn",reading:"Donn",aliases:["多恩神","死者祖靈之主"],shrine:"Tech Duinn"},
+  mag_tuired_first:{kojiki:"Cath Maige Tuired I",nihonshoki:"First Battle of Mag Tuired",reading:"",aliases:["第一次莫伊圖拉之戰"],shrine:"—"},
+  mag_tuired_second:{kojiki:"Cath Maige Tuired II",nihonshoki:"Second Battle of Mag Tuired",reading:"",aliases:["第二次莫伊圖拉之戰"],shrine:"—"},
+  four_treasures_note:{kojiki:"Cethair Prímṡeóit",nihonshoki:"Four Treasures",reading:"",aliases:["四聖物","四寶"],shrine:"—"},
+  lia_fail:{kojiki:"Lia Fáil",nihonshoki:"Stone of Destiny",reading:"Lia Fáil",aliases:["命運之石","加冕石"],shrine:"塔拉丘"},
+  sword_nuada:{kojiki:"Claíomh Solais",nihonshoki:"Sword of Light",reading:"Claíomh Solais",aliases:["光之劍","努阿達聖劍"],shrine:"—"},
+  spear_lugh:{kojiki:"Sleá Bua",nihonshoki:"Spear of Victory",reading:"Sleá Bua",aliases:["勝利之槍","盧訶聖槍"],shrine:"—"},
+  cauldron_dagda:{kojiki:"Coire Ansic",nihonshoki:"Undry",reading:"Coire Ansic",aliases:["豐饒之釜","達格達聖釜"],shrine:"—"},
+  conchobar:{kojiki:"Conchobar mac Nessa",nihonshoki:"Conor",reading:"Conchobar",aliases:["康納爾王","阿爾斯特王"],shrine:"埃文瑪哈"},
+  fergus:{kojiki:"Fergus mac Róich",nihonshoki:"Fergus",reading:"Fergus",aliases:["弗格斯王","前任阿爾斯特王"],shrine:"—"},
+  medb:{kojiki:"Medb",nihonshoki:"Maeve",reading:"Medb",aliases:["梅芙女王","梅維"],shrine:"康諾特"},
+  ailill:{kojiki:"Ailill mac Máta",nihonshoki:"Ailill",reading:"Ailill",aliases:["艾利爾王"],shrine:"康諾特"},
+  cu_chulainn:{kojiki:"Cú Chulainn",nihonshoki:"Cuchulain",reading:"Cú Chulainn",aliases:["庫胡林","庫林之犬","塞坦塔"],shrine:"埃文瑪哈"},
+  emer:{kojiki:"Emer",nihonshoki:"Emer",reading:"Emer",aliases:["艾梅爾","六德之女"],shrine:"—"},
+  scathach:{kojiki:"Scáthach",nihonshoki:"Scathach",reading:"Scáthach",aliases:["斯卡塔","陰影女戰士"],shrine:"斯凱島"},
+  ferdiad:{kojiki:"Ferdiad",nihonshoki:"Ferdia",reading:"Ferdiad",aliases:["菲爾迪亞","結義兄弟"],shrine:"—"},
+  conall_cernach:{kojiki:"Conall Cernach",nihonshoki:"Conall the Victorious",reading:"Conall Cernach",aliases:["康納爾","第二勇士"],shrine:"—"},
+  deirdre:{kojiki:"Deirdre",nihonshoki:"Deirdre of the Sorrows",reading:"Deirdre",aliases:["黛德麗","哀愁的黛爾德拉"],shrine:"—"},
+  naoise:{kojiki:"Naoise",nihonshoki:"Naoise",reading:"Naoise",aliases:["內西","烏斯尼長子"],shrine:"—"},
+  sons_of_uisneach:{kojiki:"Clann Uisnigh",nihonshoki:"Sons of Uisneach",reading:"",aliases:["烏斯尼三兄弟"],shrine:"—"},
+  tain_epic:{kojiki:"Táin Bó Cúailnge",nihonshoki:"The Cattle Raid of Cooley",reading:"Táin Bó Cúailnge",aliases:["奪牛記","庫利牛劫"],shrine:"—"},
+  donn_cuailnge:{kojiki:"Donn Cúailnge",nihonshoki:"The Brown Bull of Cooley",reading:"Donn Cúailnge",aliases:["庫利褐牛","唐恩神牛"],shrine:"—"},
+  finnbennach:{kojiki:"Finnbennach",nihonshoki:"The White-Horned Bull",reading:"Finnbennach",aliases:["白角牛","康諾特神牛"],shrine:"—"},
+  gae_bulg:{kojiki:"Gáe Bulg",nihonshoki:"Gae Bolg",reading:"Gáe Bulg",aliases:["蓋伯格","腹刺神槍"],shrine:"—"},
+  fionn:{kojiki:"Fionn mac Cumhaill",nihonshoki:"Finn McCool",reading:"Fionn",aliases:["芬麥庫爾","芬恩王"],shrine:"—"},
+  fianna_note:{kojiki:"Na Fianna",nihonshoki:"The Fenians",reading:"Fianna",aliases:["芬尼亞團","費奧納騎士"],shrine:"—"},
+  oisin:{kojiki:"Oisín",nihonshoki:"Ossian",reading:"Oisín",aliases:["奧西恩","詩人之子"],shrine:"蒂爾納諾"},
+  oscar:{kojiki:"Oscar",nihonshoki:"Oscar",reading:"Oscar",aliases:["奧斯卡勇士","加烏拉之戰"],shrine:"—"},
+  diarmuid:{kojiki:"Diarmuid Ua Duibhne",nihonshoki:"Diarmuid",reading:"Diarmuid",aliases:["迪爾姆德","愛情痣勇士"],shrine:"—"},
+  grainne:{kojiki:"Gráinne",nihonshoki:"Grainne",reading:"Gráinne",aliases:["格蘭妮","高王之女"],shrine:"—"},
+  sadhbh:{kojiki:"Sadhbh",nihonshoki:"Sive",reading:"Sadhbh",aliases:["莎芙","鹿身之妻"],shrine:"—"},
+  salmon_knowledge:{kojiki:"An Bradán Feasa",nihonshoki:"Salmon of Knowledge",reading:"",aliases:["智慧鮭魚","拇指知識"],shrine:"波因河"},
+  tir_na_nog:{kojiki:"Tír na nÓg",nihonshoki:"Land of the Young",reading:"Tír na nÓg",aliases:["提爾納諾","青春之地"],shrine:"—"},
+  bru_na_boinne:{kojiki:"Brú na Bóinne",nihonshoki:"Newgrange",reading:"Brú na Bóinne",aliases:["紐格萊奇","波因河宮"],shrine:"波因河谷"},
+  cernunnos:{kojiki:"Cernunnos",nihonshoki:"Cernunnos",reading:"Cernunnos",aliases:["克努諾斯","角神","有角者"],shrine:"高盧"},
+  epona:{kojiki:"Epona",nihonshoki:"Epona",reading:"Epona",aliases:["伊波娜","馬神"],shrine:"高盧・羅馬帝國"},
+  taranis:{kojiki:"Taranis",nihonshoki:"Taranis",reading:"Taranis",aliases:["塔拉尼斯","雷神"],shrine:"高盧"},
+  esus:{kojiki:"Esus",nihonshoki:"Esus",reading:"Esus",aliases:["伊蘇斯","森林之神"],shrine:"高盧"},
+  teutates:{kojiki:"Toutatis",nihonshoki:"Teutates",reading:"Toutatis",aliases:["圖塔提斯","部族之神"],shrine:"高盧"},
+};
+
 const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
@@ -3736,6 +4011,11 @@ const PANTHEONS = {
     title:'🔥 波斯神話系譜', defs:PS_NODE_DEFS, groups:PS_GROUPS, unions:PS_UNIONS, names:PS_NODE_NAMES,
     seed:PERSIA_USER_EDITS, storage:'persia_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（阿維斯陀語）', kojiki:'阿維斯陀語名', nihonshoki:'中古波斯語／王書名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰地'},
+  },
+  celtic: {
+    title:'🍀 凱爾特神話系譜', defs:CL_NODE_DEFS, groups:CL_GROUPS, unions:CL_UNIONS, names:CL_NODE_NAMES,
+    seed:CELTIC_USER_EDITS, storage:'celtic_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
+    labels:{kana:'卡片副標（蓋爾語）', kojiki:'蓋爾語名', nihonshoki:'英語通用名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰地'},
   },
 };
 // 各體系的使用者修改各自獨立保存，匯出時一併寫回
@@ -4493,13 +4773,14 @@ async function exportHTML(){
   const eEditsJSON = JSON.stringify(LIVE_EDITS.egypt);
   const mEditsJSON = JSON.stringify(LIVE_EDITS.mesopotamia);
   const pEditsJSON = JSON.stringify(LIVE_EDITS.persia);
+  const clEditsJSON = JSON.stringify(LIVE_EDITS.celtic);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
     const src = await fetch(location.href).then(r=>r.text());
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\nconst CELTIC_USER_EDITS = ${clEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -4773,6 +5054,7 @@ function openNorse(){ openPantheon('norse'); }
 function openEgypt(){ openPantheon('egypt'); }
 function openMesopotamia(){ openPantheon('mesopotamia'); }
 function openPersia(){ openPantheon('persia'); }
+function openCeltic(){ openPantheon('celtic'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
