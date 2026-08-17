@@ -50,6 +50,8 @@
     transition:border-color .25s, box-shadow .25s, opacity .45s, filter .45s;
   }
   .myth-icon .glyph{font-size:4.6em; line-height:1; filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));}
+  .myth-icon .glyph.faravahar-glyph{font-size:4.6em; display:flex; align-items:center; justify-content:center;}
+  .faravahar-icon{width:2.3em; height:1.44em; color:var(--accent);}
   .myth-icon .label{font-size:1.32em; font-weight:700; letter-spacing:.04em;}
   .myth-icon .sub{font-size:.82em; color:var(--dim); line-height:1.6;}
   /* 正面那張才完整呈現，其餘後退並淡化，做出景深 */
@@ -309,6 +311,7 @@
     #wheel{width:200px; height:260px;}
     .myth-icon{padding:14px; gap:12px;}
     .myth-icon .glyph{font-size:3.4em;}
+    .myth-icon .glyph.faravahar-glyph{font-size:3.4em;}
     .myth-icon .label{font-size:1.08em;}
     .myth-icon .sub{font-size:.74em;}
     .wheelArrow{width:44px; height:44px; font-size:1.1em;}
@@ -381,9 +384,25 @@
       <div class="sub">提亞馬特・吉爾伽美什・伊絲塔</div>
     </div>
     <div class="myth-icon" onclick="openPersia()">
-      <div class="glyph">🔥</div>
+      <div class="glyph faravahar-glyph">
+        <svg class="faravahar-icon" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="currentColor" d="M130,42 150,15 156,30 172,8 180,26 198,10 206,30 222,18 228,36 240,32 232,50 130,58 Z"/>
+          <path fill="currentColor" d="M110,42 90,15 84,30 68,8 60,26 42,10 34,30 18,18 12,36 0,32 8,50 110,58 Z"/>
+          <circle cx="120" cy="22" r="9" fill="currentColor"/>
+          <path fill="currentColor" d="M112,28 120,40 128,28 Z"/>
+          <path fill="currentColor" d="M108,30 C100,45 96,60 100,75 L140,75 C144,60 140,45 132,30 Z"/>
+          <path fill="currentColor" d="M130,34 162,27 166,32 134,40 Z"/>
+          <circle cx="171" cy="30" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path fill="currentColor" d="M100,72 C70,78 55,95 45,88 C60,80 75,75 100,72 Z"/>
+          <path fill="currentColor" d="M140,72 C170,78 185,95 195,88 C180,80 165,75 140,72 Z"/>
+          <ellipse cx="120" cy="90" rx="18" ry="8" fill="currentColor"/>
+          <path fill="currentColor" d="M112,98 120,140 128,98 Z"/>
+          <path fill="currentColor" d="M100,96 78,124 96,100 Z"/>
+          <path fill="currentColor" d="M140,96 162,124 144,100 Z"/>
+        </svg>
+      </div>
       <div class="label">波斯神話</div>
-      <div class="sub">阿胡拉·馬茲達・羅斯坦・王書</div>
+      <div class="sub">法拉瓦哈・阿胡拉·馬茲達・羅斯坦</div>
     </div>
     <div class="myth-icon disabled">
       <div class="glyph">🕊️</div>
@@ -803,6 +822,17 @@ const JP_NODE_DEFS = [
 ["amenohiboko","天日槍","あめのひぼこ","新羅から渡来した王子",23,30.0,"新羅の王子。妻が日光に感じて産んだ赤い玉が美女に化したが、彼が驕ったため女は日本へ逃げ帰り、追って渡来したと伝わる。播磨・近江・若狭を経て但馬に落ち着き、七種の神宝をもたらした。出石神社の祭神であり、その五世の孫が葛城高額媛——神功皇后の母である。渡来系の血脈が皇統に接続する数少ない記述として重視される。"],
 ["kaguyahime","かぐや姫","かぐやひめ","竹取物語",27,19.5,"『竹取物語』の主人公。竹取の翁が光る竹の中から見出し、三月で美しい娘に育った。五人の貴公子には仏の御石の鉢・蓬萊の玉の枝・火鼠の裘・龍の頸の玉・燕の子安貝という到底得られぬ品を求めて退け、帝の求婚も受けなかった。八月十五夜、月からの迎えが来て、不死の薬と天の羽衣を残して昇天する。帝は薬を「天に最も近い山」で焼かせた——それが「不死（富士）の山」の名の由来と物語は結ぶ。現存する日本最古の物語文学である。"],
 ["yomotsukuni_note","黄泉国訪問","よもつくにほうもん","伊邪那岐命が亡き妻を訪ねた国境の物語",4,10.8,"火傷で死んだ伊邪那美神を追い、伊邪那岐神は黄泉の国まで下った。「決して姿を見るな」との約束を破って火を灯すと、そこには蛆の湧いた妻の変わり果てた姿があった。恥をかかされた伊邪那美神は黄泉醜女と八柱の雷神、さらに自ら追いすがって夫を追う。伊邪那岐神は桃の実を投げて退け、最後に千人力の大岩（道反大神）で黄泉比良坂を塞いだ。岩を挟んで妻は「あなたの国の民を一日に千人絞め殺す」と言い、夫は「ならば私は一日に千五百の産屋を建てよう」と応じた——生と死、増殖と衰滅の均衡を語る神話である。この境を越えて生還した伊邪那岐神は、筑紫の日向で禊を行い、三貴子を得た。",true],
+
+/* ---- 八雷神：伊邪那美神の腐乱した身体に生じた八柱の雷神 ---- */
+["okaminoikazuchi","大雷","おほいかづち","伊邪那美神の頭に生じた雷神",-3,9.3,"伊邪那美神の頭部に取り憑いた雷神。八雷神の筆頭で、その名は雷の激しい威力そのものを表すとされる。伊邪那岐神が禁を破って黄泉の変わり果てた妻の姿を見た時、真っ先に目にした恐怖の象徴であり、黄泉醜女と共に夫を追う軍勢の先頭に立った。"],
+["honoikazuchi","火雷","ほのいかづち","伊邪那美神の胸に生じた雷神",-1.5,9.3,"伊邪那美神の胸部に取り憑いた雷神。稲光を伴う雷、すなわち落雷の閃光そのものを神格化したとされる。夫・伊邪那岐神が持ち込んだ火（湯津爪櫛の歯を折って灯した明かり）によって彼女の恥が暴かれた直後に生じた神であり、火と雷の破壊的な結びつきを象徴する。"],
+["kuroikazuchi","黒雷","くろいかづち","伊邪那美神の腹に生じた雷神",0,9.3,"伊邪那美神の腹部に取り憑いた雷神。雷雲が空を覆い、あたりを暗く閉ざす様を象徴するとされる。腐乱した女神の身体を「うじたかれころろきて」（蛆がたかり、ゴロゴロと音を立てる）と形容する『古事記』の描写と呼応し、腹部の腐敗と暗黒のイメージを重ねる。"],
+["sakuikazuchi","拆雷","さくいかづち","伊邪那美神の陰部に生じた雷神",1.5,9.3,"伊邪那美神の陰部（ほと）に取り憑いた雷神。天地を切り裂くような雷の轟音、あるいは稲妻が空を裂く様を象徴するとされる。皮肉にも、かつて夫婦の交わりと国生みの源であった部位に、いま破壊の神が宿るという対比が語られる。"],
+["wakaikazuchi","若雷","わかいかづち","伊邪那美神の左手に生じた雷神",-3,10.3,"伊邪那美神の左手に取り憑いた雷神。生まれたての雷、勢い盛んで荒々しい若さの力を象徴するとされる。八雷神はそれぞれ身体の各所に宿りながら、伊邪那岐神が桃の実を投げつけて撃退するまで一体となって夫を追い詰めた。"],
+["tsuchiikazuchi","土雷","つちいかづち","伊邪那美神の右手に生じた雷神",-1.5,10.3,"伊邪那美神の右手に取り憑いた雷神。雷が大地に落ちる瞬間、土くれを轟かせる様を象徴するとされる。地に根ざす破壊の力として、他の七柱と共に黄泉比良坂まで夫を追跡した。"],
+["narukazuchi","鳴雷","なるいかづち","伊邪那美神の左足に生じた雷神",0,10.3,"伊邪那美神の左足に取り憑いた雷神。轟き渡る雷鳴そのものを象徴するとされる。八柱のうち最も直接的に「音」を体現する神格であり、黄泉の闇に響き渡る恐怖の轟音として描かれる。"],
+["fusuikazuchi","伏雷","ふすいかづち","伊邪那美神の右足に生じた雷神",1.5,10.3,"伊邪那美神の右足に取り憑いた雷神。雷雲の底に潜み、まだ鳴り出さずに伏している力を象徴するとされる。八雷神の最後の一柱として、地を這うように夫を追う軍勢の一員となった。"],
+["hachiraijin_note","八雷神","やくさのいかづちがみ","八柱の雷神・黄泉の追跡者",-0.75,8.3,"伊邪那美神の変わり果てた亡骸の頭・胸・腹・陰部・左右の手足という八箇所にそれぞれ取り憑いた八柱の雷神の総称。夫・伊邪那岐神が禁を破ってその姿を見たことで妻の怒りと恥を買い、黄泉醜女や伊邪那美神本人と共に千五百の黄泉軍勢を率いて夫を追跡した。伊邪那岐神は桃の実を投げつけてこれを撃退し、最後は千人がかりでなければ動かせぬ巨岩（道反大神）で黄泉比良坂を塞いで生還を果たした——生者の国と死者の国とを分かつ、この世で最初の追跡劇の主役である。",true],
 ["sugawara_michizane","菅原道真","すがわらのみちざね","学問の神・天神",30,17.1,"平安時代の学者・政治家。右大臣にまで昇りながら藤原時平の讒言により大宰府へ左遷され、失意のうちに没した。死後、都では雷害や疫病、時平をはじめ政敵の相次ぐ変死が続き、清涼殿への落雷では貴族が命を落とした——朝廷はこれを道真の祟りと恐れ、正一位・太政大臣を追贈して霊を鎮めようとした。日本三大怨霊の一つに数えられる一方、生前は当代随一の学者・詩人であったことから、時代が下るにつれ祟り神から「天神様」として学問・書道の神へと信仰の性格を変えていった——荒ぶる怨霊が守り神へ転じた、日本の御霊信仰を代表する例である。牛を愛したという伝承から、天満宮には牛の像が置かれる。",true],
 ["magatsuhi_note","八十禍津日神・大禍津日神","やそまがつひ・おおまがつひ","黄泉の穢れから化生した禍の神",19,10.0,"伊邪那岐神が黄泉から帰り、筑紫の日向の橘の小門の阿波岐原で禊を行った際、まず身に付いた黄泉の穢れから化生した二柱。あらゆる災厄・凶事・過ちを司る。悪しき神として畏れられる一方、罪穢という「避けがたく積もるもの」を人格化した存在でもあり、続いて生まれた直毘神がただちにこれを直すという対の構造をなす。",true],
 ["naobi_note","神直毘神・大直毘神","かむなおひ・おおなおひ","禍を直す神",21,10.0,"禍津日神に続いて化生した二柱で、その名の「直」が示すとおり、禍津日神のもたらした災厄と歪みをただちに直し、元に復する神。伊豆能売神とともに、日本の祓（はらえ）の思想——穢れは消し去るのではなく流し直すもの——を体現している。",true],
@@ -827,6 +857,7 @@ const JP_GROUPS = [
   ["高天原", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","amaterasu","tsukuyomi","amenouzume","futodama","amenoiwatowake","omoikane","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","amenomahitotsu","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","amenohoakari","amenokoyane","amenotajikarao","amatsukunitama","amewakahiko","amanosagume","takemikazuchi","torinoiwakusufune","ninigi","nigihayahi","amenoiwato_note","sanshu_note"], "#e0c890", false],
   ["葦原中國", ["susanoo","sarutahiko","oyamatsumi","kagutsuchi","iwasaku","nesaku","mikahayahi","hihayahi","kuraokami","kuramitsuha","yamatsumi8","misogi_sutemono","watatsumi_soko","watatsumi_naka","watatsumi_uwa","sumiyoshi_soko","sumiyoshi_naka","sumiyoshi_uwa","owatatsumi","toyotamahime","tamayoribime","hoderi","hosuseri","hoori","ugayafukiaezu","ashinazuchi","tenazuchi","kushinadahime","kamuoichihime","otoshi","ukanomitama","yashimajinumi","konohanachiruhime","fuhanomojikunusunu","fukabuchimizuyarehana","omizunu","amenofuyukinu","okuninushi","sukunabikona","suseribime","yagamihime","nunakawahime","kamuyatatehime","kotoshironushi","takeminakata","kinomata","shitateruhime","ajishikitakahikone","konohanasakuyahime","iwanagahime","oyamatsumi_kayanohime_note","mizutogami_note","mishima_mizokuhi","seyadatarahime","omononushi","jimmu","jimmu_toseikou","yatagarasu","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note"], "#9fb87a", false],
   ["根之國・黄泉", ["izanami","yomotsukuni_note","susanoo","okuninushi","suseribime"], "#8a7fb8"],
+  ["八雷神", ["hachiraijin_note","okaminoikazuchi","honoikazuchi","kuroikazuchi","sakuikazuchi","wakaikazuchi","tsuchiikazuchi","narukazuchi","fusuikazuchi"], "#6a5a9a"],
   ["神話の事件と神器", ["amenoiwato_note","sanshu_note","yamatanoorochi","kusanagi","inaba_usagi","kuniyuzuri_note","umisachi_note","jimmu_toseikou","yatagarasu"], "#d8a06f", false],
   ["氏族の祖", ["nakatomi_note","inbe_note","mononobe_note","otomo_note","ohobiko","abe_note","takeuchi","soga_note"], "#8fb0d8", false],
   ["後世の信仰・神仏習合", ["ebisu","shichifukujin_note","hachiman","kumano_note","zao"], "#7ec4f0", false],
@@ -867,6 +898,9 @@ const JP_UNIONS = [
   {parent:"otoshi", children:["mitoshi","hayamato"], label:"稔りを司る子神"},
   {parent:"futodama", children:["amenohaduchio"], label:"天岩戸で文布を織る"},
   {spouses:["izanagi","izanami"], marriage:"partner", children:["yomotsukuni_note"], label:"黄泉比良坂で決別", labelClass:"blood"},
+  {parent:"izanami", children:["okaminoikazuchi","honoikazuchi","kuroikazuchi","sakuikazuchi","wakaikazuchi","tsuchiikazuchi","narukazuchi","fusuikazuchi"], label:"腐乱した身体の八箇所に生じた雷神", labelClass:"blood"},
+  {spouses:["hachiraijin_note","yomotsukuni_note"], marriage:"partner", label:"黄泉醜女と共に夫を追跡", labelClass:"blood"},
+  {spouses:["hachiraijin_note","izanagi"], marriage:"partner", label:"桃の実を投げつけられ撃退される", labelClass:"blood"},
   /* 神話の事件と神器 */
   {parent:"amaterasu", children:["amenoiwato_note","sanshu_note"], label:"岩戸と神器", labelClass:"ritual"},
   {parent:"susanoo", children:["yamatanoorochi","kumano_note"], label:"八岐大蛇退治と熊野習合", labelClass:"blood"},
@@ -1001,6 +1035,15 @@ const JP_NODE_NAMES = {
   "hayamato":{kojiki:"羽山戸神",nihonshoki:"（日本書紀には記載なし）",reading:"はやまと の かみ",aliases:["羽山戸神","羽山"]},
   "amenohaduchio":{kojiki:"天羽槌雄神",nihonshoki:"天羽槌雄神",reading:"あめのはづちお の かみ",aliases:["天羽槌雄","倭文神","しづり","機織"]},
   "yomotsukuni_note":{kojiki:"黄泉国",nihonshoki:"黄泉国",reading:"よもつくに",aliases:["黄泉","黄泉比良坂","根之國","黄泉醜女","道反大神","千引の石"]},
+  "hachiraijin_note":{kojiki:"八雷神",nihonshoki:"八色雷公",reading:"やくさのいかづちがみ",aliases:["八色雷神","八柱の雷神"]},
+  "okaminoikazuchi":{kojiki:"大雷",nihonshoki:"大雷",reading:"おほいかづち",aliases:["大雷神"]},
+  "honoikazuchi":{kojiki:"火雷",nihonshoki:"火雷",reading:"ほのいかづち",aliases:["火雷神"]},
+  "kuroikazuchi":{kojiki:"黒雷",nihonshoki:"黒雷",reading:"くろいかづち",aliases:["黒雷神"]},
+  "sakuikazuchi":{kojiki:"拆雷",nihonshoki:"析雷",reading:"さくいかづち",aliases:["拆雷神","裂雷神"]},
+  "wakaikazuchi":{kojiki:"若雷",nihonshoki:"若雷",reading:"わかいかづち",aliases:["若雷神"]},
+  "tsuchiikazuchi":{kojiki:"土雷",nihonshoki:"土雷",reading:"つちいかづち",aliases:["土雷神"]},
+  "narukazuchi":{kojiki:"鳴雷",nihonshoki:"鳴雷",reading:"なるいかづち",aliases:["鳴雷神"]},
+  "fusuikazuchi":{kojiki:"伏雷",nihonshoki:"伏雷",reading:"ふすいかづち",aliases:["伏雷神"]},
   "amenoiwato_note":{kojiki:"天石屋戸",nihonshoki:"天石窟（あまのいわや）",reading:"あまのいわとがくれ",aliases:["天岩戸","岩戸隠れ","天安河原","日蝕神話"]},
   "sanshu_note":{kojiki:"八尺鏡・八尺勾玉・草那藝劍",nihonshoki:"三種神器",reading:"さんしゅのじんぎ",aliases:["三種の神器","八咫鏡","八尺瓊勾玉","草薙剣","伊勢神宮","熱田神宮"]},
   "yamatanoorochi":{kojiki:"八俁遠呂智",nihonshoki:"八岐大蛇（やまたのおろち）",reading:"やまたのおろち",aliases:["八岐大蛇","八俣遠呂智","ヤマタノオロチ","出雲の大蛇"]},
