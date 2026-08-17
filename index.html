@@ -3780,7 +3780,7 @@ const CL_NODE_DEFS = [
 ["four_treasures_note","圖阿哈德達南四聖物","Cethair Prímṡeóit","圖阿哈德達南自北方帶回的四件至寶",16,9.6,"圖阿哈德達南自北方四座神祕城邦帶回愛爾蘭的四件至寶：法爾之石（王權石，能為真王發出吼聲）、努阿達之劍（出鞘必勝、無人能敵）、盧訶之槍（百發百中）、達格達之釜（豐饒之釜，永不見底）。這四件聖物分別象徵王權、戰無不勝、命中不移與豐饒無盡，是整個神族力量的具體化身。",true],
 ["lia_fail","法爾之石","Lia Fáil（命運之石）","塔拉丘上的加冕聖石",17.5,9.6,"愛爾蘭古都塔拉丘上的加冕聖石，四聖物之一，相傳唯有真正命定的王者踏上此石，石頭便會發出雷鳴般的吼聲以示認可——是愛爾蘭神話中「君權天授」最直接的物質見證，至今仍矗立於塔拉丘遺址。",true],
 ["sword_nuada","努阿達之劍","Claíomh Solais（光之劍）","出鞘必勝的聖劍",19,9.6,"圖阿哈德達南自北方城邦芬迪亞斯帶回的聖劍，四聖物之一，一旦出鞘便無人能夠抵擋、亦無人能夠逃脫其鋒芒，是努阿達王權與戰無不勝的象徵法器。",true],
-["spear_lugh","盧訶之槍","Sleá Bua（勝利之槍）","百發百中的魔法投槍",20.5,9.6,"圖阿哈德達南自北方城邦戈里亞斯帶回的魔法投槍，四聖物之一，握持者百發百中、投擲後必能取勝，正是盧訶在第二次莫伊圖拉戰役中倚仗的神兵之一。",true],
+["spear_lugh","盧訶之槍（伽耶阿薩爾）","Sleá Bua／Gáe Assail（勝利之槍）","百發百中的魔法投槍",20.5,9.6,"圖阿哈德達南自北方城邦戈里亞斯帶回的魔法投槍，四聖物之一，握持者百發百中、投擲後必能取勝，正是盧訶在第二次莫伊圖拉戰役中倚仗的神兵之一。此槍又名「伽耶阿薩爾」，念出咒語「Ibar」擲出必中目標，念出「Athibar」則能使其自動飛回持有者手中。另一則故事版本則稱盧訶的槍名為「阿勞德威爾」（Areadbhair），原屬於波斯皇帝魄塞爾，威力猛烈到槍尖必須浸泡儲存於一鍋水中，否則便會自行燃燒起火——某些譯本因而稱它為「屠殺者」，也有文本稱其為「最好的紫杉槍」或「最著名的紫杉槍」。",true],
 ["cauldron_dagda","達格達之釜","Coire Ansic（永不枯竭之釜）","豐饒神釜・永不枯竭",22,9.6,"圖阿哈德達南自北方城邦墨里亞斯帶回的豐饒神釜，四聖物之一，永遠盛滿食物、任誰取用皆不會枯竭，是達格達身為部族豐饒與慷慨守護者的具體象徵。",true],
 
 /* ---- 阿爾斯特傳說：王庭與英雄 ---- */
@@ -3972,7 +3972,7 @@ const CL_NODE_NAMES = {
   four_treasures_note:{kojiki:"Cethair Prímṡeóit",nihonshoki:"Four Treasures",reading:"",aliases:["四聖物","四寶"],shrine:"—"},
   lia_fail:{kojiki:"Lia Fáil",nihonshoki:"Stone of Destiny",reading:"Lia Fáil",aliases:["命運之石","加冕石"],shrine:"塔拉丘"},
   sword_nuada:{kojiki:"Claíomh Solais",nihonshoki:"Sword of Light",reading:"Claíomh Solais",aliases:["光之劍","努阿達聖劍"],shrine:"—"},
-  spear_lugh:{kojiki:"Sleá Bua",nihonshoki:"Spear of Victory",reading:"Sleá Bua",aliases:["勝利之槍","盧訶聖槍"],shrine:"—"},
+  spear_lugh:{kojiki:"Sleá Bua",nihonshoki:"Spear of Victory",reading:"Sleá Bua",aliases:["勝利之槍","盧訶聖槍","伽耶阿薩爾","阿勞德威爾","屠殺者","最好的紫杉槍","最著名的紫杉槍"],shrine:"—"},
   cauldron_dagda:{kojiki:"Coire Ansic",nihonshoki:"Undry",reading:"Coire Ansic",aliases:["豐饒之釜","達格達聖釜"],shrine:"—"},
   conchobar:{kojiki:"Conchobar mac Nessa",nihonshoki:"Conor",reading:"Conchobar",aliases:["康納爾王","阿爾斯特王"],shrine:"埃文瑪哈"},
   fergus:{kojiki:"Fergus mac Róich",nihonshoki:"Fergus",reading:"Fergus",aliases:["弗格斯王","前任阿爾斯特王"],shrine:"—"},
@@ -4490,6 +4490,7 @@ function fitInitial(smooth){
 }
 
 wrap.addEventListener('mousedown', e=>{
+  if(e.target.closest('.node, .edge-label')) return; // 在卡片或連線說明上按下，不啟動背景平移
   dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY; wrap.classList.add('grabbing');
   setSmooth(false);
 });
@@ -4527,6 +4528,7 @@ let touchMoved = false;
 const TOUCH_DRAG_THRESHOLD = 6; // px，低於此視為 tap，不算 pan
 function touchDist(a,b){ return Math.hypot(b.clientX-a.clientX, b.clientY-a.clientY); }
 wrap.addEventListener('touchstart', e=>{
+  if(e.target.closest('.node, .edge-label')) return; // 在卡片或連線說明上觸碰，不啟動背景平移
   setSmooth(false);
   if(e.touches.length===1){
     touchMode='pan'; dragging=true; moved=false; touchMoved=false;
