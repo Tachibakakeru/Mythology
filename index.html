@@ -6271,10 +6271,8 @@ document.addEventListener('keydown', e=>{
     closeRegionFilter();
   }
 });
-// 在面板外滾動滑鼠滾輪時收起面板（同搜尋類下拉選單的收合習慣）
-document.addEventListener('wheel', e=>{
-  if(regionFilterList.classList.contains('open') && !e.target.closest('#regionFilterWrap')) closeRegionFilter();
-}, {passive:true});
+// 面板開著時不會因為滾輪滑到外面就消失，只能點外部區域、按 Esc 或再點一次按鈕關閉
+// （wheelStage 的滾輪監聽已另外處理：面板開著時滾輪不會轉動背景卡片轉輪）
 
 renderRegionFilterBtn();
 applyRegionFilter();
