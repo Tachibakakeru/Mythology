@@ -204,7 +204,7 @@
     pointer-events:auto;cursor:pointer;color:var(--dim);background:var(--bg2);border:1px solid var(--line);
     transition:opacity .25s, border-color .2s, box-shadow .2s;}
   .edge-label:hover{border-color:var(--accent);}
-  .edge-label{z-index:4;}
+  .edge-label{z-index:7;}
   .edge-label.dim-label{opacity:.07;}
   .p-namerow{font-size:.82em;color:var(--text);margin-bottom:5px;line-height:1.6;}
   .p-namelabel{display:inline-block;font-size:.72em;color:var(--dim);border:1px solid var(--line);padding:1px 6px;border-radius:6px;margin-right:6px;white-space:nowrap;}
@@ -4085,7 +4085,19 @@ const CT_NODE_DEFS = [
 ["ghouls","食屍鬼","Ghouls","棲居墓地與夢境邊界的犬面生物",10.5,4.8,"外形介於人與犬之間、以屍體為食的地底生物，棲居於世界各地的墓穴與地下墓道之中，部分個體原是因長期食屍或受詛咒而逐漸變異的人類。祂們與夢境國度往來密切，作家蘭道夫·卡特在夢境歷險中甚至結識了一位由人類友人變異而成的食屍鬼首領，顯示這一物種比起純粹的恐怖存在，更帶有一絲灰色地帶的悲哀與可親近性。"],
 ["star_vampires","星之精","Star Vampires","肉眼不可見的吸血飛行生物",12,4.8,"僅能透過特殊器物（如伊格之眼寶石）方能窺見其形的隱形飛行生物，靠吸食生物的血液與生命力維生，來源被認為與外太空或異次元有關。牠們無聲無息地獵殺獵物，受害者往往在毫無防備間被榨乾致死，是克蘇魯神話中「不可見的恐怖」此一母題的代表物種。"],
 ["serpent_people","蛇人","Serpent People","伊格所生的蛇形擬人種族",13.5,4.8,"眾蛇之父伊格的子嗣，外貌介於人類與蛇類之間，擁有高度發展卻已然沒落的古老文明，殘存部族隱居於世界各地人跡罕至之處，偶爾會與人類接觸或發生衝突。祂們的形象融合了美洲原住民蛇神信仰與失落文明母題，是神話體系中種族設定最具悲劇色彩的沒落文明之一。"],
-["flying_polyps","飛掠者","Flying Polyps","古老者天敵・無形的風之生物",15,4.8,"半實體、幾乎無法被人類感官直接察覺的古老外星生物，能操縱強風與氣壓製造毀滅性的破壞，曾與伊斯的偉大種族爆發長期戰爭，迫使後者集體換位遷逃至未來的甲蟲軀體以避難。牠們如今仍封印棲息於澳洲內陸的地底遺跡之中，是少數令「偉大種族」都心生畏懼的存在。"],
+["flying_polyps","飛掠者（飛水螅・盲目者）","Flying Polyps","古老者天敵・無形的風之生物",15,4.8,"半實體、幾乎無法被人類感官直接察覺的古老外星生物，因缺乏可見的感官器官而又稱「盲目者」，能操縱強風與氣壓製造毀滅性的破壞，曾與伊斯的偉大種族爆發長期戰爭，迫使後者集體換位遷逃至未來的甲蟲軀體以避難。牠們如今仍封印棲息於澳洲內陸的地底遺跡之中，是少數令「偉大種族」都心生畏懼的存在。"],
+["byakhee","拜亞基","Byakhee","可穿越星際虛空的飛行生物",16.5,4.8,"外形介於昆蟲、蝙蝠與腐屍之間的星際飛行生物，通體長滿剛毛與膜翼，能在無空氣的星際真空中飛行穿梭，是舊日支配者哈斯塔麾下最常見的坐騎與信使。召喚者需誦念特定咒語才能馴使其現身，騎乘者若非有相應防護，往往在星際航行途中便已凍斃或發狂。"],
+["hound_tindalos","廷達洛斯獵犬","Hound of Tindalos","棲於時間銳角中的獵殺者",18,4.8,"棲居於時間本身尖銳稜角處的詭異掠食生物，通體漆黑、以細長如管的舌頭獵殺獵物。凡人若透過時間回溯之術窺見遠古歲月，便有極小機率驚動牠們，使其沿著時間的「角」一路追蹤至現世，任何有稜角的空間（房間牆角、家具邊緣）皆可能成為牠們潛入的縫隙——受害者唯有身處純粹曲面、毫無直角的空間才能倖免於難。"],
+["dark_young","黑山羊幼仔","Dark Young of Shub-Niggurath","千仔之黑山羊所生的觸手怪物",19.5,4.8,"莎布·尼古拉絲所生的眾多可怖子嗣之一，外形如巨大的黑色樹狀怪物，軀幹遍布蠕動觸手、以蹄狀肢體行走，散發著令人作嘔的腐朽氣息。祂們是森林邪教徒最常獻祭祈求降臨的對象，出沒之處草木瞬間枯萎腐爛，是「千仔」（Thousand Young）這一稱號最具體而駭人的體現。",false,"key"],
+["star_spawn","克蘇魯的星之眷族","Star-Spawn of Cthulhu","隨克蘇魯一同封印於拉萊耶的血親",21,4.8,"與克蘇魯同源、外貌相仿卻體型較小的類人章魚生物，隨克蘇魯一同沉睡封印於拉萊耶城的水下石室之中。牠們是克蘇魯最初率領降臨地球的先遣血族，在遠古地質年代曾一度統治整個地球，如今與其主人一同靜候星辰運行至正確方位、共同甦醒重返人間。"],
+["colour_out_of_space","太空來的顏色","The Colour Out of Space","墜落隕石帶來的非物質侵蝕存在",22.5,4.8,"並非傳統意義上的生物，而是一種無法以已知光譜描述、超越物理法則的詭異「顏色」，隨隕石墜落新英格蘭鄉間農莊而降臨人間。它悄無聲息地滲透污染水土草木，使周遭一切生物逐漸枯萎異變、發出詭異微光，最終吸乾整片土地的生命力升空離去，只留下一片寸草不生的「枯萎地」（Blasted Heath）。牠是洛夫克拉夫特筆下最徹底「非人化」、拒絕任何擬人詮釋的恐怖存在之一。",true],
+["nightgaunt","夜魘","Nightgaunt","無臉膜翼的黑瘦飛行生物",14.5,7.2,"棲居於夢境國度的黑色瘦削飛行生物，通體光滑如橡膠、渾身漆黑無眼無臉，僅以背部蝙蝠狀薄翼滑翔，最令人不安之處在於牠們會以雙爪搔弄擄獲者的軟肋作為折磨手段。祂們奉大地諸神之命看管夢境國度的邊界，蘭道夫·卡特在多次夢境歷險中都曾與夜魘打交道，時而為敵、時而借其飛行之力代步遠行。"],
+["gug","古革巨人","Gug","地底巨人・古革洞窟的居民",16,7.2,"棲居於夢境國度地底深淵的巨大人形怪物，身高逾十二呎，面部縱向裂開一張直生的巨口，因觸犯地球諸神而被永久放逐於地底幽暗洞窟之中，僅在食屍鬼的引路下才得以短暫現身地表獵食。蘭道夫·卡特的夢境歷險中，古革巨人是他被迫穿越地底世界時最駭人的威脅之一。"],
+["ghast","妖鬼","Ghast","棲居地底薄光地帶的白色跳躍生物",17.5,7.2,"棲居於夢境國度地底「薄光之地」的蒼白生物，外形與食屍鬼相似卻更為原始獸性，以強健後肢跳躍移動、懼怕光亮，性情兇殘嗜血。祂們與食屍鬼、古革巨人共同構成夢境國度地底世界險惡生態的一環，是蘭道夫·卡特地底歷險途中屢屢需要提防躲避的威脅。"],
+["shantak","夏塔克鳥","Shantak","巨大的爬蟲類飛鳥・寒冷荒原的坐騎",19,7.2,"棲息於寒冷荒原「冷之高原」附近、外形介於馬與爬蟲類飛鳥之間的巨大生物，通體覆蓋鱗片而非羽毛，鳴聲低啞刺耳，是月獸與冷之高原邪教徒常用的坐騎與運輸工具。牠們懼怕夜魘，卻是蘭道夫·卡特尋訪卡達斯途中重要的交通工具與潛在威脅。"],
+["zoog","迷魅鼠","Zoog","夢境森林中的鼠形精怪",20.5,7.2,"棲居於夢境國度「敵夢之林」的小型鼠類精怪，體型雖小卻機靈狡黠、成群結隊，以覓食與惡作劇著稱，對火焰懷有本能的恐懼。牠們雖不若其他夢境生物那般駭人，卻常在蘭道夫·卡特的夢境歷險中扮演消息靈通、亦敵亦友的角色。"],
+["moon_beast","月獸","Moon-Beast","往來月球與地球的灰白色貿易商",22,7.2,"外形臃腫、渾身灰白、觸手取代面部五官的畸形生物，往來於月球與地球之間，於冷之高原周邊從事奴隸交易與各類邪惡買賣，性喜以夏塔克鳥為坐騎巡邏。祂們與地球上的邪教徒、原住民部族時有勾結往來，是夢境國度中少數帶有「星際商旅」色彩的種族。"],
+["tcho_tcho","丘丘人","Tcho-Tcho","居於東南亞高原的墮落矮小部族",23.5,7.2,"棲居於東南亞崇山峻嶺高原地帶的矮小人類部族，因世代信奉查托古亞與其他舊日支配者、修習食人與黑魔法儀式而逐漸墮落變異，體態畸形、心智扭曲，被視為人類群體中最深陷神話黑暗面的存在，屢屢出現於各類涉及禁忌宗教儀式的神話擴充故事之中。"],
 
 /* ---- 典籍與神器 ---- */
 ["necronomicon","死靈之書","Necronomicon","阿拉伯瘋狂詩人所著的禁忌典籍",4,6,"由「瘋狂的阿拉伯人」阿卜杜·阿爾哈茲萊德於西元八世紀所著的禁忌典籍，原名《基塔布·阿爾阿齊夫》，記載了大量關於外神、舊日支配者及召喚儀式的危險知識。此書歷經多次翻譯與刪節版本流傳於世（拉丁文版尤為知名），世界各地圖書館多將其列為禁書、嚴加看管，然而每每仍有瘋狂學者或邪教徒設法取得並因書中知識而萬劫不復——閱讀本身即被視為足以侵蝕心智的危險行為。",false,"key"],
@@ -4126,7 +4138,8 @@ const CT_NODE_DEFS = [
 const CT_GROUPS = [
   ["外神（Outer Gods）", ["azathoth","yog_sothoth","nyarlathotep","shub_niggurath"], "#8f86c8", false],
   ["舊日支配者（Great Old Ones）", ["cthulhu","hastur","dagon_ct","cthugha","ithaqua","tsathoggua","yig","nyogtha"], "#5ab4ff"],
-  ["侍從種族", ["great_race_yith","elder_things","mi_go","deep_ones","shoggoths","ghouls","star_vampires","serpent_people","flying_polyps"], "#7fa8d8", false],
+  ["侍從種族", ["great_race_yith","elder_things","mi_go","deep_ones","shoggoths","ghouls","star_vampires","serpent_people","flying_polyps","byakhee","hound_tindalos","dark_young","star_spawn","colour_out_of_space","tcho_tcho"], "#7fa8d8", false],
+  ["夢境國度生物", ["nightgaunt","gug","ghast","shantak","zoog","moon_beast","kadath","dreamlands","randolph_carter"], "#a890c8", false],
   ["典籍與神器", ["necronomicon","elder_sign","silver_key","pnakotic_manuscripts","king_in_yellow_book"], "#c8b090"],
   ["重要地點", ["rlyeh","yuggoth","kadath","dreamlands","arkham","innsmouth","dunwich","miskatonic_u"], "#90c880", false],
   ["重要人物", ["alhazred","randolph_carter","herbert_west","wilbur_whateley","armitage","charles_dexter_ward"], "#b08fd8"],
@@ -4156,6 +4169,19 @@ const CT_UNIONS = [
   {spouses:["great_race_yith","flying_polyps"], marriage:"partner", label:"曾爆發長期戰爭・集體換位遷逃", labelClass:"blood"},
   {parent:"great_race_yith", children:["pnakotic_manuscripts"], label:"考察億萬年歷史所編纂的知識檔案"},
   {spouses:["ghouls","dreamlands"], marriage:"partner", label:"棲居於夢境國度的墓穴生物"},
+  {spouses:["hastur","byakhee"], marriage:"partner", label:"麾下常見的坐騎與信使"},
+  {parent:"shub_niggurath", children:["dark_young"], label:"千仔之黑山羊所生的觸手怪物", labelClass:"blood"},
+  {spouses:["cthulhu","star_spawn"], marriage:"partner", label:"同源血親・一同沉睡於拉萊耶", labelClass:"ritual"},
+  {spouses:["star_spawn","rlyeh"], marriage:"partner", label:"隨克蘇魯封印於此城水下石室"},
+  {spouses:["great_race_yith","hound_tindalos"], marriage:"partner", label:"時間回溯之術驚動的追蹤者", labelClass:"blood"},
+  {spouses:["tsathoggua","tcho_tcho"], marriage:"partner", label:"世代信奉而逐漸墮落變異的部族", labelClass:"ritual"},
+  {spouses:["nightgaunt","kadath"], marriage:"partner", label:"奉大地諸神之命看管夢境邊界"},
+  {spouses:["nightgaunt","randolph_carter"], marriage:"partner", label:"夢境歷險中時敵時友的飛行助力"},
+  {spouses:["gug","ghast"], marriage:"partner", label:"地底世界共同的險惡生態"},
+  {spouses:["ghouls","ghast"], marriage:"partner", label:"外貌相似的地底近親", labelClass:"ritual"},
+  {spouses:["shantak","moon_beast"], marriage:"partner", label:"月獸巡邏冷之高原常用的坐騎"},
+  {spouses:["shantak","nightgaunt"], marriage:"partner", label:"畏懼夜魘・彼此互為天敵", labelClass:"blood"},
+  {spouses:["zoog","randolph_carter"], marriage:"partner", label:"夢境歷險中亦敵亦友的消息來源"},
   {spouses:["ghouls","randolph_carter"], marriage:"partner", label:"夢境歷險中結識的人類故友", labelClass:"ritual"},
   /* 典籍 */
   {parent:"alhazred", children:["necronomicon"], label:"窺見禁忌知識後所撰寫的禁書", labelClass:"ritual"},
@@ -4201,7 +4227,19 @@ const CT_NODE_NAMES = {
   ghouls:{kojiki:"Ghouls",nihonshoki:"Ghouls",reading:"",aliases:["食屍鬼族","墓穴生物"],shrine:"夢境國度"},
   star_vampires:{kojiki:"Star Vampires",nihonshoki:"Star Vampires",reading:"",aliases:["星之精怪","隱形吸血者"],shrine:"—"},
   serpent_people:{kojiki:"Serpent People",nihonshoki:"Serpent Folk",reading:"",aliases:["蛇族","瓦盧西亞蛇人"],shrine:"—"},
-  flying_polyps:{kojiki:"Flying Polyps",nihonshoki:"Flying Polyps",reading:"",aliases:["飛行水螅","風之生物"],shrine:"澳洲內陸"},
+  flying_polyps:{kojiki:"Flying Polyps",nihonshoki:"Flying Polyps",reading:"",aliases:["飛行水螅","盲目者","風之生物"],shrine:"澳洲內陸"},
+  byakhee:{kojiki:"Byakhee",nihonshoki:"Byakhee",reading:"",aliases:["拜亞基族","星際飛行生物"],shrine:"—"},
+  hound_tindalos:{kojiki:"Hound of Tindalos",nihonshoki:"Hound of Tindalos",reading:"",aliases:["廷達洛斯之犬","時間獵犬"],shrine:"—"},
+  dark_young:{kojiki:"Dark Young of Shub-Niggurath",nihonshoki:"Dark Young",reading:"",aliases:["黑山羊之子","千仔"],shrine:"—"},
+  star_spawn:{kojiki:"Star-Spawn of Cthulhu",nihonshoki:"Star-Spawn",reading:"",aliases:["克蘇魯之眷族","拉萊耶血族"],shrine:"拉萊耶"},
+  colour_out_of_space:{kojiki:"The Colour Out of Space",nihonshoki:"The Colour Out of Space (1927)",reading:"",aliases:["太空來的顏色","異色隕石"],shrine:"新英格蘭鄉間"},
+  nightgaunt:{kojiki:"Nightgaunt",nihonshoki:"Nightgaunt",reading:"",aliases:["夜魘族","無臉飛行怪"],shrine:"夢境國度"},
+  gug:{kojiki:"Gug",nihonshoki:"Gug",reading:"",aliases:["古革族","地底巨人"],shrine:"夢境國度地底"},
+  ghast:{kojiki:"Ghast",nihonshoki:"Ghast",reading:"",aliases:["妖鬼族","薄光之地居民"],shrine:"夢境國度地底"},
+  shantak:{kojiki:"Shantak",nihonshoki:"Shantak-bird",reading:"",aliases:["夏塔克","冷之高原坐騎"],shrine:"冷之高原"},
+  zoog:{kojiki:"Zoog",nihonshoki:"Zoog",reading:"",aliases:["迷魅鼠族","敵夢之林精怪"],shrine:"敵夢之林"},
+  moon_beast:{kojiki:"Moon-Beast",nihonshoki:"Moon-Beast",reading:"",aliases:["月獸族","灰白商旅"],shrine:"月球"},
+  tcho_tcho:{kojiki:"Tcho-Tcho",nihonshoki:"Tcho-Tcho People",reading:"",aliases:["丘丘族","東南亞高原部族"],shrine:"東南亞高原"},
   necronomicon:{kojiki:"Necronomicon",nihonshoki:"Al Azif",reading:"Necronomicon",aliases:["死靈之書","阿爾阿齊夫"],shrine:"米斯卡塔尼克大學"},
   elder_sign:{kojiki:"Elder Sign",nihonshoki:"Elder Sign",reading:"",aliases:["古神徽記","封印符號"],shrine:"—"},
   silver_key:{kojiki:"Silver Key",nihonshoki:"The Silver Key",reading:"",aliases:["銀之鑰","夢境之鑰"],shrine:"—"},
@@ -6065,6 +6103,8 @@ const wheelStage = document.getElementById('wheelStage');
 let wheelScrollLock = 0;
 wheelStage.addEventListener('wheel', e=>{
   e.preventDefault();
+  // 地區篩選面板開著時，滾輪只用來關閉面板，不應同時轉動背景卡片轉輪
+  if(document.getElementById('regionFilterList').classList.contains('open')) return;
   const now = Date.now();
   if(now - wheelScrollLock < 380) return;   // 節流，一次滾動只轉一格
   wheelScrollLock = now;
