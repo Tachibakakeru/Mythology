@@ -410,6 +410,11 @@
       <div class="label">凱爾特神話</div>
       <div class="sub">圖阿哈德達南・庫丘林・芬尼亞</div>
     </div>
+    <div class="myth-icon" data-region="other" onclick="openArthurian()">
+      <div class="glyph">⚔️</div>
+      <div class="label">騎士王・亞瑟王傳說</div>
+      <div class="sub">圓桌騎士・聖杯・卡姆蘭之戰</div>
+    </div>
     <!-- 中東 -->
     <div class="myth-icon" data-region="middle_east" onclick="openMesopotamia()">
       <div class="glyph">𒀭</div>
@@ -2920,6 +2925,7 @@ const MESO_USER_EDITS = {};
 const PERSIA_USER_EDITS = {};
 const CELTIC_USER_EDITS = {};
 const CTHULHU_USER_EDITS = {};
+const ARTHURIAN_USER_EDITS = {};
 // @@EDITS_END
 
 /* ============================================================
@@ -4407,6 +4413,128 @@ const CT_NODE_NAMES = {
   keter_north:{kojiki:"Keter North",nihonshoki:"Keter North",reading:"",aliases:["凱特諾索斯","不滅的王座"],shrine:"—"},
 };
 
+/* ============================================================
+   資料：騎士王／亞瑟王傳說
+   以傑弗里、法國武功歌與馬洛里《亞瑟之死》的綜合傳統為主；
+   各文本常有互相矛盾的姓名、血緣與事件版本，節點說明會特別標示。
+   [id, name, 原文／轉寫, role, col, row, desc, isNote, tag]
+   ============================================================ */
+const AR_NODE_DEFS = [
+/* ---- 傳說與王統的根基 ---- */
+["tradition_note","亞瑟傳說的文本傳統","Geoffrey・Chrétien・Vulgate・Malory","跨越數世紀的傳說群",8,0,"亞瑟不是一部固定作品中的單一人物，而是由不列顛編年史、威爾斯傳說、法國宮廷羅曼史與英語重述不斷疊加而成。傑弗里・蒙茅斯約於 1136 年把他寫成征服歐洲的國王；瓦斯加入圓桌；克雷蒂安・德・特魯瓦發展蘭斯洛特、帕西法爾與聖杯；十三世紀法國散文循環和馬洛里的《亞瑟之死》則把這些支線編成王國興盛、聖杯探索與毀滅的整體悲劇。因此本頁採常見的綜合敘事；若某角色或事件僅屬特定版本，會在說明中註明。",true,"key"],
+["constantine","君士坦丁三世","Constantine of Britain","烏瑟・潘德拉剛之父・不列顛高王",1,1.2,"傑弗里・蒙茅斯敘事中的不列顛王，亞瑟祖父。羅馬撤離後的不列顛仍受外敵與內鬥威脅；君士坦丁擊退敵人、奪回王位，卻在統治十年後被叛徒刺殺。他留下長子康斯坦斯、次子奧雷利烏斯・安布羅修斯與幼子烏瑟，三人的王位爭奪開啟了潘德拉剛王朝的悲劇。",false,"key"],
+["aurelius","奧雷利烏斯・安布羅修斯","Aurelius Ambrosius","烏瑟之兄・復國王",3,1.2,"君士坦丁之子、烏瑟的兄長。少年時與烏瑟逃往布列塔尼，成年後在梅林與盟友協助下回到不列顛，擊敗篡位者沃提根與撒克遜首領亨吉斯特，重建王統。他為紀念遭背叛屠殺的貴族，命梅林將巨石陣自愛爾蘭搬至索爾茲伯里平原；其死後，烏瑟即位。",false,"key"],
+["uther","烏瑟・潘德拉剛","Uther Pendragon","亞瑟之父・龍首王",5,1.2,"「潘德拉剛」意為龍首或龍頭。烏瑟繼承兄長王位後，愛上康沃爾公爵戈洛伊斯之妻伊格萊恩；在梅林施法把他變作戈洛伊斯外貌的夜晚，他進入廷塔哲城堡並使伊格萊恩懷孕，亞瑟由此出生。故事將王權、慾望與欺瞞綁在一起：烏瑟雖贏得伊格萊恩，卻在多年戰亂中中毒而死，臨終指定尚未公開身世的亞瑟為繼承人。",false,"key"],
+["igraine","伊格萊恩","Igraine／Igerna","康沃爾公爵夫人・亞瑟之母",7,1.2,"戈洛伊斯之妻、後為烏瑟王后，是亞瑟與摩根、莫高斯等姊妹的母親。烏瑟以魔法偽裝成她丈夫而與她同床，是多數中世紀版本的亞瑟受孕情節；部分近現代改寫會更直接處理其中的權力與同意問題。戈洛伊斯戰死後她嫁給烏瑟，將新生兒亞瑟依梅林安排交給艾克托爵士扶養。",false,"key"],
+["gorlois","戈洛伊斯","Gorlois of Cornwall","康沃爾公爵・伊格萊恩前夫",9,1.2,"廷塔哲的主人。烏瑟王對伊格萊恩起意後，戈洛伊斯帶妻子退守城堡並與王軍作戰；傳統敘事中他在烏瑟化身進城的同一夜死於戰場。其死亡使伊格萊恩得以嫁給烏瑟，也讓亞瑟的誕生始終帶著王權以暴力與幻術取得的陰影。",false],
+["merlin","梅林","Merlin／Myrddin","預言者・宮廷魔法師・亞瑟的導師",11,1.2,"源自威爾斯預言者梅爾丁、經傑弗里改造後的魔法師。梅林協助奧雷利烏斯與烏瑟復國，以變形術促成亞瑟受孕，又安排亞瑟寄養並以拔劍試驗揭露其合法身分。他建立或協助建立圓桌、預告王國衰亡與聖杯命運；晚期羅曼史裡，他被湖中仙女尼繆以自己傳授的魔法囚住，顯示再強的智者也逃不過欲望與預言。",false,"key"],
+["arthur","亞瑟王","King Arthur","卡美洛之王・圓桌騎士的領袖",7,3.6,"不列顛傳說的核心君王。少年亞瑟從石中拔劍，證明自己是烏瑟之子並受加冕；他擊敗外敵、締結各地領主，建立以圓桌象徵的騎士共同體。其王朝的理想是勇武、寬仁、信義與公正，但也因王后桂妮薇兒與蘭斯洛特的戀情、自己與姊妹所生的莫德雷德，以及騎士間的報復而崩解。卡姆蘭之戰中他殺死莫德雷德並受致命傷，乘舟往阿瓦隆；傳說稱他並非真正死去，而是「終將歸來的王」。",false,"key"],
+["ector","艾克托爵士","Sir Ector","亞瑟的養父・凱的父親",2,3.6,"受梅林託付扶養幼年亞瑟的貴族。艾克托並不知道亞瑟真正身世，把他與親生兒子凱一同養大；在倫敦比武會上，凱忘記帶劍，亞瑟替他到教堂庭院拔出石中劍。艾克托看見反覆拔劍的奇蹟後，逼問真相，最終向養子效忠；他使亞瑟早期王權不僅源自血統，也連結到被平凡家庭養育的經驗。",false],
+["kay","凱爵士","Sir Kay","亞瑟的義兄・宮廷總管",3.5,4.8,"艾克托之子、亞瑟的義兄。凱最先拿著石中劍自稱拔劍者，旋即被父親識破；他後來成為亞瑟宮廷的總管（seneschal）。早期故事常把他塑造成嘴硬、好誇口卻可靠的騎士，威爾斯傳統中的凱・赫爾本更是能在寒中發熱、長日不眠的超凡英雄；法國羅曼史則常用他襯托其他騎士的優雅。",false],
+["sword_stone","石中劍","Sword in the Stone","揭示合法王權的試煉",5,4.8,"依羅貝爾・德・博隆與後來傳統，教堂庭院中的劍與鐵砧宣告：能拔出者即為全不列顛的合法國王。亞瑟替凱取劍時輕易拔出，並在眾貴族見證下多次重複成功。石中劍與湖中劍『王者之劍』在早期資料中可能相同；從馬洛里以後通常被分為兩把，前者在亞瑟與佩利諾王決鬥時折斷。",true,"key"],
+["lady_lake","湖中夫人","Lady of the Lake","湖畔仙女・蘭斯洛特的養母",13,3.6,"不是固定一名人物，而是多個仙女角色在後世混合的稱呼；常見名有維維安、尼繆與尼尼安。她在湖中宮廷養育幼年蘭斯洛特，並在亞瑟失去石中劍後自水面伸出手，交給他王者之劍與劍鞘。她既是王權的超自然支持者，也連結到梅林被囚的故事；不同文本會把她與囚禁梅林的尼繆視為同一人或不同人。",false,"key"],
+["nimue","尼繆／薇薇安","Nimue／Viviane","梅林的學生・囚禁者",15,3.6,"法國散文循環與馬洛里中與梅林密切相關的湖畔仙女。梅林迷戀她，將咒法傾囊相授；尼繆懼怕或厭惡他的追求，最終以石洞、山丘或無形牢獄將他永遠封住。她之後在一些版本中以「湖中夫人」身分繼續保護亞瑟與騎士。這條支線使魔法不只是工具，也成為知識、性別與控制的角力。",false],
+["morgan","摩根・勒・菲","Morgan le Fay","亞瑟同母姊妹・魔法師・阿瓦隆之女王",10,4.8,"伊格萊恩與戈洛伊斯之女，亞瑟同母異父姊妹。早期作品中她是醫術與變形術高明的阿瓦隆仙女，能治癒亞瑟；後來常被寫成嫉妒桂妮薇兒、企圖奪權或傷害亞瑟的危險魔法師。即使在敵對版本裡，她最終仍與其他仙女乘舟將重傷的亞瑟送往阿瓦隆，保留了她既是對手又是家人的複雜性。",false,"key"],
+["morgause","莫高斯","Morgause／Anna","亞瑟同母姊妹・奧克尼王后",12,4.8,"伊格萊恩與戈洛伊斯之女，嫁給奧克尼的洛特王，是高文、阿格拉瓦因、加赫里斯、加雷斯等人的母親。法國散文循環與馬洛里中，亞瑟不知彼此血緣而與她同床，生下莫德雷德；這一亂倫與梅林的警告，是王國命定毀滅的根源。較早的文本並不一定把莫德雷德寫成亞瑟之子，故此關係應視為晚期綜合傳統。",false,"key"],
+["lot","洛特王","King Lot of Orkney","奧克尼之王・高文諸兄弟之父",14,4.8,"莫高斯之夫、亞瑟的姻親與早期敵手。洛特反對年輕亞瑟即位，後來歸順並成為圓桌陣營的重要北方盟友；他與莫高斯所生的奧克尼兄弟群，既是亞瑟最強大的親族騎士，也是日後因家族復仇而撕裂圓桌的中心。",false],
+["mordred","莫德雷德","Mordred／Modred","亞瑟的私生子・篡位者・王國毀滅者",13,7.2,"早期威爾斯編年史只說莫德雷德在卡姆蘭之戰中與亞瑟同死，未必是叛徒；法國散文循環與馬洛里則把他定型為亞瑟與莫高斯亂倫所生的兒子。莫德雷德利用亞瑟出兵追討蘭斯洛特之際奪取王位，企圖迎娶桂妮薇兒並與父王決戰。他在卡姆蘭被亞瑟以槍刺殺，仍揮劍重創父親；兩人的血緣使國家崩潰不是外敵造成，而是王室自身的裂縫。",false,"key"],
+/* ---- 卡美洛與圓桌 ---- */
+["camelot","卡美洛","Camelot","亞瑟的理想宮廷與王都",7,6,"圓桌騎士集結、比武、宣誓與慶典的中心。它在早期資料中並不穩定，克雷蒂安等法國羅曼史才使其成為代表性王都；馬洛里主要稱其為溫徹斯特。後世將卡美洛想像為公平、榮耀與秩序的黃金時代，正因如此，它的毀滅更具悲劇力量。",true,"key"],
+["round_table","圓桌","Round Table","無首席的騎士共同體",9,6,"相傳由烏瑟建造、梅林賦予神聖意義，後隨桂妮薇兒的嫁妝來到亞瑟宮廷。圓形不設首位，象徵騎士不應為座次爭鬥；它也被連結為最後晚餐與約瑟夫・亞利馬太的聖杯桌的延續。圓桌同時是一種榮譽制度：席位代表資格，危險席（Siege Perilous）則為預定完成聖杯使命的騎士保留。",true,"key"],
+["guinevere","桂妮薇兒王后","Guinevere／Gwenhwyfar","亞瑟王后・卡美洛的女主人",7,7.2,"亞瑟的王后，常說是萊奧德格蘭斯王之女；她帶來圓桌作為嫁妝的設定，使她與宮廷理想緊密相連。早期故事已有她遭誘拐的題材，到了法國羅曼史與馬洛里，與蘭斯洛特的長期戀情成為內戰導火線。醜聞被揭發後，亞瑟依法律判她火刑，蘭斯洛特救走她並殺死數名騎士；王國毀滅後她在阿姆斯伯里出家，拒絕與悔罪的蘭斯洛特重逢。",false,"key"],
+["lancelot","蘭斯洛特爵士","Lancelot du Lac","湖上蘭斯洛特・圓桌第一勇士",10,7.2,"班王之子，幼年由湖中夫人養大，因此稱『湖上蘭斯洛特』。他是圓桌最卓越的武士：救出桂妮薇兒、擊敗無數敵手、保護弱者，卻也因與王后的愛情違背騎士對國王的忠誠。聖杯探索中，他因罪過只能遠觀聖杯；其子加拉哈德才完成使命。蘭斯洛特既是卡美洛最高騎士理想的化身，也是證明個人完美不足以挽救道德失序的悲劇人物。",false,"key"],
+["elaine_corbenic","科本尼克的伊蓮","Elaine of Corbenic","聖杯王之女・加拉哈德之母",12,8.4,"漁王佩勒斯之女。佩勒斯知曉預言：蘭斯洛特之子將完成聖杯使命，便在女術士布魯瑟娜協助下讓伊蓮偽裝成桂妮薇兒與蘭斯洛特同床，生下加拉哈德。她真心愛上蘭斯洛特，卻未能取代桂妮薇兒；有些版本讓她因絕望而死，後由聖杯治癒復活。這段故事也揭示聖杯血統的神聖使命與當事人的意願、傷痛並不總能相容。",false],
+["galahad","加拉哈德爵士","Sir Galahad","無瑕騎士・聖杯使命的完成者",10.5,9.6,"蘭斯洛特與科本尼克伊蓮之子，被隱士或修女撫養，成年後來到卡美洛，自然坐上任何不配者都會喪命的危險席。馬洛里與散文循環把他塑造成童貞、謙遜、虔誠且武藝無雙的完美騎士；他拔出刻有命運文字的劍，與帕西法爾、鮑斯一同到達聖杯城堡。見到聖杯奧祕後，他祈求離世，靈魂被天使帶走，圓桌也失去最純粹的理想。",false,"key"],
+["gawain","高文爵士","Sir Gawain","亞瑟外甥・奧克尼騎士之首",14,8.4,"莫高斯與洛特之子、亞瑟外甥，是許多早期傳統的首席英雄；在《高文爵士與綠騎士》中，他以禮節、誠信與承認自身缺點的勇氣聞名。法國與馬洛里傳統裡，他忠於家族榮譽：當蘭斯洛特救桂妮薇兒時誤殺其弟加雷斯與加赫里斯，高文堅持要求亞瑟出兵復仇。這讓他從王國守護者變成內戰推手；他在法國與蘭斯洛特決鬥受致命傷，臨終寫信勸亞瑟和解。",false,"key"],
+["gareth","加雷斯爵士","Sir Gareth","高文之弟・『美掌』騎士",15.5,9.6,"莫高斯與洛特之子。加雷斯為證明自己不靠家世，匿名『美掌』（Beaumains）到卡美洛廚房服役一年，後在林涅特帶領的冒險中擊敗黑、綠、紅、藍諸騎士並娶萊奧涅絲。馬洛里把他寫成溫厚、勇敢而不願捲入舊怨的典範；他未著甲時在桂妮薇兒火刑救援中被蘭斯洛特誤殺，成為高文不肯和解的直接原因。",false],
+["agravain","阿格拉瓦因爵士","Sir Agravain","高文之弟・揭露私情者",17,9.6,"莫高斯與洛特之子。馬洛里筆下的阿格拉瓦因嫉妒蘭斯洛特，與莫德雷德合謀抓姦，促使桂妮薇兒與蘭斯洛特的關係從宮廷秘密變成公開叛國案。蘭斯洛特突圍時殺死阿格拉瓦因；他的行動雖表面訴諸法律與忠誠，實際也帶有家族嫉恨，顯示卡美洛瓦解的每一步都混合了正義、私怨與政治。",false],
+["yvain","伊凡爵士","Sir Yvain／Owain","獅子騎士・圓桌名將",15.5,8.4,"高文的表親，在威爾斯傳統中名為歐文（Owain），常被視為歷史人物歐文・阿普・烏里恩的傳說化身。克雷蒂安・德・特魯瓦的《獅子騎士伊凡》中，他為追逐比武榮耀而忽視與勞迪娜的婚約，失去愛情後陷入瘋狂；他救下一頭獅子，獅子此後伴隨他冒險，直到他學會讓騎士榮譽與承諾並存。這個故事使伊凡成為能承認錯誤、重新找回平衡的圓桌騎士。",false],
+["bedivere","貝德維爾爵士","Sir Bedivere","最後的忠臣・歸還聖劍者",3.5,10.8,"亞瑟最後仍留在身邊的騎士之一。卡姆蘭之戰後，重傷的亞瑟命他將王者之劍投入湖中；貝德維爾兩度捨不得丟棄寶劍而說謊，第三次終於照做，看見湖中手臂接住劍並揮舞三下。這個告別情節把王權交還超自然世界，貝德維爾隨後將亞瑟送上往阿瓦隆的舟，出家度過餘生。",false,"key"],
+/* ---- 聖杯探索與騎士冒險 ---- */
+["joseph_note","約瑟夫・亞利馬太","Joseph of Arimathea","聖杯傳統的先行者",1,8.4,"中世紀聖杯羅曼史把福音書中安葬耶穌的約瑟夫・亞利馬太擴充為把聖杯帶到不列顛的傳教者；其後裔成為聖杯守護者。這不是最早亞瑟故事的內容，而是十二、十三世紀作品將基督教救贖史植入騎士傳奇後形成的系譜，使聖杯任務成為比王國勝利更高的靈性試煉。",true],
+["holy_grail","聖杯","Holy Grail／Graal","基督受難遺物・終極靈性試煉",4,9.6,"最早的克雷蒂安作品只稱其為神祕的『graal』器皿；後來羅貝爾・德・博隆與散文循環把它認定為最後晚餐的杯、盛過基督之血的聖物。聖杯能供養、醫治、顯現神恩，卻不獎勵純武力；圓桌騎士多因驕傲、情慾或暴力而失敗。加拉哈德、帕西法爾與鮑斯成功接近它，聖杯最終離開人世，象徵理想已無法停留於卡美洛。",true,"key"],
+["siege_perilous","危險席","Siege Perilous","只屬於聖杯騎士的空席",6,9.6,"圓桌上由梅林預留的席位，仿效最後晚餐中猶大的位置。除了命定的聖杯騎士外，任何人坐下都會被大地吞沒或立刻死亡；加拉哈德來到卡美洛時，席位上的文字改為宣告他是應坐之人。它使圓桌的平等理想帶上一項悖論：在所有騎士平起平坐之處，仍有一席預先判定了最純潔者。",true],
+["perceval","帕西法爾爵士","Perceval／Parzival","純真騎士・聖杯見證者",7.5,10.8,"克雷蒂安《帕西法爾》中的主角，幼年被母親隔絕於森林，初見騎士便被其光彩吸引；他因只會照師父教條而在漁王城堡看見聖杯儀仗卻未提問，錯失治癒漁王的機會。後來他認識自己的過錯，透過悔悟與追尋重新接近聖杯。散文循環與馬洛里讓他成為加拉哈德的同伴，完成使命後在聖地出家而終；沃爾夫拉姆版本則將他寫成聖杯王。",false,"key"],
+["bors","鮑斯爵士","Sir Bors","蘭斯洛特親族・唯一歸來的聖杯見證者",9,10.8,"蘭斯洛特的堂親，以能在欲望、家族與信仰衝突中選擇責任聞名。聖杯探索時，他被迫在救兄弟萊昂內爾與救受辱少女間抉擇，選擇後者；歷經考驗後與加拉哈德、帕西法爾抵達科本尼克。加拉哈德與帕西法爾離世後，鮑斯是少數回到卡美洛、向眾人講述聖杯真相的騎士，因此成為理想與破敗世界之間的最後證人。",false],
+["pelles","佩勒斯王／漁王","King Pelles／Fisher King","聖杯守護者・受傷的王",3,10.8,"科本尼克的聖杯王，常被稱為漁王；不同羅曼史會區分佩勒斯、佩萊漢與『受傷王』，後世常合併理解。其傷口使土地荒蕪、王國停滯，只有正確提問或聖杯恩典能使其痊癒。他安排女兒伊蓮與蘭斯洛特結合，期待生出完成預言的加拉哈德；漁王傷病與土地傷病相連，是亞瑟傳說中統治正當性與靈性健康互為表裡的意象。",false,"key"],
+["dolorous_stroke","悲痛一擊","Dolorous Stroke","使聖杯國度受創的禁忌一擊",1.5,12,"散文聖杯傳統中，巴拉安爵士在不知情下以命運之槍刺傷佩萊漢王，造成『悲痛一擊』：土地荒蕪、聖杯國度長期受詛咒，許多人因此死亡。它把一次騎士暴力的錯誤擴大成整個世界的傷口，直到加拉哈德的聖杯使命才得到完整修復。人物姓名與傷者身分依版本不同，但『受傷王與荒蕪之地』是聖杯敘事的核心。",true],
+["corbenic","科本尼克城堡","Corbenic","聖杯城堡・漁王的宮廷",4,12,"聖杯被守護、伊蓮居住、加拉哈德完成使命的城堡。它不是普通地理地點，而像只向被選中者顯現的靈性空間：蘭斯洛特因罪只能看見部分奧祕；加拉哈德、帕西法爾、鮑斯才能進入深處。不同作品對地點與守護家族的名稱不一致，因此『科本尼克』是後世最常用的統稱。",true],
+["quest_grail","聖杯探索","Quest for the Holy Grail","圓桌騎士的終極試煉",7,12,"加拉哈德坐上危險席、聖杯在五旬節宮廷顯現後，騎士們誓言出發尋找聖杯。這一決定看似崇高，卻讓圓桌失去最精銳的人手；許多騎士死去、迷失或發現自己不配。任務結束後，卡美洛已不再是昔日團結的宮廷，聖杯帶來救贖也加速了世俗王國的空洞化。",true,"key"],
+/* ---- 其他重要傳奇、名物與終局 ---- */
+["tristan","崔斯坦爵士","Sir Tristan","康沃爾騎士・豎琴手・蘭斯洛特的對手",15,12,"源自獨立的凱爾特—法國羅曼史，後被馬洛里納入圓桌世界。崔斯坦是馬克王之甥，奉命護送愛爾蘭公主伊索德來嫁給馬克，卻與她誤飲愛情魔藥而相戀。他武藝可與蘭斯洛特匹敵、善彈豎琴，卻終被猜忌的馬克王殺害；他的故事讓圓桌之外的愛情悲劇映照出蘭斯洛特與桂妮薇兒的危機。",false,"key"],
+["isolde","伊索德王后","Iseult／Isolde","愛爾蘭公主・崔斯坦的戀人",17,12,"愛爾蘭王女，醫術高明，先曾以草藥治好誤傷她叔父的崔斯坦；後作為政治婚姻的新娘前往康沃爾，與崔斯坦誤飲為她與馬克王準備的愛情魔藥。兩人的感情在忠誠與欲望間永無安寧。不同版本的伊索德主動性差異很大，但她的悲劇是中世紀羅曼史最持久的愛情母題之一。",false],
+["questing_beast","尋獸","Questing Beast／Glatissant","有蛇首、豹身、鹿臀的預兆神獸",14,13.2,"發出像三十隻獵犬追逐般聲音的奇獸，常描述為蛇首、豹身、獅腿與鹿臀的混合體。它在亞瑟初登王位時出現，梅林解釋其誕生源自亂倫，預示王國的禁忌血緣；佩利諾王終生追獵，後由其子帕洛米德斯捕獲或殺死。牠是把騎士冒險、獵獲慾望與王室原罪連成一體的怪物。",true,"key"],
+["pellinore","佩利諾王","King Pellinore","追獵尋獸的遊俠王",16,14.4,"初登場時與亞瑟決鬥，折斷他的石中劍；梅林救出亞瑟並引他去取得湖中劍。佩利諾因追尋神獸而與宮廷結盟，後來被寫成帕西法爾一系的祖先。其家族與奧克尼兄弟的宿怨造成更多死亡：高文等人殺死佩利諾，並引發後續復仇，說明卡美洛的暴力從不只來自莫德雷德。",false],
+["excalibur","王者之劍・艾克斯卡利伯","Excalibur／Caliburn","湖中夫人所贈的王權聖劍",5,14.4,"亞瑟在石中劍折斷後，隨梅林到湖邊取得的寶劍；其劍鞘比劍本身更珍貴，佩戴者不會流血，因此摩根設計偷走劍鞘，使亞瑟在最後戰役無法受到保護。『Excalibur』在傑弗里筆下原是亞瑟的劍 Caliburnus，未必與石中劍不同；把它明確設定為湖中夫人贈劍，則是後世最深入人心的綜合版本。",true,"key"],
+["scabbard","不流血之劍鞘","Scabbard of Excalibur","比王者之劍更珍貴的護符",7,14.4,"湖中夫人特別警告亞瑟：劍鞘的力量勝過寶劍，因佩戴者不會因傷口失血。亞瑟卻因不信任或粗心，把保管任務交給摩根；摩根奪走後投入湖中，使劍雖仍在、護持王者生命的保障卻消失。它是傳說中最鮮明的警示之一：王者往往重視可見的武力，忽略真正保護自己的信任與判斷。",true],
+["avalon","阿瓦隆","Avalon","仙境之島・亞瑟最後去處",9,14.4,"名字常解作『蘋果之島』，早期《不列顛諸王史》已說亞瑟的劍在此打造。卡姆蘭後，摩根與三位仙女帶走重傷的亞瑟到阿瓦隆療傷；是否死亡、能否歸來從未被完全封死。『昔日與未來之王』的銘文，讓阿瓦隆成為不列顛在失敗後仍期待復興的象徵。",true,"key"],
+["camlann","卡姆蘭之戰","Battle of Camlann","亞瑟與莫德雷德同歸於盡的末戰",12,15.6,"最早《威爾斯編年史》僅簡記『卡姆蘭之戰，亞瑟與莫德雷德戰死』；後來傳統將其發展為莫德雷德篡位後的終局。兩軍對峙時，一名騎士為殺蛇拔劍，違反停戰誓約，誤解引爆屠殺；亞瑟殺死莫德雷德，自己也受致命傷。無論蛇的插曲是否存在，卡姆蘭都象徵理想王國不是被一場大敗摧毀，而是被不信任、復仇與溝通失敗消耗殆盡。",true,"key"],
+];
+
+const AR_GROUPS = [
+  ["文本傳統與潘德拉剛王統", ["tradition_note","constantine","aurelius","uther","igraine","gorlois","merlin","arthur","ector","kay","sword_stone"], "#d0a850", false],
+  ["魔法、湖泊與阿瓦隆", ["lady_lake","nimue","morgan","excalibur","scabbard","avalon"], "#a980e0", false],
+  ["奧克尼家族與莫德雷德", ["morgause","lot","gawain","gareth","agravain","mordred"], "#cf6b6b", false],
+  ["卡美洛與圓桌核心", ["camelot","round_table","guinevere","lancelot","bedivere"], "#5ab4ff", false],
+  ["圓桌十二騎士", ["arthur","kay","lancelot","galahad","gawain","gareth","agravain","yvain","bedivere","perceval","bors","tristan"], "#e5b85c", false],
+  ["聖杯血統與探索", ["joseph_note","pelles","elaine_corbenic","galahad","perceval","bors","holy_grail","siege_perilous","dolorous_stroke","corbenic","quest_grail"], "#d8c36a", false],
+  ["騎士冒險、愛情與終局", ["tristan","isolde","questing_beast","pellinore","camlann"], "#75b98c", false],
+];
+
+const AR_UNIONS = [
+  {parent:"constantine", children:["aurelius","uther"], label:"潘德拉剛王朝的兩位繼承人"},
+  {spouses:["gorlois","igraine"], marriage:"primary", children:["morgan","morgause"], label:"康沃爾公爵家族", labelClass:"blood"},
+  {spouses:["uther","igraine"], marriage:"blood", children:["arthur"], label:"梅林變形術促成的結合", labelClass:"blood"},
+  {spouses:["ector","kay"], marriage:"partner", label:"養父與親子", labelClass:"ritual"},
+  {spouses:["ector","arthur"], marriage:"partner", label:"寄養的父子", labelClass:"ritual"},
+  {spouses:["merlin","arthur"], marriage:"partner", label:"導師與受託的王位繼承人", labelClass:"ritual"},
+  {parent:"arthur", children:["sword_stone","camelot","round_table"], label:"王權的試煉與理想宮廷", labelClass:"ritual"},
+  {spouses:["lady_lake","arthur"], marriage:"partner", children:["excalibur","scabbard"], label:"湖中仙女的贈禮", labelClass:"ritual"},
+  {spouses:["merlin","nimue"], marriage:"partner", label:"傳授魔法，終遭囚禁", labelClass:"blood"},
+  {spouses:["morgause","lot"], marriage:"primary", children:["gawain","gareth","agravain"], label:"奧克尼王族", labelClass:"blood"},
+  {spouses:["arthur","morgause"], marriage:"blood", children:["mordred"], label:"不知血緣的亂倫（晚期傳統）", labelClass:"blood"},
+  {spouses:["arthur","guinevere"], marriage:"primary", label:"卡美洛的王與王后"},
+  {spouses:["arthur","yvain"], marriage:"partner", label:"圓桌名將・獅子騎士", labelClass:"ritual"},
+  {spouses:["lancelot","guinevere"], marriage:"blood", label:"祕密戀情・王國裂痕", labelClass:"blood"},
+  {spouses:["pelles","elaine_corbenic"], marriage:"partner", label:"聖杯守護家族", labelClass:"ritual"},
+  {spouses:["lancelot","elaine_corbenic"], marriage:"blood", children:["galahad"], label:"偽作桂妮薇兒而生子", labelClass:"blood"},
+  {parent:"joseph_note", children:["holy_grail"], label:"將聖杯帶入不列顛的傳統", labelClass:"ritual"},
+  {parent:"holy_grail", children:["siege_perilous","quest_grail","corbenic"], label:"聖杯使命的中心", labelClass:"ritual"},
+  {parent:"dolorous_stroke", children:["pelles","corbenic"], label:"受傷王與荒蕪之地", labelClass:"blood"},
+  {parent:"quest_grail", children:["galahad","perceval","bors"], label:"三位成功抵達者", labelClass:"ritual"},
+  {spouses:["tristan","isolde"], marriage:"blood", label:"愛情魔藥與忠誠的悲劇", labelClass:"blood"},
+  {spouses:["pellinore","questing_beast"], marriage:"partner", label:"終生追獵", labelClass:"ritual"},
+  {parent:"mordred", children:["camlann"], label:"篡位引向末戰", labelClass:"blood"},
+  {parent:"arthur", children:["camlann","avalon"], label:"末戰與最後航程", labelClass:"blood"},
+  {spouses:["bedivere","excalibur"], marriage:"partner", label:"最後歸還湖中", labelClass:"ritual"},
+  {spouses:["morgan","avalon"], marriage:"partner", label:"帶走重傷的亞瑟", labelClass:"ritual"},
+];
+
+const AR_NODE_NAMES = {
+  tradition_note:{kojiki:"Arthurian literature",nihonshoki:"Geoffrey・Chrétien・Vulgate Cycle・Le Morte Darthur",reading:"",aliases:["亞瑟羅曼史","不列顛傳奇","中世紀騎士文學"],shrine:"—"},
+  arthur:{kojiki:"Arthur",nihonshoki:"King Arthur",reading:"Arthur",aliases:["騎士王","昔日與未來之王","不列顛之王"],shrine:"卡美洛・阿瓦隆"},
+  merlin:{kojiki:"Merlin",nihonshoki:"Myrddin Wyllt",reading:"Merlin",aliases:["梅爾丁","魔法師梅林","預言者"],shrine:"布羅塞利昂森林（傳說）"},
+  uther:{kojiki:"Uther Pendragon",nihonshoki:"Uther",reading:"Uther",aliases:["烏瑟王","龍首王","亞瑟之父"],shrine:"廷塔哲"},
+  igraine:{kojiki:"Igraine",nihonshoki:"Igerna",reading:"Igraine",aliases:["伊格萊娜","亞瑟之母"],shrine:"廷塔哲"},
+  morgan:{kojiki:"Morgan le Fay",nihonshoki:"Morgain",reading:"Morgan",aliases:["摩根仙女","莫甘娜","阿瓦隆女王"],shrine:"阿瓦隆"},
+  morgause:{kojiki:"Morgause",nihonshoki:"Anna",reading:"Morgause",aliases:["莫高絲","奧克尼王后","莫德雷德之母"],shrine:"奧克尼"},
+  mordred:{kojiki:"Mordred",nihonshoki:"Modredus",reading:"Mordred",aliases:["莫德雷","篡位者","亞瑟之子（晚期傳統）"],shrine:"卡姆蘭"},
+  guinevere:{kojiki:"Guinevere",nihonshoki:"Gwenhwyfar",reading:"Guinevere",aliases:["桂妮薇兒","桂妮維亞","亞瑟王后"],shrine:"卡美洛・阿姆斯伯里"},
+  lancelot:{kojiki:"Lancelot du Lac",nihonshoki:"Sir Lancelot",reading:"Lancelot",aliases:["湖上蘭斯洛特","圓桌第一勇士","喜悅城之主"],shrine:"湖中宮廷・喜悅城"},
+  galahad:{kojiki:"Galahad",nihonshoki:"Sir Galahad",reading:"Galahad",aliases:["純潔騎士","聖杯騎士","危險席的主人"],shrine:"科本尼克"},
+  perceval:{kojiki:"Perceval",nihonshoki:"Parzival",reading:"Perceval",aliases:["帕西瓦爾","聖杯騎士","純真騎士"],shrine:"聖杯城堡"},
+  bors:{kojiki:"Bors",nihonshoki:"Sir Bors",reading:"Bors",aliases:["鮑斯・德・加尼斯","聖杯見證者"],shrine:"科本尼克・卡美洛"},
+  gawain:{kojiki:"Gawain",nihonshoki:"Gwalchmei",reading:"Gawain",aliases:["高文","高韋恩","太陽力量的騎士"],shrine:"卡美洛・奧克尼"},
+  yvain:{kojiki:"Yvain",nihonshoki:"Owain",reading:"Yvain",aliases:["伊凡","歐文","獅子騎士"],shrine:"泉水騎士的領地（傳說）"},
+  tristan:{kojiki:"Tristan",nihonshoki:"Tristram",reading:"Tristan",aliases:["崔斯特瑞姆","崔斯坦・萊昂尼斯"],shrine:"康沃爾"},
+  holy_grail:{kojiki:"Holy Grail",nihonshoki:"Saint Grail",reading:"Graal",aliases:["聖盃","聖餐杯","基督之血的器皿"],shrine:"科本尼克"},
+  excalibur:{kojiki:"Excalibur",nihonshoki:"Caliburnus",reading:"Excalibur",aliases:["王者之劍","誓約勝利之劍（後世譯名）","湖中劍"],shrine:"湖中夫人的湖"},
+  round_table:{kojiki:"Round Table",nihonshoki:"Table Ronde",reading:"",aliases:["圓桌騎士團","騎士圓桌"],shrine:"卡美洛"},
+  avalon:{kojiki:"Avalon",nihonshoki:"Insula Avallonis",reading:"Avalon",aliases:["阿瓦隆島","蘋果島","仙境之島"],shrine:"—"},
+  camelot:{kojiki:"Camelot",nihonshoki:"Camaalot",reading:"Camelot",aliases:["卡默洛特","亞瑟王宮"],shrine:"溫徹斯特（後世常見對應）"},
+  camlann:{kojiki:"Camlann",nihonshoki:"Battle of Camlann",reading:"",aliases:["卡姆蘭","亞瑟末戰"],shrine:"地點未定"},
+};
+
 const PANTHEONS = {
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
@@ -4442,6 +4570,11 @@ const PANTHEONS = {
     title:'🍀 凱爾特神話系譜', defs:CL_NODE_DEFS, groups:CL_GROUPS, unions:CL_UNIONS, names:CL_NODE_NAMES,
     seed:CELTIC_USER_EDITS, storage:'celtic_edits', yokai:false, placeholder:'搜尋神名或轉寫…', editBtn:'✏️ 編輯此神祇',
     labels:{kana:'卡片副標（蓋爾語）', kojiki:'蓋爾語名', nihonshoki:'英語通用名', reading:'轉寫', aliases:'別稱', shrine:'主要信仰地'},
+  },
+  arthurian: {
+    title:'⚔️ 騎士王・亞瑟王傳說', defs:AR_NODE_DEFS, groups:AR_GROUPS, unions:AR_UNIONS, names:AR_NODE_NAMES,
+    seed:ARTHURIAN_USER_EDITS, storage:'arthurian_edits', yokai:false, placeholder:'搜尋人物、神器、地點或原文…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'原文／文本名稱', nihonshoki:'別名／其他拼寫', reading:'轉寫', aliases:'別稱', shrine:'相關地點'},
   },
   cthulhu: {
     title:'🐙 克蘇魯神話系譜', defs:CT_NODE_DEFS, groups:CT_GROUPS, unions:CT_UNIONS, names:CT_NODE_NAMES,
@@ -5207,6 +5340,7 @@ async function exportHTML(){
   const mEditsJSON = JSON.stringify(LIVE_EDITS.mesopotamia);
   const pEditsJSON = JSON.stringify(LIVE_EDITS.persia);
   const clEditsJSON = JSON.stringify(LIVE_EDITS.celtic);
+  const arEditsJSON = JSON.stringify(LIVE_EDITS.arthurian);
   const ctEditsJSON = JSON.stringify(LIVE_EDITS.cthulhu);
   const yeditsJSON = JSON.stringify(YOKAI_EDITS_LIVE);
   try{
@@ -5214,7 +5348,7 @@ async function exportHTML(){
     // 用 replacer 函式，避免註釋文字內的 $& 之類被當成取代樣式
     const updated = src
       .replace(/\/\/ @@EDITS_START[\s\S]*?\/\/ @@EDITS_END/,
-        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\nconst CELTIC_USER_EDITS = ${clEditsJSON};\nconst CTHULHU_USER_EDITS = ${ctEditsJSON};\n// @@EDITS_END`)
+        ()=>`// @@EDITS_START\nconst USER_EDITS = ${editsJSON};\nconst GREEK_USER_EDITS = ${gEditsJSON};\nconst NORSE_USER_EDITS = ${nEditsJSON};\nconst EGYPT_USER_EDITS = ${eEditsJSON};\nconst MESO_USER_EDITS = ${mEditsJSON};\nconst PERSIA_USER_EDITS = ${pEditsJSON};\nconst CELTIC_USER_EDITS = ${clEditsJSON};\nconst ARTHURIAN_USER_EDITS = ${arEditsJSON};\nconst CTHULHU_USER_EDITS = ${ctEditsJSON};\n// @@EDITS_END`)
       .replace(/\/\/ @@YEDITS_START[\s\S]*?\/\/ @@YEDITS_END/,
         ()=>`// @@YEDITS_START\nconst YOKAI_USER_EDITS = ${yeditsJSON};\n// @@YEDITS_END`);
     const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([updated],{type:'text/html'})),download:'index.html'});
@@ -5429,6 +5563,7 @@ searchInput.addEventListener('focus', ()=>{ if(searchInput.value.trim()) showSea
 searchResults.addEventListener('click', e=>{
   const row = e.target.closest('div[data-id],div[data-gi]');
   if(!row) return;
+  e.stopPropagation(); // 搜尋結果開啟面板後，避免冒泡到全頁點擊監聽器而立刻關閉
   if(row.dataset.gi !== undefined) highlightGroup(parseInt(row.dataset.gi));
   else focusNode(row.dataset.id);
   searchResults.style.display='none';
@@ -5500,6 +5635,7 @@ function openEgypt(){ openPantheon('egypt'); }
 function openMesopotamia(){ openPantheon('mesopotamia'); }
 function openPersia(){ openPantheon('persia'); }
 function openCeltic(){ openPantheon('celtic'); }
+function openArthurian(){ openPantheon('arthurian'); }
 function openCthulhu(){ openPantheon('cthulhu'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
@@ -6384,7 +6520,10 @@ function closeRegionFilter(){
 }
 regionFilterList.addEventListener('click', e=>{
   const row = e.target.closest('.rf-row');
-  if(row) toggleRegionRow(row);
+  if(!row) return;
+  // 切換時會重建清單；阻止事件再冒泡，避免已移除的點擊目標被誤判為點到選單外
+  e.stopPropagation();
+  toggleRegionRow(row);
 });
 document.addEventListener('click', e=>{
   if(!e.target.closest('#regionFilterWrap')) closeRegionFilter();
