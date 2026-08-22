@@ -20,6 +20,8 @@
   #themeBtn{background:none;border:1px solid var(--line);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.05em;flex:none;}
   #themeBtn:hover{border-color:var(--accent);}
   #homeThemeBtn{position:absolute;top:20px;right:20px;}
+  html,body{scrollbar-width:none;-ms-overflow-style:none;}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0;}
   body{margin:0;font-family:"Noto Serif TC","Noto Sans TC","Segoe UI",serif;background:var(--bg);color:var(--text);}
 
   /* ---------- HOME ---------- */
@@ -97,6 +99,8 @@
     box-shadow:0 18px 40px rgba(0,0,0,.35);
   }
   #regionFilterList.open{display:block;}
+  #regionFilterList{scrollbar-width:none;-ms-overflow-style:none;}
+  #regionFilterList::-webkit-scrollbar{display:none;width:0;height:0;}
   .rf-row{
     display:flex; align-items:center; gap:10px; padding:8px 16px; cursor:pointer;
     font-size:.86em; user-select:none;
@@ -399,7 +403,7 @@
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
-    <div class="myth-icon" data-region="other" onclick="openIndia()">
+    <div class="myth-icon" data-region="south_asia" onclick="openIndia()">
       <div class="glyph">🕉️</div>
       <div class="label">印度神話</div>
       <div class="sub">三相神・化身・羅摩衍那・摩訶婆羅多</div>
@@ -7304,6 +7308,11 @@ let WHEEL_STEP = 360 / WHEEL_N;
 // 半徑須大於卡牌半寬 / tan(半格角)，相鄰卡牌才不會互相穿插
 let WHEEL_R = 420;
 function wheelMeasure(){
+  if(WHEEL_N < 2){
+    WHEEL_R = 0;
+    wheelCards.forEach(card=>card.style.transform = 'translateZ(0)');
+    return;
+  }
   const w = wheelEl.offsetWidth || 260;
   WHEEL_R = Math.round((w / 2) / Math.tan(Math.PI / WHEEL_N) + w * 0.55);
   wheelCards.forEach((card, i) => {
@@ -7313,12 +7322,17 @@ function wheelMeasure(){
 let wheelIndex = 0;
 
 function wheelRender(){
+  if(!WHEEL_N){
+    wheelEl.style.transform = 'translateZ(0)';
+    return;
+  }
   wheelEl.style.transform = `translateZ(${-WHEEL_R}px) rotateY(${-wheelIndex * WHEEL_STEP}deg)`;
   const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
   wheelCards.forEach((c,i)=>c.classList.toggle('front', i === front));
   [...wheelDots.children].forEach((d,i)=>d.classList.toggle('on', i === front));
 }
 function wheelGoTo(i){
+  if(!WHEEL_N) return;
   // 轉往最近的等價角度，避免從尾端跳回開頭時整圈倒轉
   const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
   let delta = i - front;
@@ -7327,15 +7341,14 @@ function wheelGoTo(i){
   wheelIndex += delta;
   wheelRender();
 }
-function wheelStep(dir){ wheelIndex += dir; wheelRender(); }
+function wheelStep(dir){ if(WHEEL_N){ wheelIndex += dir; wheelRender(); } }
 
 // 地區篩選變動後，重新枚舉可見卡片、重排轉輪與圓點
 function rebuildWheel(){
   const prevFrontCard = wheelCards.length ? wheelCards[((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N] : null;
   wheelCards = allWheelCards.filter(c=>!c.classList.contains('region-hidden'));
-  if(!wheelCards.length) wheelCards = allWheelCards.slice(); // 安全防線：不允許篩到一張都不剩
   WHEEL_N = wheelCards.length;
-  WHEEL_STEP = 360 / WHEEL_N;
+  WHEEL_STEP = WHEEL_N ? 360 / WHEEL_N : 0;
   wheelDots.innerHTML = '';
   wheelCards.forEach((card, i) => {
     const dot = document.createElement('i');
@@ -7358,6 +7371,7 @@ document.addEventListener('keydown', e=>{
   if(e.key === 'ArrowLeft')  wheelStep(-1);
   if(e.key === 'ArrowRight') wheelStep(1);
   if(e.key === 'Enter'){
+    if(!WHEEL_N) return;
     const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
     if(!wheelCards[front].classList.contains('disabled')) wheelCards[front].click();
   }
@@ -7417,13 +7431,14 @@ wheelEl.addEventListener('click', e=>{
 /* ============ 首頁地區群組篩選 ============ */
 const REGION_META = {
   east_asia:   '東亞',
+  south_asia:  '南亞',
   europe:      '歐洲',
   middle_east: '中東',
   africa:      '非洲',
   modern:      '近代創作神話',
   other:       '其他傳說（非神話）',
 };
-const REGION_ORDER = ['east_asia','europe','middle_east','africa','modern','other'];
+const REGION_ORDER = ['east_asia','south_asia','europe','middle_east','africa','modern','other'];
 const REGION_FILTER_KEY = 'mythRegionFilter';
 // 由卡片上實際出現的 data-region 動態枚舉，未來新增地區也會自動列入
 const presentRegions = [...new Set(allWheelCards.map(c=>c.dataset.region).filter(Boolean))];
@@ -7464,6 +7479,9 @@ function buildRegionFilterList(){
   }).join('') + `<div class="rf-sep"></div>
     <div class="rf-row" data-action="all" data-i="${presentRegions.length}" role="option">
       <span class="rf-check">${hiddenRegions.size===0?'✓':''}</span><span>全部顯示</span>
+    </div>
+    <div class="rf-row" data-action="none" data-i="${presentRegions.length+1}" role="option">
+      <span class="rf-check">${hiddenRegions.size===presentRegions.length?'✓':''}</span><span>全部取消</span>
     </div>`;
 }
 
@@ -7480,11 +7498,10 @@ function applyRegionFilter(){
 function toggleRegionRow(row){
   if(!row) return;
   if(row.dataset.action === 'all'){ hiddenRegions.clear(); }
+  else if(row.dataset.action === 'none'){ hiddenRegions = new Set(presentRegions); }
   else{
     const key = row.dataset.region;
     if(hiddenRegions.has(key)) hiddenRegions.delete(key); else hiddenRegions.add(key);
-    // 全部地區都被關掉的話，視同「全部顯示」，避免畫面空空如也
-    if(hiddenRegions.size === presentRegions.length) hiddenRegions.clear();
   }
   applyRegionFilter();
   // 重新整理後保持在同一列聚焦，方便連續勾選多個地區

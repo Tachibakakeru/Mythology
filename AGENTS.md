@@ -49,10 +49,13 @@ const PANTHEONS = {
 
 ### 地區過濾器
 - `data-region` 屬性在 `.myth-icon` 上
-- 可選地區：`east_asia` / `europe` / `middle_east` / `africa` / `modern` / `other`
+- 可選地區：`east_asia` / `south_asia` / `europe` / `middle_east` / `africa` / `modern` / `other`
 - 持久化：`localStorage('mythRegionFilter')`（儲存隱藏地區的 JSON 陣列）
 - 勾選／取消後清單必須維持開啟；**僅**點擊外部、Esc、或 toggle 按鈕才關閉
+- 清單底部必須同時提供「全部顯示」與「全部取消」；允許所有地區被取消，旋轉木馬需安全處理零張可見卡牌，不能自行恢復顯示。
+- 首頁與地區篩選清單的捲軸僅隱藏外觀、不得關閉原生滾動；Firefox／舊 Edge 與 WebKit 均需覆蓋。
 - 騎士王／亞瑟王傳說屬於 `other`（其他傳說），不屬於 `europe`
+- 印度神話屬於 `south_asia`（南亞），不可歸入 `other`（其他傳說）或 `east_asia`（東亞）。
 
 ---
 
