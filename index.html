@@ -399,6 +399,11 @@
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
+    <div class="myth-icon" data-region="other" onclick="openIndia()">
+      <div class="glyph">🕉️</div>
+      <div class="label">印度神話</div>
+      <div class="sub">三相神・化身・羅摩衍那・摩訶婆羅多</div>
+    </div>
     <!-- 歐洲 -->
     <div class="myth-icon" data-region="europe" onclick="openGreek()">
       <div class="glyph">🏛️</div>
@@ -673,12 +678,12 @@ const JP_NODE_DEFS = [
 ["oyamatsumi_kayanohime_note","天之狭土神・天之狭霧神など大山津見神と鹿屋野比賣神の御子（總稱）","あめのさづちのかみ ほか",null,17,8.4,"大山津見神と鹿屋野比売神の間に生まれたとされる4対8柱：天之狭土神・国之狭土神、天之狭霧神・国之狭霧神、天之闇戸神・国之闇戸神、大戸惑子神・大戸惑女神。",true],
 ["yamatsumi8","八柱山之神（總稱）","やつやまつみ","カグツチの遺体から生誕",9,8.4,"怒った伊邪那岐神に斬られた火之迦具土神の遺体の各部位から生まれた8柱：正鹿山津見神・淤縢山津見神・奥山津見神・闇山津見神・志藝山津見神・羽山津見神・原山津見神・戸山津見神。",true],
 ["iwasaku","石拆神","いわさく","剣の血から誕生",11,8.2,"十拳剣の切っ先についた血が岩に飛び散って化生した神。"],
-["nesaku","根拆神","ねさく","剣の血から誕生",11,8.7,"石拆神と対になる神。"],
-["mikahayahi","甕速日神","みかはやひ","剣の血から誕生",11,9.2,"剣の本についた血から化生した神。"],
-["hihayahi","樋速日神","ひはやひ","剣の血から誕生",11,9.7,"甕速日神と対になる神。"],
-["takemikazuchi","武甕槌大神","たけみかづち","武神・国譲りの使者",11,10.2,"火之迦具土神を斬った十拳剣の血から生まれた武神。後に高天原から出雲へ遣わされ、大国主神へ国譲りを迫る。"],
-["kuraokami","闇淤加美神","くらおかみ","剣の血から誕生",11,10.7,"谷を司る龍神的な神。"],
-["kuramitsuha","闇御津羽神","くらみつは","剣の血から誕生",11,11.2,"水を司る神。"],
+["nesaku","根拆神","ねさく","剣の血から誕生",11,8.9,"石拆神と対になる神。"],
+["mikahayahi","甕速日神","みかはやひ","剣の血から誕生",11,9.6,"剣の本についた血から化生した神。"],
+["hihayahi","樋速日神","ひはやひ","剣の血から誕生",11,10.3,"甕速日神と対になる神。"],
+["takemikazuchi","武甕槌大神","たけみかづち","武神・国譲りの使者",11,11.0,"火之迦具土神を斬った十拳剣の血から生まれた武神。後に高天原から出雲へ遣わされ、大国主神へ国譲りを迫る。"],
+["kuraokami","闇淤加美神","くらおかみ","剣の血から誕生",11,11.7,"谷を司る龍神的な神。"],
+["kuramitsuha","闇御津羽神","くらみつは","剣の血から誕生",12,12.4,"水を司る神。"],
 ["misogi_sutemono","禊時脫棄物所化之神（總稱）","みそぎのすてもの",null,0,10.1,"黄泉から逃れた伊邪那岐神が禊の際に脱ぎ捨てた杖・帯・袋・衣・褌・冠・腕輪などから、衝立船戸神・道之長乳歯神・時量師神など十二柱の神が生まれたとされる。",true],
 ["watatsumi_soko","底津綿津見神","そこつわたつみ","綿津見三神",1.8,10.1,"綿津見三神の一柱。海人族（阿曇氏）が奉斎する。"],
 ["watatsumi_naka","中津綿津見神","なかつわたつみ","綿津見三神",1.8,10.7,"綿津見三神の一柱。"],
@@ -732,9 +737,9 @@ const JP_NODE_DEFS = [
 ["tagishimimi","多藝志美美命","たぎしみみ","神武天皇の長子",4.3,19.3,"神武天皇と阿比良比売の子。神武天皇崩御後、異母弟たちの命を狙ったが露見し、逆に討たれたと伝わる。"],
 ["kisumimi","岐須美美命","きすみみ","神武天皇の子",5.5,19.3,"神武天皇と阿比良比売の子。多芸志美美命の弟。"],
 ["fuhanomojikunusunu","布波能母遅久奴須奴神","ふはのもぢくぬすぬ","出雲系譜",13.68,13.6,"須佐之男命から大国主神へ至る系譜の一柱（古事記では六代を数える）。"],
-["fukabuchimizuyarehana","深淵之水夜礼花神","ふかぶちのみづやれはな","出雲系譜",9,14.4,"出雲系譜の一柱。"],
-["omizunu","淤美豆奴神","おみづぬ","出雲系譜",9.98,15.2,"出雲系譜の一柱。"],
-["amenofuyukinu","天之冬衣神","あめのふゆきぬ","出雲系譜",9.98,15.7,"大国主神の父。"],
+["fukabuchimizuyarehana","深淵之水夜礼花神","ふかぶちのみづやれはな","出雲系譜",13,14.4,"出雲系譜の一柱。"],
+["omizunu","淤美豆奴神","おみづぬ","出雲系譜",13,15.1,"出雲系譜の一柱。"],
+["amenofuyukinu","天之冬衣神","あめのふゆきぬ","出雲系譜",13,15.8,"大国主神の父。"],
 ["okuninushi","大國主神（大己貴神）","おおくにぬし","出雲の国造り神",9,18.5,"因幡の白兎などの試練を経て国造りを成し遂げた出雲の主神。後に高天原からの要求に応じ国を譲り、出雲大社に鎮まったとされる。"],
 ["sukunabikona","少彥名命","すくなびこな","国造りの相棒",6.3,18.5,"神産巣日神の子とされ、指の間からこぼれ落ちたという小さな神。大国主神と共に国造りを行い、後に常世の国へ去った。"],
 ["suseribime","須勢理媛","すせりびめ","大國主神の正妻（須佐之男命の娘）",10.4,18.5,"須佐之男命の娘で大国主神の正妻。数々の試練を共に乗り越えた。"],
@@ -870,7 +875,7 @@ const JP_NODE_DEFS = [
 ["nakatomi_note","中臣氏・藤原氏","なかとみうじ・ふじわらうじ","天児屋命の後裔",19,15.8,"天岩戸で祝詞を奏上し、天孫降臨に随伴した天児屋命を祖と称する祭祀氏族。大化の改新を主導した中臣鎌足が天智天皇から藤原姓を賜り、以後の藤原氏として摂関政治の中心となった。氏神を祀る春日大社・枚岡神社の主祭神が天児屋命である。",true],
 ["inbe_note","忌部氏","いんべうじ","布刀玉命の後裔",21,15.8,"天岩戸で御幣を捧げ持ち、注連縄を張って天照大御神の還御を封じた布刀玉命を祖とする氏族。中臣氏と並んで朝廷の祭祀を担い、幣帛や神殿の調製を職掌とした。平安期に中臣氏に押されて衰え、斎部広成が『古語拾遺』を著してその由緒を訴えた。",true],
 ["mononobe_note","物部氏","もののべうじ","饒速日命の後裔",27,17.1,"天孫降臨に先立って天磐船で大和に降ったとされる饒速日命を祖とする軍事・祭祀氏族。神武東征の際、饒速日は長髄彦を討って帰順した。大和朝廷の武力と石上神宮の神宝を掌握したが、仏教受容をめぐって蘇我氏と対立し、丁未の乱で物部守屋が敗死して衰退した。",true],
-["otomo_note","大伴氏・久米氏","おおともうじ・くめうじ","天忍日命・天津久米命の後裔",19,16.3,"天孫降臨の際、武装して邇邇芸命の先導を務めた天忍日命と天津久米命を祖とする軍事氏族。代々宮門の警護を担い、大伴家持は『万葉集』の編纂に深く関わった。「海行かば水漬く屍」で知られる大伴氏の言立ては、天皇への奉仕を誓う古い誓詞である。",true],
+["otomo_note","大伴氏・久米氏","おおともうじ・くめうじ","天忍日命・天津久米命の後裔",19,16.5,"天孫降臨の際、武装して邇邇芸命の先導を務めた天忍日命と天津久米命を祖とする軍事氏族。代々宮門の警護を担い、大伴家持は『万葉集』の編纂に深く関わった。「海行かば水漬く屍」で知られる大伴氏の言立ては、天皇への奉仕を誓う古い誓詞である。",true],
 ["abe_note","阿倍氏","あべうじ","大彦命の後裔",19,29.6,"大彦命を祖と称する古代豪族。阿倍比羅夫は斉明朝に日本海を北上して蝦夷を服属させ、阿倍仲麻呂は遣唐留学生として唐の高官にまで昇り、望郷の歌「天の原ふりさけ見れば」を残した。安倍晴明を輩出した安倍氏もこの系譜を称する。",true],
 ["soga_note","蘇我氏・葛城氏","そがうじ・かつらぎうじ","武内宿禰の後裔",21,30.4,"武内宿禰の子孫を称する有力豪族。蘇我稲目・馬子・蝦夷・入鹿の四代は仏教受容を推進し、物部氏を滅ぼして崇峻天皇を暗殺、推古朝には聖徳太子とともに政治の中枢を占めた。乙巳の変で入鹿が討たれて本宗家は滅びる。葛城氏は仁徳・履中朝に外戚として権勢を振るった。",true],
 
@@ -952,6 +957,8 @@ const JP_GROUPS = [
 ];
 
 const JP_UNIONS = [
+  {spouses:["amenoiwato_note","amenotajikarao"], marriage:"partner", label:"岩戸を開く力神", labelClass:"ritual"},
+  {spouses:["amewakahiko","amanosagume"], marriage:"partner", label:"鳴女を射るよう進言", labelClass:"ritual"},
   {parent:"izanagi", children:["magatsuhi_note","naobi_note","izunome"], label:"禊で化生した禍と直しの神", labelClass:"ritual"},
   {parent:"izunome", children:["haraedo_note"], label:"大祓詞の祓の神々"},
   {spouses:["izanagi","izanami"], marriage:"partner", children:["kukurihime"], label:"黄泉比良坂で仲裁", labelClass:"ritual"},
@@ -4465,7 +4472,7 @@ const AR_NODE_DEFS = [
 ["siege_perilous","危險席","Siege Perilous","只屬於聖杯騎士的空席",6,9.6,"圓桌上由梅林預留的席位，仿效最後晚餐中猶大的位置。除了命定的聖杯騎士外，任何人坐下都會被大地吞沒或立刻死亡；加拉哈德來到卡美洛時，席位上的文字改為宣告他是應坐之人。它使圓桌的平等理想帶上一項悖論：在所有騎士平起平坐之處，仍有一席預先判定了最純潔者。",true],
 ["perceval","帕西法爾爵士","Perceval／Parzival","純真騎士・聖杯見證者",7.5,10.8,"克雷蒂安《帕西法爾》中的主角，幼年被母親隔絕於森林，初見騎士便被其光彩吸引；他因只會照師父教條而在漁王城堡看見聖杯儀仗卻未提問，錯失治癒漁王的機會。後來他認識自己的過錯，透過悔悟與追尋重新接近聖杯。散文循環與馬洛里讓他成為加拉哈德的同伴，完成使命後在聖地出家而終；沃爾夫拉姆版本則將他寫成聖杯王。",false,"key"],
 ["bors","鮑斯爵士","Sir Bors","蘭斯洛特親族・唯一歸來的聖杯見證者",9,10.8,"蘭斯洛特的堂親，以能在欲望、家族與信仰衝突中選擇責任聞名。聖杯探索時，他被迫在救兄弟萊昂內爾與救受辱少女間抉擇，選擇後者；歷經考驗後與加拉哈德、帕西法爾抵達科本尼克。加拉哈德與帕西法爾離世後，鮑斯是少數回到卡美洛、向眾人講述聖杯真相的騎士，因此成為理想與破敗世界之間的最後證人。",false],
-["pelles","佩勒斯王／漁王","King Pelles／Fisher King","聖杯守護者・受傷的王",3,10.8,"科本尼克的聖杯王，常被稱為漁王；不同羅曼史會區分佩勒斯、佩萊漢與『受傷王』，後世常合併理解。其傷口使土地荒蕪、王國停滯，只有正確提問或聖杯恩典能使其痊癒。他安排女兒伊蓮與蘭斯洛特結合，期待生出完成預言的加拉哈德；漁王傷病與土地傷病相連，是亞瑟傳說中統治正當性與靈性健康互為表裡的意象。",false,"key"],
+["pelles","佩勒斯王／漁王","King Pelles／Fisher King","聖杯守護者・受傷的王",5,10.8,"科本尼克的聖杯王，常被稱為漁王；不同羅曼史會區分佩勒斯、佩萊漢與『受傷王』，後世常合併理解。其傷口使土地荒蕪、王國停滯，只有正確提問或聖杯恩典能使其痊癒。他安排女兒伊蓮與蘭斯洛特結合，期待生出完成預言的加拉哈德；漁王傷病與土地傷病相連，是亞瑟傳說中統治正當性與靈性健康互為表裡的意象。",false,"key"],
 ["dolorous_stroke","悲痛一擊","Dolorous Stroke","使聖杯國度受創的禁忌一擊",1.5,12,"散文聖杯傳統中，巴拉安爵士在不知情下以命運之槍刺傷佩萊漢王，造成『悲痛一擊』：土地荒蕪、聖杯國度長期受詛咒，許多人因此死亡。它把一次騎士暴力的錯誤擴大成整個世界的傷口，直到加拉哈德的聖杯使命才得到完整修復。人物姓名與傷者身分依版本不同，但『受傷王與荒蕪之地』是聖杯敘事的核心。",true],
 ["corbenic","科本尼克城堡","Corbenic","聖杯城堡・漁王的宮廷",4,12,"聖杯被守護、伊蓮居住、加拉哈德完成使命的城堡。它不是普通地理地點，而像只向被選中者顯現的靈性空間：蘭斯洛特因罪只能看見部分奧祕；加拉哈德、帕西法爾、鮑斯才能進入深處。不同作品對地點與守護家族的名稱不一致，因此『科本尼克』是後世最常用的統稱。",true],
 ["quest_grail","聖杯探索","Quest for the Holy Grail","圓桌騎士的終極試煉",7,12,"加拉哈德坐上危險席、聖杯在五旬節宮廷顯現後，騎士們誓言出發尋找聖杯。這一決定看似崇高，卻讓圓桌失去最精銳的人手；許多騎士死去、迷失或發現自己不配。任務結束後，卡美洛已不再是昔日團結的宮廷，聖杯帶來救贖也加速了世俗王國的空洞化。",true,"key"],
@@ -4544,7 +4551,209 @@ const AR_NODE_NAMES = {
   camlann:{kojiki:"Camlann",nihonshoki:"Battle of Camlann",reading:"",aliases:["卡姆蘭","亞瑟末戰"],shrine:"地點未定"},
 };
 
+/* ============ 印度神話：梵語／往世書與兩大史詩的交會圖 ============ */
+const IN_NODE_DEFS = [
+  ['brahman','梵（Brahman）','Brahman','終極實在・非人格絕對者',8,0,'印度哲學中的終極實在，不等同於創造神梵天。不同傳統會以梵、至高人格神或女神作為宇宙根源；本圖將其作為跨教派宇宙論的起點，而非單一神祇家長。',true,'key'],
+  ['brahma','梵天','Brahmā','創造神・三相神',6,1.4,'三相神之一，常被說成自毘濕奴臍中蓮花出生並展開創世，也有其他宇宙起源版本。祂與辯才天相連，並透過心生子、達剎等譜系組織眾生。',false,'key'],
+  ['vishnu','毘濕奴','Viṣṇu','維護神・三相神',8,1.4,'三相神之一，維持宇宙秩序（dharma）。毘濕奴派文本將祂視為至高者；其化身在危機時下降人間，羅摩與黑天是最重要的史詩性形象。',false,'key'],
+  ['shiva','濕婆','Śiva','轉化與毀滅神・三相神',10,1.4,'三相神之一，兼具苦行者、舞者、家神與毀滅／再生者等面貌。濕婆派奉祂為至高神；其家族、戰勝阿修羅與宇宙舞等傳統極為豐富。',false,'key'],
+  ['saraswati','辯才天女','Sarasvatī','知識・言語・藝術女神',6,2.8,'梵天的配偶或神力（śakti），司掌言語、學問、音樂與河流。不同傳統對她與梵天的關係及起源有異說。'],
+  ['lakshmi','吉祥天女','Lakṣmī','財富・繁榮・毘濕奴的神力',8,2.8,'毘濕奴的配偶與神力，司掌吉祥、繁榮與王權。攪乳海時自海中出現是常見往世書敘事；她也隨毘濕奴化身而以悉多、魯克米妮等形象出現。'],
+  ['parvati','雪山神女・帕爾瓦蒂','Pārvatī','濕婆之妻・母神',10,2.8,'喜馬拉雅之女，經苦行贏得濕婆為夫。她是溫和母神形象，也與杜爾迦、迦梨等強力女神形式相連；各女神傳統對其關係有不同強調。'],
+  ['daksha','達剎','Dakṣa','生主・祭祀衝突的核心人物',4,3.9,'生主之一、薩蒂之父。祂舉行祭祀卻羞辱濕婆，引發薩蒂自焚與毗羅跋陀羅破壞祭場的故事，象徵祭儀權威與濕婆性力量的衝突。'],
+  ['sati','薩蒂','Satī','濕婆前妻・帕爾瓦蒂之前身',9,3.9,'達剎之女、濕婆之妻。因父親祭祀中侮辱濕婆而自焚，後在不同往世書傳統中轉生為帕爾瓦蒂；故事不應與近世寡婦殉夫習俗混為一談。'],
+  ['ganesha','象頭神・伽內什','Gaṇeśa','障礙之主・智慧神',9.1,5.3,'濕婆與帕爾瓦蒂之子，以象頭聞名，司掌開始、知識與移除或設置障礙。其出生、象頭由來與斷牙傳說在不同文本中有多種版本。',false,'key'],
+  ['kartikeya','戰神室建陀','Kārttikeya／Skanda','戰神・六面神',10.9,5.3,'濕婆與帕爾瓦蒂之子，率領天軍戰勝阿修羅多羅迦。南印度常稱穆魯甘；其出生與六位乳母、六面形象在地域傳統中尤受重視。'],
+  ['durga','難近母・杜爾迦','Durgā','戰勝摩希沙的女神',11.8,3.9,'女神眾力量匯聚而成的戰神形態，為擊敗水牛阿修羅摩希沙而出現。《女神讚》將她描述為宇宙性的女神力量，不只是帕爾瓦蒂的附屬形態。',false,'key'],
+  ['kali','迦梨','Kālī','時間・毀滅與解放女神',12.8,5.3,'強烈而解放性的女神形態，常與戰場、時間及破除無明相連。部分傳說說她在戰鬥狂熱中由濕婆躺臥而止息；不同教派對她與杜爾迦／帕爾瓦蒂的關係不盡相同。'],
+  ['indra','因陀羅','Indra','天帝・雷霆與雨神',2,5.3,'吠陀時代最突出的天神，持金剛杵、戰勝旱災象徵弗栗多。往世書與史詩中仍為眾天神之王，但常讓位於毘濕奴、濕婆或女神的至高敘事。'],
+  ['agni','阿耆尼','Agni','火神・祭祀使者',3.8,5.3,'吠陀火神，承載祭品並往返人神之間。羅摩衍那中悉多經火的考驗、摩訶婆羅多中焚燒甘達瓦森林等敘事，皆顯示火神的多重角色。'],
+  ['surya','蘇利耶','Sūrya','太陽神',5.6,5.3,'太陽神，駕七馬戰車巡行天空。祂是俱盧英雄迦爾納之父，也與摩奴、閻摩等系譜相連。'],
+  ['yama','閻摩','Yama','死者之王・法之審判者',3.8,6.7,'死者之王與審判者，早期吠陀文本中是最先抵達死者之路的祖先。後世常以祂依業報審判眾生的形象出現。'],
+  ['dashavatara_note','十種化身','Daśāvatāra','毘濕奴化身的常見名單',7.8,5.3,'毘濕奴十化身是後世常見整理：魚、龜、野豬、人獅、侏儒、持斧羅摩、羅摩、黑天、佛陀或巴拉羅摩、未來的迦爾基。名單與順序依傳統可變。',true,'key'],
+  ['rama','羅摩','Rāma','毘濕奴化身・阿逾陀王子',7,8.1,'《羅摩衍那》的核心英雄，常被尊為毘濕奴化身。因父命流放森林、妻子悉多遭羅波那擄走，最後在哈奴曼與猴軍協助下收復她，成為王法與責任的典型。',false,'key'],
+  ['sita','悉多','Sītā','羅摩之妻・大地之女',8.5,9.5,'羅摩之妻，傳說由大地生出。她在流放中被羅波那擄走，經火的考驗後返國；不同版本對其主動性、考驗與最終回歸大地有不同詮釋。',false,'key'],
+  ['lakshmana','拉克什曼那','Lakṣmaṇa','羅摩之弟・忠誠的同伴',5.7,9.5,'羅摩同父異母弟，陪同兄嫂流放並在戰爭中作戰。他的忠誠與守護構成羅摩衍那重要的兄弟倫理。'],
+  ['hanuman','哈奴曼','Hanumān','猴神・羅摩的奉獻者',4,10.9,'猴族英雄、風神伐由之子。在尋找悉多時越海至蘭卡、焚燒羅波那城，並於戰場搬來療傷山；他象徵勇氣、服務與虔信。',false,'key'],
+  ['ravana','羅波那','Rāvaṇa','蘭卡阿修羅王',11.5,10.9,'蘭卡的十首王，擄走悉多而與羅摩交戰。許多傳統也強調其對濕婆的虔誠、學識與強大，使他不只是單面的惡角。',false,'key'],
+  ['krishna','黑天','Kṛṣṇa','毘濕奴化身・牧童與導師',8.8,8.1,'毘濕奴化身之一，兼具牧童、政治家與神聖導師面貌。他在《摩訶婆羅多》中支持潘達瓦，於《薄伽梵歌》向阿周那闡釋行動、責任與解脫。',false,'key'],
+  ['arjuna','阿周那','Arjuna','潘達瓦弓手・薄伽梵歌聽者',7.8,11,'潘達瓦五兄弟之一、最著名的弓手。俱盧之戰前因不願殺害親族而動搖，黑天的教導構成《薄伽梵歌》；他以甘狄拔弓與戰車著名。',false,'key'],
+  ['pandava_note','潘達瓦五兄弟','Pāṇḍava','正統繼承者的兄弟群',6.4,12.4,'由堅戰、怖軍、阿周那、雙胞胎無種與偕天組成。他們與考拉瓦族的繼承衝突導向俱盧之戰；不同父神傳統使其同時具人間與神性家系。',true],
+  ['draupadi','黑公主・德羅帕蒂','Draupadī','潘達瓦共同王后',9.4,12.4,'火祭中出生的潘遮羅公主，成為五位潘達瓦的共同妻子。賭局中受辱的事件是戰爭重要導火線；她的處境長期是史詩倫理與性別詮釋的核心。',false,'key'],
+  ['duryodhana','難敵','Duryodhana','考拉瓦長子・俱盧戰爭對手',12,12.4,'考拉瓦百子之首，與潘達瓦爭奪王位。賭局、流放與俱盧戰爭皆與他的決策相關；部分傳統也強調他作為友人與戰士的複雜性。'],
+  ['kurukshetra','俱盧之戰','Kurukṣetra War','摩訶婆羅多的決戰',10.8,14,'潘達瓦與考拉瓦在俱盧之野進行的大戰。史詩將它寫為家族、王權與達摩衝突的毀滅性高潮，結局並非單純勝利而是整個世代的損失。',true,'key'],
+  ['matsya','魚化身','Matsya','毘濕奴化身・洪水救援',3.5,7.2,'十化身常見名單中的魚形化身。往世書敘事中，祂在洪水來臨前警告摩奴、引導方舟並保存生命與知識；細節及所救對象依文本而異。出處可參《薄伽梵往世書》卷八。'],
+  ['kurma','龜化身','Kūrma','毘濕奴化身・攪乳海的支撐',4.8,7.2,'十化身常見名單中的龜形化身。眾神與阿修羅攪動乳海取得甘露時，曼陀羅山下沉；龜化身承住山體，使攪海得以持續。這是往世書傳統最著名的宇宙合作故事之一。'],
+  ['varaha','野豬化身','Varāha','毘濕奴化身・救起大地',6.1,7.2,'野豬形化身。常見往世書版本中，大地被阿修羅金目沉入宇宙之水，毘濕奴化為巨豬將大地托回水面並擊敗對手。女神與毘濕奴派傳統對這一救地敘事各有延伸。'],
+  ['narasimha','人獅化身','Narasiṃha','毘濕奴化身・守護普羅拉達',7.4,7.2,'半人半獅化身，為保護敬奉毘濕奴的普羅拉達而現身，殺死其父金座。故事藉「非人非獸、非日非夜、非內非外」等條件突破金座所獲的不死保護，是虔信與神力的經典敘事。'],
+  ['vamana','侏儒化身','Vāmana／Trivikrama','毘濕奴化身・三步遍宇宙',8.7,7.2,'侏儒婆羅門形化身，向阿修羅王巴利請求三步土地；獲允後化為三步遍及宇宙的特里維克拉瑪。巴利的降服與受賜地位在不同往世書及地方傳統中有不同道德重點。'],
+  ['parashurama','持斧羅摩','Paraśurāma','毘濕奴化身・婆羅門戰士',10,7.2,'持斧的婆羅門戰士，常列為第六化身。往世書與史詩敘事寫他因父親遇害而反覆懲治失德剎帝利，後又在《羅摩衍那》中與羅摩相遇；此形象涉及武力、階序與苦行力量。'],
+  ['balarama','巴拉羅摩','Balarāma','黑天之兄・犁的英雄',11.3,7.2,'黑天的兄長，持犁與杵，與農耕、力量及雅達瓦族相連。部分十化身名單以他取代佛陀；因此本圖把他列為「名單有異」的支線，而非宣稱唯一固定次序。'],
+  ['buddha_avatar','佛陀化身（部分傳統）','Buddha','十化身名單的異說',12.6,7.2,'部分毘濕奴派往世書把「佛陀」列入十化身，但名單、身分與敘事目的依文本而不同；也有傳統以巴拉羅摩列入。此節點僅說明印度教化身系統中的文本傳統，不把它等同於佛教對釋迦牟尼的理解。',true],
+  ['kalki','迦爾基','Kalki','未來化身・末世更新',13.9,7.2,'十化身常見名單中的未來化身。往世書通常描述祂在卡利年代末出現、終結失序並開啟新的時代；這是末世與宇宙循環觀念，並非可用單一歷史事件驗證的傳記。'],
+  ['dasharatha','十車王','Daśaratha','阿逾陀國王・羅摩之父',2.8,9.3,'《羅摩衍那》中的拘薩羅王，為了履行昔日對凱凱伊的承諾，命羅摩流放並讓婆羅多繼位。其在父愛、誓言與王法間的悲劇性選擇，是阿逾陀篇的核心。'],
+  ['kaushalya','憍薩羅耶','Kauśalyā','羅摩之母',1.5,10.7,'十車王的王后、羅摩之母。她在羅摩被放逐時表達母親的哀傷與王室義務的兩難；《羅摩衍那》不同改編對她的戲份與性格著墨不同。'],
+  ['kaikeyi','凱凱伊','Kaikeyī','婆羅多之母・流放承諾的提出者',2.8,10.7,'十車王的王后、婆羅多之母。她援引國王曾許下的兩個恩典，要求婆羅多繼位、羅摩流放。史詩把她的行動置於誓言、宮廷政治與個人選擇的衝突中。'],
+  ['sumitra','蘇彌陀羅','Sumitrā','拉克什曼那與設多盧婆那之母',5.4,10.7,'十車王的王后、拉克什曼那與設多盧婆那之母。她勉勵拉克什曼那隨侍羅摩與悉多，故在傳統讀法中常代表節制、清醒與支持性的母親角色。'],
+  ['bharata','婆羅多','Bharata','羅摩之弟・阿逾陀攝政者',1.8,12.1,'羅摩同父異母弟。得知流放內情後，他拒絕據有王位，迎請羅摩返國未果，便以羅摩的木屐象徵王權而代理治理；他的忠誠使王位衝突不只是單純奪權故事。'],
+  ['shatrughna','設多盧婆那','Śatrughna','羅摩之弟・婆羅多的同伴',4.1,12.1,'十車王之子、拉克什曼那的孿生弟弟，常與婆羅多同行。在《羅摩衍那》的主線中篇幅較少，但後續傳統記述他征討拉瓦那的侄子羅婆那蘇羅並建立秩序。'],
+  ['sugriva','蘇格利婆','Sugrīva','猴族王・羅摩盟友',2.7,14.3,'被兄長伐利逐出的猴族王。羅摩協助他取回權位後，他動員猴軍尋找悉多並攻向蘭卡；這一互惠盟約是羅摩戰勝羅波那的關鍵。'],
+  ['vali','伐利','Vāli','猴族強者・蘇格利婆之兄',1.4,15.7,'猴族王、蘇格利婆之兄。羅摩從隱蔽處射殺伐利的情節，引發「王法、盟約與公平戰鬥」的長久爭論；不同改編對羅摩的辯解與伐利的指控各有強弱。'],
+  ['vibhishana','毘毗沙那','Vibhīṣaṇa','羅波那之弟・投向羅摩',9.5,15.7,'羅波那之弟，勸兄長歸還悉多未果後投向羅摩。戰後受立為蘭卡之王；此人物讓史詩中的親族忠誠與達摩責任形成明顯張力。'],
+  ['kumbhakarna','貢巴卡爾納','Kumbhakarṇa','羅波那之弟・沉睡巨人',12.1,14.3,'羅波那之弟，以長眠與巨力聞名。被喚醒後雖明白兄長的過錯，仍選擇為蘭卡作戰並戰死；因此常被改編為忠誠、命運與悲劇選擇的角色。'],
+  ['jatayu','闍多尤','Jaṭāyu','鷲王・悉多的救援者',9.5,14.3,'年邁的鷲王，是十車王的友人。羅波那擄走悉多時，他試圖攔截而重傷，臨終前將方向告知羅摩；其犧牲讓羅摩得以追查悉多去處。'],
+  ['pandu','般度','Pāṇḍu','潘達瓦之父',5,15.2,'俱盧王族的般度，是潘達瓦五兄弟的社會父親。因詛咒不能與妻子同房，昆蒂與瑪德利藉神祇賜福生子；這是史詩世界中人類父系、神性父系與王位正統交疊的例子。'],
+  ['kunti','昆蒂','Kuntī','潘達瓦之母・迦爾納之生母',6.4,16.6,'般度之妻，獲能召請神祇生子的恩賜。她婚前召來太陽神而生下迦爾納，後與般度育有堅戰、怖軍、阿周那；隱藏的母子關係在戰爭末段造成重大悲劇。'],
+  ['yudhishthira','堅戰','Yudhiṣṭhira','潘達瓦長兄・達摩之子',3.7,17.9,'潘達瓦長兄，常被視為達摩神之子，以正直聞名，也因賭局而承擔嚴重後果。戰後成為國王；他顯示達摩不是永遠能給出無痛答案的規則。'],
+  ['bhima','怖軍','Bhīma','潘達瓦次兄・巨力戰士',5.1,17.9,'潘達瓦次兄、風神之子，以力量與食量聞名。他在俱盧之戰中殺死難敵，兌現對德羅帕蒂所立的誓言；其強烈性格與堅戰的克制相互對照。'],
+  ['nakula','無種','Nakula','潘達瓦孿生弟・馬術名家',6.5,17.9,'潘達瓦中的孿生兄長，阿濕毗尼雙神之子。史詩常以其美貌、劍術與醫馬技藝著稱；雖較少成為主線焦點，仍是五兄弟共同責任的一環。'],
+  ['sahadeva','偕天','Sahadeva','潘達瓦孿生弟・洞察者',7.9,17.9,'潘達瓦中的孿生弟弟，同為阿濕毗尼雙神之子。傳統常賦予他占星、判斷與智慧，但他與無種在主線中較少被獨立展開，反映史詩群像的層次差異。'],
+  ['dhritarashtra','持國','Dhṛtarāṣṭra','盲王・考拉瓦之父',11.8,15.7,'俱盧王、難敵之父，生來失明。作為父親與國王，他多次在偏袒兒子、遵守正義與維持政局間猶豫，未能阻止賭局與戰爭升高。'],
+  ['gandhari','健陀羅國公主','Gāndhārī','考拉瓦之母',13.2,15.7,'持國之妻、難敵之母。常見敘事說她自願蒙眼以共享丈夫的黑暗；她在戰後為眾子哀悼並詛咒黑天，呈現戰爭勝負之外的母親創傷。'],
+  ['karna','迦爾納','Karṇa','太陽神之子・難敵摯友',10.5,17.9,'昆蒂與太陽神所生、被收養長大的英雄。因身分受辱而接受難敵的友誼，站上考拉瓦陣營；直到戰爭後期才知自己的潘達瓦血緣，是史詩最深刻的身分與忠誠悲劇之一。',false,'key'],
+  ['bhishma','毗濕摩','Bhīṣma','俱盧長者・誓言的守護者',12,19.3,'俱盧王族的長者，為父親再婚而立終身獨身與放棄王位的可怕誓言。俱盧之戰中任考拉瓦統帥，卻不願全力傷害潘達瓦；他在箭床上講述王法與達摩。'],
+  ['drona','德羅納','Droṇa','兩軍的武藝老師',13.4,19.3,'教授潘達瓦與考拉瓦武藝的老師，與阿周那有特別的師徒關係。戰爭中受難敵任命為統帥；他的死亡與「阿濕婆他摩已死」的半真訊息相連，凸顯史詩對戰爭倫理的追問。'],
+  ['subhadra','蘇芭德拉','Subhadrā','黑天之妹・阿周那之妻',8.8,19.3,'黑天的妹妹、阿周那之妻，也是阿毗曼紐之母。她把黑天的雅達瓦家系與潘達瓦家系相連；婚姻取得的版本在不同《摩訶婆羅多》改編中細節不同。'],
+  ['abhimanyu','阿毗曼紐','Abhimanyu','阿周那之子・輪陣犧牲者',7.5,20.7,'阿周那與蘇芭德拉之子。俱盧之戰中能破入車輪陣卻無法脫身，遭多名考拉瓦戰士圍攻而死；其故事是戰爭規範崩解與世代損失的代表。'],
+  ['bhagavad_gita','薄伽梵歌','Bhagavad Gītā','黑天與阿周那的戰前對話',9.1,20.7,'《摩訶婆羅多》毗濕摩篇中的對話。阿周那面對親族之戰而猶疑，黑天討論行動、責任、知識、奉愛與自我；不同哲學傳統對其教義重點有不同詮釋。',true,'key'],
+  ['kashyapa','迦葉波','Kaśyapa','生主・眾多族類之父',1.5,2.8,'生主之一、達剎之女們的配偶。多種往世書與史詩系譜把天神、阿修羅、鳥族及蛇族等不同族類繫於他的婚配與後代；這是宇宙性譜系框架，版本間名單不完全一致。'],
+  ['vinata','毗那多','Vinatā','迦樓羅與阿魯那之母',0,4.2,'迦葉波之妻、迦樓羅與阿魯那之母。她與姊妹迦德魯賭白馬高耳的顏色而落敗，因而淪為蛇族奴僕；迦樓羅取甘露以換取母親自由，是其故事的主軸。'],
+  ['kadru','迦德魯','Kadrū','那伽之母・毗那多之姊妹',3,4.2,'迦葉波之妻、眾多那伽之母。她讓蛇子改變白馬高耳的外觀以贏得賭局，使毗那多受役；此母系競爭是迦樓羅與蛇族長久敵對的神話根源。'],
+  ['garuda','迦樓羅','Garuḍa','神鳥王・毘濕奴坐騎',0,6.4,'毗那多之子、阿魯那之弟，以鷹／人鳥形象出現，是毘濕奴的坐騎與旗幟象徵。為解救受役的母親，他奪取眾神的甘露；由此與那伽成為天敵，但不把所有鳥蛇故事簡化成同一版本。',false,'key'],
+  ['naga_note','那伽族','Nāga','蛇神族・水域與地下世界',3,6.4,'那伽是具有神性、能變形的蛇族，與水、地下世界、寶藏與土地肥力相連。其角色橫跨印度教、佛教與地方信仰；本圖只呈現印度史詩與往世書相關的主要支線，非全部蛇神傳統。',true,'key'],
+  ['ananta','阿難陀／舍沙','Ananta／Śeṣa','無盡蛇王・毘濕奴臥榻',2.1,8.5,'重要那伽，名意為「無盡」，常被稱為舍沙。宇宙敘事中他承載世界或作為毘濕奴臥於宇宙海時的多頭蛇榻；在八大那伽等名單中亦常居首，但名單並非所有傳統一致。'],
+  ['vasuki','婆蘇吉','Vāsuki','蛇王・攪乳海之繩',4,8.5,'重要那伽王，攪乳海時被眾神與阿修羅用作纏繞曼陀羅山的繩索。後世圖像常使其與濕婆相連；其八大那伽地位與具體角色依往世書及地域傳統而異。'],
+  ['mahapadma','摩訶缽特摩','Mahāpadma','八大那伽之一・大蓮花蛇神',5.9,8.5,'意為「大蓮花」的那伽名，在常見的八大那伽名單中與阿難陀、婆蘇吉、德叉迦等並列；《摩訶婆羅多》蛇族名錄亦出現此名。不同文本對八大名單的順序與成員略有差異，故不附會未獲共同支持的個人事蹟。'],
+  ['takshaka','德叉迦','Takṣaka','蛇王・蛇祭故事的核心',11.3,8.5,'重要那伽王。《摩訶婆羅多》中他咬死帕利克希特王，促成其子闍那梅迦耶舉行蛇祭；蛇族幾乎被焚盡時，阿斯提卡介入制止。此支線揭示報復、祭祀與和解的問題。'],
+  ['nandi','南迪','Nandin','濕婆的神牛・門衛',13.8,2.8,'白牛神獸，作為濕婆的坐騎與門衛，在濕婆神廟圖像和傳統中極重要。不同往世書對他的起源與事蹟敘述不一，但其作為濕婆侍從與神牛的地位穩定。'],
+  ['airavata','愛羅婆多','Airāvata','因陀羅的白象坐騎',1.5,6.9,'因陀羅的白象坐騎，常與雲雨、王權和東方守護意象相連。常見往世書敘事將他與攪乳海後出現的珍寶相連；圖像傳統有時描繪為多頭象。'],
+  ['amrita','甘露','Amṛta','不死甘露・攪乳海的目標',14.9,7.1,'眾神與阿修羅攪乳海所求的不死甘露。故事中，毘濕奴以摩希尼形象協助眾神取得甘露；它是宇宙秩序、死亡與神力爭奪的故事物件，不等同日常飲品。',true,'key'],
+  ['sudarshana','蘇達爾沙那輪','Sudarśana Cakra','毘濕奴的神聖輪刃',15,8.7,'毘濕奴最重要的武器之一，意為「善見」或「美好視野」。它在往世書與毘濕奴派圖像中象徵守護、切斷失序與神聖權能；各故事對其取得與使用情節不同。'],
+  ['trishula','三叉戟','Triśūla','濕婆的三叉武器',15,10.1,'濕婆最具辨識度的武器與象徵之一。它可被詮釋為創造、維護、毀滅三種功能，或三界／三性質等；這些寓意隨教派與近代解說而變，不應化約為唯一原義。'],
+  ['gandiva','甘狄拔弓','Gāṇḍīva','阿周那的神弓',15,11.5,'阿周那的著名神弓，與其頂尖弓手身分相連。《摩訶婆羅多》中，他從火神阿耆尼取得甘狄拔及不盡箭袋，用於焚燒甘達瓦森林與俱盧之戰等情節。'],
+  ['brahmastra','梵天武器','Brahmāstra','史詩中的毀滅性神兵',15,12.9,'史詩與往世書中反覆出現的至高神兵類型，必須經由咒語與師承使用。不同文本對其威力、持有者和抵銷方式並不一致；本圖將它視為武器概念，而非單一可追溯的實體。',true],
+  ['sanjivani','生還草','Sañjīvanī','羅摩衍那的療傷靈藥',15,14.3,'《羅摩衍那》戰爭敘事中的救命藥草。拉克什曼那重傷後，哈奴曼受命取藥而無法辨認，遂搬回整座藥山；此故事是哈奴曼力量與服務精神的重要段落。'],
+  ['vedas_note','吠陀','Veda','祭頌、祭儀與知識傳統',1.4,22.2,'「吠陀」是印度教最具權威性的聖典傳統總稱，通常包括《梨俱吠陀》、《夜柔吠陀》、《娑摩吠陀》、《阿闥婆吠陀》及其附屬文獻。它們不是單一作者或同時完成的書，內容涵蓋頌歌、儀禮與思辨。',true,'key'],
+  ['upanishads_note','奧義書','Upaniṣad','探問梵、我與解脫的文獻群',3.5,22.2,'奧義書是與吠陀傳統相連的一組思辨文獻，集中討論梵（Brahman）、自我（Ātman）、知識與解脫。不同奧義書年代、語境與觀點相異，不能以單一教義概括全部。',true],
+  ['puranas_note','往世書','Purāṇa','神祇、宇宙論與地方傳統文獻群',5.6,22.2,'往世書是多部、長期形成的敘事與宗教文獻，保存神祇譜系、宇宙循環、化身與聖地傳統。毘濕奴、濕婆與女神的故事常見於此，但各書版本、年代與宗派立場不同。',true,'key'],
+  ['ramayana_note','《羅摩衍那》','Rāmāyaṇa','梵語史詩・羅摩故事的核心文本',7.7,22.2,'以羅摩、悉多、拉克什曼那、哈奴曼與羅波那為中心的梵語史詩，傳統歸於蚁垤。它有多種地域語言改編、演出與重述；本圖的人物關係主要以梵語史詩主線為框架，不取代全部版本。',true,'key'],
+  ['mahabharata_note','《摩訶婆羅多》','Mahābhārata','梵語史詩・俱盧王族的大敘事',9.8,22.2,'以潘達瓦與考拉瓦衝突為主軸的龐大梵語史詩，傳統歸於毗耶娑，包含《薄伽梵歌》等多層文本。它的敘事並非只有戰爭，而持續追問親族、王法、義務與苦果。',true,'key'],
+  ['mahishasura','摩希沙阿修羅','Mahiṣāsura','水牛阿修羅・杜爾迦的對手',13.8,4.8,'能化為水牛的阿修羅。常見《女神讚》敘事中，他擊敗眾神、擾亂三界，諸神力量遂匯成杜爾迦；女神最終斬殺他。這是女神作為宇宙性力量而非附屬神格的重要故事。'],
+  ['tarakasura','多羅迦阿修羅','Tārakāsura','阿修羅・室建陀的對手',12.5,6.7,'強大的阿修羅，常見往世書版本說他獲得只有濕婆之子能殺死自己的恩賜。眾神因此促成濕婆與帕爾瓦蒂結合，室建陀出生後統率天軍擊敗他；不同文本對細節與家系有異。'],
+  ['parikshit','帕利克希特','Parīkṣit','阿毗曼紐之子・德叉迦所殺之王',13.5,17.2,'阿毗曼紐與北公主之子、俱盧王族後裔。因冒犯苦行者而受詛咒，最終被德叉迦咬死；其死亡引發兒子闍那梅迦耶的蛇祭。敘事將個人失誤、詛咒與集體報復串連。'],
+  ['janamejaya','闍那梅迦耶','Janamejaya','帕利克希特之子・蛇祭主持者',15,18.6,'帕利克希特之子。為替父報仇而舉行蛇祭，企圖將德叉迦及眾那伽投入祭火；阿斯提卡請求他停止，蛇族因而獲救。這一框架也承載《摩訶婆羅多》的講述傳統。'],
+  ['astika','阿斯提卡','Āstika','制止蛇祭的少年聖者',16.5,17.2,'與蛇族有母系關聯的少年聖者。蛇祭進行時，他以讚頌與請求使闍那梅迦耶履行允諾、停止祭祀，救下德叉迦與眾蛇；故事提供報復循環得以中止的轉折。'],
+  ['samudra_manthana','攪乳海','Samudra Manthana','眾神與阿修羅攪海求甘露',14,5.4,'往世書著名宇宙事件：眾神與阿修羅以曼陀羅山為攪杵、婆蘇吉為繩，毘濕奴化龜承住山體，求取甘露。摩希尼分配甘露的結局凸顯神魔合作、競爭與秩序恢復。',true,'key'],
+  ['mohini','摩希尼','Mohinī','毘濕奴的魅惑女形',16.5,6.8,'毘濕奴為取回甘露而顯現的女性形態。攪乳海後，她使阿修羅相信自己會公平分配，實際將甘露給予眾神；不同傳統亦另述她與濕婆等故事。'],
+  ['mandara','曼陀羅山','Mandara Mountain','攪乳海的攪杵',14,8.2,'攪乳海時被用作攪杵的神山；山體下沉時由龜化身承住。它是宇宙事件中的物件／場所節點，並非可任意等同於所有名為曼陀羅的山岳。'],
+  ['aruna','阿魯那','Aruṇa','迦樓羅之兄・太陽神戰車御者',0,5.6,'毗那多之子、迦樓羅的兄長，通常擔任蘇利耶太陽戰車的御者。其先於迦樓羅破殼而出、身體未完全成熟的故事，與母親毗那多的急切及詛咒傳統相連。'],
+  ['sarpa_yajna','那伽蛇祭','Sarpa Yajña','闍那梅迦耶的復仇祭祀',16.5,19.5,'帕利克希特死於德叉迦之毒後，其子闍那梅迦耶為復仇而舉行的大型祭祀，企圖以祭火毀滅蛇族。阿斯提卡使國王停止祭祀，德叉迦與眾那伽得以倖免；《摩訶婆羅多》的講述框架亦與此事件相連。',true,'key'],
+];
+const IN_GROUPS = [
+  ['宇宙論與三相神',['brahman','brahma','vishnu','shiva','saraswati','lakshmi','parvati'],'#d0a850',false],
+  ['濕婆家族與女神力量',['daksha','sati','ganesha','kartikeya','durga','kali'],'#cf6b6b',false],
+  ['迦樓羅與那伽族',['kashyapa','vinata','kadru','garuda','naga_note','ananta','vasuki','mahapadma','takshaka'],'#4cb6a8',false],
+  ['神獸與靈獸',['garuda','naga_note','ananta','vasuki','mahapadma','takshaka','hanuman','nandi','airavata'],'#63c8a5',false],
+  ['神器與神寶',['amrita','sudarshana','trishula','gandiva','brahmastra','sanjivani'],'#e1b356',false],
+  ['聖典與思想脈絡',['vedas_note','upanishads_note','puranas_note','ramayana_note','mahabharata_note','bhagavad_gita'],'#bb8be5',false],
+  ['阿修羅與敵手',['mahishasura','tarakasura','ravana','duryodhana','takshaka'],'#d06a72',false],
+  ['宇宙事件與聖地',['samudra_manthana','mandara','amrita','sarpa_yajna','kurukshetra','ramayana_note','mahabharata_note'],'#6ba9d8',false],
+  ['吠陀諸神與宇宙秩序',['indra','agni','surya','yama'],'#e08a60',false],
+  ['毘濕奴化身與史詩英雄',['dashavatara_note','matsya','kurma','varaha','narasimha','vamana','parashurama','balarama','buddha_avatar','kalki','rama','krishna'],'#5ab4ff',false],
+  ['羅摩衍那',['dasharatha','kaushalya','kaikeyi','sumitra','rama','bharata','lakshmana','shatrughna','sita','hanuman','sugriva','vali','jatayu','ravana','vibhishana','kumbhakarna'],'#75b98c',false],
+  ['摩訶婆羅多與俱盧之戰',['krishna','pandu','kunti','yudhishthira','bhima','arjuna','nakula','sahadeva','pandava_note','draupadi','dhritarashtra','gandhari','duryodhana','karna','bhishma','drona','subhadra','abhimanyu','bhagavad_gita','kurukshetra'],'#a980e0',false],
+];
+const IN_UNIONS = [
+  {parent:'brahman',children:['brahma','vishnu','shiva'],label:'不同傳統中的宇宙根源',labelClass:'ritual'},
+  {spouses:['brahma','saraswati'],marriage:'primary',label:'創造與知識'},
+  {spouses:['vishnu','lakshmi'],marriage:'primary',label:'維護與吉祥'},
+  {spouses:['shiva','sati'],marriage:'primary',label:'達剎祭祀前的婚姻'},
+  {parent:'sati',children:['parvati'],label:'轉生為帕爾瓦蒂（往世書傳統）',labelClass:'ritual'},
+  {spouses:['shiva','parvati'],marriage:'primary',children:['ganesha','kartikeya'],label:'濕婆家族'},
+  {parent:'parvati',children:['durga','kali'],label:'女神的強力形態（傳統有異）',labelClass:'ritual'},
+  {parent:'vishnu',children:['dashavatara_note','rama','krishna'],label:'化身下降',labelClass:'ritual'},
+  {spouses:['rama','sita'],marriage:'primary',label:'流放與重聚'},
+  {spouses:['rama','lakshmana'],marriage:'partner',label:'兄弟與流放同伴',labelClass:'ritual'},
+  {spouses:['rama','hanuman'],marriage:'partner',label:'尋回悉多的盟友',labelClass:'ritual'},
+  {spouses:['ravana','sita'],marriage:'partner',label:'擄走悉多',labelClass:'blood'},
+  {parent:'surya',children:['yama'],label:'太陽神的系譜（常見傳統）'},
+  {parent:'surya',children:['karna'],label:'昆蒂以恩賜召請太陽神',labelClass:'ritual'},
+  {parent:'krishna',children:['arjuna','pandava_note','draupadi','kurukshetra'],label:'俱盧戰爭的導師與盟友',labelClass:'ritual'},
+  {parent:'pandava_note',children:['arjuna','draupadi'],label:'潘達瓦家族與共同王后'},
+  {spouses:['duryodhana','kurukshetra'],marriage:'partner',label:'繼承爭端導向戰爭',labelClass:'blood'},
+  {spouses:['arjuna','kurukshetra'],marriage:'partner',label:'黑天的教導與參戰',labelClass:'ritual'},
+  {parent:'vishnu',children:['matsya','kurma','varaha','narasimha','vamana','parashurama','balarama','buddha_avatar','kalki'],label:'十化身的常見／異說名單',labelClass:'ritual'},
+  {spouses:['dasharatha','kaushalya'],marriage:'primary',children:['rama'],label:'阿逾陀王室'},
+  {spouses:['dasharatha','kaikeyi'],marriage:'primary',children:['bharata'],label:'王室婚姻'},
+  {spouses:['dasharatha','sumitra'],marriage:'primary',children:['lakshmana','shatrughna'],label:'王室婚姻'},
+  {spouses:['bharata','rama'],marriage:'partner',label:'木屐攝政與兄弟忠誠',labelClass:'ritual'},
+  {spouses:['sugriva','vali'],marriage:'partner',label:'兄弟爭位',labelClass:'blood'},
+  {spouses:['rama','sugriva'],marriage:'partner',label:'互助盟約',labelClass:'ritual'},
+  {spouses:['rama','jatayu'],marriage:'partner',label:'救援悉多的犧牲',labelClass:'ritual'},
+  {spouses:['ravana','vibhishana'],marriage:'partner',label:'兄弟因達摩決裂',labelClass:'blood'},
+  {spouses:['ravana','kumbhakarna'],marriage:'partner',label:'蘭卡王族',labelClass:'blood'},
+  {spouses:['pandu','kunti'],marriage:'primary',children:['yudhishthira','bhima','arjuna'],label:'神祇賜子的史詩家系'},
+  {parent:'pandava_note',children:['yudhishthira','bhima','nakula','sahadeva'],label:'五兄弟'},
+  {spouses:['dhritarashtra','gandhari'],marriage:'primary',children:['duryodhana'],label:'考拉瓦王室'},
+  {parent:'kunti',children:['karna'],label:'婚前所生',labelClass:'ritual'},
+  {spouses:['karna','duryodhana'],marriage:'partner',label:'友誼與政治盟約',labelClass:'ritual'},
+  {spouses:['arjuna','subhadra'],marriage:'primary',children:['abhimanyu'],label:'潘達瓦與雅達瓦家系'},
+  {spouses:['krishna','subhadra'],marriage:'partner',label:'兄妹與戰爭同盟',labelClass:'blood'},
+  {spouses:['arjuna','bhagavad_gita'],marriage:'partner',label:'戰前的疑問',labelClass:'ritual'},
+  {spouses:['krishna','bhagavad_gita'],marriage:'partner',label:'教導者',labelClass:'ritual'},
+  {spouses:['abhimanyu','kurukshetra'],marriage:'partner',label:'車輪陣中的犧牲',labelClass:'blood'},
+  {spouses:['bhishma','kurukshetra'],marriage:'partner',label:'考拉瓦統帥',labelClass:'ritual'},
+  {spouses:['drona','kurukshetra'],marriage:'partner',label:'考拉瓦統帥',labelClass:'ritual'},
+  {parent:'daksha',children:['vinata','kadru'],label:'達剎之女（常見系譜）'},
+  {spouses:['kashyapa','vinata'],marriage:'primary',children:['garuda'],label:'鳥族支系'},
+  {spouses:['kashyapa','kadru'],marriage:'primary',children:['naga_note','ananta','vasuki','mahapadma','takshaka'],label:'蛇族支系'},
+  {spouses:['garuda','naga_note'],marriage:'partner',label:'救母甘露故事中的天敵',labelClass:'blood'},
+  {spouses:['vishnu','garuda'],marriage:'partner',label:'坐騎與神使',labelClass:'ritual'},
+  {spouses:['vishnu','ananta'],marriage:'partner',label:'宇宙海上的蛇榻',labelClass:'ritual'},
+  {spouses:['shiva','vasuki'],marriage:'partner',label:'蛇飾與攪乳海',labelClass:'ritual'},
+  {spouses:['kurma','vasuki'],marriage:'partner',label:'攪乳海的山與繩',labelClass:'ritual'},
+  {spouses:['takshaka','kurukshetra'],marriage:'partner',label:'後世蛇祭支線',labelClass:'ritual'},
+  {spouses:['shiva','nandi'],marriage:'partner',label:'坐騎與門衛',labelClass:'ritual'},
+  {spouses:['indra','airavata'],marriage:'partner',label:'白象坐騎',labelClass:'ritual'},
+  {spouses:['kurma','amrita'],marriage:'partner',label:'攪乳海所求',labelClass:'ritual'},
+  {spouses:['vishnu','sudarshana'],marriage:'partner',label:'神聖輪刃',labelClass:'ritual'},
+  {spouses:['shiva','trishula'],marriage:'partner',label:'三叉武器',labelClass:'ritual'},
+  {spouses:['arjuna','gandiva'],marriage:'partner',label:'神弓與弓手',labelClass:'ritual'},
+  {spouses:['arjuna','brahmastra'],marriage:'partner',label:'師承的神兵知識',labelClass:'ritual'},
+  {spouses:['hanuman','sanjivani'],marriage:'partner',label:'搬回藥山救援',labelClass:'ritual'},
+  {spouses:['vedas_note','upanishads_note'],marriage:'partner',label:'吠陀傳統中的思辨文獻',labelClass:'ritual'},
+  {spouses:['puranas_note','dashavatara_note'],marriage:'partner',label:'化身敘事的重要文本脈絡',labelClass:'ritual'},
+  {spouses:['ramayana_note','rama'],marriage:'partner',label:'史詩主角',labelClass:'ritual'},
+  {spouses:['mahabharata_note','kurukshetra'],marriage:'partner',label:'史詩決戰',labelClass:'ritual'},
+  {spouses:['mahabharata_note','bhagavad_gita'],marriage:'partner',label:'毗濕摩篇中的對話',labelClass:'ritual'},
+  {spouses:['durga','mahishasura'],marriage:'partner',label:'女神斬殺水牛阿修羅',labelClass:'blood'},
+  {spouses:['kartikeya','tarakasura'],marriage:'partner',label:'天軍統帥擊敗阿修羅',labelClass:'blood'},
+  {spouses:['takshaka','parikshit'],marriage:'partner',label:'蛇咬與詛咒的結局',labelClass:'blood'},
+  {parent:'parikshit',children:['janamejaya'],label:'俱盧王族父子'},
+  {spouses:['janamejaya','astika'],marriage:'partner',label:'請求停止蛇祭',labelClass:'ritual'},
+  {spouses:['janamejaya','sarpa_yajna'],marriage:'partner',label:'為父復仇而主持',labelClass:'ritual'},
+  {spouses:['astika','sarpa_yajna'],marriage:'partner',label:'使祭祀停止',labelClass:'ritual'},
+  {spouses:['takshaka','sarpa_yajna'],marriage:'partner',label:'被召入祭火的蛇王',labelClass:'blood'},
+  {spouses:['samudra_manthana','mandara'],marriage:'partner',label:'攪杵',labelClass:'ritual'},
+  {spouses:['samudra_manthana','vasuki'],marriage:'partner',label:'攪繩',labelClass:'ritual'},
+  {spouses:['samudra_manthana','kurma'],marriage:'partner',label:'承住神山',labelClass:'ritual'},
+  {spouses:['samudra_manthana','amrita'],marriage:'partner',label:'求取不死甘露',labelClass:'ritual'},
+  {spouses:['vishnu','mohini'],marriage:'partner',label:'取回甘露的女形',labelClass:'ritual'},
+  {spouses:['mohini','amrita'],marriage:'partner',label:'分配甘露給眾神',labelClass:'ritual'},
+  {spouses:['garuda','aruna'],marriage:'partner',label:'毗那多之子',labelClass:'blood'},
+  {spouses:['surya','aruna'],marriage:'partner',label:'太陽戰車御者',labelClass:'ritual'},
+];
+const IN_NODE_NAMES = Object.fromEntries(IN_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
+IN_NODE_NAMES.astika.aliases = ['Astika','蛇族救援者'];
+IN_NODE_NAMES.sarpa_yajna.aliases = ['蛇祭','Sarpa Yajña','Sarpasatra','闍那梅迦耶蛇祭'];
+const INDIA_USER_EDITS = {};
+
 const PANTHEONS = {
+  india: {
+    title:'🕉️ 印度神話系譜', defs:IN_NODE_DEFS, groups:IN_GROUPS, unions:IN_UNIONS, names:IN_NODE_NAMES,
+    seed:INDIA_USER_EDITS, storage:'india_edits', yokai:false, placeholder:'搜尋神名、史詩人物或梵語轉寫…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（梵語轉寫）', kojiki:'梵語／原名', nihonshoki:'中文通用名', reading:'轉寫', aliases:'別稱', shrine:'相關聖地'},
+  },
   japan: {
     title:'⛩️ 日本神話系譜', defs:JP_NODE_DEFS, groups:JP_GROUPS, unions:JP_UNIONS, names:JP_NODE_NAMES,
     seed:USER_EDITS, storage:'jmyth_edits', yokai:true, placeholder:'搜尋神名或讀音…', editBtn:'✏️ 編輯此神明',
@@ -5154,6 +5363,24 @@ const JP_NODE_SOURCES = Object.fromEntries([
   ,['omononushi','otataneko'].map(id=>[id,['omononushi']])
 ].flat());
 function sourceLinksHTML(keys){ return (keys||[]).map(k=>JP_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${japanLocale==='ja'?s.ja:s.zh}</a>`).join(''); }
+const IN_SOURCE_LIBRARY = {
+  ramayana:{zh:'《羅摩衍那》英譯（Project Gutenberg）',url:'https://www.gutenberg.org/ebooks/24869'},
+  mahabharata:{zh:'《摩訶婆羅多》英譯（Sacred Texts）',url:'https://sacred-texts.com/hin/maha/index.htm'},
+  gita:{zh:'《薄伽梵歌》英譯（Wikisource）',url:'https://en.wikisource.org/wiki/The_Bhagavad_Gita'},
+  rigveda:{zh:'《梨俱吠陀》英譯（Sacred Texts）',url:'https://sacred-texts.com/hin/rigveda/index.htm'},
+  puranas:{zh:'往世書與毘濕奴化身文本索引（Sacred Texts）',url:'https://sacred-texts.com/hin/index.htm'}
+};
+const IN_NODE_SOURCES = Object.fromEntries([
+  ['brahman','brahma','vishnu','shiva','saraswati','lakshmi','parvati','daksha','sati','ganesha','kartikeya','durga','kali','dashavatara_note','matsya','kurma','varaha','narasimha','vamana','parashurama','balarama','buddha_avatar','kalki','kashyapa','vinata','kadru','garuda','naga_note','ananta','vasuki','nandi','airavata','amrita','sudarshana','trishula','brahmastra','puranas_note','mahishasura','tarakasura','samudra_manthana','mohini','mandara','aruna'].map(id=>[id,['puranas']]),
+  ['indra','agni','surya','yama'].map(id=>[id,['rigveda','puranas']]),
+  ['rama','sita','lakshmana','hanuman','ravana','dasharatha','kaushalya','kaikeyi','sumitra','bharata','shatrughna','sugriva','vali','vibhishana','kumbhakarna','jatayu'].map(id=>[id,['ramayana']]),
+  ['krishna','arjuna','pandava_note','draupadi','duryodhana','kurukshetra','pandu','kunti','yudhishthira','bhima','nakula','sahadeva','dhritarashtra','gandhari','karna','bhishma','drona','subhadra','abhimanyu','takshaka','gandiva','mahabharata_note','parikshit','janamejaya','astika','sarpa_yajna'].map(id=>[id,['mahabharata']]),
+  ['sanjivani','ramayana_note'].map(id=>[id,['ramayana']]),
+  ['vedas_note','upanishads_note'].map(id=>[id,['rigveda']]),
+  [['mahapadma',['puranas','mahabharata']]],
+  [['bhagavad_gita',['mahabharata','gita']]]
+].flat());
+function indiaSourceLinks(keys){ return (keys||[]).map(k=>IN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 function jpText(key){ return JP_UI[japanLocale][key] || key; }
 function localGroupLabel(label){ return japanLocale==='ja' ? (JP_GROUP_JA[label] || label) : (JP_GROUP_ZH[label] || label); }
 function japaneseFallbackDesc(name,role){
@@ -5625,10 +5852,11 @@ function setSmooth(on){ stage.classList.toggle('smooth', on); }
 // 所有神話系譜共用：內容較小時固定置中；放大後保留 40px 邊緣，不可拖到無限空白區
 function clampGraphView(){
   const r = wrap.getBoundingClientRect();
+  const usableW = r.width - (panel.classList.contains('open') ? panel.getBoundingClientRect().width : 0);
   const scaledW = totalW * scale, scaledH = totalH * scale;
-  const centerX = (r.width - scaledW) / 2, centerY = (r.height - scaledH) / 2;
-  const minTx = scaledW <= r.width ? centerX : r.width - scaledW - 40;
-  const maxTx = scaledW <= r.width ? centerX : 40;
+  const centerX = (usableW - scaledW) / 2, centerY = (r.height - scaledH) / 2;
+  const minTx = scaledW <= usableW ? centerX : usableW - scaledW - 40;
+  const maxTx = scaledW <= usableW ? centerX : 40;
   const minTy = scaledH <= r.height ? centerY : r.height - scaledH - 40;
   const maxTy = scaledH <= r.height ? centerY : 40;
   tx = Math.min(maxTx, Math.max(minTx, tx));
@@ -5856,7 +6084,7 @@ function openPanel(n){
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const sources = document.getElementById('p-sources');
-  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : '';
+  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : '';
   sources.style.display = sources.innerHTML ? 'flex' : 'none';
   panel.classList.add('open');
 }
@@ -6096,10 +6324,12 @@ function focusNode(id){
   const rect = wrap.getBoundingClientRect();
   setSmooth(true);
   scale = Math.min(1.6, Math.max(scale, 1.3));
-  tx = rect.width/2 - centerX(n)*scale;
+  openPanel(n);
+  // 右側資訊面板會覆蓋畫布；以未被覆蓋的區域置中，避免搜尋命中節點落在面板後方。
+  const panelW = panel.classList.contains('open') ? panel.getBoundingClientRect().width : 0;
+  tx = (rect.width-panelW)/2 - centerX(n)*scale;
   ty = rect.height/2 - centerY(n)*scale;
   applyTransform();
-  openPanel(n);
 }
 
 const groupPickerBtn = document.getElementById('groupPickerBtn');
@@ -6256,6 +6486,7 @@ function openPantheon(key){
   localStorage.setItem('mythCurrentPage', key);
 }
 function openJapan(){ openPantheon('japan'); }
+function openIndia(){ openPantheon('india'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
 function openEgypt(){ openPantheon('egypt'); }
