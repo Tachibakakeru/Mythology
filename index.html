@@ -125,10 +125,10 @@
     display:flex;align-items:center;gap:16px;padding:0 20px;
     background:linear-gradient(var(--bg2),rgba(23,27,46,.85));border-bottom:1px solid #2c3155;
   }
-  #backBtn,#yBackBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;font-family:inherit;font-size:1em;}
+  #backBtn,#yBackBtn{background:none;border:1px solid var(--line);color:var(--accent);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;font-family:inherit;font-size:1em;}
   #backBtn:hover,#yBackBtn:hover{border-color:var(--accent);color:var(--accent);}
-  #toYokaiBtn,#toMythBtn{background:none;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;font-family:inherit;font-size:1em;}
-  #toYokaiBtn:hover,#toMythBtn:hover{border-color:var(--accent);color:var(--accent);}
+  #toYokaiBtn,#toMythBtn,#toDemonBtn{background:none;border:1px solid var(--line);color:var(--accent);padding:8px 14px;border-radius:8px;cursor:pointer;flex:none;display:inline-flex;align-items:center;font-family:inherit;font-size:1em;}
+  #toYokaiBtn:hover,#toMythBtn:hover,#toDemonBtn:hover{border-color:var(--accent);color:var(--accent);}
   #jpLangBtn,#yLangBtn{background:none;border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85em;flex:none;font-family:inherit;}
   #jpLangBtn:hover,#yLangBtn:hover{color:var(--accent);border-color:var(--accent);}
   #topbar h2{margin:0;font-size:1.05em;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex:none;}
@@ -248,8 +248,8 @@
   .pe-btns button{background:none;border:1px solid var(--line);color:var(--dim);padding:6px 11px;border-radius:6px;cursor:pointer;font-size:.8em;}
   .pe-btns .pe-save{color:#ff9f3f;border-color:#ff9f3f;}
   .pe-btns .pe-del{color:#e05050;border-color:#e05050;}
-  #p-edit-btn,#yp-edit-btn{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78em;width:100%;}
-  #p-edit-btn:hover,#p-edit-btn.open,#yp-edit-btn:hover,#yp-edit-btn.open{color:var(--accent);border-color:var(--accent);}
+  #p-edit-btn,#yp-edit-btn,#p-counterpart{margin-top:18px;background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78em;width:100%;}
+  #p-edit-btn:hover,#p-edit-btn.open,#yp-edit-btn:hover,#yp-edit-btn.open,#p-counterpart:hover{color:var(--accent);border-color:var(--accent);}
   /* 附圖 / 自訂欄位編輯器 */
   .pe-img{display:flex;gap:7px;align-items:flex-start;margin-top:7px;}
   .pe-img img{width:56px;height:56px;object-fit:cover;border-radius:5px;border:1px solid var(--line);flex:none;}
@@ -469,10 +469,10 @@
       <div class="sub">舊日支配者・偉大種族・瘋狂邊緣</div>
     </div>
     <!-- 其他傳說（非神話） -->
-    <div class="myth-icon disabled" data-region="other">
-      <div class="glyph">🕊️</div>
+    <div class="myth-icon" data-region="other" onclick="openAngels()">
+      <div class="glyph">🪽</div>
       <div class="label">天使與惡魔</div>
-      <div class="sub">九級天使・所羅門七十二柱・敬請期待</div>
+      <div class="sub">天使九階・墮天者・惡魔傳統</div>
     </div>
     </div>
     <button id="wheelNext" class="wheelArrow" aria-label="下一個" onclick="wheelStep(1)">›</button>
@@ -490,6 +490,7 @@
     <button id="backBtn" data-jp-i18n="back" onclick="closeJapan()">← 返回</button>
     <h2 id="mythTitle">⛩️ 日本神話系譜</h2>
     <button id="toYokaiBtn" data-jp-i18n="yokai" onclick="openYokai()">👹 妖怪圖鑑</button>
+    <button id="toDemonBtn" style="display:none" onclick="openCounterpart()"></button>
     <button id="jpLangBtn" onclick="toggleJapanLocale()" title="切換語言">日本語</button>
     <div id="searchBox">
       <input id="searchInput" placeholder="搜尋神名或讀音…" autocomplete="off">
@@ -527,6 +528,7 @@
     <div class="p-figs" id="p-figs"></div>
     <div class="p-groups" id="p-groups"></div>
     <div class="p-sources" id="p-sources"></div>
+    <button id="p-counterpart" style="display:none" onclick="openCounterpart()"></button>
     <button id="p-edit-btn" data-jp-i18n="editGod" onclick="toggleNodeEdit()">✏️ 編輯此神明</button>
     <hr id="p-edit-sep" class="pe-sep" style="display:none;">
     <div id="p-edit-form" style="display:none;">
@@ -4752,7 +4754,359 @@ IN_NODE_NAMES.astika.aliases = ['Astika','蛇族救援者'];
 IN_NODE_NAMES.sarpa_yajna.aliases = ['蛇祭','Sarpa Yajña','Sarpasatra','闍那梅迦耶蛇祭'];
 const INDIA_USER_EDITS = {};
 
+/* ============ 亞伯拉罕諸傳統：天使與墮天者 ============ */
+const AN_NODE_DEFS = [
+ ['divine_note','神／至高者','The Most High','各傳統中的創造主・非天使節點',8,0,'本圖以「至高者」標示天使受命的來源，並不把猶太教、基督教、伊斯蘭教對神的理解合併成同一套教義。天使階級、姓名與職能多屬不同時代的文本或後世神學整理。',true,'key'],
+ ['seraphim','熾天使','Seraphim','上三・神聖階級・燃燒與讚頌',2,2,'《以賽亞書》6:2的每位熾天使有六翼，即三對翅膀：兩翼遮面、兩翼遮腳、兩翼飛翔；不是每位有六對／十二翼。後世偽狄奧尼修斯把它列為最高一階，這仍非所有亞伯拉罕傳統共有的固定官制。',true],
+ ['cherubim','智天使／基路伯','Cherubim','上三・神聖階級・守護神聖邊界',5,2,'《創世記》以基路伯守衛伊甸園入口，《以西結書》又描寫異象中的複合翼獸。後世九階天使將其列為最高三階之一；不可簡化為近代藝術中的嬰孩形象。',true],
+ ['thrones','座天使','Thrones','上三・神聖階級・神聖審判之座',8,2,'「座」出現在保羅書信的權能名目中，後由偽狄奧尼修斯整理為九階之一；具體形象與職掌主要來自後期神學詮釋。',true],
+ ['dominions','主天使','Dominions','中三・子階級・分派職務',2,4,'偽狄奧尼修斯九階中的主天使，通常被解釋為安排較低階天使的職務；名稱與保羅書信中的「主治」語彙相關。',true],
+ ['virtues','力天使','Virtues','中三・子階級・奇蹟與力量',5,4,'九階中的力天使；其順序在偽狄奧尼修斯與額我略一世系統間略有差異。後世常把它連到神蹟與自然界的秩序。',true],
+ ['powers','能天使','Powers','中三・子階級・約束敵對力量',8,4,'九階中的能天使，後世神學常賦予其約束敵對靈的職能。其名稱源自新約書信的多種權能稱號，不能當作早期聖典中的個體姓名。',true],
+ ['principalities','權天使','Principalities','下三・聖靈階級・群體與國度',2,6,'九階中的權天使，傳統上與民族、城邦或群體的守護相連。其概念常與《但以理書》中的國度之「君」並讀，但兩者並非可直接逐一對應。',true],
+ ['archangels','天使長','Archangels','下三・聖靈階級・重大宣告',5,6,'「天使長」在後世九階中居於天使與權天使之間。正典、次經與偽經對哪些名字屬於天使長並不一致，本圖保留其文本差異。',true],
+ ['angels','天使','Angels','下三・聖靈階級・使者',8,6,'「天使」字面即使者。聖典中的天使未必都具姓名或明確階級；九階中最低一階的「天使」只是後世為區分而採用的狹義稱呼。',true],
+ ['michael','米迦勒','Mīkāʾēl','「誰能像神？」・以色列的守護者',1,9,'名字意為「誰能像神？」。《但以理書》稱米迦勒為守護以色列的君；《啟示錄》描寫他與天軍對抗龍。猶太、基督教與伊斯蘭傳統皆重視其地位，但敘事細節與職掌不盡相同。',false,'key'],
+ ['gabriel','加百列','Gaḇrīʾēl／Jibrīl','「神是我的力量」・啟示使者；後期傳統亦列熾天使／終焉號角者',4,9,'名字意為「神是我的力量」。《但以理書》與《路加福音》中的啟示使者；伊斯蘭傳統中的吉卜利勒負責傳達《古蘭經》啟示。部分後期基督教與藝術傳統把他列為熾天使或末日號角者，但《啟示錄》的七位吹號天使並未逐一命名，不能斷定其中一位必為加百列。',false,'key'],
+ ['raphael','拉斐爾','Rafaʾel','「神治癒了」・醫治者與同行者',7,9,'名字意為「神治癒了」。《多俾亞傳》中的拉斐爾陪伴托比亞、驅逐阿斯摩太並醫治多俾特的眼疾；他自稱為侍立於神前的七位天使之一。此書在不同教派的正典地位不一。',false,'key'],
+ ['uriel','烏列爾','Ūrīʾēl','「神是我的光」・以諾傳統的引導者',10,9,'名字意為「神是我的光」或「神之光」。烏列爾見於《以諾一書》等猶太偽經傳統，常擔任天象、審判與先知引導者。名稱雖廣為流傳，卻不應誤稱為所有聖經正典皆明載的天使。',false],
+ ['metatron','梅塔特隆','Metatron','詞源有爭議・天上書記與以諾傳統',3,12,'梅塔特隆主要見於後期猶太神秘主義與《以諾三書》，常與升天的以諾相連。其名稱的語源沒有公認定論，身分與稱號也存在複雜異說，非《希伯來聖經》人物。',false],
+ ['watchers','守望者','Watchers','以諾傳統中的下凡天使群',7,12,'《以諾一書》的守望者下到人間、與女子結合並傳授禁忌技藝；這是第二聖殿時期猶太偽經的重要敘事，與《創世記》6章的「神的兒子」詮釋有關，但非唯一解讀。',true,'key'],
+ ['shemihazah','舍米哈札','Šemîḥazah','語源有異說・守望者首領之一',5,15,'名稱通常被分析為「名字看見了」一類含義，但轉寫與語源有異說。《以諾一書》把舍米哈札列為守望者首領，帶領同伴立誓下凡；此處以以諾傳統而非通行教義標示。',false],
+ ['azazel','阿撒茲勒','ʿAzāʾzēl','「神使強壯」・守望者傳統的墮天者',8,15,'名稱常解作「神使強壯」。利未記的贖罪日「歸給阿撒茲勒」與《以諾一書》的墮天者阿撒茲勒在學界與傳統中有多種關聯解釋；以諾敘事中他傳授兵器與裝飾技藝，並受拘禁等候審判。',false,'key'],
+ ['lucifer','路西法','Lucifer','「攜光者」・後世以晨星連結的墮天形象',11,15,'「路西法」是拉丁文「攜光者／晨星」。將《以賽亞書》對巴比倫王的譏諷固定等同於魔王，是後世基督教詮釋與文學傳統，不是所有早期文本的同一人物設定。',false,'key'],
+ ['iblis','易卜劣斯','Iblīs','拒絕向亞當叩頭者',14,15,'《古蘭經》敘事中，易卜劣斯拒絕向亞當叩頭；18:50稱他屬精靈（jinn）。本圖將他列為跨頁比較節點，不把他直接等同於基督教的路西法或撒但。',false,'key'],
+ ['raguel','拉貴爾','Raguel','「神的朋友」・《以諾一書》的聖天使',1,12,'名字通常解作「神的朋友」。《以諾一書》20章列拉貴爾為七位聖天使之一，與懲戒天體世界的失序相關。其名稱、職掌與後期基督教七大天使名單不總相同，故以該文本為準。'],
+ ['sariel','薩列爾／撒拉結','Sariel／Saraqael','「神的命令」・《以諾一書》的聖天使',6,12,'名字通常解作「神的命令」。《以諾一書》20章把薩列爾列為七位聖天使之一，掌管犯罪之靈；其拼寫可作 Suriel、Saraqael 等。不可與同名或近名的後世天使混為一位。'],
+ ['remiel','雷米爾','Remiel','「神的憐憫」・《以諾一書》的聖天使',10,12,'名字通常解作「神的憐憫」。《以諾一書》20章把雷米爾列為受命管理復起者的聖天使。部分七天使名單以法紐爾取代或另列，反映抄本與宗派傳統差異。'],
+ ['malak_mawt','死亡天使','Malak al-Mawt','《古蘭經》所稱受命取魂者',14,12,'《古蘭經》32:11提到「死亡的天使」，但未在經文中給出亞茲拉伊勒（Azrael）這個名字；常見的具名化屬後期伊斯蘭傳統，因此本圖採經文的稱呼。',true],
+ ['selaphiel','薩拉斐爾','Selaphiel','「神的祈禱」・東正教大天使',1,15,'名字通常解作「神的祈禱」。薩拉斐爾見於東正教常見的七大天使長名單，象徵祈禱與敬虔；此名不在《以諾一書》20章的七位聖天使名單中。'],
+ ['jegudiel','耶古第爾','Jegudiel','「讚美神」・東正教大天使',4,15,'名字通常解作「讚美神」。耶古第爾見於東正教常見大天使長名單，與勞動、忠誠和蒙神嘉許相連；其名與職掌屬後期教會傳統。'],
+ ['barachiel','巴拉基爾','Barachiel','「神的祝福」・東正教大天使',9,15,'名字通常解作「神的祝福」。巴拉基爾見於東正教常見大天使長名單，象徵祝福與神恩；不同聖像、禮儀與名單可能有不同屬性。'],
+ ['jeremiel','耶雷米爾','Jeremiel','「神的憐憫」・東正教大天使',13,15,'名字通常解作「神的憐憫」。耶雷米爾見於《以斯拉四書》與東正教常見大天使長名單，常與異象、審判前的靈魂省察相連。'],
+ ['phanuel','法紐爾','Phanuel','「神的面容」・以諾傳統的聖天使',0,18,'名字通常解作「神的面容」。法紐爾見於《以諾一書》後段，與悔改者、希望相關；它在某些七大天使名單中出現，與《以諾一書》20章名單不完全一致。'],
+ ['zadkiel','扎德基爾','Zadkiel','「神的公義」・後期大天使名單',3.2,18,'名字通常解作「神的公義」。扎德基爾在後期猶太、基督教與西方秘傳名單中常見，有時連到亞伯拉罕獻以撒時的制止者；該身分並非《創世記》經文本身所命名。'],
+ ['jophiel','約菲爾','Jophiel','「神的美」・後期大天使名單',6.4,18,'名字通常解作「神的美」。約菲爾見於後期猶太、基督教與西方秘傳的天使名錄，常被連到智慧、美或伊甸園守護；此類職掌不屬所有傳統的共同正典。'],
+ ['chamuel','夏彌爾','Chamuel','「看見神者」・後期大天使名單',9.6,18,'名字通常解作「看見神者」或「尋求神者」。夏彌爾是後期天使名錄中常見的天使長，常被聯繫到愛、和平或尋回失物；需與正典人物分層看待。'],
+ ['haniel','哈尼爾','Haniel','「神的恩典」・後期大天使名單',12.8,18,'名字通常解作「神的恩典」。哈尼爾見於後期猶太與西方天使名錄，常與月亮、喜樂或優雅相關；其職掌隨來源而變。'],
+ ['raziel','拉結爾','Raziel','「神的祕密」・神秘知識的天使',16,18,'名字通常解作「神的祕密」。拉結爾在猶太神秘傳統中與祕密知識和《拉結爾天使之書》相連；這是後期文獻與民間傳統，非《希伯來聖經》具名天使。'],
+ ['azrael','亞茲拉伊勒','ʿAzrāʾīl','「神所幫助者」・後期死亡天使名',2,21,'名字通常解作「神所幫助者」。亞茲拉伊勒是伊斯蘭、猶太與基督教後期傳統常用的死亡天使名字；《古蘭經》只稱「死亡的天使」，未在32:11給出此名。'],
+ ['camael','卡麥爾／卡瑪爾','Camael／Chamuel','「仰望神者」・名字與夏彌爾異寫',7,21,'卡麥爾／卡瑪爾／夏彌爾的轉寫、身分與職掌在後期名錄中不一，有時作獨立戰士天使、有時與 Chamuel 相連。本圖保留為異寫註記，避免把不同名單強行定為唯一人物。',true],
+ ['samael','薩麥爾','Samael','「神之毒／盲者」・爭議性的敵對天使',12,21,'名字常被解作「神之毒」或「神的盲者」。薩麥爾見於後期猶太文本，可能是控告者、死亡天使或敵對靈；與撒但、路西法的關係隨文本而異，不能直接等同。'],
+ ['sandalphon','聖德芬','Sandalphon','詞源有爭議・後期猶太傳統的天使',0,24,'聖德芬常見於後期猶太神秘主義與禮儀傳統，經常與梅塔特隆並提；其名稱語源沒有公認定論，身分與是否等同先知以利亞等說法皆屬後期異傳。'],
+ ['ariel','亞列爾','Ariel','「神的獅子」・多重文本名稱',5,24,'名字通常解作「神的獅子」。亞列爾在《以賽亞書》中可指耶路撒冷，後期猶太與西方天使名錄亦用作天使名；本圖標示其多重用法，不把所有出現化約為同一大天使。'],
+ ['sachiel','沙基爾','Sachiel','「神的覆蓋／屏障」・後期天使名錄',10,24,'名字通常解作「神的覆蓋」或「神的屏障」。沙基爾常見於後期猶太與西方秘傳天使名錄，並常與木星相連；不屬所有教派共享的正典天使。'],
+ ['jehoel','耶霍埃爾','Jehoel','「神活著」・猶太神秘傳統的天使',15,24,'名字通常解作「神活著」。耶霍埃爾見於《亞伯拉罕啟示錄》等猶太偽經／神秘傳統，擔任引導者；其地位與梅塔特隆等並無跨傳統一致設定。'],
+ ['isaiah_vision','以賽亞的聖殿異象','Isaiah 6','《以賽亞書》6章・熾天使與寶座',3,28,'《以賽亞書》6章描寫先知在聖殿看見主坐在高高的寶座上，熾天使侍立、以六翼遮面遮腳並飛翔；其中一位以火炭觸及先知的口，象徵潔淨與受召。這是熾天使最直接的正典形象來源。',true,'key'],
+ ['burning_coal','祭壇的火炭','Burning coal','《以賽亞書》6章・潔淨與受召的象徵',6,28,'異象中的一位熾天使用火鉗從祭壇取火炭，觸碰以賽亞的口並宣告罪孽得除。它是異象中的聖物與象徵，並非獨立天使或神器傳統。',true],
+ ['living_creatures','四活物','Ḥayyot','《以西結書》1、10章・異象中的複合活物',10,28,'《以西結書》1章描寫四個活物，各有四面與四翼；10章又把異象中的活物稱為基路伯。基督教藝術與《啟示錄》的四活物常與此互相參照，但文本細節不能完全合併。',true],
+ ['ophanim','多眼輪／輪中套輪','Ophanim','《以西結書》1章・伴隨活物的輪',14,28,'《以西結書》1章的輪「周圍滿有眼睛」，能隨活物與其靈移動。後期猶太與基督教天使學常稱之為 Ophanim，並有時與座天使相連；該對應屬後世詮釋。',true],
+ ['virtue_note','七美德對照','Seven virtues','後期道德分類・非正典天使名錄',2,33,'七美德通常以謙卑、仁慈、忍耐、勤勉、寬厚、節制、貞潔，對照七宗罪。它是中世紀至近代的道德分類；將每項美德連到特定天使，並無跨教派一致或正典依據，本圖只以常見意象配對並明示其性質。',true,'key'],
+ ['virtue_humility','謙卑','Humility','對照傲慢・米迦勒的常見意象',0,36,'謙卑常用以對照傲慢；本圖以「誰能像神？」的米迦勒意象作為展示對照，不把它宣稱為正典指定職掌。'],
+ ['virtue_kindness','仁慈','Kindness','對照嫉妒・拉斐爾的醫治意象',3,36,'仁慈常用以對照嫉妒；本圖以拉斐爾的同行與醫治意象作為展示對照，屬後期寓意連結。'],
+ ['virtue_patience','忍耐','Patience','對照憤怒・烏列爾的引導意象',6,36,'忍耐常用以對照憤怒；本圖以烏列爾在偽經傳統中的引導與審判意象作展示對照，非固定教義。'],
+ ['virtue_diligence','勤勉','Diligence','對照懶惰・耶古第爾的勞動意象',9,36,'勤勉常用以對照懶惰；本圖以東正教名錄中耶古第爾與忠誠勞動相連的後期意象作展示對照。'],
+ ['virtue_charity','寬厚／施與','Charity','對照貪婪・巴拉基爾的祝福意象',12,36,'寬厚或施與常用以對照貪婪；本圖以巴拉基爾的祝福意象作展示對照，非正典的天使職責分派。'],
+ ['virtue_temperance','節制','Temperance','對照暴食・拉貴爾的秩序意象',15,36,'節制常用以對照暴食；本圖以拉貴爾懲戒失序的以諾傳統意象作展示對照，並非固定的天使配屬。'],
+ ['virtue_chastity','貞潔','Chastity','對照色慾・加百列的宣告意象',18,36,'貞潔常用以對照色慾；本圖以加百列在福音書中的宣告意象作展示對照，屬圖像與道德寓意，不是教義上的一一對應。'],
+ ['sabrael','撒拉艾爾','Sabrael','後期猶太偽經／《所羅門遺訓》的天使長',21,12,'撒拉艾爾（Sabrael）見於《所羅門遺訓》與《以諾三書》相關傳統；該傳統把他列為第四大天使，並與其中烏列爾的順位不同。詞源與職掌未有跨文本一致定論，故不併同薩列爾（Sariel）。'],
+ ['seraphiel','撒拉斐爾','Seraphiel','熾天使之首・「神之雷光」的常見解釋',18,15,'撒拉斐爾（Seraphiel）是後期猶太與基督教天使名錄中的熾天使首領；名字常被解作「神之雷光」或與燃燒的神相關。此名不同於東正教常見的薩拉斐爾／塞拉斐爾（Selaphiel），不可合併。'],
+ ['enoch_heavens','《以諾書》的七重天','Seven Heavens','《以諾二書》宇宙上升異象・文本異說',21,18,'《以諾二書》敘述以諾逐層上升至七重天；每層的住民、天使與景象隨斯拉夫文本及後世詮釋有差異。本圖採常見概述，避免把拉比文獻、伊斯蘭米爾拉吉與以諾傳統混成同一套天堂地圖。',true,'key'],
+ ['heaven_1','第一重天','First Heaven','雲與天候的領域・以諾二書概述',19,21,'《以諾二書》以第一重天描述雲與天候相關的景象；不同譯本對細節用語有異，故僅作以諾上升敘事的第一層定位。',true],
+ ['heaven_2','第二重天','Second Heaven','受囚墮天者的黑暗領域・以諾二書概述',22,21,'《以諾二書》將第二重天描述為黑暗、哀哭的領域，並出現受拘禁的墮天者。這與《以諾一書》守望者敘事可互相參照，但不是同一文本的逐字重述。',true],
+ ['heaven_3','第三重天','Third Heaven','樂園與刑罰之地・以諾二書概述',25,21,'《以諾二書》於第三重天描繪樂園與相對的刑罰景象；「第三層天堂」在保羅書信也出現，但兩者不宜直接當作完全相同的宇宙地圖。',true],
+ ['heaven_4','第四重天','Fourth Heaven','日月與天體運行・以諾二書概述',19,24,'《以諾二書》把日月運行及其相關天使置於第四重天。這一層以天體秩序為主，與烏列爾在其他以諾文本中的天象職掌形成後世聯想。',true],
+ ['heaven_5','第五重天','Fifth Heaven','守望者悔哭之所・以諾二書概述',22,24,'《以諾二書》於第五重天遇見沉默哀哭的守望者；以諾勸其讚頌。不同文本對守望者的身份、墮落與復歸可能性並不一致。',true],
+ ['heaven_6','第六重天','Sixth Heaven','管理宇宙秩序的天使群・以諾二書概述',25,24,'《以諾二書》描述第六重天的天使管理季節、生命、海洋、星辰與記錄等秩序；這是宇宙行政的異象語言，而非現代意義的官僚名冊。',true],
+ ['heaven_7','第七重天','Seventh Heaven','神聖寶座與最高天軍・以諾二書概述',22,27,'《以諾二書》的第七重天呈現至高者的寶座與熾天使、基路伯等最高天軍。以諾在此受轉化並接受書記職分；不同版本對過程與天使名號有差異。',true],
+ ['zohar_note','《光輝之書》','Zohar','十三世紀形成的卡巴拉核心文獻',2,42,'《光輝之書》（Zohar）是中世紀形成的卡巴拉核心作品，傳統歸於拉比西門・巴・約海，現代研究通常視為十三世紀西班牙的文獻群。它發展十個質點、神性流溢與天使階層等神秘詮釋，不是所有猶太教傳統的共同教義。',true,'key'],
+ ['tree_life','卡巴拉生命樹','Etz Ḥayyim','十個質點的關係圖・後期卡巴拉呈現',8,42,'生命樹以十個質點（Sefirot）及連線呈現神性流溢與世界秩序。固定的圖形與「每個質點一位守護天使」主要屬近代赫密斯卡巴拉的整合；本圖保留《光輝之書》脈絡與該後期對照的差別。',true,'key'],
+ ['keter','王冠','Keter','生命樹第一質點・意志／至高根源',8,45,'Keter意為「王冠」，象徵神性流溢的至高根源與意志。近代赫密斯卡巴拉常以梅塔特隆對應此質點；該天使配屬不是《光輝之書》的唯一或直接名錄。'],
+ ['chokmah','智慧','Ḥokhmah','生命樹第二質點・創發性的智慧',4,48,'Ḥokhmah意為「智慧」，常表現為尚未分化的創發智慧。近代赫密斯卡巴拉常以拉結爾對應；本圖將它標為後期對照而非正統唯一答案。'],
+ ['binah','理解','Binah','生命樹第三質點・分辨與形構',12,48,'Binah意為「理解」，象徵使智慧成為可分辨形構的面向。近代赫密斯卡巴拉常以札菲基爾（Tzaphkiel）對應。'],
+ ['chesed','慈愛','Ḥesed','生命樹第四質點・仁慈與擴展',2,51,'Ḥesed意為「慈愛／恩典」，常與慈悲、擴展及王權的慷慨相連。近代赫密斯卡巴拉常以薩多基爾／扎德基爾對應。'],
+ ['gevurah','嚴厲','Gevurah','生命樹第五質點・力量與界限',14,51,'Gevurah意為「力量／嚴厲」，象徵界限、審判與收束。近代赫密斯卡巴拉常以卡麥爾對應；其不同拼寫與夏彌爾的關係必須保留異說。'],
+ ['tiferet','美麗','Tiferet','生命樹第六質點・調和與中心',8,51,'Tiferet意為「美麗」，常被理解為慈愛與嚴厲的調和中心。近代赫密斯卡巴拉常以拉斐爾對應。'],
+ ['netzach','勝利','Netzaḥ','生命樹第七質點・持續與欲求',3,54,'Netzaḥ意為「勝利／持續」，常與渴望、延展與耐久相連。近代赫密斯卡巴拉常以漢尼爾對應。'],
+ ['hod','榮耀','Hod','生命樹第八質點・理智與表述',13,54,'Hod意為「榮耀」，常與理智、語言和形式相連。近代赫密斯卡巴拉常以米迦勒對應。'],
+ ['yesod','基礎','Yesod','生命樹第九質點・連結與傳遞',8,57,'Yesod意為「基礎」，被理解為把上方流溢傳至顯現世界的媒介。近代赫密斯卡巴拉常以加百列對應。'],
+ ['malkuth','王國','Malkhut','生命樹第十質點・顯現世界',8,60,'Malkhut意為「王國」，代表神性在可感世界的顯現。近代赫密斯卡巴拉常以聖德芬對應；這是後期對照而非《光輝之書》的固定天使名冊。'],
+ ['tzaphkiel','札菲基爾','Tzaphkiel','「神之觀照」・生命樹理解的後期守護天使',16,48,'札菲基爾（Tzaphkiel）名字通常解作「神之觀照」。他常見於赫密斯卡巴拉的生命樹對照，作為理解（Binah）的守護天使；非所有猶太神秘文獻均採這個配屬。'],
+ ['revelation_note','《啟示錄》的天使異象','Revelation','新約末世異象・象徵性敘事',29,42,'《啟示錄》以異象語言描寫天軍、七印、七號與七碗。吹號的七位天使在文本中沒有各自姓名；本圖以功能性節點呈現，不能把後世命名直接回填為經文事實。',true,'key'],
+ ['seven_trumpets','七枝號角','Seven Trumpets','《啟示錄》8–11章・七位未具名天使',29,45,'《啟示錄》8至11章寫七位天使領受七枝號角並依序吹響，展開末世異象。經文本身未為七位逐一命名，也未明說由加百列吹響最後號角。',true],
+ ...['一','二','三','四','五','六','七'].map((n,i)=>[`trumpet_${i+1}`,`第${n}號角天使`,`Trumpet ${i+1}`,`《啟示錄》・第${n}位吹號天使`,27+(i%3)*3,48+Math.floor(i/3)*3,`《啟示錄》中的第${n}位吹號天使；經文以所吹號角帶出的異象來識別，沒有提供個別姓名。`]),
+ ['islam_angels','伊斯蘭教的天使','Malāʾika','《古蘭經》與聖訓傳統・不可等同九階',33,3,'伊斯蘭教的 malāʾika（天使）是服從真主的靈性受造物；吉卜利勒、米卡伊勒、伊斯拉菲爾與死亡天使等職掌主要由《古蘭經》及不同聖訓／註釋傳統構成。本圖不把它們強行套進偽狄奧尼修斯的九階。',true,'key'],
+ ['israfil','伊斯拉菲爾','Isrāfīl','伊斯蘭傳統的吹號天使',31,6,'伊斯拉菲爾（Isrāfīl）在伊斯蘭傳統中負責末日吹號；《古蘭經》提到號角但不在經文內直接給出他的名字。故他不能與《啟示錄》七位未具名吹號天使或加百列直接等同。'],
+ ['mikail','米卡伊勒','Mīkāʾīl','伊斯蘭傳統中的天使・供養與自然秩序',34,6,'米卡伊勒是伊斯蘭傳統的天使名，常與供養、雨水和自然秩序相連；與猶太／基督教米迦勒同名，但各傳統的敘事與職掌應分開閱讀。'],
+ ['malik','馬立克','Mālik','地獄守門的天使',37,6,'《古蘭經》43:77提到馬立克，作為地獄住民呼喊的守護者；後期傳統進一步發展其形象，不應把所有後世細節倒灌回經文。'],
+ ['ridwan','里德萬','Riḍwān','後期傳統的樂園守護天使',31,9,'里德萬常見於後期伊斯蘭傳統，作為樂園守護天使；其名字與職掌不在《古蘭經》中明載，故須與馬立克的經文提及分層。'],
+ ['munkar','蒙卡爾','Munkar','墓中詢問者之一・聖訓傳統',34,9,'蒙卡爾與納基爾在後期伊斯蘭聖訓傳統中於墓中詢問亡者；此對天使的細節不屬《古蘭經》直接名錄。'],
+ ['nakir','納基爾','Nakīr','墓中詢問者之一・聖訓傳統',37,9,'納基爾與蒙卡爾共同構成墓中詢問亡者的天使對。不同聖訓與神學敘述的細節有所差異。'],
+ ['harut','哈魯特','Hārūt','《古蘭經》2:102所提及的兩位者之一',31,12,'《古蘭經》2:102提及哈魯特與馬魯特在巴比倫；其身分、是否為天使與教導魔術的解釋，隨註釋傳統而不同。本圖保留為經文與註釋爭議節點。'],
+ ['marut','馬魯特','Mārūt','《古蘭經》2:102所提及的兩位者之一',34,12,'馬魯特與哈魯特並列於《古蘭經》2:102；後期敘事甚多，不能把任何單一故事視為跨伊斯蘭傳統的固定版本。'],
+ ['kiraman_katibin','尊貴記錄天使','Kirāman Kātibīn','記錄行為的天使群・古蘭經傳統',37,12,'《古蘭經》82:10–12提到尊貴、記錄的守護者，記錄人的作為；文本未必將其化成固定兩位具名天使。',true],
+ ['genesis_note','《創世記》與天使','Genesis','伊甸園、逐出與神使者的敘事',31,18,'《創世記》包含伊甸園、逐出、基路伯守護生命樹，以及亞伯拉罕、夏甲與雅各等敘事中的神使者。不同猶太教與基督教傳統對「耶和華的使者」的身分有不同解釋。',true,'key'],
+ ['eden','伊甸園','Garden of Eden','《創世記》2–3章・起初的園子',28,21,'《創世記》將伊甸園描述為人類最初居住的園子。被逐出後，基路伯與火焰之劍守衛通往生命樹的道路。',true],
+ ['adam','亞當','Adam','《創世記》的人類始祖',31,21,'《創世記》中的亞當在伊甸園違命後與夏娃被逐出。不同文本來源與後世神學對其故事的解釋差異很大。'],
+ ['eve','夏娃','Eve','《創世記》的人類始祖',34,21,'《創世記》中的夏娃與亞當共享伊甸園、受蛇誘惑並被逐出；後世將她與莉莉絲相對照的敘事並不屬《創世記》本身。'],
+ ['serpent_genesis','伊甸園之蛇','Serpent','《創世記》3章・誘惑者',37,21,'《創世記》3章中的蛇誘惑夏娃；原文沒有把蛇直接稱為撒但。把它與魔王固定等同，是後期猶太與基督教詮釋之一。'],
+ ['flaming_sword','火焰之劍','Flaming sword','基路伯守護生命樹的象徵',28,24,'《創世記》3:24描述基路伯與「四面轉動發火焰的劍」守衛生命樹的道路。它是敘事意象，而非每位基路伯的固定武器。',true],
+ ['angel_yhwh','耶和華的使者','Malʾakh YHWH','《創世記》等文本的神使者稱呼',31,24,'「耶和華的使者」出現在夏甲、亞伯拉罕等敘事。它究竟是受差遣的天使、神顯現的語言，或其他神學詮釋對象，沒有跨傳統唯一答案。'],
+ ['war_heaven','天上之戰','War in Heaven','《啟示錄》12章・米迦勒對巨龍',31,30,'《啟示錄》12章描寫米迦勒與天使同巨龍作戰，巨龍及其使者被摔到地上。這是末世異象；將其完整敘述成所有墮天使的起源，是後期綜合詮釋。',true,'key'],
+ ['dragon_revelation','大紅龍','Great Dragon','《啟示錄》12章・魔鬼／撒但的異象符號',34,33,'《啟示錄》12章把大龍稱為古蛇、魔鬼和撒但；此識別屬該書的異象文本，與《創世記》蛇的原始敘事必須分層。'],
+ ['angel_hosts','天軍','Heavenly host','米迦勒同盟的天使群',28,33,'《啟示錄》12章中的米迦勒與其天使；經文沒有提供完整個別名冊，故此處以群體節點處理。',true],
+ ...[
+  ['agniel','阿格尼爾','Agniel','傳授人類魔法與召靈的邪法'],['ammiel','阿米耶爾','Ammiel','誘惑神的名號給人類女子'],['arquiel','阿爾奎爾／撒拉奎爾','Arquiel／Saraquiel','教導人類關於水之術'],['araziel','阿拉齊爾','Araziel','「神是正午」的守望者'],['asael','阿薩艾爾','Asael','「神所造的」・守望者名錄異寫'],['asbeel','阿斯貝爾','Asbeel','棄神者與誘惑看守天使'],['baraquiel','巴拉奎爾','Baraqiel','傳授人類占星術'],['echsael','艾克薩爾','Echsael','人類氣象學的祖師'],['gadreel','加德列爾','Gadreel','引誘夏娃，傳授兵器鍛造'],['cassday','卡斯代','Cassday','列於天界天使團'],['casja','卡斯賈','Casja','重症治療術的指導者'],['cocabel','可卡貝爾','Kokabiel','教給人類天文學'],['penemue','佩內繆','Penemue','教人文字與書寫'],['pharmaros','法爾馬洛斯','Pharmaros','藥草與臨床診斷等技術的指導者'],['turel','圖雷爾','Turel','「神之岩」・守望者名錄'],['usiel','烏西爾','Usiel','「神的力量」・守望者名錄'],['ithuriel','伊圖里爾','Ithuriel','「神的發現」・《失樂園》天使'],['zephon','澤豐','Zephon','《失樂園》中的看守天使']
+ ].map(([id,name,kana,role],i)=>[id,name,kana,role,41+(i%3)*3,18+Math.floor(i/3)*3,`${name}見於以諾／守望者相關名錄或後期文學傳統。節點依所列傳統保留名稱與職掌；抄本、拼寫與是否屬守望者均可能不同，不能直接視為共同正典設定。`]),
+ ['bemenel','貝梅內爾','Bemenel','「人類文明的最大功臣」・後期墮天使名錄',47,36,'貝梅內爾（Bemenel）見於後期墮天使名錄，常被敘為將文字帶給人類者。此名不在《以諾一書》公認的二十首領標準名單中，故與以諾抄本名單分開標示。'],
+];
+const AN_GROUPS = [
+ ['上三・神聖階級',['seraphim','cherubim','thrones','seraphiel'],'#f0c66a',false],
+ ['中三・子階級',['dominions','virtues','powers'],'#d8a06f',false],
+ ['下三・聖靈階級',['principalities','archangels','angels'],'#75b98c',false],
+ ['正典／次經的具名天使',['michael','gabriel','raphael','sabrael'],'#75b98c',false],
+ ['以諾與後期猶太傳統',['uriel','metatron','watchers','shemihazah','azazel','raguel','sariel','remiel'],'#a980e0',false],
+ ['東正教常見七／八大天使長',['michael','gabriel','raphael','uriel','selaphiel','jegudiel','barachiel','jeremiel'],'#6ba9d8',false],
+ ['後期猶太／基督教與秘傳名錄',['phanuel','zadkiel','jophiel','chamuel','haniel','raziel','azrael','camael','samael','sandalphon','ariel','sachiel','jehoel'],'#c8a860',false],
+ ['伊斯蘭傳統的天使概念',['gabriel','malak_mawt','iblis'],'#5ab4ff',false],
+ ['可切換至惡魔頁的墮天／對立節點',['shemihazah','azazel','lucifer','iblis'],'#d06a72',false],
+ ['以賽亞書第六章：熾天使異象',['isaiah_vision','seraphim','burning_coal'],'#f0c66a',false],
+ ['以西結書：基路伯、活物與多眼輪',['cherubim','living_creatures','ophanim'],'#6ba9d8',false],
+ ['七美德（後期寓意對照）',['virtue_note','virtue_humility','virtue_kindness','virtue_patience','virtue_diligence','virtue_charity','virtue_temperance','virtue_chastity'],'#75b98c',false],
+ ['以諾傳統：七重天',['enoch_heavens','heaven_1','heaven_2','heaven_3','heaven_4','heaven_5','heaven_6','heaven_7'],'#a980e0',false],
+ ['卡巴拉：生命樹與十質點',['zohar_note','tree_life','keter','chokmah','binah','chesed','gevurah','tiferet','netzach','hod','yesod','malkuth','tzaphkiel'],'#c8a860',false],
+ ['《啟示錄》：七枝號角',['revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'],'#d06a72',false],
+ ['後期天使名錄補充',['sabrael','seraphiel'],'#6ba9d8',false],
+ ['伊斯蘭教天使與聖訓傳統',['islam_angels','israfil','mikail','malik','ridwan','munkar','nakir','harut','marut','kiraman_katibin','malak_mawt'],'#5ab4ff',false],
+ ['《創世記》：伊甸園與神使者',['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','cherubim','angel_yhwh'],'#75b98c',false],
+ ['《啟示錄》：天上之戰',['war_heaven','michael','angel_hosts','dragon_revelation','lucifer'],'#d06a72',false],
+ ['舊約／希伯來聖經：神使者與異象',['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','angel_yhwh','isaiah_vision','seraphim','burning_coal','cherubim','living_creatures','ophanim'],'#75b98c',false],
+ ['新約／《啟示錄》：天使、天軍與終末異象',['gabriel','michael','war_heaven','angel_hosts','dragon_revelation','revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'],'#d06a72',false],
+ ['次經與第二聖殿文獻：拉斐爾與守望者',['raphael','watchers','shemihazah','azazel','uriel','raguel','sariel','remiel'],'#a980e0',false],
+ ['墮天守望者名錄與後期文學補充',['agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel','ithuriel','zephon'],'#a980e0',false],
+];
+const AN_UNIONS = [
+ {parent:'divine_note',children:['seraphim','cherubim','thrones','dominions','virtues','powers','principalities','archangels','angels'],label:'後世九階的神學整理',labelClass:'ritual'},
+ {parent:'archangels',children:['michael','gabriel','raphael'],label:'常見的具名天使長'},
+ {parent:'archangels',children:['uriel','raguel','sariel','remiel'],label:'《以諾一書》20章的七位聖天使'},
+ {parent:'archangels',children:['selaphiel','jegudiel','barachiel','jeremiel'],label:'東正教常見七／八大天使長名單'},
+ {parent:'watchers',children:['shemihazah','azazel'],label:'《以諾一書》的守望者'},
+ {spouses:['michael','lucifer'],marriage:'partner',label:'《啟示錄》的天軍與巨龍',labelClass:'blood'},
+ {spouses:['gabriel','iblis'],marriage:'partner',label:'不同傳統的啟示與拒絕敘事',labelClass:'ritual'},
+ {parent:'isaiah_vision',children:['seraphim','burning_coal'],label:'《以賽亞書》6章：侍立、潔淨與受召'},
+ {parent:'living_creatures',children:['cherubim','ophanim'],label:'《以西結書》異象的後世天使學連結'},
+ {parent:'virtue_note',children:['virtue_humility','virtue_kindness','virtue_patience','virtue_diligence','virtue_charity','virtue_temperance','virtue_chastity'],label:'對照七宗罪的後期道德分類'},
+ {spouses:['virtue_humility','michael'],marriage:'partner',label:'寓意對照：米迦勒',labelClass:'ritual'},
+ {spouses:['virtue_kindness','raphael'],marriage:'partner',label:'寓意對照：拉斐爾',labelClass:'ritual'},
+ {spouses:['virtue_patience','uriel'],marriage:'partner',label:'寓意對照：烏列爾',labelClass:'ritual'},
+ {spouses:['virtue_diligence','jegudiel'],marriage:'partner',label:'寓意對照：耶古第爾',labelClass:'ritual'},
+ {spouses:['virtue_charity','barachiel'],marriage:'partner',label:'寓意對照：巴拉基爾',labelClass:'ritual'},
+ {spouses:['virtue_temperance','raguel'],marriage:'partner',label:'寓意對照：拉貴爾',labelClass:'ritual'},
+ {spouses:['virtue_chastity','gabriel'],marriage:'partner',label:'寓意對照：加百列',labelClass:'ritual'},
+ {parent:'enoch_heavens',children:['heaven_1','heaven_2','heaven_3','heaven_4','heaven_5','heaven_6','heaven_7'],label:'《以諾二書》的上升異象'},
+ {parent:'tree_life',children:['keter','chokmah','binah','chesed','gevurah','tiferet','netzach','hod','yesod','malkuth'],label:'十個質點（卡巴拉脈絡）'},
+ {spouses:['zohar_note','tree_life'],marriage:'partner',label:'中世紀卡巴拉的核心文本與圖式',labelClass:'ritual'},
+ {spouses:['keter','metatron'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['chokmah','raziel'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['binah','tzaphkiel'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['chesed','zadkiel'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['gevurah','camael'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['tiferet','raphael'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['netzach','haniel'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['hod','michael'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['yesod','gabriel'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {spouses:['malkuth','sandalphon'],marriage:'partner',label:'赫密斯卡巴拉的守護天使對照',labelClass:'ritual'},
+ {parent:'revelation_note',children:['seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'],label:'《啟示錄》8–11章'},
+ {parent:'islam_angels',children:['israfil','mikail','malik','ridwan','munkar','nakir','harut','marut','kiraman_katibin','malak_mawt'],label:'《古蘭經》與聖訓傳統'},
+ {parent:'genesis_note',children:['eden','adam','eve','serpent_genesis','angel_yhwh'],label:'《創世記》2–3章與神使者敘事'},
+ {parent:'eden',children:['cherubim','flaming_sword'],label:'守衛生命樹之路'},
+ {parent:'war_heaven',children:['michael','angel_hosts','dragon_revelation'],label:'《啟示錄》12章的異象'},
+ {parent:'watchers',children:['agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel'],label:'守望者相關名錄（抄本異文）'},
+ {spouses:['ithuriel','zephon'],marriage:'partner',label:'《失樂園》的看守天使',labelClass:'ritual'},
+];
+const AN_NODE_NAMES = Object.fromEntries(AN_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
+Object.assign(AN_NODE_NAMES,{
+ sariel:{...AN_NODE_NAMES.sariel,aliases:['沙利葉','撒拉結','Saraqael','Suriel']},
+ selaphiel:{...AN_NODE_NAMES.selaphiel,aliases:['撒拉斐爾（Selaphiel）','薩拉斐爾','Salathiel']},
+ seraphiel:{...AN_NODE_NAMES.seraphiel,aliases:['撒拉斐爾（Seraphiel）','Seraphiel']},
+ camael:{...AN_NODE_NAMES.camael,aliases:['卡麥爾','卡瑪爾','基繆爾','Chemuel','Chamael']},
+ haniel:{...AN_NODE_NAMES.haniel,aliases:['漢尼爾','Anael']},
+ zadkiel:{...AN_NODE_NAMES.zadkiel,aliases:['薩多基爾','薩基爾','Zadkiel']},
+ jophiel:{...AN_NODE_NAMES.jophiel,aliases:['尤菲爾','祖菲爾','Zophiel']},
+ sabrael:{...AN_NODE_NAMES.sabrael,aliases:['撒拉艾爾','Sabrael']},
+ cassday:{...AN_NODE_NAMES.cassday,aliases:['Cassdae','卡斯戴']},
+ casja:{...AN_NODE_NAMES.casja,aliases:['Casiudien','卡修迪恩','Casja']},
+ cocabel:{...AN_NODE_NAMES.cocabel,aliases:['Cocabell','Kokabiel','可卡貝爾']},
+ bemenel:{...AN_NODE_NAMES.bemenel,aliases:['Bemenel','Benemel','貝梅內爾']},
+ ammiel:{...AN_NODE_NAMES.ammiel,aliases:['Ammel','Amiel','阿梅爾']},
+ asbeel:{...AN_NODE_NAMES.asbeel,aliases:['Asbeer','Asbeel','阿斯比爾']},
+ baraquiel:{...AN_NODE_NAMES.baraquiel,aliases:['Baraquieel','Baraqiel','巴拉基爾（守望者異寫）']},
+ gadreel:{...AN_NODE_NAMES.gadreel,aliases:['Gadrel','Gadreel','加德雷爾']},
+ pharmaros:{...AN_NODE_NAMES.pharmaros,aliases:['Pharmoros','Pharmaros','法爾馬羅斯']},
+ arquiel:{...AN_NODE_NAMES.arquiel,aliases:['Araqiel','Saraquiel','撒拉奎爾']},
+ turel:{...AN_NODE_NAMES.turel,aliases:['Tourel','Turiel','圖列爾']},
+});
+const ANGEL_USER_EDITS = {
+ seraphim:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Seraphim%20in%20Hagia%20Sofia%20%281%29.jpg?width=900',caption:'聖索菲亞大教堂的熾天使馬賽克；是拜占庭藝術的特定表現，不是所有傳統唯一認定的形象',source:'https://commons.wikimedia.org/wiki/File:Seraphim_in_Hagia_Sofia_(1).jpg'}]},
+ cherubim:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Ezekiel%27s_vision.jpg?width=900',caption:'1670 年《以西結書》異象版畫；為該畫家對經文的詮釋，不是所有傳統唯一認定的基路伯形象',source:'https://commons.wikimedia.org/wiki/File:Ezekiel%27s_vision.jpg'}]},
+ tree_life:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Kabbalistic%20Tree%20of%20Life%20%28Sephiroth%29.svg?width=900',caption:'卡巴拉生命樹圖：十質點與二十二路徑（Wikimedia Commons，公版；圖式取自《形成之書》呈現慣例）',source:'https://commons.wikimedia.org/wiki/File:Kabbalistic_Tree_of_Life_(Sephiroth).svg'}]},
+ michael:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo%20Daniele%20da%20Volterra%20%28dettaglio%29.jpg?width=900',caption:'聖米迦勒繪畫細節（Wikimedia Commons；請見原檔授權）',source:'https://commons.wikimedia.org/wiki/File:Michelangelo_Daniele_da_Volterra_(dettaglio).jpg'}]},
+ gabriel:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Angel%20Gabriel.jpg?width=900',caption:'天使長加百列的歷史藝術形象（Wikimedia Commons；請見原檔授權）',source:'https://commons.wikimedia.org/wiki/File:Angel_Gabriel.jpg'}]},
+ raphael:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Accademia%20-%20Archangel%20Raphael%20and%20Tobit%20by%20Titian.jpg?width=900',caption:'提香《天使長拉斐爾與托比亞》（Wikimedia Commons；請見原檔授權）',source:'https://commons.wikimedia.org/wiki/File:Accademia_-_Archangel_Raphael_and_Tobit_by_Titian.jpg'}]},
+ uriel:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20Uriel%2C%20St%20Michael%20%26%20All%20Angels%27%2C%20Howick.jpg?width=900',caption:'聖烏列爾的教堂藝術形象（Wikimedia Commons；請見原檔授權）',source:'https://commons.wikimedia.org/wiki/File:Saint_Uriel,_St_Michael_%26_All_Angels%27,_Howick.jpg'}]},
+ selaphiel:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20of%20Archangel%20Selaphiel.jpg?width=900',caption:'東正教聖像：天使長塞拉斐爾／薩拉斐爾（Wikimedia Commons）',source:'https://commons.wikimedia.org/wiki/File:Icon_of_Archangel_Selaphiel.jpg'}]},
+ jegudiel:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Jegudil.jpg?width=900',caption:'天使長耶古第爾的聖像（Wikimedia Commons）',source:'https://commons.wikimedia.org/wiki/File:Jegudil.jpg'}]},
+ isaiah_vision:{images:[{src:'https://upload.wikimedia.org/wikipedia/commons/2/22/Bas_Relief%2C_Jerusalem_YMCA_%285503056704%29.jpg',caption:'耶路撒冷 YMCA 的熾天使浮雕（Wikimedia Commons，CC BY-SA 2.0）',source:'https://commons.wikimedia.org/wiki/File:Bas_Relief,_Jerusalem_YMCA_(5503056704).jpg'}]},
+ living_creatures:{images:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Ezekiel%27s_vision.jpg?width=900',caption:'《以西結書》異象，1670 年公版版畫（Wikimedia Commons）',source:'https://commons.wikimedia.org/wiki/File:Ezekiel%27s_vision.jpg'}]},
+};
+const ANGEL_ORDER = Object.fromEntries([
+ ['seraphim','熾天使'],['cherubim','智天使／基路伯'],['thrones','座天使'],['dominions','主天使'],['virtues','力天使'],['powers','能天使'],['principalities','權天使'],['archangels','天使長'],['angels','天使'],
+ ['seraphiel','熾天使（後期名錄）'],['metatron','位階因文本而異'],['watchers','守望者（非九階名目）'],['shemihazah','守望者（墮落敘事）'],['azazel','守望者（墮落敘事）'],['lucifer','後期墮天形象'],['iblis','精靈；不屬九階'],['malak_mawt','天使（伊斯蘭傳統；非九階）'],
+ ...['israfil','mikail','malik','ridwan','munkar','nakir','harut','marut','kiraman_katibin'].map(id=>[id,'天使（伊斯蘭傳統；非九階）']),
+ ...['angel_yhwh','angel_hosts'].map(id=>[id,'天使／天軍（文本未指定九階）']),
+ ...['agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel','ithuriel','zephon'].map(id=>[id,'守望者／後期文學名錄；非九階']),
+ ...[1,2,3,4,5,6,7].map(n=>[`trumpet_${n}`,'天使（《啟示錄》；經文未列九階）']),
+ ...['michael','gabriel','raphael','uriel','raguel','sariel','remiel','selaphiel','jegudiel','barachiel','jeremiel','phanuel','zadkiel','jophiel','chamuel','haniel','raziel','azrael','camael','samael','sandalphon','ariel','sachiel','jehoel','sabrael','tzaphkiel'].map(id=>[id,'天使長（後期／個別傳統名錄）'])
+]);
+
+/* ============ 亞伯拉罕諸傳統：惡魔與敵對靈 ============ */
+// 《所羅門小鑰匙》第一部《戈埃提亞》名錄第 13–72 靈；職銜與次序依公版文本。
+const GOETIA_REMAINDER = [
+ ['beleth','貝利斯','Beleth','國王',13],['leraje','萊拉耶','Leraje','侯爵',14],['eligos','埃利戈斯','Eligos','公爵',15],['zepar','澤帕爾','Zepar','公爵',16],['botis','博蒂斯','Botis','總統／伯爵',17],['bathin','巴辛','Bathin','公爵',18],['sallos','薩洛斯','Sallos','公爵',19],['purson','普爾森','Purson','國王',20],['marax','馬拉克斯','Marax','伯爵／總統',21],['ipos','伊波斯','Ipos','伯爵／王子',22],['aim','艾姆','Aim','公爵',23],['naberius','納貝流士','Naberius','侯爵',24],['glasya_labolas','格拉西亞・拉博拉斯','Glasya-Labolas','總統／伯爵',25],['bune','布涅','Bune','公爵',26],['ronove','羅諾維','Ronové','侯爵／伯爵',27],['berith','貝利斯／貝里特','Berith','公爵',28],['astaroth','阿斯塔羅特','Astaroth','公爵',29],['forneus','佛內烏斯','Forneus','侯爵',30],['foras','佛拉斯','Foras','總統',31],['asmoday','阿斯莫代','Asmoday','國王',32],['gaap','加普','Gaap','總統／王子',33],['furfur','弗弗爾','Furfur','伯爵',34],['marchosias','馬可西亞斯','Marchosias','侯爵',35],['stolas','斯托拉斯','Stolas','王子',36],['phenex','菲尼克斯','Phenex','侯爵',37],['halphas','哈帕斯','Halphas','伯爵',38],['malphas','馬爾法斯','Malphas','總統',39],['raum','勞姆','Raum','伯爵',40],['focalor','佛卡洛','Focalor','公爵',41],['vepar','維帕爾','Vepar','公爵',42],['sabnock','薩布諾克','Sabnock','侯爵',43],['shax','夏克斯','Shax','侯爵',44],['vine','維內','Vine','國王／伯爵',45],['bifrons','比夫龍斯','Bifrons','伯爵',46],['uvall','烏瓦爾','Uvall','公爵',47],['haagenti','哈根提','Haagenti','總統',48],['crocell','克羅賽爾','Crocell','公爵',49],['furcas','弗卡斯','Furcas','騎士',50],['balam','巴拉姆','Balam','國王',51],['alloces','阿洛刻斯','Alloces','公爵',52],['caim','凱姆','Caim','總統',53],['murmur','穆爾穆爾','Murmur','公爵／伯爵',54],['orobas','歐洛巴斯','Orobas','王子',55],['gremory','格莫瑞','Gremory','公爵',56],['ose','歐賽','Ose','總統',57],['amy','艾米','Amy','總統',58],['oriax','歐利亞斯','Oriax','侯爵',59],['vapula','瓦普拉','Vapula','公爵',60],['zagan','札岡','Zagan','國王／總統',61],['valac','瓦拉克','Valac','總統',62],['andras','安德拉斯','Andras','侯爵',63],['haures','豪瑞斯','Haures','公爵',64],['andrealphus','安德拉弗斯','Andrealphus','侯爵',65],['cimejes','西米耶斯','Cimejes','伯爵／侯爵',66],['amdusias','安杜西亞斯','Amdusias','公爵',67],['belial_goetia','貝利亞爾','Belial','國王',68],['decarabia','德卡拉比亞','Decarabia','侯爵',69],['seere','賽雷','Seere','王子',70],['dantalion','丹塔林','Dantalion','公爵',71],['andromalius','安德洛馬利烏斯','Andromalius','伯爵',72]
+];
+// 公版 Mathers／Crowley《戈埃提亞》逐靈摘要；不將儀式文本的主張當成史實或教義。
+const GOETIA_DETAILS = Object.fromEntries([
+ ['bael',1,66,'三首（人、蟾蜍、貓）或其任一形態','使人隱形'],['agares',2,31,'騎鱷魚的老者，手持鷹','教語言、使逃者返還與造成地震'],['vassago',3,26,'性情溫和的王子','揭示過去、未來及失物'],['samigina',4,30,'小馬或驢，後化人形','教自由學科並述亡者靈魂'],['marbas',5,36,'先為大獅，後化人形','答隱祕事、致病或醫病、改變形體'],['valefor',6,10,'獅子形，或獅首人身','誘人偷竊並充當使魔'],['amon',7,40,'狼首人身、蛇尾，吐火','調解敵友並答過去未來'],['barbatos',8,30,'獵人隨四王與樂隊而來','知鳥獸聲、尋寶並破咒'],['paimon',9,200,'騎駱駝、戴冠的男子，前有樂隊','授藝術與祕學並答隱祕問題'],['buer',10,50,'獅首、五羊足的輪形','教哲學邏輯、草藥並醫病'],['gusion',11,40,'外形不固定，常作人形','答問、調和友誼並授榮譽'],['sitri',12,60,'豹首具獅翼，後化美男子','激起情慾並揭露秘密'],['beleth',13,85,'騎蒼白馬的威嚴王者','授男女之愛'],['leraje',14,30,'綠衣持弓的射手','引發箭傷與壞疽'],['eligos',15,60,'持旗槍、騎馬的騎士','知戰事與未來，得權貴好感'],['zepar',16,26,'紅衣戰士','使女子愛男子並致其不孕'],['botis',17,60,'毒蛇，後化有大牙角的人','答過去未來並調解敵友'],['bathin',18,30,'騎蒼白馬的強壯男子','知寶石草藥並迅速運人至異地'],['sallos',19,30,'戴公爵冠、騎鱷魚的勇士','使男女相愛'],['purson',20,22,'熊首人身、騎熊，前有號角','揭露隱物與寶藏，答神事人事'],['marax',21,30,'牛首人身','教天文與博學，知草藥寶石'],['ipos',22,36,'獅首、鵝足、兔尾','知過去未來並使人機智勇敢'],['aim',23,26,'持火炬的三首人：蛇、人、貓','放火、使人聰慧並答私事'],['naberius',24,19,'黑鶴般的形象','教修辭與文雅，恢復失去的尊榮'],['glasya_labolas',25,36,'有獅翼的狗','教技藝、煽動殺戮並使人隱形'],['bune',26,30,'三首龍：狗、人、獅鷲','移動死者、聚財並授口才'],['ronove',27,19,'怪物形象','教修辭、語言並供給僕從'],['berith',28,26,'紅衣軍人、戴金冠、騎紅馬','答過去未來、化金並授尊位'],['astaroth',29,40,'騎龍的醜天使，手持蛇','授博學、答隱祕事'],['forneus',30,29,'海中巨獸','教修辭語言，得敵友好感'],['foras',31,29,'強壯男子','教邏輯倫理、草藥寶石，尋寶'],['asmoday',32,72,'三首、蛇尾、鵝足，騎龍','授算術天文與工藝，守寶'],['gaap',33,66,'人形，前有四位強王','教哲學、使愛憎、運人至異地'],['furfur',34,26,'鹿首具天使翼；命令下才說真話','致雷雨，授愛與祕密'],['marchosias',35,30,'狼形具獅鷲翼與蛇尾，後化人形','善戰並答問題'],['stolas',36,26,'戴冠的烏鴉，後化人形','教天文、草藥與寶石'],['phenex',37,20,'鳳凰鳥聲，後化人形','教奇妙學問與詩歌'],['halphas',38,26,'鴿形、聲音粗啞','築塔、防禦工事並送軍械'],['malphas',39,40,'烏鴉，後化人形','建屋塔、破敵計畫並供使魔'],['raum',40,30,'烏鴉，後化人形','竊取財寶、毀城並答過去未來'],['focalor',41,30,'具獅鷲翼的人形','溺人沉船並主宰風海'],['vepar',42,29,'美人魚形','引海上風暴、腐爛傷口'],['sabnock',43,50,'武裝兵士、獅首、騎蒼白馬','築高塔、供軍械並致壞疽'],['shax',44,30,'鶴形、聲音嘶啞','奪感官與財物、尋隱物'],['vine',45,36,'獅形、騎黑馬、手持蛇','建塔、毀牆、造風暴並揭祕'],['bifrons',46,26,'怪物形，後化人形','教星象與幾何、搬運屍體'],['uvall',47,37,'駱駝，後化男子','使男女相愛並答過去未來'],['haagenti',48,36,'大牛具獅鷲翼，後化人形','教煉金、使酒水互變'],['crocell',49,48,'帶天使翼的人','教幾何與自由學科、使水聲如泉'],['furcas',50,20,'騎馬的白髮長鬚老人、持叉','教哲學、天文、邏輯與占術'],['balam',51,40,'三首：牛、人、公羊；蛇尾、火眼','答過去未來並使人隱形'],['alloces',52,36,'騎馬的獅首戰士','教天文與自由學科'],['caim',53,30,'鶇鳥，後化持劍男子','答未來、教鳥獸與水聲'],['murmur',54,30,'騎獅鷲、戴公爵冠，前有樂隊','教哲學並召述亡者靈魂'],['orobas',55,20,'馬形，後化人形','答真實過去未來、賜尊位'],['gremory',56,26,'美麗女子、戴公爵冠、騎駱駝','揭寶、答過去未來並使人受愛'],['ose',57,30,'豹形，後化人形','教自由學科、答祕事並變形'],['amy',58,36,'火焰，後化人形','教天文與自由學科、守寶'],['oriax',59,30,'騎獅的獅形男子、蛇尾','教星象、賜尊位並變形'],['vapula',60,36,'獅鷲翼的獅子','教手工、哲學與各種技藝'],['zagan',61,33,'牛首鷲翼，後化人形','使酒水金屬互變並使愚者聰明'],['valac',62,30,'騎雙頭龍的小男孩、具天使翼','尋蛇與其寶物'],['andras',63,30,'烏鴉首天使、騎黑狼、持劍','煽動爭鬥與殺戮'],['haures',64,36,'兇豹，後化人形','答真事、焚毀敵人並免誘惑'],['andrealphus',65,30,'孔雀，後化人形','教幾何、天文並使人變鳥'],['cimejes',66,20,'勇士騎黑馬','教文法邏輯、尋失物與寶藏'],['amdusias',67,29,'獨角獸，後化人形','奏樂、使樹彎折'],['belial_goetia',68,80,'兩位美麗天使坐火戰車而來','賜尊位與使魔'],['decarabia',69,30,'五芒星，後化人形','教鳥獸草石的性質'],['seere',70,26,'騎翼馬的美男子','迅速運物、尋盜賊與寶藏'],['dantalion',71,36,'多張男女面孔的人，手持書','教技藝、知思想並影響愛憎'],['andromalius',72,36,'手持大蛇的男子','追回竊物、揭露惡行與寶藏']
+].map(([id,number,legions,appearance,office])=>{
+  const special={paimon:'09-Paimon seal01.png',beleth:'13-Beleth seal01.png',bathin:'18-Bathin seal01.png',bune:'26-Bune seal01.png',astaroth:'Astaroth Seal.svg',malphas:'39-Malphas.png',vepar:'42-Vepar seal01.png',uvall:'47-Vual seal01.png',caim:'53-Camio seal.png',seere:'70-Seere seal01.png',decarabia:'Decarabia seal.png'}[id];
+  const name=({bathin:'Bathin',halphas:'Halphus',uvall:'Vual',cimejes:'Cimeies',belial_goetia:'Belial'})[id]||id.replace(/(^|_)([a-z])/g,(_,a,b)=>b.toUpperCase()).replaceAll('_','-');
+  const file=special || `${String(number).padStart(2,'0')}-${name} seal.png`;
+  return [id,{number,legions,appearance,office,sigil:`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=512`}];
+}));
+const DM_NODE_DEFS = [
+ ['evil_note','敵對靈與惡魔傳統','Adversarial spirits','文本層次與名目差異',8,0,'本頁收錄猶太、基督教、伊斯蘭及後期儀式魔法中的敵對靈。它們不屬同一部正典或固定官僚體系；「七宗罪魔王」「七十二柱」等均須標示其後期來源。',true,'key'],
+ ['satan','撒但','Satan','對頭／控告者・後世魔王形象',3,2,'希伯來文śāṭān有「對頭、控告者」之義；《約伯記》的撒但與新約、後世基督教魔王形象的關係經歷長期發展。此圖不把所有文本出現自動視為同一角色。',false,'key'],
+ ['lucifer','路西法','Lucifer','後世墮天晨星形象',6,2,'路西法作為墮天首領的形象，來自對「晨星」段落的後世基督教詮釋、神學與文學發展；詳見天使頁的前身節點。',false,'key'],
+ ['beelzebub','別西卜','Beelzebub','福音書中的鬼王名目',9,2,'「別西卜」與舊約巴力西卜名稱相關；福音書中被稱為鬼王。其與撒但、路西法是否同一，取決於不同時期的詮釋與惡魔學系統。',false,'key'],
+ ['belial','彼列','Belial','無法無天／邪惡的擬人化',12,2,'彼列在《希伯來聖經》中先是「無賴、邪惡」類語，第二聖殿與後期文本逐漸人格化為敵對靈。其位階不是全傳統一致的設定。',false],
+ ['asmodeus','阿斯摩太','Asmodeus','《多俾亞傳》的惡魔',15,2,'《多俾亞傳》中阿斯摩太殺害莎拉的七位新郎，後被拉斐爾協助托比亞驅逐。後期惡魔學常賦予他更高位階與情慾職掌，應與原故事分開看待。',false,'key'],
+ ['abaddon','亞巴頓','Abaddon／Apollyon','無底坑的毀滅天使',3,5,'《啟示錄》稱無底坑的天使為亞巴頓（希伯來名）／阿波呂翁（希臘名）。其是毀滅者或坑之主，與後期「地獄君王」名單不可直接混同。',false],
+ ['leviathan','利維坦','Leviathan','海中巨獸・混沌象徵',6,5,'利維坦見於《約伯記》、詩篇與以賽亞書，為海中巨獸或混沌象徵；後世有時把它納入惡魔名單，但原文本未必將其描述為墮天使。',false],
+ ['lilith','莉莉絲','Lîlîṯ','後期猶太傳說的夜魔',9,5,'《以賽亞書》中的詞與美索不達米亞夜魔傳統相關；莉莉絲作為亞當第一任妻子的完整敘事屬中世紀以後猶太民間與神秘傳統，不能倒灌進《創世記》。',false,'key'],
+ ['azazel','阿撒茲勒','ʿAzāʾzēl','以諾傳統的受罰守望者',12,5,'《以諾一書》中的阿撒茲勒因教授禁忌知識而被拘禁。此頁保留他作為墮天者的後續接受史，天使頁可查看其守望者脈絡與文本差異。',false,'key'],
+ ['shemihazah','舍米哈札','Šemîḥazah','守望者首領之一',15,5,'以諾守望者敘事的首領之一；在此頁作為「墮落結果」的索引，並不把他誤列進早期近代所羅門七十二柱名單。',false],
+ ['iblis','易卜劣斯','Iblīs','伊斯蘭傳統的拒絕者',3,8,'《古蘭經》稱易卜劣斯為精靈，因拒絕向亞當叩頭而被逐；其在伊斯蘭傳統中的地位與基督教撒但／路西法並非簡單同一。',false,'key'],
+ ['jinn_note','精靈','Jinn','伊斯蘭傳統的有意志靈類',6,8,'精靈由無煙之火造，與天使概念不同；其中有善惡、信與不信者。易卜劣斯屬精靈這一點，是跨傳統比較時最需保留的區別。',true],
+ ['ifrit','伊夫利特','ʿIfrīt','強大的火性精靈類',9,8,'伊夫利特是伊斯蘭／阿拉伯傳統中強大而常具敵意的精靈類稱呼；並非每一個伊夫利特都是同一個具名惡魔。',false],
+ ['goetia_note','《所羅門小鑰匙》／戈埃提亞','Lemegeton／Ars Goetia','早期近代儀式魔法文本',12,8,'《所羅門小鑰匙》（Lemegeton）是由多種較早材料編成的早期近代魔法書；第一部《阿爾斯・戈埃提亞》列出七十二靈、其職銜與印記。本頁以該公版文本的次序收錄全部名錄，不把它誤作《聖經》或《古蘭經》的官方名單。',true,'key'],
+ ['bael','巴力／拜耳','Bael','《戈埃提亞》第一靈',15,8,'《阿爾斯·戈埃提亞》列為第一靈、國王。其名稱與古代近東巴力崇拜的多重稱號有關，但早期近代魔法書的角色不可直接當作古代神祇的原貌。',false],
+ ['agares','阿加雷斯','Agares','《戈埃提亞》第二靈・公爵',1,11,'《阿爾斯·戈埃提亞》列阿加雷斯為公爵，敘稱能教授語言、使逃亡者折返並引發地震。這是早期近代儀式魔法文本中的職掌，非聖典敘事。'],
+ ['vassago','瓦薩戈','Vassago','《戈埃提亞》第三靈・王子',4,11,'《阿爾斯·戈埃提亞》列瓦薩戈為王子，描述其能揭示過去與未來、尋找隱藏或失落之物。不同手稿的拼寫與級別細節可能略異。'],
+ ['samigina','薩米基納','Samigina／Gamigin','《戈埃提亞》第四靈・侯爵',7,11,'《阿爾斯·戈埃提亞》列薩米基納為侯爵，敘稱能教授自由學科並說明亡者靈魂。此類說法反映魔法書的儀式目的，不可當作主流宗教教義。'],
+ ['marbas','馬巴斯','Marbas','《戈埃提亞》第五靈・總統',10,11,'《阿爾斯·戈埃提亞》列馬巴斯為總統，敘稱能回答隱密事、造成或醫治疾病並改變形體。其頭銜為該名錄慣用稱號。'],
+ ['valefor','瓦勒弗','Valefor','《戈埃提亞》第六靈・公爵',13,11,'《阿爾斯·戈埃提亞》列瓦勒弗為公爵，常以獅形或獅首形象出現，並被描述為誘惑人偷竊的使魔。這是早期近代名錄中的角色設定。'],
+ ['amon','阿蒙','Amon','《戈埃提亞》第七靈・侯爵',16,11,'《阿爾斯·戈埃提亞》列阿蒙為侯爵，敘稱能調解敵友、揭露過去與未來。名稱與多個古代神名近似，但不能據此直接認定同源。'],
+ ['barbatos','巴巴托斯','Barbatos','《戈埃提亞》第八靈・公爵',2,14,'《阿爾斯·戈埃提亞》列巴巴托斯為公爵，敘稱理解鳥獸之聲、揭示寶藏與解除附魔。其文本身份屬儀式魔法名錄，而非《聖經》人物。'],
+ ['buer','布耶爾','Buer','《戈埃提亞》第十靈・總統',5,14,'《阿爾斯·戈埃提亞》列布耶爾為總統，敘稱教授哲學、邏輯與草藥學，並能醫治疾病。該節點僅陳述名錄角色，不背書其實踐。'],
+ ['gusion','古辛','Gusion','《戈埃提亞》第十一靈・公爵',8,14,'《阿爾斯·戈埃提亞》列古辛為公爵，敘稱能回答各類問題、調和友誼並授與榮譽。名稱與職能依版本可能有轉寫差異。'],
+ ['sitri','西特里','Sitri','《戈埃提亞》第十二靈・王子',11,14,'《阿爾斯·戈埃提亞》列西特里為王子，敘稱能引發情慾並令人暴露秘密。這是名錄敘事中的功能描述，非歷史宗教中的固定魔王。'],
+ ['paimon','派蒙','Paimon','《戈埃提亞》第九靈・國王',14,14,'《阿爾斯·戈埃提亞》列派蒙為國王，敘稱教授藝術與學問並回答祕密問題；與其他所羅門傳統中的方位王名單亦有交會，但配置不一致。',false,'key'],
+ ...GOETIA_REMAINDER.map(([id,name,kana,rank,number],i)=>[id,name,kana,`《戈埃提亞》第${number}靈・${rank}`,1+(i%6)*3.1,17+Math.floor(i/6)*2.2,`《阿爾斯・戈埃提亞》名錄中的第${number}靈，職銜為${rank}。本節點依公版《所羅門小鑰匙》所列次序與名稱建立；其形象、職掌與抄本異文請以面板的原典連結核對。`]),
+ ['pazuzu_note','跨傳統註記：帕祖祖','Pazuzu','美索不達米亞惡魔，不併入本頁',17,14,'帕祖祖已收錄於美索不達米亞頁。此註記提醒：惡魔學傳播廣泛，不應為了「惡魔」分類而把各文化角色搬進亞伯拉罕圖譜。',true],
+ ['binsfeld_note','七宗罪與賓斯費爾德對照','Binsfeld (1589)','後期惡魔學分類・非正典',20,2,'彼得・賓斯費爾德於1589年提出把七宗罪分配給七位惡魔的分類。此對照並非《聖經》、猶太教、所有基督教教派或《戈埃提亞》的共同設定；本圖以它作為後期惡魔學影響甚大的對照索引。',true,'key'],
+ ['mammon','瑪門','Mammon','賓斯費爾德對照中的貪婪',20,5,'「瑪門」在福音書主要指財富／財利，後期才常人格化。賓斯費爾德的七罪分類把它對應貪婪；此頁不把抽象財富語彙誤說成所有文本皆具名的魔王。'],
+ ['belphegor','貝爾菲格','Belphegor','賓斯費爾德對照中的懶惰',23,5,'貝爾菲格源自古代近東相關神名在後期惡魔學的轉化；賓斯費爾德分類將其對應懶惰。其形象、位階與故事主要屬後世惡魔學傳統。'],
+ ['sin_pride','傲慢','Pride','七宗罪・賓斯費爾德對照：路西法',20,8,'傲慢在賓斯費爾德（1589）分類中對應路西法；其對照美德為謙卑。這是後期道德／惡魔學圖式，天使頁的對應只作寓意展示。'],
+ ['sin_greed','貪婪','Greed','七宗罪・賓斯費爾德對照：瑪門',23,8,'貪婪在賓斯費爾德（1589）分類中對應瑪門；其對照美德為寬厚／施與。'],
+ ['sin_lust','色慾','Lust','七宗罪・賓斯費爾德對照：阿斯摩太',20,11,'色慾在賓斯費爾德（1589）分類中對應阿斯摩太；其對照美德為貞潔。這與《多俾亞傳》的阿斯摩太故事屬不同文本層次。'],
+ ['sin_envy','嫉妒','Envy','七宗罪・賓斯費爾德對照：利維坦',23,11,'嫉妒在賓斯費爾德（1589）分類中對應利維坦；其對照美德為仁慈。利維坦在較早聖經文本中的海獸意象，不應被這個後期分類取代。'],
+ ['sin_gluttony','暴食','Gluttony','七宗罪・賓斯費爾德對照：別西卜',20,14,'暴食在賓斯費爾德（1589）分類中對應別西卜；其對照美德為節制。'],
+ ['sin_wrath','憤怒','Wrath','七宗罪・賓斯費爾德對照：撒但',23,14,'憤怒在賓斯費爾德（1589）分類中對應撒但；其對照美德為忍耐。'],
+ ['sin_sloth','懶惰','Sloth','七宗罪・賓斯費爾德對照：貝爾菲格',20,17,'懶惰在賓斯費爾德（1589）分類中對應貝爾菲格；其對照美德為勤勉。'],
+ ['satans_angels','魔鬼與其使者','The devil and his angels','新約概稱・未列個別名單',20,20,'《馬太福音》25:41與《啟示錄》12:9提到「魔鬼與其使者／他的使者」，但經文沒有提供可逐一對應的惡魔名冊。本節點保留此集體概念，不虛構其部屬姓名。',true],
+ ['legion','群（軍團）','Legion','《馬可福音》5章的污靈自稱',23,20,'《馬可福音》5章中被附者的污靈自稱「群」（Legion），因為數目眾多；它是故事中的集合名稱，不是具有固定獨立傳記的一位魔王。可作為新約惡靈敘事的具名案例，但經文未明定它直接受撒但指揮。'],
+ ...[
+  ['agniel','阿格尼爾','Agniel','後期名錄：魔法與召靈','後期墮天使名錄把阿格尼爾列為傳授魔法與召靈術者；不在《以諾一書》常見二十首領名單中，故不作共同正典設定。'],
+  ['ammiel','阿米耶爾','Ammiel','後期名錄：誘惑人類女子','後期名錄稱阿米耶爾以神名誘惑人類女子；此項職掌屬後期彙編，非《以諾一書》各抄本共有條目。'],
+  ['arquiel','阿爾奎爾／撒拉奎爾','Arquiel／Saraquiel','守望者異寫：水之術','阿爾奎爾／撒拉奎爾是守望者名錄的異寫之一；後期名錄將水之術歸給他，與薩列爾等名稱的對應因抄本而異。'],
+  ['araziel','阿拉齊爾','Araziel','後期守望者：「神是正午」','阿拉齊爾常被解作「神是正午」，見於後期守望者名錄；其位置與是否等同其他 -el 名稱，各彙編沒有統一結論。'],
+  ['asael','阿薩艾爾','Asael','守望者名錄異寫','阿薩艾爾是守望者傳統中的異寫，常與 Asael／Azazel 等名稱群並列；不同抄本的拼寫與角色不完全一致。'],
+  ['asbeel','阿斯貝爾','Asbeel','《以諾一書》69章：邪惡計謀','《以諾一書》69章將阿斯貝爾列為使聖子與選民偏離正道、把惡計植入人心者；此條與二十首領名單須分開閱讀。'],
+  ['baraquiel','巴拉奎爾','Baraqiel','守望者首領：星象知識','巴拉奎爾見於《以諾一書》6章的守望者首領名單；後期名錄常把占星知識歸給他，但人名與職掌在名單間有變動。'],
+  ['echsael','艾克薩爾','Echsael','後期名錄：氣象知識','艾克薩爾在後期墮天使彙編中被說成傳授氣象知識者；未列入《以諾一書》常用二十首領名單。'],
+  ['gadreel','加德列爾','Gadreel','《以諾一書》69章：兵器與夏娃','《以諾一書》69章稱加德列爾教人盾牌、胸甲與刀劍，並把他與夏娃受誘惑相連；這不是《創世記》直接點名。'],
+  ['cassday','卡斯代','Cassday','後期天使／墮天使名錄','卡斯代（Cassdae）出現於後期天使或墮天使名錄；來源不穩定地把他列為以諾墮天首領，因此保留為名錄補充。'],
+  ['casja','卡斯賈','Casja','後期名錄：醫療技術','卡斯賈（Casiudien／Casja）在後期名錄中被說成教授重症治療術者；非《以諾一書》標準首領名單的固定條目。'],
+  ['cocabel','可卡貝爾','Kokabiel','守望者首領：天文知識','可卡貝爾／科卡貝爾見於《以諾一書》6章守望者首領名單；後期傳統常將天文知識歸給他，亦見 Cocabell 等異拼。'],
+  ['bemenel','貝梅內爾','Bemenel','後期名錄：文字與文明','貝梅內爾見於後期墮天使名錄，常被說成把文字或文明技藝傳給人類；不在《以諾一書》公認二十首領的標準名單中。'],
+  ['penemue','佩內繆','Penemue','《以諾一書》69章：文字與知識','《以諾一書》69章稱佩內繆使人知曉書寫、墨水與紙張，也讓人藉此獲得知識；此為該章名錄敘事。'],
+  ['pharmaros','法爾馬洛斯','Pharmaros','後期名錄：藥草與診療','法爾馬洛斯在後期名錄中被歸為教授藥草與診療技術者；沒有把這項職掌歸入以諾固定二十首領名單。'],
+  ['turel','圖雷爾','Turel','守望者異寫：「神之岩」','圖雷爾（Turiel／Turel）是守望者名錄中的異寫，常被解作「神之岩」；不同抄本對應的首領名稱與排序不一。'],
+  ['usiel','烏西爾','Usiel','後期守望者：「神的力量」','烏西爾常被解作「神的力量」，見於後期守望者相關名錄；是否可與其他同源名稱合併並無各文本一致答案。'],
+  ['ithuriel','伊圖里爾','Ithuriel','《失樂園》的天使（非墮天者）','伊圖里爾是彌爾頓《失樂園》中的天使，以長矛辨識偽裝的撒但；他不是《以諾一書》的墮天守望者。'],
+  ['zephon','澤豐','Zephon','《失樂園》的天使（非墮天者）','澤豐是彌爾頓《失樂園》中的看守天使，與伊圖里爾一同發現偽裝的撒但；他不是以諾墮天者。']
+ ].map(([id,name,kana,role,desc],i)=>[id,name,kana,role,25+(i%3)*3,18+Math.floor(i/3)*3,desc]),
+];
+const DM_GROUPS = [
+ ['聖經／第二聖殿與後世基督教接受',['satan','lucifer','beelzebub','belial','asmodeus','abaddon','leviathan','lilith'],'#d06a72',false],
+ ['以諾墮天守望者與後期名錄',['azazel','shemihazah','agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel'],'#a980e0',false],
+ ['《失樂園》的看守天使（非墮天者）',['ithuriel','zephon'],'#9db7e4',false],
+ ['新約：撒但、鬼王與惡靈',['satan','satans_angels','legion','beelzebub','abaddon'],'#d06a72',false],
+ ['舊約／希伯來聖經：控告者與混沌意象',['satan','belial','leviathan','lilith'],'#b98a7a',false],
+ ['次經與第二聖殿文獻：阿斯摩太與守望者',['asmodeus','azazel','shemihazah'],'#a980e0',false],
+ ['伊斯蘭與阿拉伯靈類',['iblis','jinn_note','ifrit'],'#75b98c',false],
+ ['所羅門七十二柱魔神（《戈埃提亞》）',['goetia_note','bael','agares','vassago','samigina','marbas','valefor','amon','barbatos','paimon','buer','gusion','sitri',...GOETIA_REMAINDER.map(d=>d[0])],'#c8a860',false],
+ ['跨頁對照：可回到天使頁',['lucifer','azazel','shemihazah','iblis'],'#5ab4ff',false],
+ ['七宗罪（賓斯費爾德，1589）',['binsfeld_note','sin_pride','sin_greed','sin_lust','sin_envy','sin_gluttony','sin_wrath','sin_sloth','lucifer','mammon','asmodeus','leviathan','beelzebub','satan','belphegor'],'#d06a72',false],
+];
+const DM_UNIONS = [
+ {parent:'evil_note',children:['satan','lucifer','beelzebub','belial','asmodeus','abaddon','leviathan','lilith'],label:'不同文本與後世接受史'},
+ {parent:'evil_note',children:['iblis','jinn_note','ifrit'],label:'伊斯蘭／阿拉伯靈類脈絡'},
+ {parent:'azazel',children:['shemihazah'],label:'《以諾一書》的守望者同伴'},
+ {parent:'shemihazah',children:['agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel'],label:'墮天守望者／後期名錄（含異寫）'},
+ {parent:'satan',children:['satans_angels','legion'],label:'新約的魔鬼與惡靈概稱（非固定部屬名單）'},
+ {spouses:['satan','beelzebub'],marriage:'partner',label:'福音書中的撒但國度／鬼王語彙；非固定主從名單',labelClass:'ritual'},
+ {spouses:['ithuriel','zephon'],marriage:'partner',label:'《失樂園》的看守天使',labelClass:'ritual'},
+ {spouses:['satan','lucifer'],marriage:'partner',label:'後世常見、但非所有文本一致的連結',labelClass:'ritual'},
+ {spouses:['asmodeus','evil_note'],marriage:'partner',label:'《多俾亞傳》的驅逐敘事',labelClass:'ritual'},
+ {spouses:['iblis','jinn_note'],marriage:'partner',label:'《古蘭經》：屬精靈',labelClass:'ritual'},
+ {parent:'goetia_note',children:['bael','agares','vassago','samigina','marbas','valefor','amon','barbatos','paimon','buer','gusion','sitri',...GOETIA_REMAINDER.map(d=>d[0])],label:'《阿爾斯・戈埃提亞》七十二靈'},
+ {parent:'binsfeld_note',children:['sin_pride','sin_greed','sin_lust','sin_envy','sin_gluttony','sin_wrath','sin_sloth'],label:'1589 年七宗罪對照'},
+ {spouses:['sin_pride','lucifer'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_greed','mammon'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_lust','asmodeus'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_envy','leviathan'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_gluttony','beelzebub'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_wrath','satan'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+ {spouses:['sin_sloth','belphegor'],marriage:'partner',label:'賓斯費爾德：對應惡魔',labelClass:'ritual'},
+];
+const DM_NODE_NAMES = Object.fromEntries(DM_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
+Object.assign(DM_NODE_NAMES,{
+ cassday:{...DM_NODE_NAMES.cassday,aliases:['Cassdae','卡斯戴']},
+ casja:{...DM_NODE_NAMES.casja,aliases:['Casiudien','卡修迪恩','Casja']},
+ cocabel:{...DM_NODE_NAMES.cocabel,aliases:['Cocabell','Kokabiel','可卡貝爾']},
+ bemenel:{...DM_NODE_NAMES.bemenel,aliases:['Bemenel','Benemel','貝梅內爾']},
+ ammiel:{...DM_NODE_NAMES.ammiel,aliases:['Ammel','Amiel','阿梅爾']},
+ asbeel:{...DM_NODE_NAMES.asbeel,aliases:['Asbeer','Asbeel','阿斯比爾']},
+ baraquiel:{...DM_NODE_NAMES.baraquiel,aliases:['Baraquieel','Baraqiel','巴拉基爾（守望者異寫）']},
+ gadreel:{...DM_NODE_NAMES.gadreel,aliases:['Gadrel','Gadreel','加德雷爾']},
+ pharmaros:{...DM_NODE_NAMES.pharmaros,aliases:['Pharmoros','Pharmaros','法爾馬羅斯']},
+ arquiel:{...DM_NODE_NAMES.arquiel,aliases:['Araqiel','Saraquiel','撒拉奎爾']},
+ turel:{...DM_NODE_NAMES.turel,aliases:['Tourel','Turiel','圖列爾']}
+});
+const DEMON_USER_EDITS = {};
+
 const PANTHEONS = {
+  angels: {
+    title:'🕊️ 天使系譜', defs:AN_NODE_DEFS, groups:AN_GROUPS, unions:AN_UNIONS, names:AN_NODE_NAMES,
+    seed:ANGEL_USER_EDITS, storage:'angel_edits', yokai:false, counterpart:'demons', counterpartLabel:'😈 惡魔圖鑑', placeholder:'搜尋天使、階級、墮天者或原文…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'原名／文本名', nihonshoki:'中文通用名', reading:'轉寫', aliases:'別稱', shrine:'相關傳統'},
+  },
+  demons: {
+    title:'😈 惡魔圖鑑', defs:DM_NODE_DEFS, groups:DM_GROUPS, unions:DM_UNIONS, names:DM_NODE_NAMES,
+    seed:DEMON_USER_EDITS, storage:'demon_edits', yokai:false, counterpart:'angels', counterpartLabel:'🕊️ 天使系譜', placeholder:'搜尋惡魔、精靈、守望者或原文…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（原文／轉寫）', kojiki:'原名／文本名', nihonshoki:'中文通用名', reading:'轉寫', aliases:'別稱', shrine:'相關傳統'},
+  },
   india: {
     title:'🕉️ 印度神話系譜', defs:IN_NODE_DEFS, groups:IN_GROUPS, unions:IN_UNIONS, names:IN_NODE_NAMES,
     seed:INDIA_USER_EDITS, storage:'india_edits', yokai:false, placeholder:'搜尋神名、史詩人物或梵語轉寫…', editBtn:'✏️ 編輯此項目',
@@ -5385,6 +5739,58 @@ const IN_NODE_SOURCES = Object.fromEntries([
   [['bhagavad_gita',['mahabharata','gita']]]
 ].flat());
 function indiaSourceLinks(keys){ return (keys||[]).map(k=>IN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
+const AD_SOURCE_LIBRARY = {
+  bible:{zh:'聖經相關段落（Bible Gateway）',url:'https://www.biblegateway.com/passage/?search=Isaiah%206%2C%20Daniel%2010%2C%20Luke%201%2C%20Revelation%2012&version=NRSVUE'},
+  hebrewBible:{zh:'舊約／希伯來聖經：創世記、以賽亞書、以西結書、約伯記與撒迦利亞書',url:'https://www.biblegateway.com/passage/?search=Genesis%202-3%2C%20Isaiah%206%2C%20Ezekiel%201%2C%20Ezekiel%2010%2C%20Job%201%3A6-12%2C%20Zechariah%203%3A1-5&version=NRSVUE'},
+  newTestament:{zh:'新約：福音書、啟示錄與撒但／鬼王／惡靈語彙',url:'https://www.biblegateway.com/passage/?search=Matthew%2012%3A22-29%2C%20Matthew%2025%3A41%2C%20Mark%205%3A1-20%2C%20Revelation%2012%3A7-12&version=NRSVUE'},
+  tobit:{zh:'《多俾亞傳》12:12–15',url:'https://www.biblegateway.com/passage/?search=Tobit+12%3A12-15&version=NABRE'},
+  enoch:{zh:'《以諾一書》6–8、69章：守望者傳統（Charles 英譯）',url:'https://en.wikisource.org/wiki/The_Book_of_Enoch_(Charles)/Chapter_69'},
+  fallenList:{zh:'墮天使名錄：異寫與後期彙編的參照（維基百科）',url:'https://zh.wikipedia.org/zh-tw/%E5%A2%AE%E5%A4%A9%E4%BD%BF'},
+  milton:{zh:'彌爾頓《失樂園》第四卷（Project Gutenberg 公版）',url:'https://www.gutenberg.org/cache/epub/26/pg26-images.html'},
+  enoch2:{zh:'《以諾二書》七重天傳統（Sefaria 導讀）',url:'https://www.sefaria.org/The_Beginning_of_Wisdom.9.10'},
+  zohar:{zh:'《光輝之書》與十質點（Sefaria）',url:'https://www.sefaria.org/Zohar,_Introduction.1.1-2?lang=bi&with=Commentary'},
+  hermetic:{zh:'生命樹守護天使：後期赫密斯卡巴拉對照說明',url:'https://en.wikipedia.org/wiki/Hermetic_Qabalah'},
+  revelation:{zh:'《啟示錄》8–11章：七枝號角',url:'https://www.biblegateway.com/passage/?search=Revelation%208-11&version=NRSVUE'},
+  dionysius:{zh:'偽狄奧尼修斯《天階序論》',url:'https://www.ccel.org/ccel/dionysius/celestial.vii.html'},
+  quran:{zh:'《古蘭經》18:50',url:'https://legacy.quran.com/18/50'},
+  quranAngels:{zh:'《古蘭經》：天使、號角與守護者段落',url:'https://legacy.quran.com/2/98-102'},
+  genesis:{zh:'《創世記》2–3章：伊甸園與基路伯',url:'https://www.biblegateway.com/passage/?search=Genesis%202-3&version=NRSVUE'},
+  quranDeath:{zh:'《古蘭經》32:11：死亡的天使',url:'https://legacy.quran.com/32/11'},
+  orthodox:{zh:'東正教七／八大天使長名錄（維基百科）',url:'https://en.wikipedia.org/wiki/Seven_Archangels'},
+  goetia:{zh:'《所羅門小鑰匙》／《阿爾斯・戈埃提亞》',url:'https://en.wikisource.org/wiki/The_Lesser_Key_of_Solomon'},
+  goetiaSeals:{zh:'Wikimedia Commons：戈埃提亞印章（公版原書掃描）',url:'https://commons.wikimedia.org/wiki/Category:Ars_Goetia_sigils'},
+  bibleVision:{zh:'《以賽亞書》6章與《以西結書》1、10章',url:'https://www.biblegateway.com/passage/?search=Isaiah%206%2C%20Ezekiel%201%2C%20Ezekiel%2010&version=NRSVUE'},
+  binsfeld:{zh:'賓斯費爾德七宗罪分類（1589；後期惡魔學）',url:'https://en.wikipedia.org/wiki/Classification_of_demons'},
+  aquinas:{zh:'阿奎那《神學大全》：天使與惡魔秩序',url:'https://ccel.org/a/aquinas/summa/FP/FP109.html'}
+};
+const AD_NODE_SOURCES = Object.fromEntries([
+  ['divine_note','seraphim','cherubim','thrones','dominions','virtues','powers','principalities','archangels','angels'].map(id=>[id,['dionysius','bible']]),
+  ['isaiah_vision','burning_coal','living_creatures','ophanim'].map(id=>[id,['bibleVision']]),
+  ['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','angel_yhwh','isaiah_vision','burning_coal','living_creatures','ophanim','seraphim','cherubim'].map(id=>[id,['hebrewBible']]),
+  ['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','angel_yhwh'].map(id=>[id,['genesis']]),
+  ['war_heaven','dragon_revelation','angel_hosts'].map(id=>[id,['revelation']]),
+  ['gabriel','michael','war_heaven','dragon_revelation','angel_hosts','revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'].map(id=>[id,['newTestament','revelation']]),
+  ['enoch_heavens','heaven_1','heaven_2','heaven_3','heaven_4','heaven_5','heaven_6','heaven_7'].map(id=>[id,['enoch2']]),
+  ['zohar_note','tree_life','keter','chokmah','binah','chesed','gevurah','tiferet','netzach','hod','yesod','malkuth','tzaphkiel'].map(id=>[id,['zohar','hermetic']]),
+  ['revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'].map(id=>[id,['revelation']]),
+  ['virtue_note','virtue_humility','virtue_kindness','virtue_patience','virtue_diligence','virtue_charity','virtue_temperance','virtue_chastity'].map(id=>[id,['bible','orthodox']]),
+  ['michael','gabriel'].map(id=>[id,['bible']]), ['raphael','asmodeus'].map(id=>[id,['tobit']]),
+  ['uriel','metatron','watchers','shemihazah','azazel','raguel','sariel','remiel','asbeel','baraquiel','gadreel','cocabel','penemue','turel'].map(id=>[id,['enoch']]),
+  ['agniel','ammiel','arquiel','araziel','asael','echsael','cassday','casja','bemenel','pharmaros','usiel'].map(id=>[id,['enoch','fallenList']]),
+  ['ithuriel','zephon'].map(id=>[id,['milton']]),
+  ['selaphiel','jegudiel','barachiel','jeremiel','phanuel','zadkiel','jophiel','chamuel','haniel','raziel','azrael','camael','samael','sandalphon','ariel','sachiel','jehoel','sabrael','seraphiel'].map(id=>[id,['orthodox']]),
+  ['iblis','jinn_note','ifrit'].map(id=>[id,['quran']]),
+  ['islam_angels','israfil','mikail','malik','ridwan','munkar','nakir','harut','marut','kiraman_katibin'].map(id=>[id,['quranAngels']]),
+  ['malak_mawt'].map(id=>[id,['quranDeath']]),
+  ['satan','lucifer','beelzebub','belial','abaddon','leviathan','lilith','evil_note'].map(id=>[id,['bible','aquinas']]),
+  ['satan','beelzebub','abaddon','satans_angels','legion'].map(id=>[id,['newTestament']]),
+  ['belial','leviathan','lilith'].map(id=>[id,['hebrewBible']]),
+  [['satan',['hebrewBible','newTestament']]],
+  ['goetia_note','bael','agares','vassago','samigina','marbas','valefor','amon','barbatos','paimon','buer','gusion','sitri',...GOETIA_REMAINDER.map(d=>d[0])].map(id=>[id,['goetia','goetiaSeals']]),
+  ['binsfeld_note','mammon','belphegor','sin_pride','sin_greed','sin_lust','sin_envy','sin_gluttony','sin_wrath','sin_sloth'].map(id=>[id,['binsfeld']]),
+  [['pazuzu_note',['bible']]]
+].flat());
+function angelDemonSourceLinks(keys){ return (keys||[]).map(k=>AD_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 function jpText(key){ return JP_UI[japanLocale][key] || key; }
 function localGroupLabel(label){ return japanLocale==='ja' ? (JP_GROUP_JA[label] || label) : (JP_GROUP_ZH[label] || label); }
 function japaneseFallbackDesc(name,role){
@@ -5479,6 +5885,9 @@ function loadPantheon(key){
   EDITS_KEY = p.storage;
   document.getElementById('mythTitle').textContent = p.title;
   document.getElementById('toYokaiBtn').style.display = p.yokai ? '' : 'none';
+  const counterpartBtn = document.getElementById('toDemonBtn');
+  counterpartBtn.style.display = p.counterpart ? '' : 'none';
+  counterpartBtn.textContent = p.counterpartLabel || '';
   const si = document.getElementById('searchInput');
   si.placeholder = p.placeholder; si.value = '';
   document.getElementById('searchClear').style.display = 'none';
@@ -5527,7 +5936,6 @@ const placedLabels = []; // 已放置的標籤 bbox，用來避免標籤互相�
 GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
   const members = ids.map(id=>nodes[id]).filter(Boolean);
   if(!members.length) return;
-  if(!drawBox) return;
   let x0 = Math.min(...members.map(n=>n.px))-16;
   let y0 = Math.min(...members.map(n=>n.py))-34;
   const x1 = Math.max(...members.map(n=>n.px+NODE_W))+16;
@@ -5537,7 +5945,9 @@ GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
   const memberSet = new Set(ids);
   const intruders = Object.values(nodes).filter(n=>!memberSet.has(n.id) &&
     n.px+NODE_W>x0 && n.px<x1 && n.py+(n.h||NODE_H)>y0 && n.py<y1);
-  const markerOnly = intruders.length > members.length;
+  // 即使資料群組原本標記為不畫框，也先按實際佈局判斷；只有過度分散才改成標記＋聚焦淡化。
+  const spread = (x1-x0)*(y1-y0);
+  const markerOnly = intruders.length > members.length || spread > 2600000 || (!drawBox && (x1-x0>2100 || y1-y0>1250));
   const box = document.createElement('div');
   box.className='groupbox';
   box.dataset.gi = gi;
@@ -6029,14 +6439,33 @@ function saveLS(key, val){
   catch{ alert('瀏覽器儲存空間已滿（多半是附圖太多），本次修改無法保存。請先刪除部分附圖後再試。'); return false; }
 }
 function figsHTML(rec){
-  return ((rec && rec.images) || []).map(im=>
-    `<figure><img src="${im.src}" alt="${esc(im.caption||'')}" data-cap="${esc(im.caption||'')}">${im.caption?`<figcaption>${esc(im.caption)}</figcaption>`:''}</figure>`
+  return ((rec && rec.images) || []).map(im=>{
+    const image=`<img src="${im.src}" alt="${esc(im.caption||'')}" data-cap="${esc(im.caption||'')}">`;
+    const caption=im.caption ? (im.source ? `<a href="${esc(im.source)}" target="_blank" rel="noopener noreferrer">${esc(im.caption)}</a>` : esc(im.caption)) : '';
+    return `<figure>${image}${caption?`<figcaption>${caption}</figcaption>`:''}</figure>`;
+  }
   ).join('');
 }
 function customRowsHTML(rec){
   return ((rec && rec.custom) || []).map(f=>
     `<div class="p-namerow"><span class="p-namelabel">${esc(f.label||'')}</span>${esc(f.value||'')}</div>`
   ).join('');
+}
+function panelRecord(n){
+  const rec = USER_EDITS_LIVE[n.id] || {};
+  if(currentPantheon==='angels' && ANGEL_ORDER[n.id]) return {...rec,
+    custom:[...(rec.custom||[]),{label:'九階對應',value:ANGEL_ORDER[n.id]}]
+  };
+  const d = currentPantheon==='demons' && GOETIA_DETAILS[n.id];
+  if(!d) return rec;
+  return {...rec,
+    custom:[...(rec.custom||[]),
+      {label:'戈埃提亞序號',value:`第 ${d.number} 靈`},
+      {label:'統領軍團',value:`${d.legions} 個軍團`},
+      {label:'原典形象',value:d.appearance},
+      {label:'原典職掌',value:d.office}],
+    images:[...(rec.images||[]),{src:d.sigil,caption:`第 ${d.number} 靈的印章（《戈埃提亞》公版原書掃描／Wikimedia Commons）`,source:'https://commons.wikimedia.org/wiki/Category:Ars_Goetia_sigils'}]
+  };
 }
 // 附圖點擊放大
 document.addEventListener('click', e=>{
@@ -6075,7 +6504,7 @@ function openPanel(n){
   if(nn.reading) html += row(label('reading'),nn.reading);
   if(nn.aliases && nn.aliases.length) html += row(label('aliases'),nn.aliases.join('　'));
   if(nn.shrine) html += row(label('shrine'),nn.shrine);
-  const rec = USER_EDITS_LIVE[n.id];
+  const rec = panelRecord(n);
   html += customRowsHTML(rec);
   pnames.innerHTML = html;
   pnames.style.display = html ? 'block' : 'none';
@@ -6088,8 +6517,13 @@ function openPanel(n){
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const sources = document.getElementById('p-sources');
-  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : '';
+  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
   sources.style.display = sources.innerHTML ? 'flex' : 'none';
+  const counterpart = document.getElementById('p-counterpart');
+  const target = P.counterpart;
+  const canSwitch = target && PANTHEONS[target].defs.some(d=>d[0]===n.id);
+  counterpart.style.display = canSwitch ? '' : 'none';
+  counterpart.textContent = canSwitch ? `↔ 在${PANTHEONS[target].title}查看此節點` : '';
   panel.classList.add('open');
 }
 function closePanel(){
@@ -6490,6 +6924,16 @@ function openPantheon(key){
   localStorage.setItem('mythCurrentPage', key);
 }
 function openJapan(){ openPantheon('japan'); }
+function openAngels(){ openPantheon('angels'); }
+function openDemons(){ openPantheon('demons'); }
+function openCounterpart(){
+  const target = P.counterpart;
+  if(!target) return;
+  const id = editingNodeId;
+  openPantheon(target);
+  // openPantheon 會在下一幀執行 fitInitial；等它結束後才聚焦，否則縮放會被初始檢視覆蓋。
+  if(id) requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(nodes[id]) focusNode(id); }));
+}
 function openIndia(){ openPantheon('india'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
