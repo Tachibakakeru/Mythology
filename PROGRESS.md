@@ -388,3 +388,21 @@
 - 新增最小共用 `showViewImmediately()`：取消殘留 timer，將目標頁固定為 display block、opacity 1，並清除 pointer-events、will-change 與 inline transition。`openPantheon()` 現在只有從首頁進入時才呼叫 `animateViewIn()`；已在圖譜內或由妖怪頁返回時直接同步換頁。`openYokai()` 與 `backToMyth()` 同樣改為不經完整視窗透明化的直接切換。
 - `animateViewIn()`／`animateViewOut()` 完成後補上 inline transition 清理，避免先前的 opacity 規則留在容器上影響後續切換；首頁原有淡入淡出與 3D 轉盤完全保留。
 - 驗證：JavaScript 語法、`git diff --check`、本機 HTTP 200 通過。瀏覽器實測日本神話→妖怪、妖怪→日本神話、天使→惡魔、惡魔→天使四條路徑；切換完成時目標頁皆為 display block、opacity 1、inline transition 空值，來源頁隱藏，console 無 error／warning。
+
+## 2026-08-24｜日本神話原創節點插畫第五批（本次交付已 push）
+
+- 閃光修正與前四批插畫已先以 commit `d3c2adf` push 至 `origin/main`；本節以下為該次 push 後的新工作，依流程保持未 commit／未 push。
+- 使用內建圖像生成一次新增 12 張：迦具土、大山祇、豐受大神、磐長姬、海幸彥、鸕鶿草葺不合尊、玉依媛、須勢理媛、大物主、事代主、神功皇后、弟橘媛。每張以既有思兼神圖作圓章與縮圖風格參考，但使用獨立提示詞與故事符號，沒有複製人物外貌。
+- 辨識意象依序為火球／火山、群山／神木杖、神饌／稻穀、岩石／長壽、魚鉤／漁網、鸕鶿羽產屋、潮珠／皇統黎明、根之國試煉護符、三輪山／白蛇、託宣鈴／海鯛、古代弓裝／船隊、走水浪潮／木梳與橘花；神功皇后圖說維持「傳說形象、非歷史重建」的原創插畫定位。
+- 12 張原圖已存入 `assets/portraits/japan/`，縮至 256×256 PNG 並套用 254px 抗鋸齒圓形 alpha mask；連同前批共 40 張、約 6.04MB，逐檔尺寸與左上角 alpha 檢查均通過。
+- `NODE_PORTRAITS` 新增 `kagutsuchi`、`oyamatsumi`、`toyoukebime`、`iwanagahime`、`hoderi`、`ugayafukiaezu`、`tamayoribime`、`suseribime`、`omononushi`、`kotoshironushi`、`jingu`、`ototachibana` 精確對應；沒有修改節點資料、座標、群組與關係。
+- 驗證：完整 JavaScript 語法、`git diff --check`、本機 HTTP 200 通過；瀏覽器進入日本神話後逐一核對 12 個新節點，全部存在、具有 `.has-portrait` 並載入各自 PNG，console 無 error／warning。本批與第六批一併納入本次交付。
+
+## 2026-08-24｜日本神話原創節點插畫第六批（本次交付已 push）
+
+- 使用內建圖像生成新增 12 張：天御中主神、高皇產靈神、神皇產靈神、國常立尊、田心姬、市杵島姬、湍津姬、味耜高彥根、天若日子、下照姬、天探女、高倉下。所有圖以既有思兼神作圓章與縮圖風格參考，每個節點仍有獨立提示詞。
+- 原初神處理：早期文本未提供天御中主與國常立的固定身體形象，兩者分別以宇宙中心光柱與永立國土石柱作抽象象徵；高皇產靈、神皇產靈採原創人物化，但提示與本紀錄明確限定「非公認／非原典固定外貌」，並以天孫降臨的生成之結、復生與五穀萌芽區分。
+- 宗像三女神維持同系列海神服飾，但以外海濃霧與遠島、島宮／琵琶與平靜潮水、急流／浪扇與近岸島分別標識田心姬、市杵島姬、湍津姬；其餘節點採雷稻農具／斬喪屋、天地分歧的回返神矢、暮野哀悼羽箭與鈴、雉鳥凶兆與逆紋扇、熊野倉庫與布都御魂等敘事意象。
+- 12 張原圖已存入 `assets/portraits/japan/`，縮至 256×256 PNG 並套用 254px 抗鋸齒圓形 alpha mask；日本神話插畫累計 52 張、約 7.93MB，逐檔尺寸與左上角 alpha 均通過。
+- `NODE_PORTRAITS` 新增 `amenominakanushi`、`takamimusubi`、`kamimusubi`、`kuninotokotachi`、`munakata_takiri`、`munakata_ichikishima`、`munakata_takitsu`、`ajishikitakahikone`、`amewakahiko`、`shitateruhime`、`amanosagume`、`takakuraji` 精確對應；未修改資料內容、座標、群組或關係。
+- 驗證：完整 JavaScript 語法、`git diff --check`、本機 HTTP 200 通過；瀏覽器逐一核對 12 個新節點，全部存在、具有 `.has-portrait` 並載入各自 PNG，天御中主與國常立兩個抽象圖亦正常套用，console 無 error／warning。第五、六批共 24 張新資產與 `NODE_PORTRAITS` 對應已一併納入本次交付。
