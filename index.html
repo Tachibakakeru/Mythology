@@ -116,10 +116,6 @@
 
   /* ---------- JAPAN VIEW ---------- */
   #japan{display:none;position:fixed;inset:0;background:var(--bg);}
-  @keyframes zoomIn  { from{opacity:0;transform:scale(.88)} to{opacity:1;transform:scale(1)} }
-  @keyframes zoomOut { from{opacity:1;transform:scale(1)} to{opacity:0;transform:scale(.88)} }
-  .zoom-in  { animation:zoomIn  .55s cubic-bezier(.22,.9,.32,1) both; }
-  .zoom-out { animation:zoomOut .42s cubic-bezier(.6,0,.8,.4) both; }
   #topbar{
     position:absolute;top:0;left:0;right:0;height:64px;z-index:10;
     display:flex;align-items:center;gap:16px;padding:0 20px;
@@ -377,7 +373,7 @@
       border-radius:18px 18px 0 0;
       transform:translateY(100%);
     }
-    #panel.open,#ypanel.open{transform:translateY(0);}
+    #panel.open,#ypanel.open{transform:translate3d(0,0,0)!important;}
 
     /* 妖怪圖鑑：整頁改為原生上下捲動，各分類改為左右滑動一列 */
     #ycanvasWrap{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
@@ -385,6 +381,162 @@
     .ygrid{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x;scroll-snap-type:x proximity;padding-bottom:6px;}
     .ycard{flex:none;scroll-snap-align:start;}
     #yzoomCtrl button:not(#yTopBtn){display:none;}
+  }
+
+  /* ---------- 互動式藍色介面層（首頁轉盤保留原本 3D 呈現） ---------- */
+  :root{
+    --bg:#060b16; --bg2:#0d1830; --card:#101d35; --accent:#67c2ff;
+    --text:#e6f3ff; --dim:#8aa9c9; --line:#294e76;
+    --glow:rgba(78,177,255,.28); --glass:rgba(11,25,49,.78);
+  }
+  :root[data-theme="light"]{
+    --bg:#eaf4ff; --bg2:#dcecff; --card:#ffffff; --accent:#087cd2;
+    --text:#10243c; --dim:#4d7094; --line:#9bc1e4; --glow:rgba(8,124,210,.20); --glass:rgba(250,253,255,.84);
+  }
+  body{background:radial-gradient(circle at 50% -20%,#12396c 0%,var(--bg) 42%,#040812 100%);}
+  button,input,textarea{font-family:inherit;}
+  button{transition:transform .2s ease,border-color .2s ease,color .2s ease,background .2s ease,box-shadow .2s ease;}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,.node:focus-visible,.ycard:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  #japan,#yokai{background:radial-gradient(circle at 48% -15%,#123866 0%,var(--bg) 48%,#050914 100%);}
+  #topbar,#ytopbar{
+    height:70px;padding:0 clamp(14px,2vw,28px);gap:12px;
+    background:linear-gradient(100deg,rgba(8,19,39,.94),var(--glass));
+    border-bottom:1px solid color-mix(in srgb,var(--line) 80%,transparent);
+    box-shadow:0 8px 26px rgba(0,0,0,.22);backdrop-filter:blur(18px) saturate(130%);
+  }
+  #topbar h2,#ytopbar h2{font-size:1.02em;text-shadow:0 0 18px var(--glow);}
+  #backBtn,#yBackBtn,#toYokaiBtn,#toMythBtn,#toDemonBtn,#jpLangBtn,#yLangBtn,
+  #resetBtn,#yResetBtn,#exportBtn,#favFilterBtn,#themeBtn,#ytopbar>button{
+    background:rgba(19,47,82,.26);border-color:color-mix(in srgb,var(--line) 85%,white 8%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 12px rgba(0,0,0,.10);
+  }
+  #backBtn:hover,#yBackBtn:hover,#toYokaiBtn:hover,#toMythBtn:hover,#toDemonBtn:hover,
+  #jpLangBtn:hover,#yLangBtn:hover,#resetBtn:hover,#yResetBtn:hover,#exportBtn:hover,
+  #favFilterBtn:hover,#themeBtn:hover,#ytopbar>button:hover,.groupPickerBtn:hover,.groupPickerBtn.active{
+    transform:translateY(-1px);background:rgba(36,104,169,.26);box-shadow:0 0 0 1px var(--glow),0 7px 18px rgba(0,0,0,.18);
+  }
+  #searchInput,#ysearchInput{
+    min-height:40px;background:rgba(4,12,28,.54);border-color:color-mix(in srgb,var(--line) 82%,transparent);
+    box-shadow:inset 0 1px 8px rgba(0,0,0,.16);transition:border-color .2s,box-shadow .2s,background .2s;
+  }
+  #searchInput:focus,#ysearchInput:focus{background:rgba(7,20,42,.78);box-shadow:0 0 0 3px var(--glow),inset 0 1px 8px rgba(0,0,0,.14);}
+  #searchResults,#yresults,.groupPickerList,#regionFilterList{
+    background:color-mix(in srgb,var(--card) 88%,#061326 12%);box-shadow:0 18px 42px rgba(0,0,0,.38);backdrop-filter:blur(18px);
+  }
+  #searchResults div:hover,#searchResults div.focused,#yresults div:hover,#yresults div.focused,.groupPickerList div:hover{background:rgba(70,153,225,.16);}
+
+  #canvasWrap{top:70px;background-color:var(--bg);background-image:
+    radial-gradient(circle at 50% 35%,rgba(64,151,230,.12),transparent 38%),
+    linear-gradient(rgba(93,169,237,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(93,169,237,.055) 1px,transparent 1px);
+    background-size:auto,34px 34px,34px 34px;}
+  #ycanvasWrap{top:70px;background-color:var(--bg);background-image:radial-gradient(circle at 50% 0,rgba(64,151,230,.10),transparent 42%);}
+  #stage{will-change:transform;}
+  #stage.smooth{transition:transform .62s cubic-bezier(.22,.9,.28,1);}
+  .node{
+    border-radius:13px;border-color:color-mix(in srgb,var(--line) 90%,white 10%);
+    background:linear-gradient(145deg,color-mix(in srgb,var(--card) 95%,#174777 5%),var(--card));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    padding-right:45px;
+    transition:transform .18s cubic-bezier(.2,.8,.3,1),border-color .18s,opacity .2s;
+  }
+  .node:hover{transform:translateY(-2px) scale(1.015);border-color:var(--accent);}
+  .node .name{letter-spacing:.025em;}
+  .node .role{color:color-mix(in srgb,var(--accent) 78%,transparent);}
+  .node.key{box-shadow:0 0 0 1px var(--accent),0 12px 26px rgba(0,0,0,.26),0 0 26px var(--glow);}
+  .node.highlight{background:linear-gradient(145deg,#263752,#171f35);transform:translateY(-4px) scale(1.035);box-shadow:0 0 0 2px #ff8a91,0 0 30px rgba(255,95,95,.52);}
+  .node.dim{filter:none;}
+  .groupbox{box-shadow:none;}
+  .groupbox .glabel{box-shadow:0 3px 8px rgba(0,0,0,.2);}
+  .edge{stroke-width:1.8;filter:none;}
+  .edge-label{border-radius:999px;padding:3px 8px;box-shadow:0 2px 6px rgba(0,0,0,.18);}
+  #stage.node-focus-mode .edge,#stage.node-focus-mode .edge-label{opacity:.055;}
+  #stage.node-focus-mode .edge.focus-related{opacity:.95;stroke-width:2.35;}
+  #stage.node-focus-mode .edge-label.focus-related{opacity:1;border-color:var(--accent);}
+
+  #panel,#ypanel{
+    top:70px;width:min(390px,88vw);padding:26px 24px 34px;
+    background:linear-gradient(155deg,color-mix(in srgb,var(--card) 93%,#173f6d 7%),var(--card));
+    border-left-color:color-mix(in srgb,var(--line) 75%,white 10%);box-shadow:-12px 0 28px rgba(0,0,0,.26);
+    opacity:0;contain:layout paint;will-change:transform,opacity;
+    transition:transform .3s cubic-bezier(.22,.9,.28,1),opacity .2s ease-out;
+  }
+  #panel.open,#ypanel.open{opacity:1;}
+  #panel::before,#ypanel::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.9;}
+  #panel .p-name,#ypanel .p-name{font-size:1.42em;letter-spacing:.04em;text-shadow:0 0 18px var(--glow);}
+  #panel .p-role,#ypanel .p-role{background:rgba(54,151,231,.13);border:1px solid rgba(103,194,255,.25);}
+  .p-sources a{background:rgba(26,95,153,.10);transition:transform .2s,border-color .2s,background .2s;}
+  .p-sources a:hover{transform:translateY(-1px);background:rgba(54,151,231,.17);}
+  #zoomCtrl,#yzoomCtrl{right:20px;bottom:20px;gap:9px;padding:7px;border:1px solid rgba(103,194,255,.22);border-radius:16px;background:rgba(8,22,43,.62);box-shadow:0 10px 24px rgba(0,0,0,.24);backdrop-filter:blur(12px);}
+  #zoomCtrl button,#yzoomCtrl button{border-radius:11px;background:rgba(24,57,94,.62);border-color:var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
+  #zoomCtrl button:hover,#yzoomCtrl button:hover{transform:scale(1.06);box-shadow:0 0 16px var(--glow);}
+
+  .ygroup{padding:16px;border:1px solid rgba(103,194,255,.08);border-radius:18px;background:linear-gradient(145deg,rgba(25,59,96,.12),transparent);transition:background .25s,border-color .25s,transform .25s;}
+  .ygroup:hover{border-color:rgba(103,194,255,.22);background:linear-gradient(145deg,rgba(25,79,130,.17),transparent);}
+  .ygroup h3{font-size:1.06em;letter-spacing:.04em;}
+  .ycard{border-radius:13px;background:linear-gradient(145deg,color-mix(in srgb,var(--card) 94%,#174777 6%),var(--card));box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .22s cubic-bezier(.2,.8,.3,1),border-color .22s,box-shadow .22s,opacity .3s;}
+  .ycard:hover{transform:translateY(-5px) scale(1.025);box-shadow:0 15px 25px rgba(0,0,0,.26),0 0 20px var(--glow);}
+  .ycard.highlight{transform:translateY(-4px) scale(1.03);}
+
+  /* 每個體系只覆寫主題 token；圖譜、搜尋、面板與互動仍共用一份實作。 */
+  #japan{
+    --theme-wash:rgba(73,159,232,.13);--theme-secondary:#7ec8ff;--theme-glyph:"✦";
+    --node-radius:13px;--node-border:solid;
+  }
+  #japan[data-pantheon="japan"]{--accent:#69bfff;--theme-wash:rgba(67,139,219,.14);--theme-secondary:#f06f7d;--theme-glyph:"⛩";--node-radius:15px 6px 15px 6px;}
+  #japan[data-pantheon="india"]{--accent:#f0b85b;--theme-wash:rgba(229,116,62,.16);--theme-secondary:#b68cff;--theme-glyph:"🪷";--node-radius:18px;}
+  #japan[data-pantheon="angels"]{--accent:#9bdcff;--theme-wash:rgba(164,216,255,.18);--theme-secondary:#f2d988;--theme-glyph:"✧";--node-radius:20px 20px 10px 10px;}
+  #japan[data-pantheon="demons"]{--accent:#cf79ff;--theme-wash:rgba(115,31,155,.18);--theme-secondary:#ff6b79;--theme-glyph:"♆";--node-radius:5px 16px 5px 16px;}
+  #japan[data-pantheon="greek"]{--accent:#70d5ff;--theme-wash:rgba(40,122,189,.15);--theme-secondary:#e5c36c;--theme-glyph:"Ω";--node-radius:5px;}
+  #japan[data-pantheon="norse"]{--accent:#8edfff;--theme-wash:rgba(83,176,213,.16);--theme-secondary:#bfd9e8;--theme-glyph:"ᚱ";--node-radius:3px 14px 3px 14px;}
+  #japan[data-pantheon="egypt"]{--accent:#e3bb5d;--theme-wash:rgba(41,105,167,.18);--theme-secondary:#5bb8dc;--theme-glyph:"𓂀";--node-radius:3px;}
+  #japan[data-pantheon="mesopotamia"]{--accent:#6fc9f0;--theme-wash:rgba(48,111,157,.16);--theme-secondary:#d79768;--theme-glyph:"𒀭";--node-radius:4px 12px 4px 12px;}
+  #japan[data-pantheon="persia"]{--accent:#63d9d0;--theme-wash:rgba(23,143,143,.16);--theme-secondary:#ffab57;--theme-glyph:"☀";--node-radius:16px 5px;}
+  #japan[data-pantheon="celtic"]{--accent:#70d6b0;--theme-wash:rgba(38,137,104,.17);--theme-secondary:#91c9ff;--theme-glyph:"☘";--node-radius:22px 8px 22px 8px;}
+  #japan[data-pantheon="arthurian"]{--accent:#80bfff;--theme-wash:rgba(42,86,165,.19);--theme-secondary:#e7cc79;--theme-glyph:"♜";--node-radius:12px 12px 22px 22px;}
+  #japan[data-pantheon="cthulhu"]{--accent:#63d2c6;--theme-wash:rgba(16,104,105,.19);--theme-secondary:#8f86d7;--theme-glyph:"◉";--node-radius:18px 5px 18px 5px;}
+  #yokai{--accent:#75c8ff;--theme-wash:rgba(62,118,183,.15);--theme-secondary:#d279ce;--theme-glyph:"👹";}
+  #japan,#yokai{background:radial-gradient(circle at 48% -12%,var(--theme-wash),transparent 38%),var(--bg);}
+  #japan #topbar,#yokai #ytopbar{background:linear-gradient(105deg,color-mix(in srgb,var(--bg2) 92%,var(--accent) 8%),var(--glass));}
+  #japan #canvasWrap,#yokai #ycanvasWrap{background-image:
+    radial-gradient(circle at 50% 30%,var(--theme-wash),transparent 40%),
+    linear-gradient(color-mix(in srgb,var(--accent) 7%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--accent) 7%,transparent) 1px,transparent 1px);
+    background-size:auto,34px 34px,34px 34px;}
+  #japan .node{border-radius:var(--node-radius);border-style:var(--node-border);background:linear-gradient(145deg,color-mix(in srgb,var(--card) 94%,var(--accent) 6%),var(--card));overflow:hidden;}
+  #japan .node::after{content:attr(data-avatar);position:absolute;right:7px;top:50%;translate:0 -50%;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 12px/1 "Noto Serif TC",serif;color:#fff;letter-spacing:-.08em;opacity:.82;pointer-events:none;background:linear-gradient(145deg,hsl(var(--avatar-hue) 72% 56%),color-mix(in srgb,var(--theme-secondary) 68%,#07111f));border:1px solid color-mix(in srgb,var(--accent) 58%,white 16%);box-shadow:inset 0 1px 0 rgba(255,255,255,.28);}
+  #japan .node.note::after{opacity:.48;border-style:dashed;}
+  #japan .node.has-portrait::after{content:"";background-image:var(--node-portrait);background-size:cover;background-position:center;opacity:1;}
+  #japan .node.key::after{opacity:1;}
+  #japan .node:hover{border-color:var(--accent);box-shadow:0 7px 15px rgba(0,0,0,.2);}
+  #japan .node.key{border-color:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 70%,transparent),0 0 16px color-mix(in srgb,var(--accent) 26%,transparent);}
+  @keyframes nodePop{0%{transform:scale(.96)}65%{transform:scale(1.045)}100%{transform:scale(1.035)}}
+  #japan .node.highlight{animation:nodePop .24s cubic-bezier(.2,.9,.25,1);}
+
+  @media (max-width:1100px){
+    #legend{display:none;}
+    #topbar,#ytopbar{gap:9px;}
+    #searchBox,#ysearchBox{max-width:280px;}
+  }
+  @media (max-width:700px){
+    #topbar,#ytopbar{height:62px;padding:0 10px;gap:8px;scroll-snap-type:x proximity;}
+    #topbar>* ,#ytopbar>*{scroll-snap-align:start;}
+    #topbar h2,#ytopbar h2{font-size:.86em;}
+    #backBtn,#yBackBtn,#toYokaiBtn,#toMythBtn,#toDemonBtn,#jpLangBtn,#yLangBtn,#resetBtn,#yResetBtn,#favFilterBtn{padding:7px 10px;}
+    #canvasWrap,#ycanvasWrap{top:62px;}
+    #panel,#ypanel{
+      top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;height:72dvh;max-height:80dvh;
+      border-left:none;border-top:1px solid var(--line);border-radius:20px 20px 0 0;
+      padding:22px 18px 30px;transform:translateY(100%);
+      background:linear-gradient(160deg,color-mix(in srgb,var(--card) 94%,#174777 6%),var(--card));
+    }
+    #panel.open,#ypanel.open{transform:translateY(0);}
+    #panel::before,#ypanel::before{left:22%;right:22%;border-radius:999px;}
+    #zoomCtrl,#yzoomCtrl{right:12px;bottom:12px;padding:5px;border-radius:14px;}
+    .ygroup{padding:12px;margin-bottom:18px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #japan .node,#yokai .ycard,#panel,#ypanel,#stage.smooth,#ystage.smooth{transition-duration:.12s!important;}
   }
 </style>
 </head>
@@ -5846,6 +5998,50 @@ const nodes = {};
 const PAD = 60;
 let totalW = 0, totalH = 0;
 
+// 原創角色圖逐批加入；未有獨立插畫者使用依節點名稱與職能生成的唯一輕量徽章。
+const NODE_PORTRAITS = {
+  'japan:izanagi':'assets/portraits/japan/izanagi.png',
+  'japan:izanami':'assets/portraits/japan/izanami.png',
+  'japan:amaterasu':'assets/portraits/japan/amaterasu.png',
+  'japan:tsukuyomi':'assets/portraits/japan/tsukuyomi.png',
+  'japan:susanoo':'assets/portraits/japan/susanoo.png',
+  'japan:okuninushi':'assets/portraits/japan/okuninushi.png',
+  'japan:takemikazuchi':'assets/portraits/japan/takemikazuchi.png',
+  'japan:konohanasakuyahime':'assets/portraits/japan/konohanasakuyahime.png',
+  'japan:ninigi':'assets/portraits/japan/ninigi.png',
+  'japan:jimmu':'assets/portraits/japan/jimmu.png',
+  'japan:omoikane':'assets/portraits/japan/omoikane.png',
+  'japan:amenouzume':'assets/portraits/japan/amenouzume.png',
+  'japan:sarutahiko':'assets/portraits/japan/sarutahiko.png',
+  'japan:kushinadahime':'assets/portraits/japan/kushinadahime.png',
+  'japan:yamatanoorochi':'assets/portraits/japan/yamatanoorochi.png',
+  'japan:kusanagi':'assets/portraits/japan/kusanagi.png',
+  'japan:ukanomitama':'assets/portraits/japan/ukanomitama.png',
+  'japan:hachiman':'assets/portraits/japan/hachiman.png',
+  'japan:yatagarasu':'assets/portraits/japan/yatagarasu.png',
+  'japan:inaba_usagi':'assets/portraits/japan/inaba_usagi.png',
+  'japan:owatatsumi':'assets/portraits/japan/owatatsumi.png',
+  'japan:toyotamahime':'assets/portraits/japan/toyotamahime.png',
+  'japan:hoori':'assets/portraits/japan/hoori.png',
+  'japan:sukunabikona':'assets/portraits/japan/sukunabikona.png',
+  'japan:takeminakata':'assets/portraits/japan/takeminakata.png',
+  'japan:yamatotakeru':'assets/portraits/japan/yamatotakeru.png',
+  'japan:amenoohabari':'assets/portraits/japan/amenoohabari.png',
+  'japan:shiotsuchi':'assets/portraits/japan/shiotsuchi.png',
+};
+function portraitForNode(n){ return NODE_PORTRAITS[`${currentPantheon}:${n.id}`] || ''; }
+function nodeAvatarText(n){
+  if(n.isNote) return '註';
+  const text = `${n.role||''} ${n.name}`;
+  const mark = /天使|翼/.test(text)?'翼':/惡魔|魔神|鬼/.test(text)?'角':/太陽|日神/.test(text)?'日':/月神|月亮/.test(text)?'月':/雷|風暴/.test(text)?'雷':/海|水|河/.test(text)?'水':/劍|刀|矛|神器/.test(text)?'刃':/書|經|典籍/.test(text)?'典':/王|皇帝/.test(text)?'王':/地點|山|城|國/.test(text)?'地':'';
+  const initial = [...String(n.name||'?').replace(/[《》〈〉「」『』・\s]/g,'')][0] || '?';
+  return mark ? mark+initial : initial;
+}
+function nodeAvatarHue(id){
+  let hash=0; for(const ch of id) hash=(hash*31+ch.codePointAt(0))%360;
+  return hash;
+}
+
 function centerX(n){ return n.px + NODE_W/2; }
 function centerY(n){ return n.py + NODE_H/2; }
 
@@ -5923,6 +6119,13 @@ Object.values(nodes).forEach(n=>{
   div.style.left=n.px+'px';
   div.style.top=n.py+'px';
   div.dataset.id=n.id;
+  div.dataset.avatar=nodeAvatarText(n);
+  div.style.setProperty('--avatar-hue',nodeAvatarHue(`${currentPantheon}:${n.id}`));
+  const portrait=portraitForNode(n);
+  if(portrait){
+    div.classList.add('has-portrait');
+    div.style.setProperty('--node-portrait',`url("${portrait}")`);
+  }
   div.innerHTML=`<div class="name">${n.name}</div>${n.kana?('<div class="kana">'+n.kana+'</div>'):''}${n.role?('<div class="role">'+n.role+'</div>'):''}`;
   div.addEventListener('click', (ev)=>{ ev.stopPropagation(); focusNode(n.id); });
   stage.appendChild(div);
@@ -6276,7 +6479,7 @@ function clampGraphView(){
   tx = Math.min(maxTx, Math.max(minTx, tx));
   ty = Math.min(maxTy, Math.max(minTy, ty));
 }
-function applyTransform(){ clampGraphView(); stage.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`; }
+function applyTransform(){ clampGraphView(); stage.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${scale})`; }
 
 function fitInitial(smooth){
   const r = wrap.getBoundingClientRect();
@@ -6310,6 +6513,12 @@ wrap.addEventListener('wheel', e=>{
   const factor = e.deltaY<0 ? 1.1 : 0.9;
   zoomAt(mx,my,factor);
 }, {passive:false});
+wrap.addEventListener('dblclick', e=>{
+  if(e.target.closest('.node, .edge-label')) return;
+  const rect = wrap.getBoundingClientRect();
+  setSmooth(true);
+  zoomAt(e.clientX-rect.left,e.clientY-rect.top,1.45);
+});
 
 function zoomAt(mx,my,factor){
   const newScale = Math.min(3, Math.max(0.1, scale*factor));
@@ -6512,7 +6721,9 @@ function openPanel(n){
   if(n.role){ roleEl.style.display='inline-block'; roleEl.textContent = n.role; } else { roleEl.style.display='none'; }
   document.getElementById('p-desc').textContent = n.desc||jpText('noDetail');
   const figs = document.getElementById('p-figs');
-  figs.innerHTML = figsHTML(rec);
+  const portrait = portraitForNode(n);
+  const portraitHTML = portrait ? `<figure><img src="${portrait}" alt="${n.name}原創節點插畫" loading="lazy" decoding="async" data-cap="${n.name}原創節點插畫（視覺識別用途，非古代圖像史料）"><figcaption>原創節點插畫・非史料形象</figcaption></figure>` : '';
+  figs.innerHTML = portraitHTML + figsHTML(rec);
   figs.style.display = figs.innerHTML ? 'flex' : 'none';
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
@@ -6657,13 +6868,27 @@ const searchResults = document.getElementById('searchResults');
 
 let selectedUnionId = null;
 let selectedGroupIdx = null;
+let focusedRelationEls = [];
 function clearHighlight(){
-  document.querySelectorAll('.node').forEach(d=>d.classList.remove('highlight','dim'));
-  document.querySelectorAll('.edge').forEach(p=>p.classList.remove('hl','dim-edge'));
-  document.querySelectorAll('.groupbox').forEach(b=>b.classList.remove('hl','dim-box'));
-  document.querySelectorAll('.edge-label').forEach(l=>l.classList.remove('dim-label'));
+  stage.querySelectorAll('.node.highlight,.node.dim').forEach(d=>d.classList.remove('highlight','dim'));
+  stage.querySelectorAll('.edge.hl,.edge.dim-edge').forEach(p=>p.classList.remove('hl','dim-edge'));
+  stage.querySelectorAll('.groupbox.hl,.groupbox.dim-box').forEach(b=>b.classList.remove('hl','dim-box'));
+  stage.querySelectorAll('.edge-label.dim-label').forEach(l=>l.classList.remove('dim-label'));
+  focusedRelationEls.forEach(el=>el.classList.remove('focus-related'));
+  focusedRelationEls=[];
+  stage.classList.remove('node-focus-mode');
   selectedUnionId = null;
   selectedGroupIdx = null;
+}
+function focusRelationsForNode(id){
+  stage.classList.add('node-focus-mode');
+  const ids=new Set([id]);
+  UNIONS.forEach((u,uid)=>{
+    if(!unionTouches(u,ids)) return;
+    stage.querySelectorAll(`[data-uid="${uid}"]`).forEach(el=>{
+      el.classList.add('focus-related'); focusedRelationEls.push(el);
+    });
+  });
 }
 // 血緣線與說明文字只留下與選取對象有關的那些，其餘淡化
 function dimLinesExcept(isRelated){
@@ -6755,16 +6980,15 @@ function focusNode(id){
   const n = nodes[id];
   if(!n) return;
   clearHighlight();
-  dimLinesExcept(u=> unionTouches(u, new Set([id])));
-  dimGroupsExcept(new Set([id]));
+  focusRelationsForNode(id);
   const div = document.querySelector(`.node[data-id="${id}"]`);
   if(div) div.classList.add('highlight');
   const rect = wrap.getBoundingClientRect();
   setSmooth(true);
   scale = Math.min(1.6, Math.max(scale, 1.3));
+  const panelW = innerWidth>700 ? Math.min(390,innerWidth*.88) : 0;
   openPanel(n);
   // 右側資訊面板會覆蓋畫布；以未被覆蓋的區域置中，避免搜尋命中節點落在面板後方。
-  const panelW = panel.classList.contains('open') ? panel.getBoundingClientRect().width : 0;
   tx = (rect.width-panelW)/2 - centerX(n)*scale;
   ty = rect.height/2 - centerY(n)*scale;
   applyTransform();
@@ -6911,16 +7135,45 @@ document.addEventListener('click', e=>{
 });
 
 /* ============ 頁面切換 ============ */
+function animateViewIn(el,onDone){
+  clearTimeout(el._viewTimer);
+  el.style.pointerEvents='none';
+  el.style.opacity='0';
+  el.style.willChange='opacity';
+  el.style.transition='none';
+  getComputedStyle(el).opacity;
+  el.style.transition='opacity .3s cubic-bezier(.2,.8,.25,1)';
+  el.style.opacity='1';
+  el._viewTimer=setTimeout(()=>{
+    el.style.pointerEvents=''; el.style.willChange=''; el.style.transition=''; el._viewTimer=null; onDone?.();
+  },330);
+}
+function animateViewOut(el,onDone){
+  clearTimeout(el._viewTimer);
+  el.style.pointerEvents='none';
+  el.style.willChange='opacity';
+  el.style.transition='opacity .24s ease-in';
+  getComputedStyle(el).opacity;
+  el.style.opacity='0';
+  el._viewTimer=setTimeout(()=>{
+    el.style.display='none'; el.style.opacity='1'; el.style.pointerEvents=''; el.style.willChange=''; el.style.transition=''; el._viewTimer=null; onDone?.();
+  },270);
+}
+function showViewImmediately(el){
+  clearTimeout(el._viewTimer);
+  el._viewTimer=null; el.style.display='block'; el.style.opacity='1'; el.style.pointerEvents=''; el.style.willChange=''; el.style.transition='';
+}
 function openPantheon(key){
-  document.getElementById('home').style.display='none';
+  const homeEl=document.getElementById('home');
+  const fromHome=homeEl.style.display!=='none';
   document.getElementById('yokai').style.display='none';
   const japanEl = document.getElementById('japan');
-  japanEl.style.display='block';
-  japanEl.classList.remove('zoom-out');
-  void japanEl.offsetWidth;
-  japanEl.classList.add('zoom-in');
+  japanEl.dataset.pantheon=key;
+  if(fromHome){ japanEl.style.display='block'; japanEl.style.opacity='0'; }
+  else showViewImmediately(japanEl);
   if(key !== currentPantheon || !Object.keys(nodes).length) loadPantheon(key);
-  requestAnimationFrame(()=>fitInitial());
+  fitInitial();
+  if(fromHome) animateViewIn(japanEl,()=>{ homeEl.style.display='none'; });
   localStorage.setItem('mythCurrentPage', key);
 }
 function openJapan(){ openPantheon('japan'); }
@@ -6946,13 +7199,7 @@ function openCthulhu(){ openPantheon('cthulhu'); }
 function closeJapan(){
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
-  japanEl.classList.remove('zoom-in');
-  void japanEl.offsetWidth;
-  japanEl.classList.add('zoom-out');
-  japanEl.addEventListener('animationend', ()=>{
-    japanEl.style.display='none';
-    japanEl.classList.remove('zoom-out');
-  }, {once:true});
+  animateViewOut(japanEl);
   localStorage.setItem('mythCurrentPage','home');
 }
 window.addEventListener('resize', ()=>{ if(document.getElementById('japan').style.display==='block'){ setSmooth(false); fitInitial(); } });
@@ -7328,7 +7575,7 @@ function yClamp(){
   ytx = Math.min(maxTx, Math.max(minTx, ytx));
   yty = Math.min(maxTy, Math.max(minTy, yty));
 }
-function yApplyTransform(){ yClamp(); ystage.style.transform = `translate(${ytx}px,${yty}px) scale(${yscale})`; }
+function yApplyTransform(){ yClamp(); ystage.style.transform = `translate3d(${ytx}px,${yty}px,0) scale(${yscale})`; }
 
 ycanvasWrap.addEventListener('mousedown', e=>{
   ydragging=true; ylastX=e.clientX; ylastY=e.clientY;
@@ -7363,6 +7610,12 @@ function yZoomBy(factor){
   const rect = ycanvasWrap.getBoundingClientRect();
   yZoomAt(rect.width/2, rect.height/2, factor);
 }
+ycanvasWrap.addEventListener('dblclick', e=>{
+  if(yIsMobile() || e.target.closest('.ycard')) return;
+  const rect=ycanvasWrap.getBoundingClientRect();
+  ySetSmooth(true);
+  yZoomAt(e.clientX-rect.left,e.clientY-rect.top,1.35);
+});
 // 行動裝置改用原生上下捲動＋各分類橫向滑動，不套用桌機的平移縮放畫布
 function yIsMobile(){ return window.matchMedia('(max-width:700px)').matches; }
 function yResetView(){
@@ -7720,20 +7973,23 @@ function yFocusGroup(idx){
 
 /* ============ 妖怪頁：頁面切換 ============ */
 function openYokai(){
-  document.getElementById('japan').style.display='none';
+  const japanView=document.getElementById('japan');
   document.getElementById('home').style.display='none';
-  document.getElementById('yokai').style.display='block';
+  const yokaiEl=document.getElementById('yokai');
+  showViewImmediately(yokaiEl);
   ySetSmooth(false);
   yscale=1; ytx=0; yty=0;
   yApplyTransform();
   applyJapanLocale();
   applyYokaiLocale();
   renderYokai();
+  japanView.style.display='none';
   localStorage.setItem('mythCurrentPage','yokai');
 }
 function closeYokai(){
-  document.getElementById('yokai').style.display='none';
+  const yokaiEl=document.getElementById('yokai');
   document.getElementById('home').style.display='flex';
+  animateViewOut(yokaiEl);
   localStorage.setItem('mythCurrentPage','home');
 }
 function backToMyth(){
@@ -8017,9 +8273,9 @@ function toggleTheme(){
 })();
 
 /* ============ 重整頁面後停留在原本的頁面 ============ */
-loadPantheon('japan');
-// 網頁字型載入後方塊高度會改變，重畫一次讓連線與標籤依最終尺寸重新計算
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>renderGraph());
+// 首頁不預先建立 262 個日本節點；首次進入任一體系時才載入，避免首頁初始化卡頓。
+// 網頁字型在圖譜開啟後才完成時，再依最終字高重畫一次。
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ if(Object.keys(nodes).length) renderGraph(); });
 
 // 每次開啟網站一律回到首頁（不還原上次瀏覽的頁面）
 </script>

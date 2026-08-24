@@ -332,3 +332,59 @@
 - 修正「有名稱但搜尋不到」的資料缺口：Ammel→Ammiel、Asbeer→Asbeel、Baraquieel→Baraquiel、Gadrel→Gadreel、Benemel→Bemenel、Pharmoros→Pharmaros 均已在天使與惡魔的 `aliases` 同步建立；搜尋任一拼法都會定位同一個節點，而不重複建立誤導性的第二人物。
 - 惡魔頁新增兩個新約節點，現為 119 節點。「魔鬼與其使者」對應《馬太福音》25:41與《啟示錄》12:9的集體說法，明示經文未列個別名單；「群／軍團」對應《馬可福音》5章污靈自稱，明示它是集合名稱且經文未固定其為撒但直屬。撒但—別西卜新增福音書的關係線，但標籤保留「鬼王／撒但國度語彙」與非固定主從的限制。
 - 天使頁新增「舊約／希伯來聖經：神使者與異象」、「新約／《啟示錄》：天使、天軍與終末異象」、「次經與第二聖殿文獻：拉斐爾與守望者」三個比較群組；惡魔頁新增相對應的新約、舊約／希伯來聖經與次經／第二聖殿群組。各節點面板分別連到舊約段落、新約福音書／啟示錄段落或既有以諾、托比特來源，避免把後期惡魔學分類混入聖經文本比較。
+
+## 2026-08-24｜全站互動式藍色 UI 升級（未 push）
+
+- 依使用者授權，在 `index.html` 的共用 CSS 層重整所有非首頁轉盤畫面；首頁 3D 轉盤的卡牌、排列、手勢與輪轉邏輯完全保留。配色改為深藍至亮藍主軸，新增深度漸層背景、低對比格線畫布、半透明／模糊控制列、發光焦點與一致的 hover／focus 回饋；沒有新增框架、外部依賴或資料格式。
+- 主圖譜與妖怪圖鑑的節點卡改為有景深陰影、藍色描邊與平滑抬升效果；群組標籤、關係標籤、搜尋／群組清單、來源連結、縮放控制與資訊面板同步套用同一視覺語言。面板維持原有資料、來源、圖片燈箱、編輯與跨頁切換功能，只更新外觀與開合緩動。
+- 將 `applyTransform()`／`yApplyTransform()` 改為 `translate3d()`，並於兩種畫布的空白區加入雙擊以游標為中心的平滑放大；節點、關係標籤與妖怪卡會排除，避免干擾既有點選行為。加入 `prefers-reduced-motion` 規則，降低動態偏好下會停用非必要動畫。
+- 響應式：1100px 以下隱藏工具列圖例；700px 以下維持工具列可水平操作、畫布位於 62px 標題列下，資訊面板改為全寬底部抽屜。實測時發現新版桌面寬度規則覆蓋了既有手機抽屜，造成面板雖有 `.open` 仍停在畫面外；已以行動版明確全寬尺寸與 `translate3d(0,0,0)!important` 修正，避免桌面側欄 transform 殘留。
+- 驗證：本機 `http://127.0.0.1:7788/` 桌面版確認日本神話載入 262 節點、深藍格線、控制列與縮放按鈕；390×844 模擬確認 62px 工具列、全寬底部詳情抽屜及節點開啟均正常；瀏覽器 console 無 error／warning。此次變更依使用者指示暫不 Git push；修改前基準仍為本機／遠端 commit `f365fa3`。
+
+## 2026-08-24｜轉盤／淡入回歸修正與十二體系主題化（未 push）
+
+- 修正首頁轉盤失去平滑、頁面淡入淡出近乎消失的根因：前一版 `@media (prefers-reduced-motion:reduce)` 對全站 `*` 強制把 transition／animation 壓到 `.01ms`，而目前測試環境確實命中降低動態偏好。規則已縮限至圖譜節點、妖怪卡、面板與畫布平滑位移，不再干涉首頁 `#wheel` 與頁面進出動畫；實測轉盤恢復原本 `.62s cubic-bezier(.25,.9,.3,1)`。
+- 修正滑動畫布卡頓：移除套在整個 `#stage` 上的 `filter:drop-shadow()`，並取消每一個普通節點常駐的大範圍外陰影，只在 hover、highlight 與核心節點顯示光暈。主圖譜與妖怪畫布仍使用 `translate3d()`，資料、邊線與定位規則不變。
+- 將原本縮放 0.88 的頁面動畫改為純 opacity 淡入／淡出，避免對包含數百節點的固定頁面做整體縮放重繪；新增 `animateViewIn()`／`animateViewOut()` 共用函式，日本妖怪頁的開啟、返回首頁及返回神話頁也納入同一動畫流程。
+- `openPantheon(key)` 現在設定 `#japan[data-pantheon]`。共用 CSS 依體系套用主題 token：日本（鳥居藍紅）、印度（藏紅花與蓮花紫）、天使（天光藍金）、惡魔（紫紅尖角）、希臘（愛琴藍與石柱幾何）、北歐（冰藍盧恩）、埃及（金與青金石）、美索不達米亞（陶土與楔形符號）、波斯（綠松石與火光）、凱爾特（翠綠與三葉）、亞瑟（皇家藍金與盾形）、克蘇魯（深海綠與不規則圓角）。每個節點會顯示低透明度主題徽記，註記節點除外；沒有複製頁面或新增依賴。
+- 圖像策略：本輪未為上千節點自動套用 Q 版人物圖，因重複泛圖、無來源圖或大量生成圖會降低辨識與載入效能；先以可縮放的文字徽記與輪廓完成全量主題化。後續可按體系逐批為核心角色建立有授權／有出處的圖像資產。
+- 視覺驗證：環境命中 `prefers-reduced-motion` 時首頁轉盤仍保持 `.62s`；印度頁確認 `data-pantheon="india"`、金色 accent、蓮花徽記與 18px 圓角；克蘇魯頁確認深海綠 accent、獨立徽記與不規則圓角；離開印度頁時 `zoomOut` 動畫正常啟動，兩頁的整體 stage filter 均為 `none`，console 無 error／warning。仍未 commit／push。
+
+## 2026-08-24｜節點點擊效能、無閃光轉場與節點圖像第一批（未 push）
+
+- 節點卡頓根因：點擊節點時原本會對數百條線、關係標籤與群組逐一切換淡化 class，同時讓全部 SVG 線條使用 `drop-shadow`、關係標籤與移動中的詳情面板使用 `backdrop-filter`。日本頁實測有 262 節點與 328 條 SVG 線，舊版自動化點擊可等待約 2.46 秒。
+- 效能修正：普通節點 hover 改成小幅 `transform`，移除常態大陰影、`transform-style`、節點 dim 的 filter、全部線條 drop-shadow、群組常駐內光與關係標籤 blur；詳情面板移除 backdrop blur，改用 `transform + opacity` 及 `contain:layout paint`。節點聚焦不再逐一淡化所有線，而由 `#stage.node-focus-mode` 統一降低線條，只為真正相關的少數元素加入 `focus-related`；`clearHighlight()` 也只清理由狀態 class 命中的元素。
+- 點擊流程修正：面板寬度改由 viewport 計算，不再於寫入完整面板 DOM 後呼叫 `getBoundingClientRect()` 造成同步重排。保留節點置中、關係高亮與面板內容功能；新增只作用於目前選取節點的 240ms `nodePop` 彈跳。
+- 無閃光轉場：首頁不再啟動時預建 262 個隱藏日本節點，首次進入任一體系才載入。點卡後先在仍可見的首頁上完成圖譜佈局，圖譜以 300ms opacity 淡入，完成後才隱藏首頁；離開則先顯示首頁再以 240ms 淡出。最初採原生 Web Animations／`requestAnimationFrame`，實測背景分頁會停住完成回呼與 frame，因此改為 opacity transition 加明確 timer 收尾，只強制計算單一容器 opacity，不量測整張圖。
+- 全節點視覺：共用 `nodeAvatarText()` 會依天使、惡魔、太陽、月、雷、水、神器、典籍、王者、地點等職能與名稱首字產生節點識別徽章，`nodeAvatarHue()` 依體系與 ID 產生穩定色相；因此目前及未來所有主圖譜節點都會自動得到視覺標記，註記節點顯示「註」。此方案沒有增加圖片請求或解碼負擔。
+- 獨立插畫第一批：使用內建圖像生成建立日本神話的伊邪那岐、伊邪那美、天照大神、須佐之男四張原創 Q 版圓形節點插畫，存於 `assets/portraits/japan/`；原始 1280px 圖先縮為 256px PNG，四張合計約 569KB。`NODE_PORTRAITS` 只載入對應角色，節點與面板均顯示，面板明確標作「原創節點插畫・非史料形象」。未有獨立插畫的節點先保留可辨識徽章，後續依體系逐批替換，不共用假肖像。
+- 驗證：`node --check`、`git diff --check` 通過；本機 HTTP 200。瀏覽器確認首頁初始節點數為 0，進頁後日本 262 節點皆有 `data-avatar`、其中 4 個有獨立 portrait；進頁時首頁在圖譜 opacity 0→0.895 的階段仍維持顯示，完成後才隱藏。實際座標點擊回應約 265ms，面板 opacity 最終為 1，線條 filter 與面板 backdrop-filter 均為 `none`，console 無 error／warning。本批未 commit／push。
+
+## 2026-08-24｜日本神話原創節點插畫第二批（未 push）
+
+- 使用內建圖像生成沿用第一批「圓形徽章、Q 版 2D 遊戲 UI、透明外圍、縮圖強輪廓」規格，新增月讀命、大國主神、建御雷大神、木花開耶姬、瓊瓊杵尊與神武天皇六張獨立插畫。角色辨識分別使用月輪與靜水、因幡白兔與行囊、雷光與神劍／鹿、櫻花與富士／火焰、天孫降臨與三種神器、東征弓矢與八咫烏意象。
+- 六張原始生成圖已複製到 `assets/portraits/japan/`，縮為 256×256 PNG；加上第一批後共有 10 張。產圖服務在月讀、大國主、建御雷、瓊瓊杵與神武原圖的圓章外留下半透明棋盤殘影，因此對全套 10 張統一套用 254px 抗鋸齒圓形 alpha mask；驗證每張左上角 alpha 均為 0，面板放大不會出現方形底色。
+- `NODE_PORTRAITS` 新增 `tsukuyomi`、`okuninushi`、`takemikazuchi`、`konohanasakuyahime`、`ninigi`、`jimmu` 對應；共用節點與詳情面板會自動載入，未改動節點資料、座標、群組或關係。
+- 驗證：完整 JavaScript 語法、`git diff --check` 與本機 HTTP 200 通過；10 張皆為 256×256、左上角 alpha 0，總大小約 1.49MB。瀏覽器依六個精確節點 ID 核對，全部存在、具有 `.has-portrait`，且 `::after` 背景分別指向正確本機 PNG；console 無 error／warning。
+
+## 2026-08-24｜日本神話原創節點插畫第三批（未 push）
+
+- 使用內建圖像生成沿用既有圓形 Q 版 2D 遊戲 UI 規格，新增思兼神、天宇受賣命、猿田彥、櫛名田比賣、八岐大蛇與草薙劍六張獨立圖像，補入智慧／策略、舞樂／破曉、道路引導、稻田與神梳、八首巨蛇、雲與斬草神劍等可縮圖辨識的意象；本批同時涵蓋人物、神獸與神器節點，沒有拿人物泛圖替代非人物節點。
+- 六張生成圖已存入 `assets/portraits/japan/` 並縮為 256×256 PNG；全部套用 254px 抗鋸齒圓形 alpha mask。日本神話原創節點插畫累計 16 張，逐檔驗證尺寸為 256×256 且左上角 alpha 為 0。
+- `NODE_PORTRAITS` 新增 `omoikane`、`amenouzume`、`sarutahiko`、`kushinadahime`、`yamatanoorochi`、`kusanagi` 對應；沿用共用節點及詳情面板載入與「原創節點插畫・非史料形象」標示，未修改節點資料、位置、群組與關係。
+- 驗證：完整 JavaScript 語法、`git diff --check` 與本機 HTTP 200 通過；16 張資產共約 2.30MB。瀏覽器實際進入日本神話後，六個新節點均存在、具有 `.has-portrait`，且 `::after` 分別載入正確 PNG；console 無 error／warning。本批依指示未 commit／push。
+
+## 2026-08-24｜日本神話原創節點插畫第四批（未 push）
+
+- 本批一次新增 12 張原創節點圖：宇迦之御魂、八幡神、八咫烏、因幡白兔、大綿津見、豐玉媛、山幸彥、少彥名、建御名方、日本武尊、天之尾羽張與鹽土老翁。使用內建圖像生成，以既有思兼神 PNG 僅作圓章、線條與縮圖構圖參考，每個資產仍使用獨立提示詞，沒有複製同一張人物臉到不同節點。
+- 視覺辨識分別採用稻穗／白狐、弓與白鴿、三足神烏、蒲穗與渡海白兔、潮珠與海神宮、海獸真身暗示、魚鉤與潮珠、植物莢舟與藥草、諏訪山湖與力比、草薙劍／野火／白鳥、火雷雙色十拳劍、潮流杖／鹽／籠舟等故事符號；人物、神獸、故事節點及神器採用各自構圖，不以不相干泛圖替代。
+- 12 張生成圖已存入 `assets/portraits/japan/`，縮為 256×256 PNG 並統一套用 254px 抗鋸齒圓形 alpha mask，移除原始產圖外圍的棋盤或黑底殘影。逐檔檢查尺寸與左上角 alpha 後，日本神話插畫累計 28 張。
+- `NODE_PORTRAITS` 新增 `ukanomitama`、`hachiman`、`yatagarasu`、`inaba_usagi`、`owatatsumi`、`toyotamahime`、`hoori`、`sukunabikona`、`takeminakata`、`yamatotakeru`、`amenoohabari`、`shiotsuchi` 精確對應；未修改節點內容、座標、群組或關係，並維持詳情面板的「原創節點插畫・非史料形象」標示。
+- 驗證：完整 JavaScript 語法、`git diff --check` 與本機 HTTP 200 通過；28 張日本神話資產合計約 4.16MB。瀏覽器重載後實際進入日本神話，12 個新節點皆存在、具有 `.has-portrait` 並指向各自 PNG；含 `isNote` 的因幡白兔故事節點亦正常顯示，console 無 error／warning。本批依指示未 commit／push。
+
+## 2026-08-24｜內部頁面切換閃光修正（準備 push）
+
+- 閃光根因是 `openPantheon()` 對共用的 `#japan` 容器切換資料時仍把整頁 opacity 重設為 0；天使／惡魔因此會先露出空背景再淡入。妖怪返回神話則先把 `#yokai` 淡出到透明，270ms 後才開啟並再次淡入神話頁，形成兩段空白幀。這些路徑與首頁進出不同，不應使用整頁轉場。
+- 新增最小共用 `showViewImmediately()`：取消殘留 timer，將目標頁固定為 display block、opacity 1，並清除 pointer-events、will-change 與 inline transition。`openPantheon()` 現在只有從首頁進入時才呼叫 `animateViewIn()`；已在圖譜內或由妖怪頁返回時直接同步換頁。`openYokai()` 與 `backToMyth()` 同樣改為不經完整視窗透明化的直接切換。
+- `animateViewIn()`／`animateViewOut()` 完成後補上 inline transition 清理，避免先前的 opacity 規則留在容器上影響後續切換；首頁原有淡入淡出與 3D 轉盤完全保留。
+- 驗證：JavaScript 語法、`git diff --check`、本機 HTTP 200 通過。瀏覽器實測日本神話→妖怪、妖怪→日本神話、天使→惡魔、惡魔→天使四條路徑；切換完成時目標頁皆為 display block、opacity 1、inline transition 空值，來源頁隱藏，console 無 error／warning。
