@@ -434,3 +434,9 @@
 - 圖像資產：使用內建圖像生成新增 12 張原創節點插畫：天岩戶隱居、三種神器、國讓、神武東征、黃泉國、八雷神、浦島太郎、輝夜姬、惠比壽、熊野信仰、金剛藏王與天日槍。每張採獨立提示，沿用既有日系幻想遊戲圓章風格，指定故事辨識符號、無文字／浮水印、透明圓形外緣與非史料形象定位；人物圖沒有被用作抽象事件或其他人物的共用肖像。
 - 接入方式：12 張合格原圖轉為 `assets/portraits/japan/` 下的 256×256 RGBA PNG，統一以 254px 抗鋸齒圓形 alpha mask 去除方形底與外緣殘影；`NODE_PORTRAITS` 新增 `amenoiwato_note`、`sanshu_note`、`kuniyuzuri_note`、`jimmu_toseikou`、`yomotsukuni_note`、`hachiraijin_note`、`urashima`、`kaguyahime`、`ebisu`、`kumano_note`、`zao`、`amenohiboko` 精確映射。未改動節點資料、座標、群組、關係與圖譜互動邏輯。
 - 驗證：12 張均為 256×256 RGBA，左上角 alpha 均為 0；inline JavaScript `node --check` 與 `git diff --check` 通過。本機 `http://127.0.0.1:7788/` 重載後進入日本神話，12 個精確節點皆具有 `.has-portrait` 並指向預期本機 PNG，主控台 warning／error 為 0。日本神話原創節點插畫由 63 張增至 75 張；原圖逐張目視檢查均可辨識天岩戶鏡光、鏡玉劍、稻佐之濱的劍上坐神、八咫烏引路、黃泉封石、八種雷靈、龍宮與玉手箱、竹中輝夜、鯛與釣竿、熊野烏與瀑布、山岳修驗形象、渡海持寶者等故事元素。本批依使用者要求仍未 commit、未 push。
+
+## 2026-08-27｜日本神話繁中卡片與關係標籤語言修正（未 push）
+
+- 問題：繁中模式先前僅切換面板故事敘述；圖譜卡片仍把原始 `kana` 與日文 `role` 直接渲染，`JP_UNIONS` 的日文關係 `label` 也未經本地化。因此繁中頁仍會出現如「須佐之男命の子・穀物神」、「稔りを司る子神」等日文殘留。
+- 修正：`index.html` 新增 `localNodeRole()`、`localNodeKana()` 與 `localRelationLabel()`。日本繁中模式會隱藏卡片及面板的假名，以 `JP_DESC_ZH` 的首句產出短繁中角色摘要（使用者手動編輯的角色文字保持原樣）；日文模式不變。所有 49 條 `JP_UNIONS` 日文關係標籤已加入 `JP_RELATION_ZH` 對照，並在繪製標籤時統一套用；這是渲染層修正，未修改節點資料、座標或關係拓撲。
+- 驗證：靜態比對確認 49 條日本關係標籤皆有繁中對照、沒有缺漏；inline JavaScript 語法與 `git diff --check` 通過。本機重載後切入繁中日本頁，大年神卡片／面板角色顯示「須佐之男與神大市姬之子，司掌穀物與豐穰」，假名為空；關係標籤顯示「司掌穀物收成的子神」，主控台 warning／error 為 0。依工作流程本次未 commit、未 push。
