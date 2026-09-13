@@ -431,7 +431,6 @@
     linear-gradient(rgba(93,169,237,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(93,169,237,.055) 1px,transparent 1px);
     background-size:auto,34px 34px,34px 34px;}
   #ycanvasWrap{top:70px;background-color:var(--bg);background-image:radial-gradient(circle at 50% 0,rgba(64,151,230,.10),transparent 42%);}
-  #stage{will-change:transform;}
   #stage.smooth{transition:transform .62s cubic-bezier(.22,.9,.28,1);}
   .node{
     border-radius:13px;border-color:color-mix(in srgb,var(--line) 90%,white 10%);
@@ -485,6 +484,7 @@
   }
   #japan[data-pantheon="japan"]{--accent:#69bfff;--theme-wash:rgba(67,139,219,.14);--theme-secondary:#f06f7d;--theme-glyph:"⛩";--node-radius:15px 6px 15px 6px;}
   #japan[data-pantheon="india"]{--accent:#f0b85b;--theme-wash:rgba(229,116,62,.16);--theme-secondary:#b68cff;--theme-glyph:"🪷";--node-radius:18px;}
+  #japan[data-pantheon="buddhism"]{--accent:#74cfff;--theme-wash:rgba(45,132,191,.17);--theme-secondary:#e7bd62;--theme-glyph:"☸";--node-radius:18px 8px;}
   #japan[data-pantheon="angels"]{--accent:#9bdcff;--theme-wash:rgba(164,216,255,.18);--theme-secondary:#f2d988;--theme-glyph:"✧";--node-radius:20px 20px 10px 10px;}
   #japan[data-pantheon="demons"]{--accent:#cf79ff;--theme-wash:rgba(115,31,155,.18);--theme-secondary:#ff6b79;--theme-glyph:"♆";--node-radius:5px 16px 5px 16px;}
   #japan[data-pantheon="greek"]{--accent:#70d5ff;--theme-wash:rgba(40,122,189,.15);--theme-secondary:#e5c36c;--theme-glyph:"Ω";--node-radius:5px;}
@@ -559,6 +559,11 @@
       <div class="glyph">🕉️</div>
       <div class="label">印度神話</div>
       <div class="sub">三相神・化身・羅摩衍那・摩訶婆羅多</div>
+    </div>
+    <div class="myth-icon" data-region="south_asia" onclick="openBuddhism()">
+      <div class="glyph">☸️</div>
+      <div class="label">佛教世界</div>
+      <div class="sub">佛傳・佛菩薩・護法・宇宙觀・經典</div>
     </div>
     <!-- 歐洲 -->
     <div class="myth-icon" data-region="europe" onclick="openGreek()">
@@ -4928,6 +4933,445 @@ IN_NODE_NAMES.astika.aliases = ['Astika','蛇族救援者'];
 IN_NODE_NAMES.sarpa_yajna.aliases = ['蛇祭','Sarpa Yajña','Sarpasatra','闍那梅迦耶蛇祭'];
 const INDIA_USER_EDITS = {};
 
+/* ============ 佛教：佛傳、聖眾、護法、宇宙觀與經典 ============ */
+const BU_NODE_DEFS = [
+ ['buddhism_note','佛教世界','Buddhism','跨傳統導覽・非單一神譜',8,0,'佛教由不同語言、地域與宗派傳承構成。本圖以釋迦牟尼佛傳為主軸，並分層呈現早期經典、大乘佛菩薩、密教尊格、護法眾、宇宙觀與主要經典；同名尊格在巴利、梵文、漢傳、藏傳與日本傳統中的形象及職能不一定完全相同。',true,'key'],
+ ['maya','摩耶夫人','Māyādevī','釋迦牟尼之母',2,3,'佛傳稱摩耶夫人夢見白象入胎，後在藍毘尼園生下悉達多。她於產後不久去世，後世經典又發展佛陀升忉利天為母說法的敘事；各佛傳文獻的細節與年代層次不同。'],
+ ['suddhodana','淨飯王','Śuddhodana','釋迦族首長・悉達多之父',5,3,'淨飯王是悉達多之父，傳統稱釋迦族統治者。早期文獻所呈現的釋迦族政治形態未必等同後世宮廷傳記中的大帝國王權，故本圖保留「王」的傳統稱號並註明其歷史語境。'],
+ ['siddhartha','釋迦牟尼佛','Siddhārtha Gautama','歷史佛陀・佛教教法的導師',8,3,'喬達摩悉達多出身釋迦族，出家尋求超越老病死之道；經歷苦行後放棄兩端，在菩提樹下覺悟，成為「佛陀／覺者」。他於鹿野苑初轉法輪、建立僧團，晚年在拘尸那羅般涅槃。早期經典與後世佛傳對生平細節有不同層次。',false,'key'],
+ ['yashodhara','耶輸陀羅','Yaśodharā','悉達多之妻・羅睺羅之母',11,3,'耶輸陀羅在多種佛傳中為悉達多出家前的妻子與羅睺羅之母；名稱、婚姻故事及其後出家證果的細節，隨巴利註釋、梵文佛傳與地方傳統而異。'],
+ ['rahula','羅睺羅','Rāhula','佛陀之子・後出家為弟子',14,3,'羅睺羅是悉達多與耶輸陀羅之子。佛陀返鄉後，羅睺羅由舍利弗剃度，成為僧團早期沙彌的代表；經典以佛陀對他的教誡說明誠實、反省與修行。'],
+ ['lumbini','藍毘尼誕生','Lumbinī','佛傳聖地・誕生',1,7,'佛教傳統將藍毘尼視為釋迦牟尼誕生地；阿育王石柱銘文是該地與佛陀傳統的重要早期歷史證據。後世佛傳加入摩耶夫人攀無憂樹、太子行七步等象徵敘事。',true],
+ ['four_sights','四門出遊','Four sights','老人、病人、死者與出家人',4,7,'後世完整佛傳敘述悉達多出城先後見老人、病人、死者與出家修行者，因而體認生命無常並尋求解脫。早期經典已有對老病死與求道的反省，但固定「四門／四種景象」形式屬逐步定型的佛傳。',true],
+ ['renunciation','踰城出家','Great Renunciation','離開宮廷、尋求不死之道',7,7,'悉達多離開家庭生活，先從阿羅邏迦藍與鬱陀迦羅摩子學習禪定，後行嚴苛苦行；他認為這些道路未達究竟解脫，遂接受飲食、轉向中道。不同佛傳對夜半踰城、車匿與犍陟馬等細節著墨不同。',true],
+ ['mara','魔羅','Māra','欲界障礙與死亡的擬人格化',10,7,'魔羅在早期佛典中可作阻礙覺悟、象徵欲望與死亡的天界存在，也能表示心理煩惱。成道敘事常說魔軍威脅與誘惑菩薩，菩薩觸地請大地作證；不可直接等同其他宗教的魔王。',false,'key'],
+ ['bodhi_tree','菩提樹','Bodhi tree','菩提伽耶的覺悟之樹',13,7,'釋迦牟尼在菩提伽耶一株畢鉢羅樹下禪坐而覺悟，此樹因而稱菩提樹。現地後代樹與菩提樹象徵成為佛教藝術、朝聖與寺院栽植的重要傳統。',true],
+ ['awakening','菩提伽耶成道','Bodh Gayā','覺悟・成佛',16,7,'佛傳說悉達多於菩提樹下徹夜禪觀，徹見眾生流轉、業果及苦的止息，破除無明而成佛。經典對夜間三明、緣起觀與降魔等敘述各有側重，核心皆指向貪瞋癡止息與覺悟。',true,'key'],
+ ['deer_park','鹿野苑','Sārnāth／Isipatana','初轉法輪的地點',1,11,'佛陀成道後前往波羅奈附近仙人住處鹿野苑，尋找先前共修的五位苦行者。此地成為佛教四大聖地之一，象徵教法首次向他人宣說。',true],
+ ['first_sermon','初轉法輪','Dharmacakrapravartana','中道、四聖諦與八正道',4,11,'《轉法輪經》記載佛陀在鹿野苑向五比丘說法：遠離感官享樂與自我折磨兩端，實踐八正道之中道；並以苦、集、滅、道四聖諦及三轉十二行說明覺悟。憍陳如首先生起法眼。',true,'key'],
+ ['five_ascetics','五比丘','Pañcavaggiya','最初聞法的五位修行者',7,11,'憍陳如、跋提、婆沙波、摩訶男、阿說示曾與悉達多共同苦行。佛陀成道後向他們說《轉法輪經》與《無我相經》，五人先後證悟，構成早期僧團的核心。',true],
+ ['parinirvana','般涅槃','Parinirvāṇa','佛陀最後行旅與入滅',13,11,'《大般涅槃經》敘述佛陀晚年從王舍城一帶前往拘尸那羅，沿途囑咐弟子以法與律為依止，並重申諸行無常、應不放逸精進。他在雙娑羅樹間右脅而臥，依次入諸禪定後般涅槃；舍利後由多方分奉建塔。',true,'key'],
+ ['kushinagar','拘尸那羅','Kuśinagara','佛陀般涅槃聖地',16,11,'拘尸那羅是佛陀般涅槃與火化之地，傳統列為四大聖地之一。《大般涅槃經》以末羅族的娑羅林、葬禮及舍利分配構成主要敘事。',true],
+ ['teachings_note','核心教法','Dharma','早期經典的共通修行框架',10,15,'本區整理早期佛教常見的教法框架。不同部派與後世宗派對名相、修道次第及哲學解釋有差異；節點用於導覽，不把簡短定義當成所有佛教傳統的完整教義。',true,'key'],
+ ['triple_gem','三寶','Triratna','佛、法、僧',1,18,'三寶是佛、法、僧：覺悟的導師、通向解脫的教法，以及實踐並傳承教法的僧伽。皈依三寶是多數佛教傳統共同的基本身分與修行表達，但儀式語言各地不同。',true],
+ ['four_truths','四聖諦','Catvāri āryasatyāni','苦、集、滅、道',4,18,'四聖諦說明苦與不圓滿的事實、由渴愛等條件形成的集起、苦可止息的涅槃，以及導向止息的八正道。《轉法輪經》以知、應斷、應證、應修等方式呈現實踐面向。',true],
+ ['eightfold_path','八正道','Āryāṣṭāṅgamārga','戒、定、慧的中道修行',7,18,'八正道包括正見、正思惟、正語、正業、正命、正精進、正念、正定，常統攝為戒、定、慧三學。它是四聖諦中的道諦，不只是依序完成的八個步驟。',true],
+ ['middle_way','中道','Madhyamā pratipad','遠離享樂與苦行兩端',10,18,'早期經典的中道首先指佛陀所教、不落感官享樂與自我折磨兩端的八正道；大乘中觀又以「中道」發展不落有無二邊的哲學義。兩者相關但不能簡化為完全相同的單一用法。',true],
+ ['dependent_origination','緣起','Pratītyasamutpāda','此有故彼有・條件性生起',13,18,'緣起指出現象依條件而生滅；十二支緣起常以無明、行、識直到老死呈現輪迴與苦的條件鏈。各部派、大乘與現代解讀對時間、心理及存在論層面有不同分析。',true],
+ ['three_marks','三法印','Tilakkhaṇa','無常、苦、無我',16,18,'早期佛教常以無常、苦、無我描述一切有為法與五蘊；漢傳亦常用「諸行無常、諸法無我、涅槃寂靜」的三法印表述。兩種列法的語境不同，皆用於辨識佛法核心。',true],
+ ['karma','業','Karma／Kamma','有意志行為及其果報',19,18,'佛教以有意志的身、口、意行為為業，善惡業在條件成熟時帶來果報並影響輪迴；它不是宿命論，也不是由神祇執行的賞罰機制。不同學派對業種如何延續有細緻理論。',true],
+ ['samsara','輪迴','Saṃsāra','生死流轉',22,18,'輪迴是眾生在無明、渴愛與業力條件下持續生死的流轉。佛教否定一個不變自我穿越各生，但承認因果相續；對六道、三界與中有的細節，各傳統並不一致。',true],
+ ['nirvana','涅槃','Nirvāṇa／Nibbāna','貪瞋癡止息・解脫',25,18,'涅槃字面有熄滅之意，指貪、瞋、癡及造成苦的執取止息。早期經典避免把它簡化為普通地點或虛無；大乘經論又以空性、法身、佛性等語彙展開不同詮釋。',true,'key'],
+ ['sangha_note','佛陀弟子與僧團','Saṅgha','出家與在家傳承群體',8,23,'僧伽可指比丘、比丘尼的制度性僧團，也可特指證得聖道果的聖者僧。此區選錄早期經典重要弟子與女性修行者，不代表完整名單；人物事蹟需區分經藏、律藏與後世註釋。',true,'key'],
+ ['sariputra','舍利弗','Śāriputra','智慧第一・佛陀上首弟子',0,26,'舍利弗因聽阿說示說緣起偈而入法，與目犍連一同歸依佛陀。早期傳統稱其智慧第一，經常代佛說法；大乘經典有時讓他擔任提問者或代表聲聞立場，文學角色不可完全等同歷史人物。'],
+ ['maudgalyayana','目犍連','Maudgalyāyana','神通第一・佛陀上首弟子',3,26,'目犍連與舍利弗同為上首弟子，早期傳統稱其神通第一。漢傳盂蘭盆故事把他救母敘事廣泛發展，但其經典來源與東亞孝道詮釋需分層理解。'],
+ ['mahakasyapa','摩訶迦葉','Mahākāśyapa','頭陀第一・第一次結集領導者',6,26,'摩訶迦葉以嚴謹頭陀行著稱。《大般涅槃經》記他在佛陀入滅後趕赴葬禮；傳統又稱其主持第一次結集。禪宗的「拈花微笑」是後世重要傳承敘事，不見於早期巴利經藏。'],
+ ['ananda','阿難','Ānanda','多聞第一・佛陀侍者',9,26,'阿難長期侍奉佛陀，以記憶教說著稱。傳統認為第一次結集時許多經以他「如是我聞」的誦出開始；他也支持摩訶波闍波提出女性出家的請求，相關律藏版本細節不同。'],
+ ['upali','優波離','Upāli','持律第一・律藏傳承者',12,26,'優波離原為釋迦族理髮師，與王子們一同出家，因精通戒律被尊為持律第一。傳統說第一次結集由他誦出律藏，突顯僧團規範不以出身階級決定。'],
+ ['anuruddha','阿那律','Anuruddha','天眼第一・佛陀堂弟',15,26,'阿那律是佛陀親族與重要弟子，傳統稱天眼第一。《大般涅槃經》中他在佛陀入滅時辨識禪定次第，並協助阿難與末羅族處理後續事務。'],
+ ['mahapajapati','摩訶波闍波提','Mahāpajāpatī Gotamī','第一位比丘尼傳統的核心人物',18,26,'摩訶波闍波提是摩耶夫人的姊妹／妹妹，並在摩耶去世後撫養悉達多。律藏傳統敘述她多次請求女性出家，最終建立比丘尼僧團；八敬法的形成、文本層次與現代詮釋存在研究爭議。'],
+ ['kisa_gotami','翅舍瞿曇彌','Kisāgotamī','芥子譬喻中的喪子母親',21,26,'後世廣傳故事說翅舍瞿曇彌喪子求救，佛陀要她從未死過人的家庭取芥子；她走訪後明白死亡普遍，轉而修行。巴利《長老尼偈》保留她關於善友與苦的偈頌，完整芥子故事主要見於註釋傳統。'],
+ ['angulimala','央掘魔羅','Aṅgulimāla','由殺人者轉為阿羅漢的改變故事',24,26,'《央掘魔羅經》敘述他受錯誤教導成為暴力殺人者，以指鬘為記；佛陀使他停下並教化出家。其後他忍受民眾報復並證阿羅漢，故事呈現業果、悔改與不害。大乘另有同名經典，內容取向不同。'],
+ ['buddhas_note','諸佛與五方佛','Buddhas','三世佛、淨土與密教曼荼羅',9,31,'佛教承認過去、現在與未來無量諸佛。此區並列早期佛傳、大乘淨土與密教五方佛，但這些分類不是所有宗派共用的單一神系；尤其五方佛屬後期大乘密教曼荼羅系統。',true,'key'],
+ ['amitabha','阿彌陀佛','Amitābha／Amitāyus','西方極樂世界教主',0,34,'淨土三經敘述法藏菩薩在世自在王佛前發願，成就西方極樂世界而成阿彌陀佛／無量壽佛。四十八願與往生方式在不同經本及宗派中有不同解釋，漢傳與日本淨土宗尤其重視稱名念佛。',false,'key'],
+ ['medicine_buddha','藥師佛','Bhaiṣajyaguru','東方淨琉璃世界教主',3,34,'《藥師琉璃光如來本願功德經》以十二大願描述藥師佛，與療癒、除苦、戒行及善趣相連。東亞與藏傳儀軌的眷屬、形象和修法有所差異。'],
+ ['vairocana','毘盧遮那佛','Vairocana','遍照・華嚴與密教核心佛',6,34,'毘盧遮那意為遍照者。《華嚴經》與東亞華嚴傳統常以其表達法界佛身；密教《大日經》中的摩訶毘盧遮那又成為曼荼羅中心。不同文本的法身佛概念不可全部當成同一固定人物傳記。'],
+ ['akshobhya','阿閦佛','Akṣobhya','不動如來・東方妙喜世界',9,34,'阿閦佛意為「不動者」，大乘經典敘述他因不起瞋恚之願而成佛，其佛土常稱妙喜世界。後期密教五方佛中置於東方，但這是特定曼荼羅系統的配置。'],
+ ['ratnasambhava','寶生佛','Ratnasambhava','密教五方佛・南方',12,34,'寶生佛意為「寶所生者」，主要見於後期大乘密教五方佛系統，常置南方並與平等性智相連；不是早期佛典的歷史人物。'],
+ ['amoghasiddhi','不空成就佛','Amoghasiddhi','密教五方佛・北方',15,34,'不空成就佛意為「成就不空者」，在五方佛曼荼羅中常置北方，與成所作智相連。配置、色彩、手印與佛母眷屬會隨密續與傳承不同。'],
+ ['dipankara','燃燈佛','Dīpaṅkara','過去佛・授記釋迦成佛',18,34,'佛傳與本生故事說，過去世的善慧行者在燃燈佛前以髮鋪泥，獲授記未來成為釋迦牟尼佛。此故事在不同部派與大乘文獻有多個版本。'],
+ ['maitreya','彌勒','Maitreya／Metteyya','未來佛・現居兜率天的菩薩',21,34,'早期經典與後世傳統稱彌勒為未來佛，現居兜率天，待釋迦牟尼教法衰微後下生成佛。東亞布袋和尚與彌勒相聯是後世地方傳統，不等同印度經典中的固定外貌。',false,'key'],
+ ['bodhisattvas_note','大乘菩薩','Mahābodhisattvas','以菩提心與利他行為核心',9,39,'菩薩是發心求無上覺悟並利益眾生的修行者。大乘經典塑造多位象徵慈悲、智慧、行願與救度的菩薩；其名號、性別表現、眷屬與修法會隨漢傳、藏傳、日本及密教而變。',true,'key'],
+ ['avalokiteshvara','觀世音菩薩','Avalokiteśvara','慈悲・聞聲救苦',0,42,'《法華經・普門品》描寫觀世音隨眾生需要現不同身而救苦；《心經》中又由觀自在向舍利子開示五蘊皆空。印度早期多為男性形象，東亞逐漸出現多種女性化觀音，不能以單一外貌概括。',false,'key'],
+ ['manjushri','文殊菩薩','Mañjuśrī','般若智慧・常持智慧劍',3,42,'文殊師利象徵般若智慧，在多部大乘經中向佛陀或其他菩薩問答；藝術常以智慧劍與般若經卷為標誌。五臺山道場與騎獅形象主要在東亞傳統發展。'],
+ ['samantabhadra','普賢菩薩','Samantabhadra','廣大行願・華嚴傳統',6,42,'普賢菩薩在《華嚴經》入法界品末以廣大行願引導善財童子，東亞常以十大願王概括其行。騎白象形象與峨眉山道場是中國佛教的重要發展；藏傳同名 Samantabhadra 亦可指本初佛，須分辨。'],
+ ['ksitigarbha','地藏菩薩','Kṣitigarbha','悲願救度・地獄與亡者信仰',9,42,'《地藏菩薩本願經》等東亞經典強調地藏在佛陀入滅至彌勒出世間救度眾生，尤其與地獄、亡者及孝親敘事相連。藏傳亦有地藏菩薩，但儀軌與東亞形象不同。'],
+ ['mahasthamaprapta','大勢至菩薩','Mahāsthāmaprāpta','智慧光・阿彌陀佛脅侍',12,42,'大勢至與觀世音在淨土傳統中同為阿彌陀佛脅侍，合稱西方三聖。《觀無量壽經》描述其身相與智慧光；東亞又以念佛圓通章發展念佛教學。'],
+ ['vajrapani','金剛手菩薩','Vajrapāṇi','力量與護持・密教重要尊格',15,42,'金剛手意為「持金剛者」。早期佛教藝術與經典中可作護持佛陀的夜叉／執金剛神，大乘與密教逐漸成為象徵佛力的菩薩及本尊；不同階段形象不能混成單一身分。'],
+ ['tara','度母','Tārā','救度母尊・藏傳重要女尊',18,42,'度母是印度後期大乘與密教的重要女尊，藏傳尤重綠度母、白度母等修法，象徵迅速救度與慈悲。她與觀音關係的出生傳說及二十一度母分類隨文本、傳承而異。'],
+ ['akasagarbha','虛空藏菩薩','Ākāśagarbha','智慧、福德與虛空藏',21,42,'虛空藏菩薩名義指如虛空般廣大的智慧與福德藏。在東亞求聞持法及日本密教中地位顯著；與地藏組成八大菩薩等名單時，需依具體經典與曼荼羅判定。'],
+ ['scriptures_note','佛教重要經典','Buddhist scriptures','三藏與跨語言大藏經',10,47,'佛教經典以巴利、梵文殘卷、漢譯大藏經、藏文甘珠爾與論疏傳承保存；各傳統的正典範圍不相同。本區選錄代表文獻，不宣稱構成所有佛教共有的完整正典。',true,'key'],
+ ['pali_canon','巴利三藏','Tipiṭaka','南傳上座部經、律、論藏',0,50,'巴利三藏由律藏、經藏與論藏構成，是上座部佛教的核心經典集。它保存重要早期材料，但不等於「原始佛教全部原文」，也不是漢傳與藏傳正典的唯一母本。',true],
+ ['dhammapada','法句經','Dhammapada','巴利小部的偈頌集',3,50,'《法句經》收錄按主題編排的佛法偈頌，巴利本屬《小部》；漢譯、犍陀羅語與梵文平行本的篇章及偈數不完全相同，顯示它是多支傳承的文本家族。',true],
+ ['lotus_sutra','法華經','Saddharmapuṇḍarīka','一乘、方便與久遠佛',6,50,'《妙法蓮華經》是重要大乘經，運用火宅、化城等譬喻說明方便與一佛乘，並發展久遠實成佛、菩薩授記及觀音普門等內容。鳩摩羅什譯本對東亞天台、日本佛教影響深遠。',true],
+ ['heart_sutra','心經','Prajñāpāramitāhṛdaya','般若空性・五蘊皆空',9,50,'《般若波羅蜜多心經》濃縮般若經空性思想，由觀自在對舍利子說五蘊無自性，結尾有「揭諦」真言。現存有長、短本及多語言版本，文本形成與翻譯史不可簡化成單一路線。',true],
+ ['diamond_sutra','金剛經','Vajracchedikā Prajñāpāramitā','無住、離相與般若',12,50,'《金剛般若波羅蜜經》以佛陀與須菩提問答，教導菩薩行布施而不住於相，並反覆解構對佛、法與眾生的實體執取。敦煌868年漢文印本是著名早期有紀年印刷品。',true],
+ ['avatamsaka_sutra','華嚴經','Avataṃsaka','法界緣起與菩薩行',15,50,'《華嚴經》是龐大的大乘經典群，呈現重重無盡的佛世界與菩薩行；〈入法界品〉敘述善財童子參訪多位善知識，最後由普賢行願收束。漢譯六十華嚴、八十華嚴等版本結構不盡相同。',true],
+ ['pure_land_sutras','淨土三經','Three Pure Land Sutras','無量壽經、觀無量壽經、阿彌陀經',18,50,'淨土三經是《無量壽經》《觀無量壽佛經》《阿彌陀經》的東亞合稱，分別著重法藏願行、韋提希觀想與極樂世界／稱名。三經的印度語原本保存狀況與現代學術分類並不一致。',true],
+ ['vimalakirti_sutra','維摩詰經','Vimalakīrtinirdeśa','居士維摩詰與不二法門',21,50,'《維摩詰所說經》以示疾的在家菩薩維摩詰為中心，讓諸弟子與菩薩討論空、方便、不二法門；文殊前往問疾，維摩詰以沉默回應不二。經典突顯居士亦能深行大乘。',true],
+ ['ksitigarbha_sutra','地藏菩薩本願經','Kṣitigarbha Sūtra','東亞地藏、孝親與救苦經典',24,50,'漢傳《地藏菩薩本願經》以忉利天說法、地藏過去世孝親本生、地獄業報與付囑救度為主。其梵文原本未存、漢譯歸屬與形成史有學術討論，仍是東亞地藏信仰核心文本。',true],
+ ['eight_classes','天龍八部','Eight classes of beings','護法與聽法的八類非人眾',35,0,'漢譯佛典常以天、龍、夜叉、乾闥婆、阿修羅、迦樓羅、緊那羅、摩睺羅伽合稱天龍八部。不同經典的聽眾名單與分類可變，此處依東亞常見八部整理，不是生物學或固定血緣。',true,'key'],
+ ['devas','天眾','Deva','輪迴中的天界眾生',28,4,'佛教天眾享有長壽與福報，居欲界、色界或無色界，但仍在輪迴中，並非創造宇宙、永恆全能的神。不同經論對天界數目和壽量有不同系統。',true],
+ ['nagas','龍眾','Nāga','水域、雨與守護經法的非人眾',31,4,'Nāga 源自南亞蛇神傳統，佛典中可住水域、護法或聽法，漢譯常稱龍。《法華經》龍女成佛與龍宮保存般若經等敘事分屬不同文本傳統。',true],
+ ['yakshas','夜叉眾','Yakṣa','地方自然靈與護法／威脅者',34,4,'夜叉在印度宗教中是自然與財寶相關靈類；佛教文獻中既可能傷人，也可能受教成為護法。毘沙門天統領夜叉是常見宇宙觀之一，但個別名單依經典不同。',true],
+ ['gandharvas','乾闥婆眾','Gandharva','天界音樂與香氣相關眾生',37,4,'乾闥婆源自印度天界樂師傳統，佛典常列為帝釋眷屬或聽法眾；「中有」一詞與 gandharva 的部分經典用法亦有複雜關係，不能只以樂師概括所有語境。',true],
+ ['asuras','阿修羅眾','Asura','好鬥而有福力的非人眾',40,4,'阿修羅在佛教宇宙觀中常與帝釋天眾爭戰，具福力而受嫉妒、瞋恚所苦。有些系統把阿修羅納入天趣或餓鬼趣，有些另列為六道之一。',true],
+ ['garudas','迦樓羅眾','Garuḍa','巨大神鳥・龍族天敵與護法',43,4,'迦樓羅源自印度神鳥傳統，佛典中列八部之一，常與捕食龍族的敘事相連，也可能受佛法調伏成護法。東亞稱金翅鳥或大鵬金翅鳥，形象吸收多種地方傳統。',true],
+ ['kinnaras','緊那羅眾','Kiṃnara','音樂與人獸複合形象的非人眾',46,4,'緊那羅名稱帶有「是人嗎？」之意，印度與佛教藝術常呈半人半獸或天界樂者；東亞譯作人非人、疑神等。其具體形象隨印度、東南亞與東亞藝術而變。',true],
+ ['mahoragas','摩睺羅伽眾','Mahoraga','大腹行／大蛇形非人眾',49,4,'摩睺羅伽是天龍八部之一，通常解作大蛇或腹行類神眾。漢傳藝術與儀軌對其獨立形象較少，常作八部總稱中的一員。',true],
+ ['four_kings_note','四大天王','Caturmahārāja','四方守護與佛法護持',35,9,'四大天王居須彌山腰四王天，分守東南西北，統攝乾闥婆、鳩槃荼、龍、夜叉等眾。印度、漢傳、藏傳與日本藝術對名稱、持物與眷屬配置有所差異。',true,'key'],
+ ['dhritarashtra','持國天王','Dhṛtarāṣṭra','東方守護・乾闥婆主',28,12,'持國天王守護東方，名稱有維持國土之意，佛典常稱其統領乾闥婆。東亞藝術多持琵琶，但這是地域圖像傳統，不是所有早期文本固定裝備。'],
+ ['virudhaka','增長天王','Virūḍhaka','南方守護・鳩槃荼主',31,12,'增長天王守護南方，名稱有增長、成長之意，常稱統領鳩槃荼等眾。持劍形象在東亞流行，各地造像配置仍有差異。'],
+ ['virupaksha','廣目天王','Virūpākṣa','西方守護・龍眾之主',34,12,'廣目天王守護西方，名稱含廣眼／異眼之義，常稱統領龍眾。東亞造像常持龍蛇或索，藏傳形象與漢地持物並不完全相同。'],
+ ['vaishravana','多聞天王／毘沙門天','Vaiśravaṇa','北方守護・夜叉主與財寶神',37,12,'多聞天王守護北方並統領夜叉，也承接俱毘羅財寶神的部分傳統。漢傳為四天王之一，日本毘沙門天又成獨立武神，藏傳常以財寶護法形象出現，需依文化脈絡區分。',false,'key'],
+ ['sakka','帝釋天','Śakra／Sakka','忉利天主・護持佛法的天神',40,12,'帝釋天源自吠陀因陀羅，在佛典中為忉利天主，常向佛陀請法、護持善行，但仍是輪迴眾生而非創造神。其與阿修羅戰爭是佛教宇宙敘事的重要母題。'],
+ ['brahma_sahampati','梵天娑婆主','Brahmā Sahampati','勸請佛陀說法的梵天',43,12,'早期經典說佛陀成道後一度思考教法深奧、眾生難解，梵天娑婆主前來勸請，佛陀遂以慈悲觀察世間而決定說法。這不表示梵天創造佛陀或授予覺悟。'],
+ ['mara_deva','他化自在天魔羅','Māra as deva','欲界魔天的宇宙觀表述',46,12,'部分佛教宇宙觀把魔羅置於欲界最高層他化自在天，但早期經典的 Māra 也可指死亡、煩惱或多種魔障。此節點用於區分天界身分與成道敘事中的象徵功能。'],
+ ['six_realms','六道輪迴','Ṣaḍgati','天、人、阿修羅、畜生、餓鬼、地獄',39,17,'六道是東亞與藏傳常見的輪迴分類；早期與部分部派系統常說五趣，把阿修羅歸入其他趣。各道並非永久身份，眾生依業與煩惱流轉。',true,'key'],
+ ['hell_realm','地獄道','Naraka','劇苦果報境界・非永恆刑罰',29,20,'佛教地獄有寒熱等多種描述，是惡業成熟的極苦生存狀態，但壽命雖長仍非永恆。不同經論列出的層數、名稱與刑罰圖像差異很大。',true],
+ ['hungry_ghost_realm','餓鬼道','Preta','匱乏與貪著的果報境界',32,20,'餓鬼常被描寫為長期飢渴、難以滿足的眾生，其具體形貌與祭祀關係在印度、漢傳與日本文化有顯著發展差異。',true],
+ ['animal_realm','畜生道','Tiryagyoni','愚癡、恐懼與互相吞食的生存境界',35,20,'畜生道包含人類以外的動物及佛典想像生物，常以無明、受役使與弱肉強食之苦說明。佛教倫理同時強調動物是有情，具成佛或解脫的長遠可能。',true],
+ ['human_realm','人道','Manuṣya','苦樂參半、適合修行的境界',38,20,'人道兼有苦樂，被多數傳統視為較適合聞法修行的難得處境。所謂人身難得不是宣稱人類永恆優越，而是提醒無常與實踐機會。',true],
+ ['asura_realm','阿修羅道','Asura-gati','競爭、嫉妒與戰鬥的境界',41,20,'把阿修羅獨立列為一道是六道系統的作法，常象徵強大福報伴隨嫉妒與鬥爭；五趣系統則可能將其歸入天或餓鬼。',true],
+ ['deva_realm','天道','Deva-gati','福樂長壽但仍無常的境界',44,20,'天道眾生因善業享受福樂與長壽，仍會因福報耗盡而死亡轉生。佛教因此不把升天視為最終解脫，也不把諸天當成全能創造者。',true],
+ ['mount_meru','須彌山世界','Mount Sumeru','古印度佛教宇宙中心模型',47,20,'傳統佛教宇宙論以須彌山為一世界系統中心，周圍有洲、海與多層天界。這是古代宗教宇宙模型；現代佛教徒對其採字面、象徵或歷史文化理解並不一致。',true],
+ ['tushita','兜率天','Tuṣita','彌勒菩薩候補成佛之天界',50,20,'兜率天是欲界六天之一，佛傳常說一生補處菩薩在此等待下生成佛；釋迦牟尼降生前與未來佛彌勒皆與兜率相連。上生信仰與下生信仰在東亞發展出不同重點。',true],
+ ['sukhavati','極樂世界','Sukhāvatī','阿彌陀佛西方淨土',53,20,'淨土經典描寫極樂世界由阿彌陀佛願力成就，無三惡道並具適合聞法不退轉的環境。各宗派對往生條件、報土／化土及是否可作唯心淨土理解不盡相同。',true,'key'],
+];
+
+/* 第二批：主要傳承、經藏、諸天名數、觀音眷屬、胎藏界與明王。座標由下方 packBuddhistNodes 集中排版。 */
+BU_NODE_DEFS.push(
+ ['traditions_note','佛教主要傳承','Buddhist traditions','地域、語言與修行系統的多元發展',0,0,'佛教在印度及亞洲各地形成多種經典語言、戒律傳承、哲學與修行體系。上座部、大乘、金剛乘是常用的大範圍分類，漢傳、藏傳、日本與東南亞佛教又各自包含眾多宗派；彼此不是互斥而整齊的單一路線。',true,'key'],
+ ['trad_early_schools','部派佛教','Early Buddhist schools','佛滅後形成的多個部派與律藏傳承',0,0,'佛陀入滅後，僧團因戒律、教義與地域逐步形成多個部派。現存文獻多由上座部及漢、藏譯保存的其他部派材料重建，不能把其中任何一派直接等同全部早期佛教。',true],
+ ['trad_theravada','上座部佛教','Theravāda','巴利三藏傳承・南亞與東南亞',0,0,'上座部以巴利三藏及其註釋傳統為核心，今日主要流傳於斯里蘭卡、緬甸、泰國、寮國與柬埔寨。其僧團、禪修與地方信仰在各國仍有差異，不宜概括為單一樣貌。',false,'key'],
+ ['trad_mahayana','大乘佛教','Mahāyāna','菩薩道與多系大乘經論',0,0,'大乘佛教以菩薩道、菩提心與利益眾生為重要取向，發展般若、中觀、瑜伽行、如來藏、淨土等多種經論體系。它不是由一部經或單一宗派一次建立。',false,'key'],
+ ['trad_vajrayana','金剛乘／密教','Vajrayāna／Esoteric Buddhism','真言、曼荼羅、灌頂與本尊瑜伽',0,0,'金剛乘／密教在大乘基礎上運用真言、印契、曼荼羅、灌頂與本尊瑜伽等方法。印度、藏傳、尼泊爾及東亞密教的續典分類和儀軌不同，修法傳統強調師承與灌頂，不能僅視作神祇圖鑑。',false,'key'],
+ ['trad_chinese','漢傳佛教','Chinese Buddhism','漢譯大藏經與東亞宗派母體',0,0,'漢傳佛教以漢譯經律論及中國祖師著述為主要文獻基礎，形成天台、華嚴、禪、淨土、律、密等傳統，並影響朝鮮、日本與越南。各宗常互相兼修，並非永遠排他的教派。',false,'key'],
+ ['trad_tibetan','藏傳佛教','Tibetan Buddhism','甘珠爾、丹珠爾與四大主要教派',0,0,'藏傳佛教保存大量印度佛教經續與論典，主要文獻集為甘珠爾和丹珠爾；寧瑪、噶舉、薩迦、格魯等傳承具有不同歷史與修學系統。藏傳不等於密教全部，也包含顯教經論與戒律。',false,'key'],
+ ['trad_japanese','日本佛教','Japanese Buddhism','漢傳基礎上的本土宗派發展',0,0,'佛教經朝鮮半島與中國傳入日本，形成天台、真言、淨土、禪、日蓮等傳統。其寺社史、神佛習合與近代制度具有日本脈絡，不能直接代表印度或所有漢傳佛教。',true],
+ ['trad_southeast_asia','東南亞上座部傳統','Southeast Asian Theravāda','斯里蘭卡與東南亞的多地傳承',0,0,'斯里蘭卡及東南亞多國以上座部為主，但僧團系譜、王權護教、森林禪修、在家儀禮與地方護法信仰各不相同。本節點用於提醒地域差異。',true],
+ ['trad_chan','禪宗','Chan／Zen／Seon／Thiền','以禪修與師資傳承為核心的東亞宗派',0,0,'禪宗在中國形成並傳至朝鮮、日本與越南，重視禪修、師徒傳承與直觀心性；公案、默照、只管打坐等是不同支派的後續發展，不能以「不立文字」理解為排斥全部經典。',false],
+ ['trad_pure_land','淨土宗派與法門','Pure Land traditions','阿彌陀佛信仰、發願與念佛',0,0,'淨土法門依淨土經典發展觀想、稱名、發願與往生教說，在中國常與其他宗派兼修，日本則形成淨土宗、淨土真宗等制度宗派；對信願行與他力的解釋並不完全一致。',false],
+ ['trad_east_asian_esoteric','漢傳密教／唐密、東密與台密','East Asian Esoteric Buddhism','《大日經》《金剛頂經》系與兩部曼荼羅',0,0,'唐代漢地密教由善無畏、金剛智、不空等譯師建立重要儀軌傳承；日本真言宗稱東密，天台密教稱台密。近現代所稱唐密復興包含多種重建路線，需與藏傳金剛乘分辨。',false,'key'],
+
+ ['text_agamas','阿含經','Āgama','漢譯早期經藏四部合集',0,0,'漢譯《長阿含》《中阿含》《雜阿含》《增一阿含》保存多個部派的早期經藏材料，可與巴利尼柯耶及梵文殘片對讀；它們不是由同一部派、同一時間翻譯的單一套書。',true],
+ ['text_nikayas','巴利五部尼柯耶','Five Nikāyas','長部、中部、相應部、增支部、小部',0,0,'巴利經藏分長部、中部、相應部、增支部及小部。前四部與漢譯阿含有大量平行經，小部則收錄法句、本生、長老偈等不同時期文本。',true],
+ ['text_vinaya','律藏','Vinaya Piṭaka','僧團戒律、羯磨與制度記錄',0,0,'律藏保存比丘、比丘尼戒條、制定因緣與僧團程序。巴利、法藏部、說一切有部、根本說一切有部等律本有共同核心也有差異，東亞與藏地所依律統並不相同。',true],
+ ['text_abhidharma','阿毘達磨','Abhidharma','法相分類與教理系統化',0,0,'阿毘達磨將經教中的身心、因果與修道要素作分類分析。上座部與說一切有部等系統在法數與理論上不同，後世論師又形成《俱舍論》等綜合與批判。',true],
+ ['text_prajnaparamita','般若經典群','Prajñāpāramitā','空性與菩薩般若的多種篇幅經典',0,0,'般若經典包含十萬頌、二萬五千頌、八千頌以及《金剛經》《心經》等不同文本，核心反覆檢視諸法無自性與菩薩不住著的修行，但各經形成時間和教學形式不同。',true,'key'],
+ ['text_nirvana','大般涅槃經（大乘）','Mahāyāna Mahāparinirvāṇa Sūtra','佛性、常樂我淨與如來常住',0,0,'大乘《大般涅槃經》發展佛性、如來常住等教義，與記錄歷史佛最後行旅的早期《大般涅槃經》是不同文本群，漢譯亦有不同卷數版本。',true],
+ ['text_lankavatara','楞伽經','Laṅkāvatāra Sūtra','唯心、如來藏與自證智',0,0,'《楞伽經》綜合唯識、如來藏與語言分別等議題，強調超越概念的自證智；在中國禪宗史敘事中地位顯著，但不能據此視為所有禪宗唯一根本經。',true],
+ ['text_samdhinirmocana','解深密經','Saṃdhinirmocana Sūtra','三性、三無性與三轉法輪',0,0,'《解深密經》以問答闡明三性、三無性、阿賴耶識及三轉法輪，是瑜伽行派的重要經典。漢、藏譯本章節配置與術語傳承有所差異。',true],
+ ['text_shurangama','楞嚴經','Śūraṅgama Sūtra','漢傳禪修、心性與道場儀軌經典',0,0,'《楞嚴經》在漢傳佛教對禪修、心性、五十陰魔與楞嚴咒影響深遠；未見完整梵文本，翻譯與形成史長期有學術爭論，頁面保留其東亞影響與文獻問題。',true],
+ ['text_perfect_enlightenment','圓覺經','Sūtra of Perfect Enlightenment','十二菩薩問答與圓覺修行',0,0,'《圓覺經》以十二位菩薩問答說明無明、圓覺與禪觀，在華嚴、禪與東亞註疏傳統中重要；其印度原本與漢地形成問題仍受研究討論。',true],
+ ['text_medicine','藥師經','Bhaiṣajyaguru Sūtra','藥師佛十二大願與東方淨土',0,0,'漢譯《藥師琉璃光如來本願功德經》敘述藥師佛十二大願、淨琉璃世界、持名與護法神將，成為東亞消災延壽及醫療祈願的重要經典。',true],
+ ['text_maha_vairocana','大日經','Mahāvairocana Sūtra','胎藏界與東亞密教核心經典',0,0,'《大日經》以大日如來與金剛手問答展開菩提心、方便、真言與曼荼羅建立，是胎藏界與東亞密教的重要經典；不等同《華嚴經》所用毘盧遮那概念的全部。',true,'key'],
+ ['text_vajrasekhara','金剛頂經系','Vajraśekhara corpus','金剛界曼荼羅與瑜伽密教經典群',0,0,'漢傳所稱《金剛頂經》常指一組瑜伽密教經典及譯本，與金剛界曼荼羅、五部與灌頂儀軌相關；並非只有一部固定篇幅的文本。',true,'key'],
+ ['text_susiddhikara','蘇悉地羯羅經','Susiddhikara Sūtra','真言行法、供養與悉地儀軌',0,0,'《蘇悉地羯羅經》整理真言修行的壇場、供養、持誦與成就法，在東亞密教被列為重要儀軌經；其定位與分類依唐密、東密、台密而異。',true],
+ ['text_chinese_canon','漢文大藏經','Chinese Buddhist Canon','經律論、譯經與東亞著述總集',0,0,'漢文大藏經不是一次封閉定本，而是歷代把印度與中亞譯典、漢地撰述、目錄及宗派文獻編成多種藏經；《大正新脩大藏經》是現代常用版本之一。',true,'key'],
+ ['text_kangyur','甘珠爾','Kangyur','藏譯佛語：律、經、密續與陀羅尼',0,0,'甘珠爾意為「佛語譯典」，收錄藏譯的律、經、密續與陀羅尼等，被視為佛說類權威文獻；德格、拉薩、北京等版本的次序與收錄數並非完全相同。',true,'key'],
+ ['text_tengyur','丹珠爾','Tengyur','印度論師註疏與學術論典藏譯集',0,0,'丹珠爾意為「論著譯典」，主要收印度論師對經續、戒律、哲學、因明、醫學與語言等著作的藏譯，與甘珠爾互補而不等同佛語本身。',true],
+ ['text_platform','六祖壇經','Platform Sūtra','慧能敘事與南宗禪思想',0,0,'《六祖壇經》以慧能生平、說法與付囑為中心，是少數以「經」命名的漢地佛教撰述。敦煌本與後世流通本有文字和結構差異，對禪宗身分建構影響深遠。',true],
+ ['text_jataka','本生經／本生故事','Jātaka','佛陀過去世菩薩行故事集',0,0,'本生故事敘述佛陀過去世作為菩薩的布施、持戒、忍辱與智慧。巴利《本生》、石窟圖像及漢譯本生經各有不同故事集與框架，不是一部全傳統相同的單一經。',true],
+ ['text_milinda','彌蘭王問經','Milindapañha','彌蘭王與那先比丘問答',0,0,'《彌蘭王問經》以印度希臘王彌蘭陀與那先比丘對談解釋無我、業與涅槃，著名譬喻是以戰車說明「人」依部分假立。巴利與漢譯版本內容範圍不同。',true],
+ ['text_yogacarabhumi','瑜伽師地論','Yogācārabhūmi','瑜伽行派修道與心識百科性論書',0,0,'《瑜伽師地論》龐大地整理禪修階位、心識、菩薩地與聲聞道等，是瑜伽行派及東亞法相學的重要論書；傳統歸於彌勒或無著，現代研究討論其多層形成。',true],
+ ['text_madhyamaka','中論','Mūlamadhyamakakārikā','龍樹的緣起性空論證',0,0,'龍樹《中論》以歸謬與關係分析批判自性見，將緣起與空相連；中觀各派對論證方法、二諦與空性理解仍有差異。',true],
+ ['text_abhidharmakosha','俱舍論','Abhidharmakośabhāṣya','世親的阿毘達磨綱要與批判',0,0,'世親《阿毘達磨俱舍論》總結說一切有部教理並提出經量部式批判，涵蓋界、根、世間、業、隨眠、道與智；對印度、漢傳與藏傳學術影響深遠。',true],
+
+ ['deva_system_note','八方天至二十四諸天','Directional and guardian deities','密教方位護法與漢傳諸天名數',0,0,'八方天由印度方位守護神觀念進入佛教密教，增上、下、日、月成十二天；「十六、二十、二十四諸天」則另有漢傳寺院護法名冊。這些名數存在異本，並非一路只增不減的全球統一編制。',true,'key'],
+ ['deva_eight_note','八方天','Eight directional deities','東、南、西、北及四隅護方',0,0,'密教八方天常列帝釋、火、焰摩、羅剎、水、風、毘沙門、伊舍那，分守東、東南、南、西南、西、西北、北、東北。部分二手資料會與四大天王混列，本圖依《大日經疏》系方位名單。',true],
+ ['deva_twelve_note','十二天','Twelve devas','八方加梵、地、日、月',0,0,'十二天在八方天之外加入上方梵天、下方地天、日天與月天，用於密教曼荼羅、護摩與方位守護。形象、持物及排列依儀軌與地域而異。',true],
+ ['deva_sixteen_note','十六諸天','Sixteen devas','漢傳護法名冊之一・另有十六外護異說',0,0,'「十六天」至少有兩種常見系統：一是八方主神與八位天后，另一是漢傳寺院護法的十六尊名冊。本圖採後者建立人物節點，並在此保留異說。',true],
+ ['deva_twenty_note','二十諸天','Twenty devas','十六諸天增日、月、龍王與閻摩羅王',0,0,'漢傳二十諸天通常在十六諸天上加入日宮天子、月宮天子、娑竭羅龍王與閻摩羅王，常供於大雄寶殿兩側作護法；寺院實際名單可能變動。',true],
+ ['deva_twentyfour_note','二十四諸天','Twenty-four devas','漢傳二十諸天再加入四尊的地方系統',0,0,'常見二十四諸天在二十諸天外加入緊那羅王、紫微大帝、東嶽大帝與雷神，呈現佛教與中國本土神祇的融合。部分寺院採不同替代名單，故不視為唯一正典。',true,'key'],
+ ['deva_mahabrahma','大梵天王','Mahābrahmā','十六／二十／二十四諸天之一',0,0,'大梵天王源自印度梵天信仰，佛教中屬色界天神並可護法，仍在輪迴中。漢傳諸天名冊常列為首尊；不可與早期經典中特定的梵天娑婆主完全混同。'],
+ ['deva_secret_vajra','密跡金剛','Guhyapāda Vajra','執金剛護法・十六諸天之一',0,0,'密跡金剛又作金剛密跡、執金剛神，是持金剛杵護持佛法的護法形象。經典、造像與寺院名冊中可指個體或一類力士，與金剛手菩薩的關係依時代而變。'],
+ ['deva_mahesvara','摩醯首羅天','Maheśvara','大自在天・十六諸天之一',0,0,'摩醯首羅天源自濕婆／大自在天，在佛教密教被納入外護與曼荼羅。不同密續或漢譯敘事有受調伏、護法或高位天神等角色，不代表佛教接受其為創造主。'],
+ ['deva_pancika','散脂大將','Pāñcika','夜叉大將・十六諸天之一',0,0,'散脂大將又見般闍迦、半支迦等譯名，是夜叉軍將並常與鬼子母相連。漢傳護法名冊列其護持僧團與國土，名稱對應在不同經典仍有異說。'],
+ ['deva_sarasvati','大辯才天','Sarasvatī','智慧、辯才與音樂護法',0,0,'辯才天源自印度河神與語言、音樂女神薩拉斯瓦蒂；《金光明經》等佛典把她列為護法，東亞又發展不同持物與吉祥形象。'],
+ ['deva_lakshmi','大功德天／吉祥天','Śrī Mahādevī','福德吉祥護法女神',0,0,'吉祥天源自印度室利／吉祥女神，佛教典籍中護持國土、財富與善業，常稱大功德天。她與毘沙門天、功德天女等關係隨經典與圖像傳統不同。'],
+ ['deva_skanda','韋馱天','Skanda','僧坊與伽藍護法',0,0,'韋馱天由室建陀／塞建陀相關傳統漢化而成，常作持杵武將護持寺院與僧眾。中國寺院配置及「一日行八萬四千里」等故事多屬東亞後期發展。'],
+ ['deva_earth','堅牢地神／地天','Pṛthivī','大地護法・十二天與十六諸天之一',0,0,'地天源自地母神頗哩體微，密教十二天中主下方；《金光明經》等漢傳脈絡又稱堅牢地神，誓護持說法道場與國土。'],
+ ['deva_bodhi_tree','菩提樹神','Bodhi-tree deity','守護佛陀成道處的樹神',0,0,'菩提樹神是守護菩提樹與成道道場的天神類形象，漢傳十六諸天名冊列為護法之一。不同文本未必賦予相同姓名與性別。'],
+ ['deva_hariti','鬼子母神','Hārītī','由害童夜叉轉為護童與護法者',0,0,'鬼子母原為食害孩童的夜叉女，佛教敘事中經佛陀教化體會失子之苦，轉而守護兒童與僧院。故事細節、子女數及造像在犍陀羅、漢傳與日本各異。'],
+ ['deva_marici','摩利支天','Mārīcī','光焰、隱形與行旅護法',0,0,'摩利支天意近光線／陽焰，是印度後期佛教與密教女尊，常有多臂、乘豬車等形象。中國與日本又發展武士、護身及隱形信仰。'],
+ ['deva_sun','日宮天子／日天','Sūrya／Āditya','十二天及二十諸天中的日神',0,0,'日天源自印度太陽神傳統，在密教十二天和漢傳二十諸天中護持佛法。佛教宇宙觀把日月視為運行於須彌世界的天體宮殿，不是最高神。'],
+ ['deva_moon','月宮天子／月天','Candra／Soma','十二天及二十諸天中的月神',0,0,'月天源自印度旃陀羅／蘇摩傳統，在密教十二天及漢傳二十諸天中列為護法；圖像可持月輪，職能和印度教月神敘事不必完全相同。'],
+ ['deva_sagara','娑竭羅龍王','Sāgara Nāgarāja','海龍王・二十諸天之一',0,0,'娑竭羅意為大海，是多部佛典中的龍王名。《法華經》龍女故事以娑竭羅龍王之女為主角；漢傳二十諸天將龍王列為護法。'],
+ ['deva_yama_king','閻摩羅王','Yama-rāja','冥界審判形象・二十諸天之一',0,0,'閻摩羅王源自閻摩，在佛教中發展為地獄與業報審判形象，但業果並非由其任意創造。二十諸天把他納為護法，與十二天中的南方焰摩天既相關又有圖像層次差異。'],
+ ['deva_kinnara_king','緊那羅王','Kiṃnara-rāja','樂神之王・二十四諸天增列者',0,0,'緊那羅王代表天界音樂眾之首，常見半人半鳥或其他複合形象；二十四諸天的部分漢傳名冊將其加入二十諸天。'],
+ ['deva_ziwei','紫微大帝','Ziwei Dadi','中國星辰神祇・部分二十四諸天名冊',0,0,'紫微大帝本為中國道教與星辰信仰中的尊神，部分漢傳佛寺二十四諸天名冊將其納入護法，顯示佛道及地方祭祀交流；並非印度佛典原有天神。'],
+ ['deva_dongyue','東嶽大帝','Dongyue Dadi','中國泰山冥府神・部分二十四諸天名冊',0,0,'東嶽大帝源自中國泰山與冥府信仰，部分二十四諸天系統納入寺院護法。其身分屬漢地宗教融合，不能回推為印度佛教原始神祇。'],
+ ['deva_thunder','雷神','Thunder deity','中國雷神・部分二十四諸天名冊',0,0,'雷神是中國雷霆信仰的泛稱，部分漢傳二十四諸天名冊將其列為護法；寺院所用尊名與造像不一，故節點不指定唯一個體。'],
+ ['deva_agni','火天','Agni','八方天東南方護法',0,0,'火天源自阿耆尼，密教八方天中守東南，亦參與護摩火供象徵。儀軌常描寫乘羊、持火器，但圖像依傳承變化。'],
+ ['deva_yama_direction','焰摩天','Yama','八方天南方護法',0,0,'焰摩天源自閻摩，密教八方天中守南方。其方位護法形象與地獄審判者閻摩羅王相關但不宜在所有文本中完全合併。'],
+ ['deva_nirrti','羅剎天','Nirṛti／Rākṣasa','八方天西南方護法',0,0,'羅剎天／涅哩底守西南方，源自印度不祥方位與羅剎傳統；進入佛教曼荼羅後被納為受法統攝的外護。'],
+ ['deva_varuna','水天','Varuṇa','八方天西方護法',0,0,'水天源自伐樓那，密教八方天中守西方，常與水、龍索和水族相連；其佛教圖像承襲並改造古印度神格。'],
+ ['deva_vayu','風天','Vāyu','八方天西北方護法',0,0,'風天源自伐由，密教八方天中守西北，象徵風與迅疾。造像可乘鹿類並持幡，但各儀軌有別。'],
+ ['deva_ishana','伊舍那天','Īśāna','八方天東北方護法',0,0,'伊舍那天守東北，與濕婆／大自在天傳統相關。佛教密教把他安置於方位曼荼羅，並不因此承認其為宇宙最高創造者。']
+);
+
+BU_NODE_DEFS.push(
+ ['att28_note','千手觀音二十八部眾','Twenty-eight attendant groups','《千手陀羅尼經》護持受持者的二十八部',0,0,'二十八部眾是千手觀音法門的常隨護法。此區依漢譯《千手千眼觀世音菩薩廣大圓滿無礙大悲心陀羅尼經》的二十八段名號建立；每一「部」可能包含一人、數人或一類眾生，日本三十三間堂等造像名單又有不同整理。',true,'key'],
+ ['att28_01','第一部・密跡金剛士等','Guhyaka Vajra group','烏芻君荼、鴦俱尸等金剛力士',0,0,'經文首段連稱密跡金剛士、烏芻君荼、鴦俱尸等護法，後世分名與合部方式不同。本節點保留「一部可含數尊」的文本形式，不強作單一人物。',true],
+ ['att28_02','第二部・八部力士賞迦羅','Śaṅkara and strongmen','八部力士護法',0,0,'《千手陀羅尼經》列「八部力士賞迦羅」常隨擁護持咒者；梵名還原與個體身分有多種解釋，可靠資訊主要是其護法名號與所屬段落。',true],
+ ['att28_03','第三部・摩醯那羅延','Maheśvara–Nārāyaṇa group','大自在與那羅延相關護法部',0,0,'此名號把摩醯首羅與那羅延相關名稱連列為護法部，反映印度神格被佛教儀軌納入；不應簡化為一位固定佛教神。',true],
+ ['att28_04','第四部・金剛羅陀迦毘羅','Vajra Rādhaka-Kapila group','金剛護法部',0,0,'經文以音譯列此金剛護法部，現代可確認事蹟有限。頁面不依近代附會補寫身世，只標示其在陀羅尼經中守護受持者。',true],
+ ['att28_05','第五部・婆馺娑樓羅','Vāsava-Asura group','天神與阿修羅相關護法部',0,0,'名稱的切分與還原存在異說，經文功能明確為受敕守護持咒者；本節點不把不確定音譯硬對應為單一神名。',true],
+ ['att28_06','第六部・滿善車缽真陀羅','Pūrṇabhadra-Pañcāla group','夜叉／護法名號組',0,0,'滿善車等名在相關護法名冊有不同寫法與辨識，有時與夜叉將滿賢相聯。此處依經文原列保留合部，不宣稱所有寺院造像相同。',true],
+ ['att28_07','第七部・薩遮摩和羅','Satya-Mahā group','陀羅尼經護法部',0,0,'《千手陀羅尼經》列其為守護受持者的善神部眾；除音譯名與護法誓願外，缺少一致傳記，故不增造故事。',true],
+ ['att28_08','第八部・鳩闌單吒半祇羅','Kumbhāṇḍa-Pāñcika group','鳩槃荼與夜叉將相關部',0,0,'此組名稱常被連到鳩槃荼與半支迦／散脂夜叉將傳統；譯名切分依註疏而異，核心職能是護持觀音法門。',true],
+ ['att28_09','第九部・畢婆伽羅王','Pippala king group','護法王部',0,0,'經文列畢婆伽羅王為受敕護法。由於同名資料稀少且還原不確定，本圖不以字面推造其國度或傳記。',true],
+ ['att28_10','第十部・應德毘多薩和羅','Virtuous guardian group','具德護法部',0,0,'此音譯護法名在不同整理中寫法不一，經文只確定其率眷屬護持受持者；節點保留文本限制。',true],
+ ['att28_11','第十一部・梵摩三缽羅','Brahmā-Saṃvara group','梵天相關護法部',0,0,'名稱含梵摩等成分，常被視為梵天類護法；具體梵名與身分未有一致定論，因此依原經名號標示。',true],
+ ['att28_12','第十二部・五部淨居炎摩羅','Śuddhāvāsa-Yama group','淨居天與炎摩羅相關眾',0,0,'此段合列五部淨居天與炎摩羅類護法，顯示二十八「部」不是二十八位單人。其共同職能為護持陀羅尼受持者。',true],
+ ['att28_13','第十三部・釋王三十三','Śakra and the Thirty-three','帝釋與三十三天眾',0,0,'釋王即帝釋，三十三指忉利天會眾。經文將整個天眾列作一部，與單一帝釋人物節點相連但不重複冒充同一人。',true],
+ ['att28_14','第十四部・大辯功德婆怛那','Sarasvatī-Śrī group','辯才與功德女神相關部',0,0,'此段常被解讀為辯才天、功德天等女神護法的合列；音譯與分組在註疏中有差異，故保留經文式合稱。',true],
+ ['att28_15','第十五部・提頭賴吒王','Dhṛtarāṣṭra group','東方持國天王部',0,0,'提頭賴吒即持國天王的音譯，統領乾闥婆並守護東方。此節點代表他在二十八部眾名冊中的一部，不取代四天王人物節點。',true],
+ ['att28_16','第十六部・神母女等大力眾','Mother-goddess group','神母女與大力眷屬',0,0,'經文以神母女等大力眾為一部，可能涵蓋多位母神與眷屬；後世常與鬼子母等護童護法相聯，但名單不固定。',true],
+ ['att28_17','第十七部・毘樓勒叉王','Virūḍhaka group','南方增長天王部',0,0,'毘樓勒叉即增長天王，守護南方。此處呈現其在二十八部經文序列的位置，並與四天王本體節點建立出處關係。',true],
+ ['att28_18','第十八部・毘樓博叉','Virūpākṣa group','西方廣目天王部',0,0,'毘樓博叉即廣目天王，守護西方並與龍眾相連。經文把其列作常隨護法之一。',true],
+ ['att28_19','第十九部・毘沙門','Vaiśravaṇa group','北方多聞天王部',0,0,'毘沙門即多聞天王，守護北方並統領夜叉。此節點只標示他在二十八部序列中的位置，人物故事仍由多聞天王節點承載。',true],
+ ['att28_20','第二十部・金色孔雀王','Golden Peacock King','孔雀護法王部',0,0,'金色孔雀王被列為觀音法門護法。其名可與佛教孔雀護毒、孔雀明王傳統比較，但經文未明言完全等同，故保持區分。',true],
+ ['att28_21','第二十一部・二十八部大仙眾','Twenty-eight great seers','大仙眾部',0,0,'經文在二十八段中又列「二十八部大仙眾」，數字指其自身眷屬名目，不是頁面重複計數；這也顯示名冊由群體名稱構成。',true],
+ ['att28_22','第二十二部・摩尼跋陀羅','Maṇibhadra group','寶賢夜叉將部',0,0,'摩尼跋陀羅常還原為寶賢，是印度與佛教傳統中的夜叉將、財寶與護法神。經文列其率眷屬守護持咒者。',true],
+ ['att28_23','第二十三部・散支大將弗羅婆','Pāñcika general group','散脂夜叉大將部',0,0,'散支／散脂大將常與半支迦、般闍迦及鬼子母傳統相關；弗羅婆的切分仍有異說。本圖以經文合稱為準。',true],
+ ['att28_24','第二十四部・難陀等龍王','Nanda and dragon kings','難陀、跋難陀、娑伽羅、伊缽羅龍眾',0,0,'此段合列難陀、跋難陀、娑伽羅及伊缽羅等龍王，是多位龍族護法組成的一部，而不是一位長名人物。',true],
+ ['att28_25','第二十五部・修羅乾闥婆等','Asura-Gandharva group','阿修羅、乾闥婆、迦樓羅、緊那羅、摩睺羅伽',0,0,'此段把多類天龍八部眾合列為一部，顯示八部眾與二十八部眾是交疊的護法分類，不能當成兩套互斥物種表。',true],
+ ['att28_26','第二十六部・水火雷電神','Water, fire, thunder and lightning','自然現象護法神眾',0,0,'經文合列水、火、雷、電神為一部，表示自然神靈也被納入護持陀羅尼的會眾；未提供固定四位姓名。',true],
+ ['att28_27','第二十七部・鳩槃荼王','Kumbhāṇḍa king','鳩槃荼眾之王',0,0,'鳩槃荼是佛典中的一類鬼神，可能為害亦可受法成為護法。經文列其王與眷屬護持受持者。',true],
+ ['att28_28','第二十八部・毘舍闍','Piśāca group','毘舍闍鬼神部',0,0,'毘舍闍源自印度食血肉鬼靈傳統，佛典可將其納入受約束的護法會眾；此處依經文列為第二十八部，不美化或虛構個人傳記。',true],
+
+ ['womb_note','胎藏界曼荼羅','Garbhadhātu Maṇḍala','《大日經》系・大悲胎藏生的十二大院',0,0,'胎藏界曼荼羅依《大日經》與註疏形成，以中臺八葉院的大日如來為中心，向外展開佛、蓮華、金剛三部與十二大院，表現眾生本具菩提心及如來大悲化用。現圖曼荼羅常說十二大院、四百餘尊，不同傳承與圖本配置有差異。',true,'key'],
+ ['womb_center','中臺八葉院','Central eight-petaled lotus court','大日如來、四佛與四菩薩的中央院',0,0,'中央八葉蓮華以大日如來居中，四方安寶幢、開敷華王、無量壽、天鼓雷音四佛，四隅安普賢、文殊、觀音、彌勒四菩薩，合稱八葉九尊。',true,'key'],
+ ['womb_universal_knowledge','遍知院','Court of Universal Knowledge','三角遍知印與佛眼佛母之智德',0,0,'遍知院以三角智火與遍知印象徵諸佛降伏無明、成正覺的智慧，並與佛眼佛母的能生諸佛功德相連。'],
+ ['womb_vidyadhara','持明院','Vidyādhara court','般若菩薩與忿怒明王的五大院',0,0,'持明院又稱五大院／忿怒院，以般若菩薩及不動、降三世、大威德、勝三世等尊表現般若與教令輪身；不同現圖與註疏對五尊名稱配置有差異。'],
+ ['womb_avalokiteshvara','觀音院','Avalokiteśvara court','蓮華部・大悲救度',0,0,'觀音院又稱蓮華部院，以觀自在菩薩為主尊，展開無量壽佛所流出的慈悲救度德用，包含多種觀音與眷屬。'],
+ ['womb_vajrapani','金剛手院','Vajrapāṇi court','金剛部・如來智德',0,0,'金剛手院又稱金剛部院或薩埵院，以金剛薩埵／金剛手為核心，對應觀音院的悲門而顯示如來堅固智德。'],
+ ['womb_sakyamuni','釋迦院','Śākyamuni court','大日如來化現的教化身',0,0,'釋迦院以密教詮釋中的釋迦如來為主，表大日如來隨機化現、教化眾生的德用，需與單純歷史佛傳層次區分。'],
+ ['womb_manjushri','文殊院','Mañjuśrī court','妙慧與觀照智',0,0,'文殊院以文殊菩薩為主尊，表現斷除戲論、觀照實相的智慧，與金剛手院所表本有智德互相呼應。'],
+ ['womb_sarvanivaranaviskambhin','除蓋障院','Obstacle-removing court','斷除五蓋與煩惱的智用',0,0,'除蓋障院以除蓋障菩薩等尊表現大日如來智慧的作用，去除覆蔽心性的煩惱障礙。'],
+ ['womb_ksitigarbha','地藏院','Kṣitigarbha court','拔苦與救度惡趣',0,0,'地藏院以地藏菩薩為中心，表現大悲救度惡趣、拔苦與樂的作用，與觀音院的大悲本體相互說明。'],
+ ['womb_akasagarbha','虛空藏院','Ākāśagarbha court','福德、智慧與自在施與',0,0,'虛空藏院以虛空藏菩薩為中心，象徵如虛空般包藏世出世間福德智慧及滿足眾生善願的德用。'],
+ ['womb_susiddhi','蘇悉地院','Susiddhi court','妙成就與利他事業圓滿',0,0,'蘇悉地意為妙成就，此院由虛空藏院開出，表現福德圓滿後成辦大悲利他事業的作用。'],
+ ['womb_outer_vajra','外金剛部院','Outer Vajra court','最外院・攝納諸天與世間神',0,0,'外金剛部院環繞曼荼羅最外層，納入印度及地方諸天善神，表示世間眾類也被置於佛法教化與護持秩序中；不同圖本尊數及方位可異。'],
+ ['womb_ratnaketu','寶幢如來','Ratnaketu','中臺八葉院東方佛',0,0,'寶幢如來位於胎藏界中臺八葉院東方，表示大日如來智德的一方展開；不應直接以金剛界東方阿閦佛替代。'],
+ ['womb_samkusumitaraja','開敷華王如來','Saṃkusumitarāja','中臺八葉院南方佛',0,0,'開敷華王如來位於中臺八葉院南方，以花開譬喻菩提心功德開展。譯名亦見開敷花王。'],
+ ['womb_divyadundubhi','天鼓雷音如來','Divyadundubhimeghanirghoṣa','中臺八葉院北方佛',0,0,'天鼓雷音如來位於中臺八葉院北方，名稱以天鼓雷音象徵如來說法遍告眾生；漢譯與日文真言宗名稱有不同轉寫。'],
+
+ ['myoo_note','明王與忿怒尊','Vidyārāja','密教以智慧威力調伏障礙的教令輪身',0,0,'明王意為「明／真言之王」，在東亞密教常被解釋為佛菩薩為調伏剛強眾生而現的忿怒教令輪身。五大、八大、十大等名冊依經軌和宗派不同，不是唯一固定階級。',true,'key'],
+ ['myoo_acala','不動明王','Acala／Fudō Myōō','五大明王中央・大日如來教令輪身',0,0,'不動明王以不動菩提心與降伏障礙為義，東亞造像常持智慧劍與羂索、坐磐石並有火焰背光。其形象源自《大日經》與註疏系，並隨唐密、東密、台密發展。',false,'key'],
+ ['myoo_trailokyavijaya','降三世明王','Trailokyavijaya','五大明王東方・降伏三界煩惱',0,0,'降三世明王在五大明王中居東方，常與阿閦如來及金剛手系相連；忿怒形象象徵降伏貪瞋癡與三界執取，不宜理解為歷史戰爭人物。'],
+ ['myoo_kundali','軍荼利明王','Kuṇḍalī','五大明王南方・甘露與降障',0,0,'軍荼利明王在五大明王中居南方，常與寶生如來相應，名稱與盤繞、甘露等意象相關；多臂、蛇飾及持物依儀軌不同。'],
+ ['myoo_yamantaka','大威德明王','Yamāntaka','五大明王西方・降伏死魔',0,0,'大威德明王名義有「終結閻魔／死亡者」之意，在東亞五大明王中常與阿彌陀佛或文殊智慧相連；牛乘、牛頭或多面多臂形象依中國、日本與藏傳系統而異。'],
+ ['myoo_vajrayaksha','金剛夜叉明王','Vajrayakṣa','五大明王北方・東密系',0,0,'金剛夜叉明王在東密五大明王中居北方，常與不空成就佛相應；台密或部分寺院可由烏樞沙摩明王替代，故兩者分列。'],
+ ['myoo_ucchusma','烏樞沙摩明王／穢跡金剛','Ucchuṣma','淨除不淨・台密五大明王異說',0,0,'烏樞沙摩以火焰淨除不淨與障礙，漢譯又稱穢跡金剛。台密或部分寺院以其取代北方金剛夜叉明王；八大明王名冊中也可能另列。'],
+ ['myoo_great_laughter','大笑金剛明王','Mahāhāsa Vajrarāja','八大金剛明王異本・虛空藏化現',0,0,'《大妙金剛》系八大明王名冊將大笑金剛明王與虛空藏菩薩相連。其名冊與《秘藏記》系八大明王不同，頁面不合併為唯一版本。'],
+ ['myoo_great_wheel','大輪金剛明王','Mahācakra Vajrarāja','八大金剛明王異本・彌勒化現',0,0,'大輪金剛明王在一種八大金剛明王系統中被視為彌勒菩薩化現，以法輪與降伏障礙為象徵；具體持物依儀軌。'],
+ ['myoo_invincible','無能勝金剛明王','Aparājita Vajrarāja','八大金剛明王異本・地藏／釋迦系',0,0,'無能勝意為不可戰勝。不同八大明王名冊把他與地藏、釋迦或彌勒系化現相連，顯示名冊不能只用一套對應表。'],
+ ['myoo_hayagriva','馬頭明王／馬頭觀音','Hayagrīva','觀音系忿怒尊・八大明王之一',0,0,'馬頭明王／馬頭觀音是觀自在系忿怒尊，頭頂馬首為重要識別，在印度、藏傳與東亞儀軌中均有多種身色、面臂與職能配置。'],
+ ['myoo_foot_hurled','步擲金剛明王','Padanikṣepa Vajrarāja','八大金剛明王異本・普賢化現',0,0,'步擲金剛明王見於一種八大金剛明王名冊，與普賢菩薩化現相連；資料主要依特定經軌，非所有東亞密教共通尊格。'],
+ ['myoo_aizen','愛染明王','Rāgarāja','轉欲染為菩提的東亞密教忿怒尊',0,0,'愛染明王以紅身、獅冠與多臂形象表現將愛欲煩惱轉為覺悟智慧，在日本密教尤其重要；不屬通行五大明王固定成員。'],
+ ['myoo_mahamayuri','孔雀明王','Mahāmāyūrī','息災、除毒與孔雀佛母',0,0,'孔雀明王／大孔雀佛母源自能食毒蛇的孔雀象徵，相關陀羅尼經以除毒、息災與護國為主。其慈和佛母形象與多數忿怒明王不同。']
+);
+
+const BU_TRADITION_IDS=['traditions_note','trad_early_schools','trad_theravada','trad_mahayana','trad_vajrayana','trad_chinese','trad_tibetan','trad_japanese','trad_southeast_asia','trad_chan','trad_pure_land','trad_east_asian_esoteric'];
+const BU_TEXT_EXTRA_IDS=['text_agamas','text_nikayas','text_vinaya','text_abhidharma','text_prajnaparamita','text_nirvana','text_lankavatara','text_samdhinirmocana','text_shurangama','text_perfect_enlightenment','text_medicine','text_maha_vairocana','text_vajrasekhara','text_susiddhikara','text_chinese_canon','text_kangyur','text_tengyur','text_platform','text_jataka','text_milinda','text_yogacarabhumi','text_madhyamaka','text_abhidharmakosha'];
+const BU_HEAVEN_24_IDS=['deva_mahabrahma','sakka','vaishravana','dhritarashtra','virudhaka','virupaksha','deva_secret_vajra','deva_mahesvara','deva_pancika','deva_sarasvati','deva_lakshmi','deva_skanda','deva_earth','deva_bodhi_tree','deva_hariti','deva_marici','deva_sun','deva_moon','deva_sagara','deva_yama_king','deva_kinnara_king','deva_ziwei','deva_dongyue','deva_thunder'];
+const BU_DIRECTION_8_IDS=['sakka','deva_agni','deva_yama_direction','deva_nirrti','deva_varuna','deva_vayu','vaishravana','deva_ishana'];
+const BU_DIRECTION_12_IDS=[...BU_DIRECTION_8_IDS,'deva_mahabrahma','deva_earth','deva_sun','deva_moon'];
+const BU_ATTENDANT_IDS=['att28_note',...Array.from({length:28},(_,i)=>`att28_${String(i+1).padStart(2,'0')}`)];
+const BU_WOMB_IDS=['womb_note','womb_center','womb_universal_knowledge','womb_vidyadhara','womb_avalokiteshvara','womb_vajrapani','womb_sakyamuni','womb_manjushri','womb_sarvanivaranaviskambhin','womb_ksitigarbha','womb_akasagarbha','womb_susiddhi','womb_outer_vajra','womb_ratnaketu','womb_samkusumitaraja','womb_divyadundubhi'];
+const BU_MYOO_IDS=['myoo_note','myoo_acala','myoo_trailokyavijaya','myoo_kundali','myoo_yamantaka','myoo_vajrayaksha','myoo_ucchusma','myoo_great_laughter','myoo_great_wheel','myoo_invincible','myoo_hayagriva','myoo_foot_hurled','myoo_aizen','myoo_mahamayuri'];
+
+function packBuddhistNodes(ids,startCol,startRow,cols=5){
+ ids.forEach((id,i)=>{ const d=BU_NODE_DEFS.find(n=>n[0]===id); if(d){ d[4]=startCol+(i%cols)*2; d[5]=startRow+Math.floor(i/cols)*2; } });
+}
+packBuddhistNodes(['buddhism_note','maya','suddhodana','siddhartha','yashodhara','rahula','lumbini','four_sights','renunciation','mara','bodhi_tree','awakening','deer_park','first_sermon','five_ascetics','parinirvana','kushinagar'],0,0,5);
+packBuddhistNodes(['teachings_note','triple_gem','four_truths','eightfold_path','middle_way','dependent_origination','three_marks','karma','samsara','nirvana'],12,0,5);
+packBuddhistNodes(['sangha_note','sariputra','maudgalyayana','mahakasyapa','ananda','upali','anuruddha','mahapajapati','kisa_gotami','angulimala'],24,0,5);
+packBuddhistNodes(['buddhas_note','amitabha','medicine_buddha','vairocana','akshobhya','ratnasambhava','amoghasiddhi','dipankara','maitreya'],0,10,5);
+packBuddhistNodes(['bodhisattvas_note','avalokiteshvara','manjushri','samantabhadra','ksitigarbha','mahasthamaprapta','vajrapani','tara','akasagarbha'],12,10,5);
+packBuddhistNodes(['six_realms','hell_realm','hungry_ghost_realm','animal_realm','human_realm','asura_realm','deva_realm','mount_meru','tushita','sukhavati'],24,10,5);
+packBuddhistNodes(['scriptures_note','pali_canon','dhammapada','lotus_sutra','heart_sutra','diamond_sutra','avatamsaka_sutra','pure_land_sutras','vimalakirti_sutra','ksitigarbha_sutra',...BU_TEXT_EXTRA_IDS],0,24,7);
+packBuddhistNodes(BU_TRADITION_IDS,16,24,4);
+packBuddhistNodes(['eight_classes','devas','nagas','yakshas','gandharvas','asuras','garudas','kinnaras','mahoragas'],26,24,3);
+packBuddhistNodes(['deva_system_note','deva_eight_note','deva_twelve_note','deva_sixteen_note','deva_twenty_note','deva_twentyfour_note','four_kings_note','brahma_sahampati','mara_deva',...BU_HEAVEN_24_IDS,...BU_DIRECTION_8_IDS.filter(id=>!BU_HEAVEN_24_IDS.includes(id))],34,24,7);
+packBuddhistNodes(BU_ATTENDANT_IDS,0,42,6);
+packBuddhistNodes(BU_WOMB_IDS,16,42,4);
+packBuddhistNodes(BU_MYOO_IDS,28,42,4);
+
+const BU_GROUPS = [
+ ['釋迦牟尼佛傳與四大聖地',['buddhism_note','maya','suddhodana','siddhartha','yashodhara','rahula','lumbini','four_sights','renunciation','mara','bodhi_tree','awakening','deer_park','first_sermon','five_ascetics','parinirvana','kushinagar'],'#e5b95f'],
+ ['核心教法',['teachings_note','triple_gem','four_truths','eightfold_path','middle_way','dependent_origination','three_marks','karma','samsara','nirvana'],'#72c6e8'],
+ ['佛陀弟子與僧團',['sangha_note','sariputra','maudgalyayana','mahakasyapa','ananda','upali','anuruddha','mahapajapati','kisa_gotami','angulimala'],'#8bc8a2'],
+ ['諸佛與未來佛',['buddhas_note','amitabha','medicine_buddha','vairocana','akshobhya','ratnasambhava','amoghasiddhi','dipankara','maitreya'],'#e5b95f'],
+ ['密教五方佛',['vairocana','akshobhya','ratnasambhava','amitabha','amoghasiddhi'],'#a98de0'],
+ ['大乘菩薩',['bodhisattvas_note','avalokiteshvara','manjushri','samantabhadra','ksitigarbha','mahasthamaprapta','vajrapani','tara','akasagarbha'],'#79b9ef'],
+ ['佛教重要經典',['scriptures_note','pali_canon','dhammapada','lotus_sutra','heart_sutra','diamond_sutra','avatamsaka_sutra','pure_land_sutras','vimalakirti_sutra','ksitigarbha_sutra',...BU_TEXT_EXTRA_IDS],'#c8a860'],
+ ['天龍八部',['eight_classes','devas','nagas','yakshas','gandharvas','asuras','garudas','kinnaras','mahoragas'],'#77c6b6'],
+ ['四大天王與重要天神',['four_kings_note','dhritarashtra','virudhaka','virupaksha','vaishravana','sakka','brahma_sahampati','mara_deva'],'#77c6b6'],
+ ['六道與佛教宇宙觀',['six_realms','hell_realm','hungry_ghost_realm','animal_realm','human_realm','asura_realm','deva_realm','mount_meru','tushita','sukhavati'],'#a98de0'],
+ ['淨土信仰',['amitabha','avalokiteshvara','mahasthamaprapta','pure_land_sutras','sukhavati'],'#79b9ef'],
+ ['佛教主要傳承與地域發展',BU_TRADITION_IDS,'#72c6e8'],
+ ['八方天',['deva_eight_note',...BU_DIRECTION_8_IDS],'#77c6b6'],
+ ['十二天',['deva_twelve_note',...BU_DIRECTION_12_IDS],'#79b9ef'],
+ ['十六諸天（漢傳名冊）',['deva_sixteen_note',...BU_HEAVEN_24_IDS.slice(0,16)],'#a98de0'],
+ ['二十諸天',['deva_twenty_note',...BU_HEAVEN_24_IDS.slice(0,20)],'#c8a860'],
+ ['二十四諸天',['deva_system_note','deva_twentyfour_note',...BU_HEAVEN_24_IDS],'#e5b95f'],
+ ['千手觀音二十八部眾',BU_ATTENDANT_IDS,'#79b9ef'],
+ ['胎藏界曼荼羅十二大院',BU_WOMB_IDS,'#e5b95f'],
+ ['中臺八葉院九尊',['womb_center','vairocana','womb_ratnaketu','womb_samkusumitaraja','amitabha','womb_divyadundubhi','samantabhadra','manjushri','avalokiteshvara','maitreya'],'#c8a860'],
+ ['五大明王',['myoo_note','myoo_acala','myoo_trailokyavijaya','myoo_kundali','myoo_yamantaka','myoo_vajrayaksha'],'#e06e62'],
+ ['八大金剛明王（《大妙金剛經》系）',['myoo_acala','myoo_trailokyavijaya','myoo_yamantaka','myoo_great_laughter','myoo_great_wheel','myoo_hayagriva','myoo_invincible','myoo_foot_hurled'],'#d57b9c'],
+ ['其他重要明王',['myoo_ucchusma','myoo_aizen','myoo_mahamayuri'],'#a98de0'],
+];
+const BU_UNIONS = [
+ {spouses:['suddhodana','maya'],marriage:'primary',children:['siddhartha'],label:'釋迦族家庭'},
+ {spouses:['siddhartha','yashodhara'],marriage:'primary',children:['rahula'],label:'出家前的家庭'},
+ {parent:'buddhism_note',children:['lumbini','four_sights','renunciation','awakening','first_sermon','parinirvana'],label:'佛傳主要階段'},
+ {spouses:['siddhartha','mara'],marriage:'partner',label:'菩提樹下的魔障敘事',labelClass:'blood'},
+ {spouses:['awakening','bodhi_tree'],marriage:'partner',label:'菩提樹下成道',labelClass:'ritual'},
+ {spouses:['first_sermon','deer_park'],marriage:'partner',label:'鹿野苑初轉法輪',labelClass:'ritual'},
+ {parent:'first_sermon',children:['five_ascetics'],label:'最初聞法者'},
+ {spouses:['parinirvana','kushinagar'],marriage:'partner',label:'雙娑羅樹間入滅',labelClass:'ritual'},
+ {parent:'teachings_note',children:['triple_gem','four_truths','eightfold_path','middle_way','dependent_origination','three_marks','karma','samsara','nirvana'],label:'早期佛教核心教法'},
+ {spouses:['four_truths','eightfold_path'],marriage:'partner',label:'道諦的實踐內容',labelClass:'ritual'},
+ {spouses:['karma','samsara'],marriage:'partner',label:'業果與生死相續',labelClass:'ritual'},
+ {spouses:['dependent_origination','nirvana'],marriage:'partner',label:'緣滅與苦的止息',labelClass:'ritual'},
+ {parent:'sangha_note',children:['sariputra','maudgalyayana','mahakasyapa','ananda','upali','anuruddha','mahapajapati','kisa_gotami','angulimala'],label:'代表弟子（非完整名單）'},
+ {spouses:['sariputra','maudgalyayana'],marriage:'partner',label:'兩位上首弟子與道友',labelClass:'ritual'},
+ {spouses:['ananda','mahapajapati'],marriage:'partner',label:'比丘尼僧團請求的律藏敘事',labelClass:'ritual'},
+ {parent:'buddhas_note',children:['amitabha','medicine_buddha','vairocana','akshobhya','ratnasambhava','amoghasiddhi','dipankara','maitreya'],label:'不同時代與傳統的佛'},
+ {spouses:['dipankara','siddhartha'],marriage:'partner',label:'過去世授記成佛',labelClass:'ritual'},
+ {spouses:['maitreya','tushita'],marriage:'partner',label:'候補成佛的兜率天',labelClass:'ritual'},
+ {parent:'bodhisattvas_note',children:['avalokiteshvara','manjushri','samantabhadra','ksitigarbha','mahasthamaprapta','vajrapani','tara','akasagarbha'],label:'代表性大乘菩薩'},
+ {spouses:['amitabha','avalokiteshvara'],marriage:'partner',label:'西方三聖',labelClass:'ritual'},
+ {spouses:['amitabha','mahasthamaprapta'],marriage:'partner',label:'西方三聖',labelClass:'ritual'},
+ {spouses:['amitabha','sukhavati'],marriage:'partner',label:'西方極樂世界教主',labelClass:'ritual'},
+ {spouses:['amitabha','pure_land_sutras'],marriage:'partner',label:'法藏願行與往生教說',labelClass:'ritual'},
+ {spouses:['avalokiteshvara','heart_sutra'],marriage:'partner',label:'向舍利子開示般若空性',labelClass:'ritual'},
+ {spouses:['manjushri','vimalakirti_sutra'],marriage:'partner',label:'文殊問疾與不二法門',labelClass:'ritual'},
+ {spouses:['samantabhadra','avatamsaka_sutra'],marriage:'partner',label:'入法界品與普賢行願',labelClass:'ritual'},
+ {spouses:['ksitigarbha','ksitigarbha_sutra'],marriage:'partner',label:'地藏本願與救苦敘事',labelClass:'ritual'},
+ {parent:'eight_classes',children:['devas','nagas','yakshas','gandharvas','asuras','garudas','kinnaras','mahoragas'],label:'東亞常見八部分類'},
+ {parent:'four_kings_note',children:['dhritarashtra','virudhaka','virupaksha','vaishravana'],label:'東南西北四方守護'},
+ {spouses:['siddhartha','brahma_sahampati'],marriage:'partner',label:'成道後勸請說法',labelClass:'ritual'},
+ {spouses:['mara','mara_deva'],marriage:'partner',label:'魔羅的天界與象徵層次',labelClass:'ritual'},
+ {spouses:['sakka','asuras'],marriage:'partner',label:'忉利天與阿修羅之戰',labelClass:'blood'},
+ {parent:'six_realms',children:['hell_realm','hungry_ghost_realm','animal_realm','human_realm','asura_realm','deva_realm'],label:'六道分類（部分傳統為五趣）'},
+ {spouses:['mount_meru','four_kings_note'],marriage:'partner',label:'須彌山腰的四王天',labelClass:'ritual'},
+ {spouses:['mount_meru','sakka'],marriage:'partner',label:'須彌山頂的忉利天',labelClass:'ritual'},
+ {parent:'traditions_note',children:BU_TRADITION_IDS.slice(1),label:'主要傳承與地域發展（非互斥分類）'},
+ {spouses:['trad_mahayana','trad_vajrayana'],marriage:'partner',label:'金剛乘以大乘菩薩道為基礎',labelClass:'ritual'},
+ {spouses:['trad_chinese','trad_east_asian_esoteric'],marriage:'partner',label:'漢地密教與東亞傳承',labelClass:'ritual'},
+ {spouses:['trad_theravada','pali_canon'],marriage:'partner',label:'核心經典語言傳承',labelClass:'ritual'},
+ {spouses:['trad_tibetan','text_kangyur'],marriage:'partner',label:'佛語譯典',labelClass:'ritual'},
+ {spouses:['trad_tibetan','text_tengyur'],marriage:'partner',label:'論著譯典',labelClass:'ritual'},
+ {spouses:['trad_chinese','text_chinese_canon'],marriage:'partner',label:'漢譯正典與東亞撰述',labelClass:'ritual'},
+ {parent:'scriptures_note',children:BU_TEXT_EXTRA_IDS,label:'新增代表經律論與大藏經'},
+ {spouses:['medicine_buddha','text_medicine'],marriage:'partner',label:'十二大願與淨琉璃世界',labelClass:'ritual'},
+ {spouses:['vairocana','text_maha_vairocana'],marriage:'partner',label:'大日如來與胎藏界經典',labelClass:'ritual'},
+ {parent:'deva_system_note',children:['deva_eight_note','deva_twelve_note','deva_sixteen_note','deva_twenty_note','deva_twentyfour_note'],label:'不同經軌與地域的諸天名數'},
+ {parent:'deva_eight_note',children:BU_DIRECTION_8_IDS,label:'八方護法'},
+ {parent:'deva_twelve_note',children:['deva_mahabrahma','deva_earth','deva_sun','deva_moon'],label:'八方外增上、下、日、月'},
+ {parent:'deva_sixteen_note',children:BU_HEAVEN_24_IDS.slice(0,16),label:'漢傳十六諸天名冊之一'},
+ {parent:'deva_twenty_note',children:BU_HEAVEN_24_IDS.slice(16,20),label:'十六天外增四尊'},
+ {parent:'deva_twentyfour_note',children:BU_HEAVEN_24_IDS.slice(20),label:'二十天外的漢地增列四尊'},
+ {spouses:['att28_note','avalokiteshvara'],marriage:'partner',label:'千手觀音的常隨護法眷屬',labelClass:'ritual'},
+ {parent:'att28_note',children:BU_ATTENDANT_IDS.slice(1),label:'《千手陀羅尼經》二十八段護法名號'},
+ {spouses:['att28_13','sakka'],marriage:'partner',label:'釋王三十三天眾',labelClass:'ritual'},
+ {spouses:['att28_15','dhritarashtra'],marriage:'partner',label:'提頭賴吒即持國天王',labelClass:'ritual'},
+ {spouses:['att28_17','virudhaka'],marriage:'partner',label:'毘樓勒叉即增長天王',labelClass:'ritual'},
+ {spouses:['att28_18','virupaksha'],marriage:'partner',label:'毘樓博叉即廣目天王',labelClass:'ritual'},
+ {spouses:['att28_19','vaishravana'],marriage:'partner',label:'毘沙門即多聞天王',labelClass:'ritual'},
+ {parent:'womb_note',children:BU_WOMB_IDS.slice(1,13),label:'胎藏界十二大院'},
+ {spouses:['womb_note','text_maha_vairocana'],marriage:'partner',label:'《大日經》系曼荼羅',labelClass:'ritual'},
+ {parent:'womb_center',children:['vairocana','womb_ratnaketu','womb_samkusumitaraja','amitabha','womb_divyadundubhi','samantabhadra','manjushri','avalokiteshvara','maitreya'],label:'中臺八葉院九尊'},
+ {spouses:['womb_avalokiteshvara','avalokiteshvara'],marriage:'partner',label:'觀音院主尊',labelClass:'ritual'},
+ {spouses:['womb_vajrapani','vajrapani'],marriage:'partner',label:'金剛手院主尊系',labelClass:'ritual'},
+ {spouses:['womb_manjushri','manjushri'],marriage:'partner',label:'文殊院主尊',labelClass:'ritual'},
+ {spouses:['womb_ksitigarbha','ksitigarbha'],marriage:'partner',label:'地藏院主尊',labelClass:'ritual'},
+ {spouses:['womb_akasagarbha','akasagarbha'],marriage:'partner',label:'虛空藏院主尊',labelClass:'ritual'},
+ {parent:'myoo_note',children:BU_MYOO_IDS.slice(1),label:'不同經軌的明王與忿怒尊'},
+ {spouses:['myoo_acala','vairocana'],marriage:'partner',label:'大日如來教令輪身傳統',labelClass:'ritual'},
+ {spouses:['myoo_trailokyavijaya','akshobhya'],marriage:'partner',label:'五大明王東方對應',labelClass:'ritual'},
+ {spouses:['myoo_kundali','ratnasambhava'],marriage:'partner',label:'五大明王南方對應',labelClass:'ritual'},
+ {spouses:['myoo_yamantaka','amitabha'],marriage:'partner',label:'五大明王西方對應',labelClass:'ritual'},
+ {spouses:['myoo_vajrayaksha','amoghasiddhi'],marriage:'partner',label:'五大明王北方對應（東密）',labelClass:'ritual'},
+ {spouses:['myoo_hayagriva','avalokiteshvara'],marriage:'partner',label:'觀自在系忿怒尊',labelClass:'ritual'},
+];
+const BU_NODE_NAMES = Object.fromEntries(BU_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
+Object.assign(BU_NODE_NAMES,{
+ siddhartha:{...BU_NODE_NAMES.siddhartha,aliases:['佛陀','釋尊','喬達摩佛','悉達多太子','Śākyamuni','Gautama Buddha'],shrine:'藍毘尼・菩提伽耶・鹿野苑・拘尸那羅'},
+ mara:{...BU_NODE_NAMES.mara,aliases:['波旬','天魔','魔王波旬']},
+ amitabha:{...BU_NODE_NAMES.amitabha,aliases:['無量光佛','無量壽佛','阿彌陀如來','Amida']},
+ medicine_buddha:{...BU_NODE_NAMES.medicine_buddha,aliases:['藥師琉璃光如來','藥師如來']},
+ vairocana:{...BU_NODE_NAMES.vairocana,aliases:['大日如來','摩訶毘盧遮那佛']},
+ maitreya:{...BU_NODE_NAMES.maitreya,aliases:['彌勒佛','彌勒菩薩','慈氏','Metteyya']},
+ avalokiteshvara:{...BU_NODE_NAMES.avalokiteshvara,aliases:['觀自在菩薩','觀音菩薩','觀音','Chenrezig','Kannon']},
+ manjushri:{...BU_NODE_NAMES.manjushri,aliases:['文殊師利','妙吉祥']},
+ samantabhadra:{...BU_NODE_NAMES.samantabhadra,aliases:['普賢','遍吉菩薩']},
+ ksitigarbha:{...BU_NODE_NAMES.ksitigarbha,aliases:['地藏王菩薩','地藏']},
+ vaishravana:{...BU_NODE_NAMES.vaishravana,aliases:['毘沙門天','多聞天','Vaiśravaṇa','Bishamonten']},
+ traditions_note:{...BU_NODE_NAMES.traditions_note,aliases:['佛教宗派','佛教傳承','三乘']},
+ trad_vajrayana:{...BU_NODE_NAMES.trad_vajrayana,aliases:['密宗','密教','金剛乘佛教','藏密']},
+ trad_chinese:{...BU_NODE_NAMES.trad_chinese,aliases:['漢地佛教','北傳佛教']},
+ trad_east_asian_esoteric:{...BU_NODE_NAMES.trad_east_asian_esoteric,aliases:['唐密','東密','台密','真言密教']},
+ att28_note:{...BU_NODE_NAMES.att28_note,aliases:['二十八部眾','觀音二十八部眾','千手觀音眷屬']},
+ womb_note:{...BU_NODE_NAMES.womb_note,aliases:['胎藏界','胎藏曼荼羅','大悲胎藏生曼荼羅']},
+ myoo_note:{...BU_NODE_NAMES.myoo_note,aliases:['明王','忿怒尊','持明王']},
+ myoo_acala:{...BU_NODE_NAMES.myoo_acala,aliases:['不動尊','無動尊','Fudō Myōō']},
+ myoo_ucchusma:{...BU_NODE_NAMES.myoo_ucchusma,aliases:['穢跡金剛','火頭金剛','烏樞瑟摩']},
+});
+const BUDDHISM_USER_EDITS = {};
+
+const BU_SOURCE_LIBRARY = {
+ earlyLife:{zh:'《中部》26〈聖求經〉：出家、修學、覺悟與說法',url:'https://suttacentral.net/mn26/en/sujato'},
+ firstSermon:{zh:'《相應部》56.11〈轉法輪經〉',url:'https://suttacentral.net/sn56.11/en/sujato'},
+ parinirvana:{zh:'《長部》16〈大般涅槃經〉',url:'https://suttacentral.net/dn16/en/sujato'},
+ earlyCanon:{zh:'SuttaCentral：早期佛教經典與平行文本',url:'https://suttacentral.net/pitaka/sutta'},
+ dhammapada:{zh:'SuttaCentral：《法句經》巴利本',url:'https://suttacentral.net/dhp/en/sujato'},
+ lotus:{zh:'BDK English Tripiṭaka：《法華經》',url:'https://www.bdkamerica.org/product/the-lotus-sutra-revised-second-edition/'},
+ pureLand:{zh:'BDK English Tripiṭaka：淨土三經',url:'https://www.bdkamerica.org/product/the-three-pure-land-sutras/'},
+ vimalakirti:{zh:'BDK English Tripiṭaka：《維摩詰經》',url:'https://www.bdkamerica.org/product/the-sutra-of-queen-srimala-of-the-lions-roar-and-the-vimalakirti-sutra/'},
+ heart:{zh:'84000：《般若波羅蜜多心經》',url:'https://84000.co/translation/toh21'},
+ diamond:{zh:'84000：《能斷金剛般若波羅蜜多經》',url:'https://84000.co/translation/toh16'},
+ avatamsaka:{zh:'84000：《華嚴經・入法界品》',url:'https://84000.co/translation/toh44-45'},
+ mahayana:{zh:'84000：大乘經典翻譯資料庫',url:'https://84000.co/reading-room'},
+ cosmology:{zh:'《長部》20〈大會經〉：諸天與非人眾',url:'https://suttacentral.net/dn20/en/sujato'},
+ angulimala:{zh:'《中部》86〈央掘魔羅經〉',url:'https://suttacentral.net/mn86/en/sujato'},
+ women:{zh:'SuttaCentral：《長老尼偈》',url:'https://suttacentral.net/thig/en/sujato'},
+ traditions:{zh:'大都會藝術博物館：南亞與東南亞佛教藝術及傳承',url:'https://resources.metmuseum.org/resources/metpublications/pdf/The_Art_of_South_and_Southeast_Asia_A_Resource_for_Educators.pdf'},
+ tibetanCanon:{zh:'84000：甘珠爾與丹珠爾概論',url:'https://84000.co/post/a-brief-introduction-to-the-kangyur-and-tengyur'},
+ chineseTexts:{zh:'BDK English Tripiṭaka：漢譯佛典英譯目錄',url:'https://www.bdkamerica.org/tripitaka-list/'},
+ heavens:{zh:'佛教護法：八方天、十二天、十六至二十四諸天名冊與異說',url:'https://zh.wikipedia.org/zh-tw/%E8%AD%B7%E6%B3%95%E7%A5%9E'},
+ attendants:{zh:'《千手陀羅尼經》：二十八部護法名號（CBETA T1060）',url:'https://cbetaonline.dila.edu.tw/zh/T1060'},
+ attendantsTemple:{zh:'京都三十三間堂：二十八部眾造像與名單差異',url:'https://www.sanjusangendo.jp/statue/nijuhachibushu/'},
+ womb:{zh:'高野山無量光院台灣別院：胎藏界曼荼羅十二大院',url:'https://koyasan.org.tw/web/bbs/board.php?bo_table=article&sca=8&wr_id=27'},
+ myoo:{zh:'大都會藝術博物館：五大明王與日本密教圖像',url:'https://www.metmuseum.org/art/collection/search/44911'},
+ esotericTexts:{zh:'BDK English Tripiṭaka：東亞密教代表經論',url:'https://www.bdkamerica.org/product/esoteric-texts/'},
+};
+const BU_NODE_SOURCES = Object.fromEntries([
+ ['buddhism_note','siddhartha','four_sights','renunciation','awakening','bodhi_tree','mara','brahma_sahampati'].map(id=>[id,['earlyLife']]),
+ ['lumbini','maya','suddhodana','yashodhara','rahula'].map(id=>[id,['earlyCanon']]),
+ ['deer_park','first_sermon','five_ascetics','four_truths','eightfold_path','middle_way'].map(id=>[id,['firstSermon']]),
+ ['parinirvana','kushinagar','mahakasyapa','ananda','anuruddha','sakka'].map(id=>[id,['parinirvana']]),
+ ['teachings_note','triple_gem','dependent_origination','three_marks','karma','samsara','nirvana','sangha_note','sariputra','maudgalyayana','upali'].map(id=>[id,['earlyCanon']]),
+ ['mahapajapati','kisa_gotami'].map(id=>[id,['women','earlyCanon']]),
+ ['angulimala'].map(id=>[id,['angulimala']]),
+ ['scriptures_note','pali_canon'].map(id=>[id,['earlyCanon','mahayana']]), ['dhammapada'].map(id=>[id,['dhammapada']]),
+  ['lotus_sutra','nagas','eight_classes'].map(id=>[id,['lotus']]),
+  ['avalokiteshvara'].map(id=>[id,['lotus','heart']]),
+ ['heart_sutra'].map(id=>[id,['heart']]), ['diamond_sutra'].map(id=>[id,['diamond']]),
+  ['avatamsaka_sutra','samantabhadra'].map(id=>[id,['avatamsaka']]),
+  ['manjushri'].map(id=>[id,['avatamsaka','vimalakirti']]),
+ ['pure_land_sutras','amitabha','mahasthamaprapta','sukhavati'].map(id=>[id,['pureLand']]),
+ ['vimalakirti_sutra'].map(id=>[id,['vimalakirti']]),
+ ['buddhas_note','medicine_buddha','vairocana','akshobhya','ratnasambhava','amoghasiddhi','dipankara','maitreya','bodhisattvas_note','ksitigarbha','vajrapani','tara','akasagarbha','ksitigarbha_sutra','tushita'].map(id=>[id,['mahayana']]),
+ ['devas','yakshas','gandharvas','asuras','garudas','kinnaras','mahoragas','four_kings_note','dhritarashtra','virudhaka','virupaksha','vaishravana','mara_deva','six_realms','hell_realm','hungry_ghost_realm','animal_realm','human_realm','asura_realm','deva_realm','mount_meru'].map(id=>[id,['cosmology']]),
+].flat());
+BU_NODE_DEFS.forEach(([id])=>{
+ if(BU_NODE_SOURCES[id]) return;
+ if(id.startsWith('trad_') || id==='traditions_note') BU_NODE_SOURCES[id]=id==='trad_tibetan' ? ['traditions','tibetanCanon'] : ['traditions'];
+ else if(id.startsWith('text_')) BU_NODE_SOURCES[id]=['chineseTexts',...(id==='text_kangyur'||id==='text_tengyur'?['tibetanCanon']:[]),...(id==='text_maha_vairocana'||id==='text_vajrasekhara'||id==='text_susiddhikara'?['esotericTexts']:[])];
+ else if(id.startsWith('deva_')) BU_NODE_SOURCES[id]=['heavens'];
+ else if(id.startsWith('att28_')) BU_NODE_SOURCES[id]=['attendants','attendantsTemple'];
+ else if(id.startsWith('womb_')) BU_NODE_SOURCES[id]=['womb'];
+ else if(id.startsWith('myoo_')) BU_NODE_SOURCES[id]=['myoo'];
+});
+function buddhismSourceLinks(keys){ return (keys||[]).map(k=>BU_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
+
 /* ============ 亞伯拉罕諸傳統：天使與墮天者 ============ */
 const AN_NODE_DEFS = [
  ['divine_note','神／至高者','The Most High','各傳統中的創造主・非天使節點',8,0,'本圖以「至高者」標示天使受命的來源，並不把猶太教、基督教、伊斯蘭教對神的理解合併成同一套教義。天使階級、姓名與職能多屬不同時代的文本或後世神學整理。',true,'key'],
@@ -4941,7 +5385,11 @@ const AN_NODE_DEFS = [
  ['archangels','天使長','Archangels','下三・聖靈階級・重大宣告',5,6,'「天使長」在後世九階中居於天使與權天使之間。正典、次經與偽經對哪些名字屬於天使長並不一致，本圖保留其文本差異。',true],
  ['angels','天使','Angels','下三・聖靈階級・使者',8,6,'「天使」字面即使者。聖典中的天使未必都具姓名或明確階級；九階中最低一階的「天使」只是後世為區分而採用的狹義稱呼。',true],
  ['michael','米迦勒','Mīkāʾēl','「誰能像神？」・以色列的守護者',1,9,'名字意為「誰能像神？」。《但以理書》稱米迦勒為守護以色列的君；《啟示錄》描寫他與天軍對抗龍。猶太、基督教與伊斯蘭傳統皆重視其地位，但敘事細節與職掌不盡相同。',false,'key'],
- ['gabriel','加百列','Gaḇrīʾēl／Jibrīl','「神是我的力量」・啟示使者；後期傳統亦列熾天使／終焉號角者',4,9,'名字意為「神是我的力量」。《但以理書》與《路加福音》中的啟示使者；伊斯蘭傳統中的吉卜利勒負責傳達《古蘭經》啟示。部分後期基督教與藝術傳統把他列為熾天使或末日號角者，但《啟示錄》的七位吹號天使並未逐一命名，不能斷定其中一位必為加百列。',false,'key'],
+ ['gabriel','加百列','Gaḇrīʾēl／Jibrīl','「神是我的力量」・啟示使者；後期傳統亦列熾天使／終焉號角者',4,9,'名字意為「神是我的力量」。《但以理書》與《路加福音》中的啟示使者；常見的「三次顯現」整理，依序概括他為但以理解釋異象、向撒迦利亞預告施洗約翰出生、向馬利亞宣告耶穌受孕。其中但以理書實含8章與9章兩段啟示，故「三次」是敘事分組而非經文的固定編號。伊斯蘭傳統中的吉卜利勒負責傳達《古蘭經》啟示。部分後期基督教與藝術傳統把他列為熾天使或末日號角者，但《啟示錄》的七位吹號天使並未逐一命名，不能斷定其中一位必為加百列。',false,'key'],
+ ['gabriel_missions','加百列的三次啟示使命','Three Gabriel missions','但以理、撒迦利亞、馬利亞・常見敘事整理',22,3,'「加百列三次下凡／顯現」是依人物與使命作的常見整理，不是聖經逐字給出的術語或固定次數。第一項把《但以理書》8章與9章同歸為向但以理解釋末世異象的使命：前者說明公綿羊與公山羊異象，後者在祈禱時交付「七十個七」的異象。其後《路加福音》分別記載他在聖殿向祭司撒迦利亞預告約翰出生，以及在拿撒勒向馬利亞宣告耶穌受孕。',true,'key'],
+ ['gabriel_daniel','向但以理解釋異象','Daniel 8–9','第一項・公綿羊、公山羊與七十個七',19,6,'《但以理書》8:15–27中，加百列奉命使但以理明白烏萊河旁的異象：雙角公綿羊與公山羊的衝突，以及其後的小角；文本把它指向「末後的定期」，但具體歷史對應歷來有不同詮釋。9:20–27則在但以理為耶路撒冷、聖所與人民認罪祈禱時，說加百列「迅速飛來」，在晚祭時分傳達「七十個七」的異象。兩段皆是同一位先知所受的解釋性啟示，故常合併為第一次使命。'],
+ ['gabriel_zechariah','向撒迦利亞預告約翰出生','Luke 1:5–25','第二項・聖殿中的施洗約翰預告',22,6,'《路加福音》1:5–25中，祭司撒迦利亞在耶路撒冷聖殿燒香時，看見加百列站在香壇右邊。他自稱「站在神面前的加百列」，宣告年老且不孕的撒迦利亞與以利沙伯將得子，並命名為約翰；約翰要使許多以色列人歸向主，且以以利亞的心志能力預備百姓。撒迦利亞因求憑據而暫時不能說話，直到預告應驗。'],
+ ['gabriel_mary','向馬利亞宣告受孕','Luke 1:26–38','第三項・拿撒勒的報喜',25,6,'《路加福音》1:26–38說，在以利沙伯懷孕第六個月，加百列被差往加利利的拿撒勒，向已許配約瑟的童女馬利亞報信。他稱她為蒙恩者，預告她將生子並命名耶穌；孩子將被稱為至高者的兒子，承受大衛的王位，國度無窮。馬利亞詢問尚未與男子同房如何成就，得到聖靈臨到、至高者能力蔭庇的回答；她以「願照你的話成就在我身上」回應。基督教傳統稱此事件為「報喜」，不同教派對其神學意義有各自表述。'],
  ['raphael','拉斐爾','Rafaʾel','「神治癒了」・醫治者與同行者',7,9,'名字意為「神治癒了」。《多俾亞傳》中的拉斐爾陪伴托比亞、驅逐阿斯摩太並醫治多俾特的眼疾；他自稱為侍立於神前的七位天使之一。此書在不同教派的正典地位不一。',false,'key'],
  ['uriel','烏列爾','Ūrīʾēl','「神是我的光」・以諾傳統的引導者',10,9,'名字意為「神是我的光」或「神之光」。烏列爾見於《以諾一書》等猶太偽經傳統，常擔任天象、審判與先知引導者。名稱雖廣為流傳，卻不應誤稱為所有聖經正典皆明載的天使。',false],
  ['metatron','梅塔特隆','Metatron','詞源有爭議・天上書記與以諾傳統',3,12,'梅塔特隆主要見於後期猶太神秘主義與《以諾三書》，常與升天的以諾相連。其名稱的語源沒有公認定論，身分與稱號也存在複雜異說，非《希伯來聖經》人物。',false],
@@ -5043,6 +5491,7 @@ const AN_GROUPS = [
  ['東正教常見七／八大天使長',['michael','gabriel','raphael','uriel','selaphiel','jegudiel','barachiel','jeremiel'],'#6ba9d8',false],
  ['後期猶太／基督教與秘傳名錄',['phanuel','zadkiel','jophiel','chamuel','haniel','raziel','azrael','camael','samael','sandalphon','ariel','sachiel','jehoel'],'#c8a860',false],
  ['伊斯蘭傳統的天使概念',['gabriel','malak_mawt','iblis'],'#5ab4ff',false],
+ ['加百列三次啟示使命',['gabriel_missions','gabriel_daniel','gabriel_zechariah','gabriel_mary'],'#75b98c',false],
  ['可切換至惡魔頁的墮天／對立節點',['shemihazah','azazel','lucifer','iblis'],'#d06a72',false],
  ['以賽亞書第六章：熾天使異象',['isaiah_vision','seraphim','burning_coal'],'#f0c66a',false],
  ['以西結書：基路伯、活物與多眼輪',['cherubim','living_creatures','ophanim'],'#6ba9d8',false],
@@ -5054,8 +5503,8 @@ const AN_GROUPS = [
  ['伊斯蘭教天使與聖訓傳統',['islam_angels','israfil','mikail','malik','ridwan','munkar','nakir','harut','marut','kiraman_katibin','malak_mawt'],'#5ab4ff',false],
  ['《創世記》：伊甸園與神使者',['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','cherubim','angel_yhwh'],'#75b98c',false],
  ['《啟示錄》：天上之戰',['war_heaven','michael','angel_hosts','dragon_revelation','lucifer'],'#d06a72',false],
- ['舊約／希伯來聖經：神使者與異象',['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','angel_yhwh','isaiah_vision','seraphim','burning_coal','cherubim','living_creatures','ophanim'],'#75b98c',false],
- ['新約／《啟示錄》：天使、天軍與終末異象',['gabriel','michael','war_heaven','angel_hosts','dragon_revelation','revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'],'#d06a72',false],
+ ['舊約／希伯來聖經：神使者與異象',['genesis_note','eden','adam','eve','serpent_genesis','flaming_sword','angel_yhwh','isaiah_vision','seraphim','burning_coal','cherubim','living_creatures','ophanim','gabriel','gabriel_daniel'],'#75b98c',false],
+ ['新約／《啟示錄》：天使、天軍與終末異象',['gabriel','gabriel_zechariah','gabriel_mary','michael','war_heaven','angel_hosts','dragon_revelation','revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'],'#d06a72',false],
  ['次經與第二聖殿文獻：拉斐爾與守望者',['raphael','watchers','shemihazah','azazel','uriel','raguel','sariel','remiel'],'#a980e0',false],
  ['墮天守望者名錄與後期文學補充',['agniel','ammiel','arquiel','araziel','asael','asbeel','baraquiel','echsael','gadreel','cassday','casja','cocabel','bemenel','penemue','pharmaros','turel','usiel','ithuriel','zephon'],'#a980e0',false],
 ];
@@ -5067,6 +5516,8 @@ const AN_UNIONS = [
  {parent:'watchers',children:['shemihazah','azazel'],label:'《以諾一書》的守望者'},
  {spouses:['michael','lucifer'],marriage:'partner',label:'《啟示錄》的天軍與巨龍',labelClass:'blood'},
  {spouses:['gabriel','iblis'],marriage:'partner',label:'不同傳統的啟示與拒絕敘事',labelClass:'ritual'},
+ {parent:'gabriel_missions',children:['gabriel_daniel','gabriel_zechariah','gabriel_mary'],label:'常見的三次使命整理'},
+ {spouses:['gabriel','gabriel_missions'],marriage:'partner',label:'經文中的啟示使者',labelClass:'ritual'},
  {parent:'isaiah_vision',children:['seraphim','burning_coal'],label:'《以賽亞書》6章：侍立、潔淨與受召'},
  {parent:'living_creatures',children:['cherubim','ophanim'],label:'《以西結書》異象的後世天使學連結'},
  {parent:'virtue_note',children:['virtue_humility','virtue_kindness','virtue_patience','virtue_diligence','virtue_charity','virtue_temperance','virtue_chastity'],label:'對照七宗罪的後期道德分類'},
@@ -5100,6 +5551,10 @@ const AN_UNIONS = [
 ];
 const AN_NODE_NAMES = Object.fromEntries(AN_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
 Object.assign(AN_NODE_NAMES,{
+ gabriel_missions:{...AN_NODE_NAMES.gabriel_missions,aliases:['加百列三次下凡','加百列三次顯現','Three appearances of Gabriel']},
+ gabriel_daniel:{...AN_NODE_NAMES.gabriel_daniel,aliases:['但以理異象','七十個七','Daniel 8','Daniel 9']},
+ gabriel_zechariah:{...AN_NODE_NAMES.gabriel_zechariah,aliases:['撒迦利亞','以利沙伯','施洗約翰','Annunciation to Zechariah']},
+ gabriel_mary:{...AN_NODE_NAMES.gabriel_mary,aliases:['馬利亞領報','天使報喜','耶穌受孕','Annunciation']},
  sariel:{...AN_NODE_NAMES.sariel,aliases:['沙利葉','撒拉結','Saraqael','Suriel']},
  selaphiel:{...AN_NODE_NAMES.selaphiel,aliases:['撒拉斐爾（Selaphiel）','薩拉斐爾','Salathiel']},
  seraphiel:{...AN_NODE_NAMES.seraphiel,aliases:['撒拉斐爾（Seraphiel）','Seraphiel']},
@@ -5271,6 +5726,11 @@ Object.assign(DM_NODE_NAMES,{
 const DEMON_USER_EDITS = {};
 
 const PANTHEONS = {
+  buddhism: {
+    title:'☸️ 佛教世界', defs:BU_NODE_DEFS, groups:BU_GROUPS, unions:BU_UNIONS, names:BU_NODE_NAMES,
+    seed:BUDDHISM_USER_EDITS, storage:'buddhism_edits', yokai:false, placeholder:'搜尋佛菩薩、弟子、護法、教法或經典…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（梵文／巴利文）', kojiki:'梵文／巴利文名', nihonshoki:'中文通用名', reading:'轉寫', aliases:'別稱', shrine:'相關聖地／傳統'},
+  },
   angels: {
     title:'🕊️ 天使系譜', defs:AN_NODE_DEFS, groups:AN_GROUPS, unions:AN_UNIONS, names:AN_NODE_NAMES,
     seed:ANGEL_USER_EDITS, storage:'angel_edits', yokai:false, counterpart:'demons', counterpartLabel:'😈 惡魔圖鑑', placeholder:'搜尋天使、階級、墮天者或原文…', editBtn:'✏️ 編輯此項目',
@@ -5942,6 +6402,7 @@ const IN_NODE_SOURCES = Object.fromEntries([
 function indiaSourceLinks(keys){ return (keys||[]).map(k=>IN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 const AD_SOURCE_LIBRARY = {
   bible:{zh:'聖經相關段落（Bible Gateway）',url:'https://www.biblegateway.com/passage/?search=Isaiah%206%2C%20Daniel%2010%2C%20Luke%201%2C%20Revelation%2012&version=NRSVUE'},
+  gabrielMissions:{zh:'加百列的三次啟示：但以理書 8–9 章、路加福音 1 章',url:'https://www.biblegateway.com/passage/?search=Daniel%208%3A15-27%2C%20Daniel%209%3A20-27%2C%20Luke%201%3A5-38&version=NRSVUE'},
   hebrewBible:{zh:'舊約／希伯來聖經：創世記、以賽亞書、以西結書、約伯記與撒迦利亞書',url:'https://www.biblegateway.com/passage/?search=Genesis%202-3%2C%20Isaiah%206%2C%20Ezekiel%201%2C%20Ezekiel%2010%2C%20Job%201%3A6-12%2C%20Zechariah%203%3A1-5&version=NRSVUE'},
   newTestament:{zh:'新約：福音書、啟示錄與撒但／鬼王／惡靈語彙',url:'https://www.biblegateway.com/passage/?search=Matthew%2012%3A22-29%2C%20Matthew%2025%3A41%2C%20Mark%205%3A1-20%2C%20Revelation%2012%3A7-12&version=NRSVUE'},
   tobit:{zh:'《多俾亞傳》12:12–15',url:'https://www.biblegateway.com/passage/?search=Tobit+12%3A12-15&version=NABRE'},
@@ -5976,6 +6437,7 @@ const AD_NODE_SOURCES = Object.fromEntries([
   ['revelation_note','seven_trumpets','trumpet_1','trumpet_2','trumpet_3','trumpet_4','trumpet_5','trumpet_6','trumpet_7'].map(id=>[id,['revelation']]),
   ['virtue_note','virtue_humility','virtue_kindness','virtue_patience','virtue_diligence','virtue_charity','virtue_temperance','virtue_chastity'].map(id=>[id,['bible','orthodox']]),
   ['michael','gabriel'].map(id=>[id,['bible']]), ['raphael','asmodeus'].map(id=>[id,['tobit']]),
+  ['gabriel','gabriel_missions','gabriel_daniel','gabriel_zechariah','gabriel_mary'].map(id=>[id,['gabrielMissions']]),
   ['uriel','metatron','watchers','shemihazah','azazel','raguel','sariel','remiel','asbeel','baraquiel','gadreel','cocabel','penemue','turel'].map(id=>[id,['enoch']]),
   ['agniel','ammiel','arquiel','araziel','asael','echsael','cassday','casja','bemenel','pharmaros','usiel'].map(id=>[id,['enoch','fallenList']]),
   ['ithuriel','zephon'].map(id=>[id,['milton']]),
@@ -6019,7 +6481,8 @@ function applyJapanLocale(){
   document.getElementById('mythTitle').textContent = currentPantheon==='japan' ? t.title : P.title;
   document.getElementById('yokaiTitle').textContent = t.yokaiTitle;
   document.querySelectorAll('[data-jp-i18n]').forEach(el=>{ el.textContent=t[el.dataset.jpI18n]||el.textContent; });
-  document.getElementById('searchInput').placeholder=t.searchGod;
+  document.getElementById('searchInput').placeholder=currentPantheon==='japan' ? t.searchGod : P.placeholder;
+  if(currentPantheon!=='japan') document.getElementById('p-edit-btn').textContent=P.editBtn;
   document.getElementById('ysearchInput').placeholder=t.searchYokai;
 }
 function toggleJapanLocale(){
@@ -6256,7 +6719,7 @@ GROUPS.forEach(([label, ids, color, drawBox=true], gi)=>{
     n.px+NODE_W>x0 && n.px<x1 && n.py+(n.h||NODE_H)>y0 && n.py<y1);
   // 即使資料群組原本標記為不畫框，也先按實際佈局判斷；只有過度分散才改成標記＋聚焦淡化。
   const spread = (x1-x0)*(y1-y0);
-  const markerOnly = intruders.length > members.length || spread > 2600000 || (!drawBox && (x1-x0>2100 || y1-y0>1250));
+  const markerOnly = intruders.length > members.length || spread > 4200000 || (!drawBox && (x1-x0>2600 || y1-y0>1500));
   const box = document.createElement('div');
   box.className='groupbox';
   box.dataset.gi = gi;
@@ -6585,7 +7048,9 @@ function clampGraphView(){
   tx = Math.min(maxTx, Math.max(minTx, tx));
   ty = Math.min(maxTy, Math.max(minTy, ty));
 }
-function applyTransform(){ clampGraphView(); stage.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${scale})`; }
+function snapToDevicePixel(v){ const d=window.devicePixelRatio||1; return Math.round(v*d)/d; }
+function applyTransform(){ clampGraphView(); stage.style.transform = `translate(${snapToDevicePixel(tx)}px,${snapToDevicePixel(ty)}px) scale(${scale})`; }
+stage.addEventListener('transitionend',e=>{ if(e.propertyName==='transform') setSmooth(false); });
 
 function fitInitial(smooth){
   const r = wrap.getBoundingClientRect();
@@ -6835,7 +7300,7 @@ function openPanel(n){
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const sources = document.getElementById('p-sources');
-  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='greek' ? greekSourceLinks(GR_NODE_SOURCES[n.id] || []) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
+  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='greek' ? greekSourceLinks(GR_NODE_SOURCES[n.id] || []) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : currentPantheon==='buddhism' ? buddhismSourceLinks(BU_NODE_SOURCES[n.id] || ['earlyCanon']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
   sources.style.display = sources.innerHTML ? 'flex' : 'none';
   const counterpart = document.getElementById('p-counterpart');
   const target = P.counterpart;
@@ -7295,6 +7760,7 @@ function openCounterpart(){
   if(id) requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(nodes[id]) focusNode(id); }));
 }
 function openIndia(){ openPantheon('india'); }
+function openBuddhism(){ openPantheon('buddhism'); }
 function openGreek(){ openPantheon('greek'); }
 function openNorse(){ openPantheon('norse'); }
 function openEgypt(){ openPantheon('egypt'); }
@@ -7682,7 +8148,8 @@ function yClamp(){
   ytx = Math.min(maxTx, Math.max(minTx, ytx));
   yty = Math.min(maxTy, Math.max(minTy, yty));
 }
-function yApplyTransform(){ yClamp(); ystage.style.transform = `translate3d(${ytx}px,${yty}px,0) scale(${yscale})`; }
+function yApplyTransform(){ yClamp(); ystage.style.transform = `translate(${snapToDevicePixel(ytx)}px,${snapToDevicePixel(yty)}px) scale(${yscale})`; }
+ystage.addEventListener('transitionend',e=>{ if(e.propertyName==='transform') ySetSmooth(false); });
 
 ycanvasWrap.addEventListener('mousedown', e=>{
   ydragging=true; ylastX=e.clientX; ylastY=e.clientY;
