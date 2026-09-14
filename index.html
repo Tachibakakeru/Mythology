@@ -4940,7 +4940,7 @@ const BU_NODE_DEFS = [
  ['suddhodana','淨飯王','Śuddhodana','釋迦族首長・悉達多之父',5,3,'淨飯王是悉達多之父，傳統稱釋迦族統治者。早期文獻所呈現的釋迦族政治形態未必等同後世宮廷傳記中的大帝國王權，故本圖保留「王」的傳統稱號並註明其歷史語境。'],
  ['siddhartha','釋迦牟尼佛','Siddhārtha Gautama','歷史佛陀・佛教教法的導師',8,3,'喬達摩悉達多出身釋迦族，出家尋求超越老病死之道；經歷苦行後放棄兩端，在菩提樹下覺悟，成為「佛陀／覺者」。他於鹿野苑初轉法輪、建立僧團，晚年在拘尸那羅般涅槃。早期經典與後世佛傳對生平細節有不同層次。',false,'key'],
  ['yashodhara','耶輸陀羅','Yaśodharā','悉達多之妻・羅睺羅之母',11,3,'耶輸陀羅在多種佛傳中為悉達多出家前的妻子與羅睺羅之母；名稱、婚姻故事及其後出家證果的細節，隨巴利註釋、梵文佛傳與地方傳統而異。'],
- ['rahula','羅睺羅','Rāhula','佛陀之子・後出家為弟子',14,3,'羅睺羅是悉達多與耶輸陀羅之子。佛陀返鄉後，羅睺羅由舍利弗剃度，成為僧團早期沙彌的代表；經典以佛陀對他的教誡說明誠實、反省與修行。'],
+ ['rahula','羅睺羅','Rāhula','佛陀之子・後出家為弟子',14,3,'羅睺羅是悉達多與耶輸陀羅之子。佛陀返鄉後，羅睺羅由舍利弗剃度，成為僧團早期沙彌的代表；經典以佛陀對他的教誡說明誠實、反省與修行。漢傳常見十大弟子名單稱其密行第一，玄奘譯《法住記》又把囉怙羅列為十六羅漢第十一尊。'],
  ['lumbini','藍毘尼誕生','Lumbinī','佛傳聖地・誕生',1,7,'佛教傳統將藍毘尼視為釋迦牟尼誕生地；阿育王石柱銘文是該地與佛陀傳統的重要早期歷史證據。後世佛傳加入摩耶夫人攀無憂樹、太子行七步等象徵敘事。',true],
  ['four_sights','四門出遊','Four sights','老人、病人、死者與出家人',4,7,'後世完整佛傳敘述悉達多出城先後見老人、病人、死者與出家修行者，因而體認生命無常並尋求解脫。早期經典已有對老病死與求道的反省，但固定「四門／四種景象」形式屬逐步定型的佛傳。',true],
  ['renunciation','踰城出家','Great Renunciation','離開宮廷、尋求不死之道',7,7,'悉達多離開家庭生活，先從阿羅邏迦藍與鬱陀迦羅摩子學習禪定，後行嚴苛苦行；他認為這些道路未達究竟解脫，遂接受飲食、轉向中道。不同佛傳對夜半踰城、車匿與犍陟馬等細節著墨不同。',true],
@@ -5201,6 +5201,39 @@ BU_NODE_DEFS.push(
  ['guardian_pehar','白哈爾王','Pehar Gyalpo','桑耶寺與乃瓊傳統的世間護法',0,0,'白哈爾是藏傳世間護法，傳統稱蓮師使其立誓並任桑耶寺護法；後來又與乃瓊神諭及西藏政教史相連。五身王等形態和起源傳說不一，不能寫成跨教派唯一版本。']
 );
 
+/* 第四批：十大弟子、法住記十六羅漢、八大菩薩與佛三身。 */
+BU_NODE_DEFS.push(
+ ['ten_disciples_note','佛陀十大弟子','Ten Great Disciples','漢傳常見的十位代表弟子名單',0,0,'漢傳常見十大弟子為舍利弗、目犍連、富樓那、須菩提、迦旃延、大迦葉、阿那律、優波離、阿難與羅睺羅，分別以智慧、神通、說法、解空、論議、頭陀、天眼、持律、多聞與密行著稱。這是東亞後世整理的代表名單，不等於早期經藏只有十位重要弟子。',true,'key'],
+ ['subhuti','須菩提','Subhūti','解空第一・般若經典重要對話者',0,0,'須菩提是佛陀弟子，漢傳十大弟子稱其解空第一。《金剛經》以他為主要請問者；巴利傳統則稱他在無諍住與值得供養者中居首。不同經系強調的「第一」項目不完全相同。'],
+ ['purna','富樓那彌多羅尼子','Pūrṇa Maitrāyaṇīputra／Puṇṇa Mantānīputta','說法第一・弘法比丘',0,0,'富樓那在漢傳十大弟子中稱說法第一。巴利《富樓那經》記他請求簡要教誡後，決意前往被視為難化的輸那國弘法，並以不瞋與忍耐回答可能遭遇的辱罵、毆打乃至死亡。'],
+ ['mahakatyayana','摩訶迦旃延','Mahākātyāyana／Mahākaccāna','論議第一・善於廣解略說',0,0,'摩訶迦旃延在漢傳十大弟子中稱論議第一；早期經典常由他把佛陀的簡短開示展開為有條理的解說，並獲佛陀認可。相關音寫另見大迦多衍那、迦旃延。'],
+
+ ['arhats16_note','十六羅漢／十六尊者','Sixteen Arhats','玄奘譯《法住記》的護持正法者',0,0,'玄奘譯《大阿羅漢難提蜜多羅所說法住記》記佛陀把正法付囑十六大阿羅漢，令其延壽住世、受供並護法，直到教法終結與彌勒出世前後的敘事階段。中國後來常增成十八羅漢，另有五百羅漢等藝術名數，不能把後世新增者倒入原十六名單。',true,'key'],
+ ['arhat_pindola','賓度羅跋囉惰闍','Piṇḍola Bhāradvāja','十六羅漢第一・西瞿陀尼洲',0,0,'《法住記》列賓度羅跋囉惰闍為第一尊者，與一千阿羅漢眷屬多住西瞿陀尼洲。漢譯另見賓頭盧頗羅墮；東亞又發展其受齋供與長住世間的信仰。'],
+ ['arhat_kanakavatsa','迦諾迦伐蹉','Kanakavatsa','十六羅漢第二・迦濕彌羅國',0,0,'《法住記》列迦諾迦伐蹉為第二尊者，與五百阿羅漢眷屬多住北方迦濕彌羅國。後世繪畫的持物與姿態依地域而異，經文核心是住世護法而非固定造型。'],
+ ['arhat_kanakabharadvaja','迦諾迦跋釐墮闍','Kanakabhāradvāja','十六羅漢第三・東勝身洲',0,0,'《法住記》列迦諾迦跋釐墮闍為第三尊者，與六百阿羅漢眷屬多住東勝身洲。其名與第二尊者相近，但在名單中是兩位不同尊者。'],
+ ['arhat_subinda','蘇頻陀','Subinda／Śobhita','十六羅漢第四・北俱盧洲',0,0,'《法住記》列蘇頻陀為第四尊者，與七百阿羅漢眷屬多住北俱盧洲。梵名還原另見 Subinda、Suvinda 或 Śobhita，故本圖保留異寫而不強定唯一原名。'],
+ ['arhat_nakula','諾距羅','Nakula','十六羅漢第五・南贍部洲',0,0,'《法住記》列諾距羅為第五尊者，與八百阿羅漢眷屬多住南贍部洲。後世羅漢畫常為其配置念珠、杖或動物，但原名錄沒有統一規定。'],
+ ['arhat_bhadra','跋陀羅','Bhadra','十六羅漢第六・耽沒羅洲',0,0,'《法住記》列跋陀羅為第六尊者，與九百阿羅漢眷屬多住耽沒羅洲。漢地浴室安置跋陀羅像等習俗屬後續發展，不是十六羅漢名錄本身的完整傳記。'],
+ ['arhat_kalika','迦理迦','Kālika','十六羅漢第七・僧伽荼洲',0,0,'《法住記》列迦理迦為第七尊者，與一千阿羅漢眷屬多住僧伽荼洲。不同漢譯整理亦寫迦哩迦，藝術形象沒有跨地區唯一版本。'],
+ ['arhat_vajraputra','伐闍羅弗多羅','Vajraputra','十六羅漢第八・缽刺拏洲',0,0,'《法住記》列伐闍羅弗多羅為第八尊者，與一千一百阿羅漢眷屬多住缽刺拏洲。Vajraputra 意近金剛子，但不能僅依字義把他與金剛手菩薩合併。'],
+ ['arhat_jivaka','戍博迦','Jīvaka／Śvaka','十六羅漢第九・香醉山',0,0,'《法住記》列戍博迦為第九尊者，與九百阿羅漢眷屬多住香醉山。現代梵名還原見 Jīvaka、Śvaka 等異說，亦不可因此直接等同佛陀時代名醫耆婆。'],
+ ['arhat_panthaka','半託迦','Panthaka','十六羅漢第十・三十三天',0,0,'《法住記》列半託迦為第十尊者，與一千三百阿羅漢眷屬多住三十三天。名單另有第十六注荼半託迦，傳統常視兩者為兄弟或相關人物，不能省略其一。'],
+ ['arhat_nagasena','那伽犀那','Nāgasena','十六羅漢第十二・半度波山',0,0,'《法住記》列那伽犀那為第十二尊者，與一千二百阿羅漢眷屬多住半度波山。Nāgasena 也是《彌蘭王問經》論師的名字，但文本未必要求把兩種敘事完全視為同一歷史人物。'],
+ ['arhat_angaja','因揭陀','Aṅgaja／Iṅgata','十六羅漢第十三・廣脅山',0,0,'《法住記》列因揭陀為第十三尊者，與一千三百阿羅漢眷屬多住廣脅山。梵名還原與漢字異寫不一，本圖以經錄次序和護法職能為準。'],
+ ['arhat_vanavasin','伐那婆斯','Vanavāsin','十六羅漢第十四・可住山',0,0,'《法住記》列伐那婆斯為第十四尊者，與一千四百阿羅漢眷屬多住可住山。Vanavāsin 有住林者之意，但原條目沒有可供擴寫的獨立冒險傳記。'],
+ ['arhat_ajita','阿氏多','Ajita','十六羅漢第十五・鷲峰山',0,0,'《法住記》列阿氏多為第十五尊者，與一千五百阿羅漢眷屬多住鷲峰山。Ajita 也可作彌勒相關名號，但十六羅漢名錄中的阿氏多不宜未經文本證明便與彌勒合併。'],
+ ['arhat_cudapanthaka','注荼半託迦','Cūḍapanthaka','十六羅漢第十六・持軸山',0,0,'《法住記》列注荼半託迦為第十六尊者，與一千六百阿羅漢眷屬多住持軸山。漢譯另見周利槃陀伽、朱利槃特等轉音，與第十半託迦是不同名次。'],
+
+ ['eight_bodhisattvas_note','八大菩薩曼荼羅','Maṇḍala of the Eight Great Bodhisattvas','釋迦牟尼與八位大菩薩的經典曼荼羅',0,0,'《八大菩薩曼荼羅經》以釋迦牟尼為中心，周圍列觀世音、彌勒、虛空藏、普賢、金剛手、文殊、除蓋障與地藏八位菩薩，並說其心咒與持誦利益。這是特定經典名單，不代表所有「八大菩薩」傳統都採完全相同配置。',true,'key'],
+ ['sarvanivaranaviskambhin','除蓋障菩薩','Sarvanīvaraṇaviṣkambhin','清除障礙與五蓋的大菩薩',0,0,'除蓋障菩薩名義為「排除一切障礙者」，在《八大菩薩曼荼羅經》中列為八大菩薩之一；胎藏界另有除蓋障院，以其斷除五蓋、開顯清淨心的功能形成一院。'],
+
+ ['trikaya_note','佛三身','Trikāya','大乘佛教對佛果的三種面向',0,0,'三身是梵文大乘傳統對佛果的三種面向：法身、報身、化身。《三身經》以清淨自性、清淨三摩地與清淨行說明三身，並以天空、雲、雨譬喻。各宗派又有二身、四身與五身等分類，不能把三身當作三位互不相關的神。',true,'key'],
+ ['dharmakaya','法身','Dharmakāya','覺悟實相與諸佛共同清淨自性',0,0,'法身不是普通肉身。《三身經》以如虛空、無自性的清淨自性說明法身，並稱從如來所見的層面理解；後世宗派對法界、佛性與智慧法身有更細分類。'],
+ ['sambhogakaya','報身','Saṃbhogakāya','菩薩所見的受用與莊嚴佛身',0,0,'報身又稱受用身，《三身經》以清淨三摩地及如雲出生譬喻，並從菩薩所見層面說明。淨土與密教常以莊嚴佛身討論報身，但各宗派對具體佛與佛土的判攝不同。'],
+ ['nirmanakaya','化身／應身','Nirmāṇakāya','在世間示現並施行佛事的佛身',0,0,'化身又稱應身，《三身經》以清淨行與如雨遍潤譬喻其利生事業，並從虔敬凡夫可見的層面說明。歷史上的釋迦牟尼常被大乘教義判為化身佛，但這是教義詮釋，不是否定其歷史性。']
+);
+
 const BU_TRADITION_IDS=['traditions_note','trad_early_schools','trad_theravada','trad_mahayana','trad_vajrayana','trad_chinese','trad_tibetan','trad_japanese','trad_southeast_asia','trad_chan','trad_pure_land','trad_east_asian_esoteric'];
 const BU_TEXT_EXTRA_IDS=['text_agamas','text_nikayas','text_vinaya','text_abhidharma','text_prajnaparamita','text_nirvana','text_lankavatara','text_samdhinirmocana','text_shurangama','text_perfect_enlightenment','text_medicine','text_maha_vairocana','text_vajrasekhara','text_susiddhikara','text_chinese_canon','text_kangyur','text_tengyur','text_platform','text_jataka','text_milinda','text_yogacarabhumi','text_madhyamaka','text_abhidharmakosha'];
 const BU_HEAVEN_24_IDS=['deva_mahabrahma','sakka','vaishravana','dhritarashtra','virudhaka','virupaksha','deva_secret_vajra','deva_mahesvara','deva_pancika','deva_sarasvati','deva_lakshmi','deva_skanda','deva_earth','deva_bodhi_tree','deva_hariti','deva_marici','deva_sun','deva_moon','deva_sagara','deva_yama_king','deva_kinnara_king','deva_ziwei','deva_dongyue','deva_thunder'];
@@ -5212,6 +5245,10 @@ const BU_MYOO_IDS=['myoo_note','myoo_acala','myoo_trailokyavijaya','myoo_kundali
 const BU_MEDICINE_GUARDIAN_IDS=['yaksha12_note','yaksha12_kumbhira','yaksha12_vajra','yaksha12_mihira','yaksha12_andira','yaksha12_anila','yaksha12_sandila','yaksha12_indra','yaksha12_pajra','yaksha12_makura','yaksha12_sindura','yaksha12_catura','yaksha12_vikarala'];
 const BU_EAST_GUARDIAN_IDS=['east_guardian_note','sangharama_guardian','guandi_guardian','nio_note','nio_agyo','nio_ungyo','hachiman_bodhisattva'];
 const BU_TIBETAN_GUARDIAN_IDS=['tibetan_guardian_note','guardian_mahakala','guardian_palden_lhamo','guardian_yama_dharmaraja','guardian_begtse','guardian_ekajati','guardian_rahula','guardian_dorje_legpa','guardian_pehar'];
+const BU_TEN_DISCIPLE_IDS=['sariputra','maudgalyayana','purna','subhuti','mahakatyayana','mahakasyapa','anuruddha','upali','ananda','rahula'];
+const BU_ARHAT_16_IDS=['arhat_pindola','arhat_kanakavatsa','arhat_kanakabharadvaja','arhat_subinda','arhat_nakula','arhat_bhadra','arhat_kalika','arhat_vajraputra','arhat_jivaka','arhat_panthaka','rahula','arhat_nagasena','arhat_angaja','arhat_vanavasin','arhat_ajita','arhat_cudapanthaka'];
+const BU_EIGHT_BODHISATTVA_IDS=['avalokiteshvara','maitreya','akasagarbha','samantabhadra','vajrapani','manjushri','sarvanivaranaviskambhin','ksitigarbha'];
+const BU_TRIKAYA_IDS=['trikaya_note','dharmakaya','sambhogakaya','nirmanakaya'];
 
 function packBuddhistNodes(ids,startCol,startRow,cols=5){
  ids.forEach((id,i)=>{ const d=BU_NODE_DEFS.find(n=>n[0]===id); if(d){ d[4]=startCol+(i%cols)*2; d[5]=startRow+Math.floor(i/cols)*2; } });
@@ -5233,6 +5270,10 @@ packBuddhistNodes(BU_MEDICINE_GUARDIAN_IDS,0,60,5);
 packBuddhistNodes(['east_guardian_note','sangharama_guardian','guandi_guardian','hachiman_bodhisattva'],14,60,4);
 packBuddhistNodes(['nio_note','nio_agyo','nio_ungyo'],14,64,3);
 packBuddhistNodes(['guardian_note',...BU_TIBETAN_GUARDIAN_IDS],24,60,5);
+packBuddhistNodes(['ten_disciples_note','subhuti','purna','mahakatyayana'],0,68,4);
+packBuddhistNodes(['arhats16_note',...BU_ARHAT_16_IDS.filter(id=>id!=='rahula')],8,68,5);
+packBuddhistNodes(['eight_bodhisattvas_note','sarvanivaranaviskambhin'],20,68,2);
+packBuddhistNodes(BU_TRIKAYA_IDS,24,68,4);
 
 const BU_GROUPS = [
  ['釋迦牟尼佛傳與四大聖地',['buddhism_note','maya','suddhodana','siddhartha','yashodhara','rahula','lumbini','four_sights','renunciation','mara','bodhi_tree','awakening','deer_park','first_sermon','five_ascetics','parinirvana','kushinagar'],'#e5b95f'],
@@ -5264,6 +5305,10 @@ const BU_GROUPS = [
  ['仁王・阿吽二將',['nio_note','nio_agyo','nio_ungyo'],'#e5b95f'],
  ['藏傳佛教主要護法',BU_TIBETAN_GUARDIAN_IDS,'#d57b9c'],
  ['寧瑪重要護法',['guardian_ekajati','guardian_rahula','guardian_dorje_legpa'],'#a98de0'],
+ ['佛陀十大弟子',['ten_disciples_note',...BU_TEN_DISCIPLE_IDS],'#77c6b6'],
+ ['十六羅漢（玄奘《法住記》系）',['arhats16_note',...BU_ARHAT_16_IDS],'#c8a860'],
+ ['八大菩薩（《八大菩薩曼荼羅經》系）',['eight_bodhisattvas_note',...BU_EIGHT_BODHISATTVA_IDS],'#72c6e8'],
+ ['佛三身',BU_TRIKAYA_IDS,'#a98de0'],
 ];
 const BU_UNIONS = [
  {spouses:['suddhodana','maya'],marriage:'primary',children:['siddhartha'],label:'釋迦族家庭'},
@@ -5350,6 +5395,13 @@ const BU_UNIONS = [
  {parent:'tibetan_guardian_note',children:BU_TIBETAN_GUARDIAN_IDS.slice(1),label:'智慧與世間護法代表（非固定八尊）'},
  {spouses:['guardian_mahakala','avalokiteshvara'],marriage:'partner',label:'部分大黑天形態為觀音忿怒化現',labelClass:'ritual'},
  {spouses:['guardian_yama_dharmaraja','myoo_yamantaka'],marriage:'partner',label:'大威德金剛護法脈絡',labelClass:'ritual'},
+ {parent:'sangha_note',children:['ten_disciples_note','arhats16_note'],label:'弟子名冊與住世護法傳統'},
+ {parent:'ten_disciples_note',children:['subhuti','purna','mahakatyayana'],label:'補齊漢傳常見十大弟子'},
+ {parent:'arhats16_note',children:BU_ARHAT_16_IDS.filter(id=>id!=='rahula'),label:'《法住記》十六尊者名冊'},
+ {spouses:['arhats16_note','rahula'],marriage:'partner',label:'第十一尊囉怙羅',labelClass:'ritual'},
+ {parent:'eight_bodhisattvas_note',children:['sarvanivaranaviskambhin'],label:'補齊經中八大菩薩'},
+ {spouses:['sarvanivaranaviskambhin','womb_sarvanivaranaviskambhin'],marriage:'partner',label:'胎藏界除蓋障院',labelClass:'ritual'},
+ {parent:'trikaya_note',children:BU_TRIKAYA_IDS.slice(1),label:'法身、報身與化身'},
 ];
 const BU_NODE_NAMES = Object.fromEntries(BU_NODE_DEFS.map(([id,name,kana])=>[id,{kojiki:kana,nihonshoki:name,reading:kana,aliases:[],shrine:'—'}]));
 Object.assign(BU_NODE_NAMES,{
@@ -5403,6 +5455,32 @@ Object.assign(BU_NODE_NAMES,{
  guardian_rahula:{...BU_NODE_NAMES.guardian_rahula,aliases:['羅睺護法','札拉睺羅','Za Rahula']},
  guardian_dorje_legpa:{...BU_NODE_NAMES.guardian_dorje_legpa,aliases:['金剛善','多傑列巴','Dorje Lekpa']},
  guardian_pehar:{...BU_NODE_NAMES.guardian_pehar,aliases:['白哈爾','白哈爾王','Pehar']},
+ ten_disciples_note:{...BU_NODE_NAMES.ten_disciples_note,aliases:['十大弟子','釋迦十聖','Ten Principal Disciples']},
+ subhuti:{...BU_NODE_NAMES.subhuti,aliases:['須菩提尊者','空生','善吉','Subhūti']},
+ purna:{...BU_NODE_NAMES.purna,aliases:['富樓那','滿慈子','Puṇṇa Mantānīputta']},
+ mahakatyayana:{...BU_NODE_NAMES.mahakatyayana,aliases:['迦旃延','大迦多衍那','Mahākaccāna']},
+ arhats16_note:{...BU_NODE_NAMES.arhats16_note,aliases:['十六羅漢','十六尊者','十六大阿羅漢','Sixteen Elders']},
+ arhat_pindola:{...BU_NODE_NAMES.arhat_pindola,aliases:['賓頭盧','賓頭盧頗羅墮','Piṇḍolabhāradvāja']},
+ arhat_kanakavatsa:{...BU_NODE_NAMES.arhat_kanakavatsa,aliases:['迦諾迦伐蹉尊者']},
+ arhat_kanakabharadvaja:{...BU_NODE_NAMES.arhat_kanakabharadvaja,aliases:['迦諾迦跋釐隋闍','Kanakabharadvāja']},
+ arhat_subinda:{...BU_NODE_NAMES.arhat_subinda,aliases:['蘇頻陀尊者','Suvinda','Śobhita']},
+ arhat_nakula:{...BU_NODE_NAMES.arhat_nakula,aliases:['諾矩羅','Nakula']},
+ arhat_bhadra:{...BU_NODE_NAMES.arhat_bhadra,aliases:['跋陀羅尊者']},
+ arhat_kalika:{...BU_NODE_NAMES.arhat_kalika,aliases:['迦哩迦','Kālika']},
+ arhat_vajraputra:{...BU_NODE_NAMES.arhat_vajraputra,aliases:['金剛子','Vajraputra']},
+ arhat_jivaka:{...BU_NODE_NAMES.arhat_jivaka,aliases:['戍博迦尊者','Śvaka']},
+ arhat_panthaka:{...BU_NODE_NAMES.arhat_panthaka,aliases:['半託迦尊者','Panthaka']},
+ arhat_nagasena:{...BU_NODE_NAMES.arhat_nagasena,aliases:['那先','那伽犀那尊者','Nāgasena']},
+ arhat_angaja:{...BU_NODE_NAMES.arhat_angaja,aliases:['因揭陀尊者','Iṅgata']},
+ arhat_vanavasin:{...BU_NODE_NAMES.arhat_vanavasin,aliases:['伐那波斯','Vanavāsin']},
+ arhat_ajita:{...BU_NODE_NAMES.arhat_ajita,aliases:['阿氏多尊者','Ajita']},
+ arhat_cudapanthaka:{...BU_NODE_NAMES.arhat_cudapanthaka,aliases:['周利槃陀伽','朱利槃特','Cūḍapanthaka']},
+ eight_bodhisattvas_note:{...BU_NODE_NAMES.eight_bodhisattvas_note,aliases:['八大菩薩','八大菩薩曼荼羅','Eight Great Bodhisattvas']},
+ sarvanivaranaviskambhin:{...BU_NODE_NAMES.sarvanivaranaviskambhin,aliases:['除一切蓋障菩薩','除障菩薩','Sarvanīvaraṇaviṣkambhin']},
+ trikaya_note:{...BU_NODE_NAMES.trikaya_note,aliases:['三身','佛身','Trikāya']},
+ dharmakaya:{...BU_NODE_NAMES.dharmakaya,aliases:['法性身','Dharma body']},
+ sambhogakaya:{...BU_NODE_NAMES.sambhogakaya,aliases:['受用身','Reward body','Enjoyment body']},
+ nirmanakaya:{...BU_NODE_NAMES.nirmanakaya,aliases:['應身','變化身','Emanation body']},
 });
 const BUDDHISM_USER_EDITS = {};
 
@@ -5442,6 +5520,12 @@ const BU_SOURCE_LIBRARY = {
  paldenLhamoArt:{zh:'大都會藝術博物館：吉祥天母與八護法傳統',url:'https://www.metmuseum.org/art/collection/search/37806'},
  nyingmaProtectors:{zh:'Himalayan Art Resources：寧瑪護法圖像與名冊差異',url:'https://www.himalayanart.org/search/set.cfm?setID=6390'},
  peharArt:{zh:'Himalayan Art Resources：白哈爾王的世間護法傳承',url:'https://www.himalayanart.org/items/802'},
+ tenDisciples:{zh:'佛光山人間佛教研究院：佛陀十大弟子名單與專長',url:'https://www.fgsihb.org/dictionary/search-result/2bfd6d22-25f4-11ed-aaec-c9de5a43d6bf/?__locale=zh'},
+ purnaSutta:{zh:'《中部》145〈富樓那經〉：前往輸那國弘法',url:'https://suttacentral.net/mn145/en/sujato'},
+ nandimitra:{zh:'BDK《法苑珠林》英譯：引《法住記》十六羅漢名單、住處與眷屬',url:'https://www.bdkamerica.org/wp-content/uploads/2023/01/dBET_T2122_Forest-of-Pearls05_2022.pdf'},
+ arhatArt:{zh:'大都會藝術博物館：十四世紀十六羅漢組畫',url:'https://www.metmuseum.org/art/collection/search/45625'},
+ eightBodhisattvas:{zh:'84000：《八大菩薩曼荼羅經》',url:'https://reader.84000.co/toh882'},
+ threeBodies:{zh:'84000：《三身經》',url:'https://84000.co/translation/toh283'},
 };
 const BU_NODE_SOURCES = Object.fromEntries([
  ['buddhism_note','siddhartha','four_sights','renunciation','awakening','bodhi_tree','mara','brahma_sahampati'].map(id=>[id,['earlyLife']]),
@@ -5480,7 +5564,13 @@ BU_NODE_DEFS.forEach(([id])=>{
  else if(id==='guardian_palden_lhamo') BU_NODE_SOURCES[id]=['tibetanProtectors','paldenLhamoArt'];
  else if(id==='guardian_pehar') BU_NODE_SOURCES[id]=['tibetanProtectors','peharArt'];
  else if(id.startsWith('guardian_')||id==='tibetan_guardian_note') BU_NODE_SOURCES[id]=['tibetanProtectors','nyingmaProtectors'];
+ else if(id==='ten_disciples_note'||id==='subhuti'||id==='mahakatyayana') BU_NODE_SOURCES[id]=['tenDisciples','earlyCanon'];
+ else if(id==='purna') BU_NODE_SOURCES[id]=['tenDisciples','purnaSutta'];
+ else if(id==='arhats16_note'||id.startsWith('arhat_')) BU_NODE_SOURCES[id]=['nandimitra','arhatArt'];
+ else if(id==='eight_bodhisattvas_note'||id==='sarvanivaranaviskambhin') BU_NODE_SOURCES[id]=['eightBodhisattvas'];
+ else if(id==='trikaya_note'||id==='dharmakaya'||id==='sambhogakaya'||id==='nirmanakaya') BU_NODE_SOURCES[id]=['threeBodies'];
 });
+BU_NODE_SOURCES.rahula=['earlyCanon','tenDisciples','nandimitra'];
 BU_NODE_SOURCES.deva_skanda=['heavens','skandaArt'];
 function buddhismSourceLinks(keys){ return (keys||[]).map(k=>BU_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 
