@@ -555,6 +555,11 @@
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
+    <div class="myth-icon" data-region="east_asia" onclick="openChina()">
+      <div class="glyph">🐉</div>
+      <div class="label">中國神話</div>
+      <div class="sub">創世・三皇五帝・山海異獸・天界地府</div>
+    </div>
     <div class="myth-icon" data-region="south_asia" onclick="openIndia()">
       <div class="glyph">🕉️</div>
       <div class="label">印度神話</div>
@@ -6265,6 +6270,176 @@ BU_NODE_SOURCES.deva_skanda=['heavens','skandaArt'];
 BU_NODE_SOURCES.three_marks=['threeCharacteristics','fiveAggregates'];
 function buddhismSourceLinks(keys){ return (keys||[]).map(k=>BU_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 
+/* ============ 中國神話：先秦古典、帝王傳說、道教與民間信仰 ============ */
+const CN_NODE_DEFS = [
+ ['china_note','中國神話與傳說','Chinese mythology','跨時代文本導覽・非單一固定神譜',16,36,'中國神話散見於《山海經》《楚辭》《淮南子》《尚書》《史記》等不同時代文本，後又與道教、佛教、地方信仰及明清小說互相影響。本圖按來源層次並列，不把所有角色誤寫成同一朝代、同一宗教的固定天庭。',true,'key'],
+ ['creation_note','創世與天地秩序','Cosmogony','混沌、開天、造人與補天',0,0,'中國創世沒有單一正典版本。盤古開天地見於三國以後文獻，女媧補天見《淮南子》，混沌則在《莊子》等文本有不同寓言與宇宙含義；本組依文本分層呈現。',true,'key'],
+ ['hundun','混沌','Hùndùn','未分化狀態／《莊子》寓言人物',0,0,'「混沌」可指天地未分的狀態。《莊子・應帝王》又把中央之帝混沌寫成無七竅者，儵與忽為報恩每日鑿一竅，七日而混沌死；這是哲學寓言，不應直接當成盤古故事前傳。'],
+ ['pangu','盤古','Pángǔ','後出創世巨人・開天闢地',0,0,'徐整《三五歷紀》佚文說天地混沌如雞子，盤古生其中一萬八千歲；清陽為天、重濁為地，盤古與天地一同增長。盤古死後身體化萬物的完整形式多見較晚文獻，須與先秦神話分開。',false,'key'],
+ ['nuwa','女媧','Nǚwā','造人女神・煉石補天',0,0,'女媧在不同文本中兼具創生、婚姻、音樂與補天職能。《淮南子》說她煉五色石補蒼天、斷鰲足立四極、殺黑龍並積蘆灰止水；以黃土造人的完整故事主要見較晚文獻。',false,'key'],
+ ['fuxi','伏羲','Fúxī','文化始祖・八卦與漁獵傳統',0,0,'伏羲又作宓羲、庖犧。傳統將結網漁獵、婚姻秩序與八卦歸於他；漢代畫像常讓伏羲、女媧人首蛇身並列。三皇名單並不固定，二者是兄妹或配偶的說法亦屬不同時代傳承。',false,'key'],
+ ['gonggong','共工','Gònggōng','水神・觸不周山的失序者',0,0,'共工是與洪水、天地失序相關的古神。《淮南子》傳統說共工與顓頊爭帝失敗，怒觸不周山，使天柱折、地維絕，天傾西北、地陷東南；其他文本另有與祝融或高辛交戰的版本。'],
+ ['zhurong','祝融','Zhùróng','火神／古代官名・譜系有異',0,0,'祝融既是火神稱號，也與古代掌火官名相連。《山海經》《史記》等譜系對其身分與祖先關係不盡相同；後世常將共工與祝融之戰連到不周山，但《淮南子》版本的對手是顓頊。'],
+ ['buzhou','不周山','Bùzhōu Shān','西北天柱・天地傾斜神話地點',0,0,'不周山見於《山海經》《淮南子》等古籍，後世常視為支撐天地的西北天柱。共工怒觸後造成天傾西北、日月星辰向西移，地陷東南、百川向東南流的宇宙地理解釋。',true],
+ ['sky_mending','女媧補天','Mending the sky','五色石、鰲足與止水',0,0,'《淮南子・覽冥訓》描述四極廢、九州裂、火水災變後，女媧煉五色石補天、斷巨鰲四足立四極、殺黑龍救冀州並積蘆灰止洪水，使天地秩序暫時恢復。',true,'key'],
+ ['rulers_note','三皇五帝與禪讓傳說','Three Sovereigns and Five Emperors','名單隨經籍而異・不可視為固定朝代表',0,0,'三皇、五帝是後世整理上古聖王與文化始祖的框架，名單依《史記》、緯書、皇甫謐等傳統而異。本圖以伏羲、女媧、神農為常見三皇例，以《史記》黃帝、顓頊、帝嚳、堯、舜為五帝主線。',true,'key'],
+ ['shennong','神農／炎帝','Shénnóng／Yándì','農耕、醫藥與市場的文化始祖',0,0,'神農傳統將耕作、農具、百草醫藥與日中為市歸於一位文化始祖。神農與炎帝是否完全同一、炎帝世系有幾代，古籍與後世譜系並不一致；「親嘗百草一日中毒多次」是逐步發展的通俗敘事。',false,'key'],
+ ['huangdi','黃帝／軒轅氏','Huángdì','五帝之首・華夏始祖與蚩尤之戰',0,0,'《史記・五帝本紀》以黃帝為少典之子軒轅，先後與炎帝、蚩尤交戰而受諸侯尊為天子。後世把文字、醫藥、曆法、衣冠等眾多發明歸於黃帝及臣屬，屬文化始祖傳統，不可全當可考史實。',false,'key'],
+ ['zhuanxu','顓頊','Zhuānxū','五帝之一・高陽氏',0,0,'《史記》稱顓頊高陽為黃帝之孫、昌意之子，繼黃帝而治。古籍又將「絕地天通」、與共工爭帝等秩序重整故事繫於顓頊，但版本與解釋並不一致。'],
+ ['diku','帝嚳','Dìkù','五帝之一・高辛氏',0,0,'《史記》稱帝嚳高辛為黃帝曾孫、玄囂一系後裔，繼顓頊而治；后稷、契、堯、摯等上古祖先的母子譜系多匯聚於他，反映周、商等政治祖源傳說。'],
+ ['yao','堯','Yáo','陶唐氏・禪讓與洪水時代的聖王',0,0,'《尚書・堯典》以堯為能明德、協和萬邦的帝王，並記其尋訪舜；洪水治理在其時成為政治難題。堯禪讓舜是儒家聖王典範，但《竹書紀年》等另有不同權力交替敘事。',false,'key'],
+ ['shun','舜','Shùn','有虞氏・孝行與禪讓傳說',0,0,'《尚書》說舜出身家庭關係艱難，仍以孝行和才能被堯考察，娶堯二女娥皇、女英並攝政，後受禪讓。舜又任命禹治水；傳統以他象徵德治與選賢。',false,'key'],
+ ['flood_note','洪水與夏初傳說','Great Flood','鯀、禹、息壤與疏導九川',0,0,'中國洪水傳說在《尚書》《山海經》《史記》等文本中各有層次。鯀以壅塞方式治水失敗，禹改以疏導山川、協調各地而成功；後世將此連到夏朝建立與九州秩序。',true,'key'],
+ ['gun','鯀','Gǔn','禹之父・竊息壤治洪水',0,0,'《山海經》說鯀未奉帝命竊取天帝的息壤以堵洪水，遭祝融處死於羽郊，腹中又生禹。《尚書》則著重其九年治水無功；死因與禹出生方式隨文本而異。'],
+ ['yu','大禹','Dà Yǔ','治水英雄・夏代始祖',0,0,'禹承鯀之後治理洪水。《尚書》記他乘四種交通工具、隨山刊木、決九川通四海，使人民恢復耕食；《史記》又發展三過家門不入、劃定九州及受舜禪讓等敘事。',false,'key'],
+ ['xirang','息壤','Xīrǎng','能自行增長的神土',0,0,'息壤是能不斷生長、用以堵塞洪水的神土。《山海經》把鯀竊息壤與受罰連在一起，禹後續治水則奉帝命使用；它是神器／神物，不等同普通土壤。',true],
+ ['yinglong','應龍','Yìnglóng','有翼之龍・助戰與治水',0,0,'應龍是古籍中的有翼神龍。《山海經》說它曾殺蚩尤與夸父，後因不能返回天上而居南方，造成南方多雨；後世又發展它以尾畫地、協助禹導水的傳說。',false,'key'],
+ ['xiangliu','相柳','Xiāngliǔ','九首蛇身・共工臣屬',0,0,'《山海經》稱相柳為共工之臣，九首人面而蛇身，所到之處成為澤溪，吞食九山之物；禹殺死它後，其血腥臭使土地不能種植，最終築臺鎮壓。'],
+ ['celestial_note','日月與天象神話','Sun and Moon myths','帝俊、羲和、常羲、后羿與嫦娥',0,0,'日月神話散見《山海經》《楚辭・天問》《淮南子》等文本。帝俊、羲和、常羲的親屬與十日十二月系統，和后羿射日、嫦娥奔月並非都出自同一篇章。',true,'key'],
+ ['dijun','帝俊','Dìjùn','《山海經》的上古天帝',0,0,'帝俊是《山海經》中重要天帝，與羲和生十日、與常羲生十二月，另有多支後裔與國族。帝俊和帝嚳是否同一是後世及研究中的爭論，本圖保持分立。',false,'key'],
+ ['xihe','羲和','Xīhé','太陽之母・御日傳統',0,0,'《山海經》稱羲和為帝俊之妻、生十日，居甘淵並為太陽沐浴；《楚辭》又把羲和寫作駕馭日車者。太陽母與御者是不同文本層次的形象。'],
+ ['changxi','常羲','Chángxī','十二月之母',0,0,'《山海經》稱帝俊之妻常羲生月十有二，並為月亮沐浴。她與嫦娥名字相近，學界曾討論關係，但古籍沒有足夠證據把兩者直接當成同一人物。'],
+ ['ten_suns','十日','Ten Suns','扶桑輪值與並出災變',0,0,'《山海經》有十日居扶桑、輪流運行的敘述；后羿射落九日的完整版本在《淮南子》等後世材料中成形。十日既可視為帝俊、羲和之子，也象徵古代多日神話。',true,'key'],
+ ['houyi','后羿／羿','Yì','射日英雄・古籍中形象多層',0,0,'羿是善射英雄。《淮南子》說堯時十日並出，羿射落災害、誅除猰貐等怪物；另有夏代有窮氏后羿的政治人物傳統，兩者在後世常混合，需分辨神話英雄與歷史傳說層次。',false,'key'],
+ ['change','嫦娥','Cháng’é','竊藥奔月的月宮女神',0,0,'《淮南子》佚文與後世引文說羿向西王母求得不死藥，嫦娥竊食後奔月，化為月精。她與羿的夫妻關係、奔月原因、蟾蜍或月宮仙女形象在不同文本中逐步發展。',false,'key'],
+ ['elixir','不死藥','Elixir of immortality','西王母授羿・嫦娥奔月媒介',0,0,'不死藥在嫦娥故事中由羿向西王母求得，嫦娥服下後奔月。藥的劑量、是否足供二人、嫦娥是否偷竊或為避禍而服用，皆是不同版本的後來發展。',true],
+ ['moon_palace','月宮／廣寒宮','Moon Palace','後世月界仙境',0,0,'早期奔月故事主要說嫦娥入月，廣寒宮、桂樹、吳剛與玉兔等完整月宮系統在漢唐以後文學與民間信仰中逐步匯合，不能倒寫成《山海經》的原始設定。',true],
+ ['jade_rabbit','玉兔','Jade Rabbit','月中搗藥靈獸',0,0,'月中有兔的想像在漢代文物與詩賦中已很常見，常見形象是持杵搗製不死藥。後世讓玉兔陪伴嫦娥；佛教月兔捨身故事又是另一來源，不應完全混同。'],
+ ['sun_crow','三足烏／金烏','Three-legged Crow','日中神鳥・太陽象徵',0,0,'日中烏鳥意象見於漢代以前文獻與圖像，三足形象在漢代藝術中特別鮮明；後世稱金烏並把十日具象為十隻三足烏，但早期文本未必每處都說三足。'],
+ ['fusang','扶桑神木','Fúsāng','東方日出之樹',0,0,'《山海經》描述湯谷上的扶木／扶桑為十日停棲、輪流升起之處；後世又把扶桑當作東方海外地名或仙境。神木與實際地理稱呼須分層理解。',true],
+ ['heroes_note','《山海經》英雄與異怪','Shanhaijing myths','逐日、填海、戰神與異獸',0,0,'《山海經》並非單線敘事史詩，而是山川、物產、祭祀、異獸與神話片段的彙集。后世常把其中零散故事連成更完整的上古神話，本組保留原典片段與後世接受史差異。',true,'key'],
+ ['kuafu','夸父','Kuāfù','逐日巨人',0,0,'《山海經》說夸父與太陽競走，口渴飲盡黃河、渭水仍不足，前往大澤途中死去，棄杖化為鄧林。另篇說應龍已殺蚩尤又殺夸父，呈現不同神話片段。'],
+ ['jingwei','精衛','Jīngwèi','銜木石填東海之鳥',0,0,'《山海經》說炎帝少女女娃游東海溺亡，化為精衛鳥，常銜西山木石投入東海。後世以「精衛填海」象徵不屈意志，也可理解為死亡、復仇與自然力量的神話。'],
+ ['xingtian','刑天','Xíngtiān','失首仍以乳為目、臍為口的戰神',0,0,'《山海經》說刑天與帝爭神，被斬首葬於常羊山，仍以兩乳為目、肚臍為口，持干戚舞動。文本中的「帝」未明確指黃帝，後世常補成黃帝戰爭需註明。'],
+ ['chiyou','蚩尤','Chīyóu','戰神／部族首領・黃帝對手',0,0,'《史記》說蚩尤作亂，黃帝在涿鹿擒殺；《山海經》則有蚩尤作兵攻黃帝、黃帝令應龍戰於冀州之野。風雨、旱魃及九黎等細節多由不同文本與後世傳說拼合。',false,'key'],
+ ['baize','白澤','Báizé','通萬物之情的瑞獸',0,0,'白澤在中世紀類書保存的傳說中於海濱見黃帝，能言並知天下鬼神精怪，遂口述圖像與避邪方法。著名《白澤圖》早已散佚，現存敘述多為後世輯佚。'],
+ ['nine_tailed_fox','九尾狐','Nine-tailed Fox','青丘異獸・祥瑞與妖狐形象並存',0,0,'《山海經》青丘之山的九尾狐聲如嬰兒、能食人，食其肉者可避妖邪；漢代又常作王者太平祥瑞。它成為魅惑妖狐主要是更晚的小說與民間敘事，不能只用單一善惡標籤。'],
+ ['kunpeng','鯤鵬','Kūnpéng','《莊子》巨魚化鳥的寓言神獸',0,0,'《莊子・逍遙遊》說北冥巨魚鯤化為大鳥鵬，乘六月之息遷往南冥。鯤鵬首先是哲學寓言中的巨大生命與視野尺度，後世才廣泛進入神話、文學與神獸想像。'],
+ ['heaven_note','天界與民間神祇','Heavenly pantheon','道教、國家祭祀與地方信仰的後期匯流',0,0,'玉皇、西王母、東王公、雷公、灶君等來自不同時代與宗教層次。後世廟宇、道經、寶卷與戲曲將其組成天庭官僚，但不存在一份跨時代完全一致的「中國眾神名冊」。',true,'key'],
+ ['jade_emperor','玉皇上帝','Yùhuáng Shàngdì','道教與民間信仰的天界至尊',0,0,'玉皇上帝的完整尊號與天庭至尊形象主要在中古以後道教及民間信仰成熟，並非《山海經》的原始天帝。不同道教神階中他與三清、昊天上帝的關係各有解釋。',false,'key'],
+ ['xiwangmu','西王母','Xīwángmǔ','崑崙女神・災厲之神至仙界女主',0,0,'《山海經》的西王母形如人、豹尾虎齒、蓬髮戴勝，掌天之厲與五殘；《穆天子傳》描寫她與周穆王宴於瑤池，漢代以後逐漸成為掌不死仙界與蟠桃的女神。',false,'key'],
+ ['dongwanggong','東王公','Dōngwánggōng','漢代以後與西王母相配的東方神',0,0,'東王公又稱木公、東華帝君等，在漢代圖像與後世道教中常與西王母成對，主東方與陽性仙界秩序。其配偶關係和位階是後期神系發展，不見於早期《山海經》西王母條。'],
+ ['taiyi','太一／東皇太一','Tàiyī','最高天神名號・楚辭與秦漢祭祀',0,0,'太一在戰國秦漢可指最高天神或宇宙本原，《楚辭・九歌》有東皇太一祭歌，漢代國家祭祀亦尊太一。後世道教的太乙救苦天尊等相近名號不可直接等同。'],
+ ['leigong','雷公','Léigōng','雷霆與懲戒之神',0,0,'雷神觀念甚早，雷公的鳥喙、翼、槌鑿與雷鼓形象在後世藝術中定型。民間信仰常讓他奉天命擊雷懲惡；不同地方又有雷祖、五雷將等更複雜系統。'],
+ ['dianmu','電母','Diànmǔ','閃電女神・雷部配祀',0,0,'電母又稱金光聖母，後世常以鏡子發出閃光，與雷公配合作雷電。她屬較晚的雷部與民間神祇形象，並非先秦雷神文本中的固定伴侶。'],
+ ['fengbo','風伯','Fēngbó','風神稱號・飛廉等異名系統',0,0,'風伯是風神職名，先秦秦漢文獻又見飛廉等風神名稱。黃帝蚩尤戰爭中風伯雨師助戰的完整敘事多見後世整理，需與早期祭祀名號分開。'],
+ ['yushi','雨師','Yǔshī','降雨之神職・赤松子等異說',0,0,'雨師是古代祭祀中的雨神職名，後世常與赤松子等仙人身分相連，也與風伯並列。各朝祀典與地方傳說所指並不完全相同。'],
+ ['zaojun','灶君','Zàojūn','家宅灶神・歲末上天報告',0,0,'灶神信仰由早期家宅祭祀發展而來。近世年畫常畫灶君夫婦，歲末焚化神像送其上天向玉皇報告一家善惡，再迎回新像；各地日期與祭法不同。'],
+ ['underworld_note','地府與冥界信仰','Chinese underworld','泰山、酆都、佛教地獄與地方司法的融合',0,0,'中國冥界觀由先秦魂魄、泰山治鬼、道教酆都、佛教地獄與官府司法想像長期匯流。閻羅、十殿、孟婆、牛頭馬面、黑白無常並非同時出現在一部早期經典。',true,'key'],
+ ['dongyue_dadi','東嶽大帝','Dōngyuè Dàdì','泰山神・生死與冥籍之主',0,0,'泰山神由山嶽國家祭祀與民間冥界信仰發展為東嶽大帝，主管生死、祿籍與冥府。其權限與酆都大帝、閻羅王在不同道經和地方廟祀中有重疊。'],
+ ['fengdu_dadi','酆都大帝','Fēngdū Dàdì','道教鬼都主宰',0,0,'酆都大帝與四川酆都鬼城及道教北陰酆都體系相關，統攝鬼神與冥官。其形象在中古道經、地方信仰與近世文學中逐步成形，不是《山海經》人物。'],
+ ['yanluo','閻羅王','Yánluó Wáng','佛教閻魔在中國的冥府法官化',0,0,'閻羅源自印度佛教的閻魔／焰摩，傳入中國後與本土冥府司法融合，成為審判亡者的王。十殿閻王體系中閻羅通常只是其中一殿，名單與次序又有異本。'],
+ ['mengpo','孟婆','Mèng Pó','奈何橋與忘魂湯的後世冥界人物',0,0,'孟婆讓亡魂飲湯遺忘前世的形象主要見明清以後寶卷、善書、戲曲與民間傳說。她是輪迴敘事的後期人格化角色，不能倒置為先秦共同信仰。'],
+ ['ox_head','牛頭','Niútóu','佛教地獄獄卒形象',0,0,'牛頭源自佛教地獄獄卒與中國冥府藝術，常與馬面成對拘提亡魂。早期佛經可見牛頭阿傍等形象，後世才固定成民間熟悉的搭檔。'],
+ ['horse_face','馬面','Mǎmiàn','牛頭的後世搭檔',0,0,'馬面是中國化冥界獄卒，與牛頭成對的普及形象較晚。它結合佛教地獄、道教冥府與戲曲小說的視覺傳統，並無單一固定身世。'],
+ ['black_white','黑白無常','Hēibái Wúcháng','地方城隍與冥府勾魂使者',0,0,'黑無常、白無常是近世地方廟祀、城隍司法與民間故事中的勾魂差役，各地姓名、服色及善惡性格不同；七爺八爺只是部分地域的重要版本。'],
+ ['beasts_note','四象與祥瑞神獸','Mythic creatures','方位星宿、王權祥瑞與水域神靈',0,0,'青龍、白虎、朱雀、玄武首先是四方星象與圖像系統；龍、鳳凰、麒麟則在禮制、祥瑞與神話中持續變化。本組不把所有異獸當成同一生物分類。',true,'key'],
+ ['qinglong','青龍','Qīnglóng','東方七宿・春・木',0,0,'青龍是四象之一，代表東方七宿，後世配春季與木。它既是星象方位神，也成為宮殿、墓葬與道教護衛圖像；不等於所有中國龍的總稱。'],
+ ['baihu','白虎','Báihǔ','西方七宿・秋・金',0,0,'白虎是四象之一，代表西方七宿，後世配秋季與金。早期亦可作勇武、辟邪與王者德政的祥瑞；不同時代既有神聖白虎，也有凶猛虎妖。'],
+ ['zhuque','朱雀','Zhūquè','南方七宿・夏・火',0,0,'朱雀是四象之一，代表南方七宿，後世配夏季與火。它是星象神鳥，不應直接等同西方不死鳥；與鳳凰的圖像與象徵雖互有影響，文本身分仍可區分。'],
+ ['xuanwu','玄武','Xuánwǔ','北方七宿・冬・水・龜蛇合體',0,0,'玄武是四象之一，代表北方七宿，常作龜蛇纏繞形，後世配冬季與水。在道教中又人格化為真武大帝，星象神獸與人格神是不同發展階段。'],
+ ['qilin','麒麟','Qílín','仁獸與聖王祥瑞',0,0,'麒麟在古代被視為罕見仁獸，與聖王、太平及孔子傳說相連；形象融合鹿、牛、馬、龍等特徵且歷代不同。它不是固定等同歐洲獨角獸。'],
+ ['fenghuang','鳳凰','Fènghuáng','百鳥之王・德治祥瑞',0,0,'鳳凰由鳳、凰及多種神鳥觀念發展而來，象徵德治、太平與高貴。早期並非永生後浴火重生的鳥，因此不可直接與希臘羅馬 Phoenix 畫等號。'],
+ ['chinese_dragon','龍','Lóng','水雨、王權與變化的複合神獸',0,0,'中國龍在古代圖像與文獻中形態多變，常與水、雲、雨、帝王及升降變化相連。四海龍王是佛教、道教與民間信仰影響下較晚形成的家族化水府體系。'],
+ ['taotie','饕餮','Tāotiè','貪食象徵與青銅獸面紋後世命名',0,0,'先秦典籍把饕餮與貪食、四凶等傳說相連；宋代金石學又以「饕餮紋」稱商周青銅器獸面紋。器物紋樣原本是否就代表同名怪物，並無定論。'],
+ ['literature_note','明代小說神魔世界','Ming supernatural fiction','《封神演義》《西遊記》的後世文學宇宙',0,0,'《封神演義》《西遊記》大量重塑既有神祇、佛菩薩、道士與民間角色，影響現代中國神話想像；小說設定不可倒灌為先秦古典或所有宗教共同正典。',true,'key'],
+ ['jiang_ziya','姜子牙／姜尚','Jiāng Zǐyá','周初傳說人物・《封神演義》封神者',0,0,'姜尚是周初重要傳說人物，史籍稱太公望；《封神演義》把他塑造成奉元始天尊之命輔周伐紂、主持封神榜的道術人物。歷史傳說與小說角色需分開。'],
+ ['nezha','哪吒','Nézhā','佛教護法來源與中國小說英雄',0,0,'哪吒源自佛教那吒俱伐羅等護法傳統，進入中國後成為托塔天王之子。《封神演義》塑造蓮花化身、乾坤圈、混天綾與風火輪等著名形象，《西遊記》又將其納入天庭。'],
+ ['erlang','二郎神／楊戩','Èrláng Shén','治水、地方神與小說戰神的匯流',0,0,'二郎神信仰與蜀地治水、灌口神及多種地方傳統相關，身分曾連到李冰之子、趙昱等人物；《封神演義》以楊戩定型三眼、七十二變與哮天犬形象。'],
+ ['sun_wukong','孫悟空','Sūn Wùkōng','《西遊記》齊天大聖',0,0,'孫悟空是《西遊記》的石猴英雄，拜師習得七十二變與筋斗雲，奪定海神珍鐵為金箍棒，大鬧天宮後被如來鎮壓，護送唐僧取經而成鬥戰勝佛。角色融合早期取經故事、猴神與小說創作。',false,'key'],
+ ['dragon_kings','四海龍王','Dragon Kings of the Four Seas','東南西北海的水府君王',0,0,'龍王觀念受佛教龍王、道教水神與地方海神信仰影響，後世形成東海敖廣等四海龍王家族。《西遊記》《封神演義》的姓名與故事最為普及，但不是上古《山海經》的固定名單。'],
+ ['fengshen_list','封神榜','Investiture list','小說中敕封亡魂為周天神祇的名冊',0,0,'《封神演義》中姜子牙依榜敕封商周戰亡者為雷、火、瘟、斗等神部。這是小說組織龐大神祇的敘事裝置，不是現實道教只有一份且固定不變的神籍。',true],
+ ['ruyi_staff','如意金箍棒','Rúyì Jīngū Bàng','孫悟空兵器・大禹定海神珍鐵的小說設定',0,0,'《西遊記》說金箍棒原是大禹治水時定江海深淺的神珍鐵，重一萬三千五百斤，可隨心伸縮，後由孫悟空從東海龍宮取走。這是小說神器，不見於《尚書》大禹治水原典。',true],
+ ['nezha_artifacts','哪吒法寶','Nezha’s treasures','乾坤圈、混天綾、風火輪等',0,0,'哪吒法寶組合主要由明代神魔小說定型，包括乾坤圈、混天綾、風火輪、火尖槍等；不同戲曲、小說與地方傳說配備不完全一致。',true],
+ ['texts_note','中國神話重要典籍','Key texts','神話片段、史傳、祭歌與神魔小說',0,0,'中國神話材料分散在地理志怪、哲學、史傳、祭歌、類書與小說中。任何人物故事都應回到具體文本年代，不用「古代傳說」籠統掩蓋來源差異。',true,'key'],
+ ['text_shanhaijing','《山海經》','Classic of Mountains and Seas','山川、祭祀、異獸與神話片段',0,0,'《山海經》由《山經》《海經》等部分構成，成書層次複雜，保存帝俊、羲和、精衛、夸父、刑天、蚩尤、應龍、西王母與大量異獸材料；不是現代意義的完整神話小說。',true],
+ ['text_huainanzi','《淮南子》','Huainanzi','西漢思想總集與宇宙神話',0,0,'西漢淮南王劉安門客編纂的《淮南子》綜合道家、陰陽與政治思想，保存女媧補天、共工觸不周山、羿射日、嫦娥奔月等重要神話版本。',true],
+ ['text_chuci','《楚辭》','Chǔcí','楚地祭歌與《天問》神話提問',0,0,'《楚辭》中的《九歌》呈現東皇太一、雲中君、湘君湘夫人、河伯、山鬼等祭歌人物，《天問》則以連續問題保存大量上古神話線索，許多答案需借其他古籍互證。',true],
+ ['text_shangshu','《尚書》','Shàngshū','堯舜禹政治傳說與治水記憶',0,0,'《尚書》保存堯典、舜典、禹貢等早期政治與地理傳統，是堯舜禪讓、大禹治水和九州敘事的重要來源；篇章年代與今古文問題複雜，不宜視為同時代實錄。',true],
+ ['text_shiji','《史記》','Shǐjì','五帝、夏本紀與歷史化上古敘事',0,0,'司馬遷《史記》以五帝本紀、夏本紀整理黃帝至禹的上古譜系，把神話、口傳、諸子與政治記憶編入通史；其敘事具有漢代史學選擇，不代表所有古代版本。',true],
+ ['text_fengshen','《封神演義》','Fēngshén Yǎnyì','商周易代題材的明代神魔小說',0,0,'《封神演義》以武王伐紂為骨架，融合道教、佛教、民間神祇與作者創作，塑造姜子牙、哪吒、楊戩及封神榜。小說影響深遠，但不是商周時代原始神話記錄。',true],
+ ['text_xiyouji','《西遊記》','Xīyóu Jì','取經傳說成熟形態的明代小說',0,0,'百回本《西遊記》以玄奘取經為歷史核心，經長期講唱與文學發展形成孫悟空、豬八戒、沙悟淨及天庭龍宮世界；小說中的神佛關係不等於佛教或道教正式教義。',true],
+];
+const CN_CREATION_IDS=['creation_note','hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'];
+const CN_RULER_IDS=['rulers_note','fuxi','nuwa','shennong','huangdi','zhuanxu','diku','yao','shun'];
+const CN_FLOOD_IDS=['flood_note','gun','yu','xirang','yinglong','xiangliu'];
+const CN_CELESTIAL_IDS=['celestial_note','dijun','xihe','changxi','ten_suns','houyi','change','elixir','moon_palace','jade_rabbit','sun_crow','fusang'];
+const CN_HERO_IDS=['heroes_note','kuafu','jingwei','xingtian','chiyou','baize','nine_tailed_fox','kunpeng'];
+const CN_HEAVEN_IDS=['heaven_note','jade_emperor','xiwangmu','dongwanggong','taiyi','leigong','dianmu','fengbo','yushi','zaojun'];
+const CN_UNDERWORLD_IDS=['underworld_note','dongyue_dadi','fengdu_dadi','yanluo','mengpo','ox_head','horse_face','black_white'];
+const CN_BEAST_IDS=['beasts_note','qinglong','baihu','zhuque','xuanwu','qilin','fenghuang','chinese_dragon','taotie'];
+const CN_LITERATURE_IDS=['literature_note','jiang_ziya','nezha','erlang','sun_wukong','dragon_kings','fengshen_list','ruyi_staff','nezha_artifacts'];
+const CN_TEXT_IDS=['texts_note','text_shanhaijing','text_huainanzi','text_chuci','text_shangshu','text_shiji','text_fengshen','text_xiyouji'];
+function packChineseNodes(ids,startCol,startRow,cols=5){ ids.forEach((id,i)=>{ const d=CN_NODE_DEFS.find(n=>n[0]===id); if(d){ d[4]=startCol+(i%cols)*2; d[5]=startRow+Math.floor(i/cols)*2; } }); }
+packChineseNodes(CN_CREATION_IDS,0,0,5); packChineseNodes(CN_RULER_IDS.filter(id=>id!=='fuxi'&&id!=='nuwa'),12,0,5); packChineseNodes(CN_FLOOD_IDS,24,0,3);
+packChineseNodes(CN_CELESTIAL_IDS,0,10,6); packChineseNodes(CN_HERO_IDS,14,10,4); packChineseNodes(CN_HEAVEN_IDS,24,10,5);
+packChineseNodes(CN_UNDERWORLD_IDS,0,20,4); packChineseNodes(CN_BEAST_IDS,10,20,5); packChineseNodes(CN_LITERATURE_IDS,22,20,5); packChineseNodes(CN_TEXT_IDS,0,30,8);
+const CN_GROUPS = [
+ ['創世與天地秩序',CN_CREATION_IDS,'#72c6e8'],['常見三皇之一例',['rulers_note','fuxi','nuwa','shennong'],'#e5b95f'],['《史記》五帝與禪讓傳說',['huangdi','zhuanxu','diku','yao','shun'],'#c8a860'],['洪水與夏初傳說',CN_FLOOD_IDS,'#79b9ef'],
+ ['日月與天象神話',CN_CELESTIAL_IDS,'#c8a860'],['《山海經》英雄與異怪',CN_HERO_IDS,'#d98484'],['天界與民間神祇',CN_HEAVEN_IDS,'#a98de0'],
+ ['地府與冥界信仰',CN_UNDERWORLD_IDS,'#8bc8a2'],['四象與祥瑞神獸',CN_BEAST_IDS,'#77c6b6'],['明代小說神魔世界',CN_LITERATURE_IDS,'#e06e62'],['中國神話重要典籍',CN_TEXT_IDS,'#c8a860'],
+];
+const CN_UNIONS = [
+ {parent:'creation_note',children:['hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'],label:'不同文本的創世與秩序神話'},
+ {spouses:['fuxi','nuwa'],marriage:'partner',label:'漢代圖像常成對・兄妹／配偶說有異',labelClass:'ritual'},
+ {spouses:['gonggong','zhurong'],marriage:'partner',label:'部分傳統的水火之戰',labelClass:'blood'},
+ {spouses:['gonggong','buzhou'],marriage:'partner',label:'怒觸天柱',labelClass:'blood'},
+ {spouses:['nuwa','sky_mending'],marriage:'partner',label:'煉五色石重整天地',labelClass:'ritual'},
+ {parent:'rulers_note',children:['fuxi','nuwa','shennong','huangdi','zhuanxu','diku','yao','shun'],label:'常見三皇與《史記》五帝框架'},
+ {parent:'flood_note',children:['gun','yu','xirang','yinglong','xiangliu'],label:'洪水治理相關人物與神物'},
+ {parent:'gun',children:['yu'],label:'父子'}, {spouses:['gun','xirang'],marriage:'partner',label:'竊神土堵水',labelClass:'ritual'},
+ {spouses:['yu','xiangliu'],marriage:'partner',label:'誅九首水怪',labelClass:'blood'}, {spouses:['yao','gun'],marriage:'partner',label:'命鯀治水而九年無功',labelClass:'ritual'},
+ {spouses:['shun','yu'],marriage:'partner',label:'命禹續治洪水並禪讓',labelClass:'ritual'},
+ {parent:'celestial_note',children:['dijun','xihe','changxi','ten_suns','houyi','change','elixir','moon_palace','jade_rabbit','sun_crow','fusang'],label:'日月神話的多文本層次'},
+ {spouses:['dijun','xihe'],marriage:'primary',children:['ten_suns'],label:'《山海經》：生十日'}, {spouses:['dijun','changxi'],marriage:'partner',label:'《山海經》：生十二月',labelClass:'ritual'},
+ {spouses:['houyi','ten_suns'],marriage:'partner',label:'堯時射日除災',labelClass:'blood'}, {spouses:['houyi','change'],marriage:'primary',label:'後世通行夫妻傳說'},
+ {spouses:['xiwangmu','elixir'],marriage:'partner',label:'授羿不死藥',labelClass:'ritual'}, {spouses:['change','elixir'],marriage:'partner',label:'服藥奔月',labelClass:'ritual'},
+ {spouses:['change','moon_palace'],marriage:'partner',label:'後世月宮女神',labelClass:'ritual'}, {spouses:['ten_suns','fusang'],marriage:'partner',label:'十日停棲的東方神木',labelClass:'ritual'},
+ {parent:'heroes_note',children:['kuafu','jingwei','xingtian','chiyou','baize','nine_tailed_fox','kunpeng'],label:'古籍英雄、異怪與寓言神獸'},
+ {spouses:['huangdi','chiyou'],marriage:'partner',label:'涿鹿之戰',labelClass:'blood'}, {spouses:['huangdi','yinglong'],marriage:'partner',label:'應龍助戰',labelClass:'ritual'},
+ {spouses:['jingwei','shennong'],marriage:'partner',label:'炎帝少女女娃的傳統',labelClass:'ritual'},
+ {parent:'heaven_note',children:['jade_emperor','xiwangmu','dongwanggong','taiyi','leigong','dianmu','fengbo','yushi','zaojun'],label:'不同時代天界與民間神祇'},
+ {spouses:['xiwangmu','dongwanggong'],marriage:'partner',label:'漢代以後的陰陽配對',labelClass:'ritual'}, {spouses:['leigong','dianmu'],marriage:'partner',label:'後世雷電配祀',labelClass:'ritual'},
+ {spouses:['fengbo','yushi'],marriage:'partner',label:'風雨神並祀',labelClass:'ritual'}, {spouses:['zaojun','jade_emperor'],marriage:'partner',label:'歲末上天奏報善惡',labelClass:'ritual'},
+ {parent:'underworld_note',children:['dongyue_dadi','fengdu_dadi','yanluo','mengpo','ox_head','horse_face','black_white'],label:'跨佛道與地方信仰的冥界角色'},
+ {spouses:['ox_head','horse_face'],marriage:'partner',label:'後世冥府獄卒搭檔',labelClass:'ritual'},
+ {parent:'beasts_note',children:['qinglong','baihu','zhuque','xuanwu','qilin','fenghuang','chinese_dragon','taotie'],label:'星象、祥瑞與複合神獸'},
+ {parent:'literature_note',children:['jiang_ziya','nezha','erlang','sun_wukong','dragon_kings','fengshen_list','ruyi_staff','nezha_artifacts'],label:'明代神魔小說的重要角色與神器'},
+ {spouses:['jiang_ziya','fengshen_list'],marriage:'partner',label:'奉命主持封神',labelClass:'ritual'}, {spouses:['nezha','nezha_artifacts'],marriage:'partner',label:'小說定型法寶',labelClass:'ritual'},
+ {spouses:['sun_wukong','ruyi_staff'],marriage:'partner',label:'東海龍宮取得神珍鐵',labelClass:'ritual'}, {spouses:['sun_wukong','dragon_kings'],marriage:'partner',label:'《西遊記》龍宮借寶',labelClass:'ritual'},
+ {parent:'texts_note',children:['text_shanhaijing','text_huainanzi','text_chuci','text_shangshu','text_shiji','text_fengshen','text_xiyouji'],label:'神話、史傳與小說的主要來源'},
+ {spouses:['heroes_note','text_shanhaijing'],marriage:'partner',label:'主要古典來源',labelClass:'ritual'}, {spouses:['creation_note','text_huainanzi'],marriage:'partner',label:'補天與天地傾斜版本',labelClass:'ritual'},
+ {spouses:['rulers_note','text_shiji'],marriage:'partner',label:'五帝本紀的整理框架',labelClass:'ritual'}, {spouses:['flood_note','text_shangshu'],marriage:'partner',label:'堯舜禹與治水敘事',labelClass:'ritual'},
+ {spouses:['literature_note','text_fengshen'],marriage:'partner',label:'封神小說宇宙',labelClass:'ritual'}, {spouses:['literature_note','text_xiyouji'],marriage:'partner',label:'西遊小說宇宙',labelClass:'ritual'},
+];
+const CN_NODE_NAMES = Object.fromEntries(CN_NODE_DEFS.map(([id,name,reading])=>[id,{kojiki:reading,nihonshoki:name,reading,aliases:[],shrine:'—'}]));
+Object.assign(CN_NODE_NAMES,{
+ pangu:{...CN_NODE_NAMES.pangu,aliases:['盤古氏','開天闢地']},nuwa:{...CN_NODE_NAMES.nuwa,aliases:['女希氏','媧皇','女媧補天']},fuxi:{...CN_NODE_NAMES.fuxi,aliases:['伏犧','宓羲','庖犧','太昊']},
+ shennong:{...CN_NODE_NAMES.shennong,aliases:['炎帝','神農氏']},huangdi:{...CN_NODE_NAMES.huangdi,aliases:['軒轅氏','有熊氏']},yu:{...CN_NODE_NAMES.yu,aliases:['禹','夏禹','治水']},
+ houyi:{...CN_NODE_NAMES.houyi,aliases:['羿','大羿','后羿射日']},change:{...CN_NODE_NAMES.change,aliases:['姮娥','常娥','嫦娥奔月']},xiwangmu:{...CN_NODE_NAMES.xiwangmu,aliases:['王母娘娘','金母','瑤池金母']},
+ jade_emperor:{...CN_NODE_NAMES.jade_emperor,aliases:['玉帝','玉皇大帝','昊天金闕至尊玉皇上帝']},sun_wukong:{...CN_NODE_NAMES.sun_wukong,aliases:['齊天大聖','美猴王','鬥戰勝佛']},
+ erlang:{...CN_NODE_NAMES.erlang,aliases:['楊戩','灌口二郎','清源妙道真君']},nezha:{...CN_NODE_NAMES.nezha,aliases:['哪吒三太子','中壇元帥']},dragon_kings:{...CN_NODE_NAMES.dragon_kings,aliases:['東海龍王','敖廣','四海龍君']},
+});
+const CHINA_USER_EDITS = {};
+const CN_SOURCE_LIBRARY = {
+ pangu:{zh:'《藝文類聚》引徐整《三五歷紀》：盤古開天地',url:'https://ctext.org/text.pl?node=539889&if=zh'}, huainanzi:{zh:'《淮南子》',url:'https://ctext.org/huainanzi/zh'},
+ sky:{zh:'《淮南子・覽冥訓》：女媧補天',url:'https://ctext.org/huainanzi/lan-ming-xun/zh'}, shanhaijing:{zh:'《山海經》',url:'https://ctext.org/shan-hai-jing/zh'},
+ zhuangzi:{zh:'《莊子》',url:'https://ctext.org/zhuangzi/zh'}, chuci:{zh:'《楚辭》',url:'https://ctext.org/chu-ci/zh'}, shangshu:{zh:'《尚書・虞書》',url:'https://ctext.org/shang-shu/yu-shu/zh'},
+ shiji:{zh:'《史記》',url:'https://ctext.org/shiji/zh'}, xiwangmu:{zh:'國立亞洲藝術博物館：漢代西王母與東王公圖像',url:'https://asia.si.edu/explore-art-culture/collections/search/edanmdm%3Afsg_F1937.14/'},
+ kitchen:{zh:'大英博物館：灶君年畫與歲末上天傳統',url:'https://www.britishmuseum.org/collection/object/A_1954-1113-0-5'}, fengshen:{zh:'《封神演義》全文',url:'https://ctext.org/wiki.pl?res=836332&if=zh'},
+ xiyou:{zh:'《西遊記》全文',url:'https://ctext.org/xiyouji/zh'},
+};
+const CN_NODE_SOURCES = {};
+CN_CREATION_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='pangu'?['pangu']:id==='hundun'?['zhuangzi']:['huainanzi','sky']);
+CN_RULER_IDS.forEach(id=>CN_NODE_SOURCES[id]=['shiji','shangshu']); CN_FLOOD_IDS.forEach(id=>CN_NODE_SOURCES[id]=['shangshu','shiji','shanhaijing']);
+CN_CELESTIAL_IDS.forEach(id=>CN_NODE_SOURCES[id]=['shanhaijing','huainanzi','chuci']); CN_HERO_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='kunpeng'?['zhuangzi']:['shanhaijing','shiji']);
+CN_HEAVEN_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='xiwangmu'||id==='dongwanggong'?['shanhaijing','xiwangmu']:id==='zaojun'?['kitchen']:['chuci','huainanzi']);
+CN_UNDERWORLD_IDS.forEach(id=>CN_NODE_SOURCES[id]=['huainanzi','shiji']); CN_BEAST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['shanhaijing','chuci']);
+CN_LITERATURE_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='sun_wukong'||id==='dragon_kings'||id==='ruyi_staff'?['xiyou']:['fengshen']);
+CN_TEXT_IDS.forEach(id=>CN_NODE_SOURCES[id]=id.includes('shanhaijing')?['shanhaijing']:id.includes('huainanzi')?['huainanzi']:id.includes('chuci')?['chuci']:id.includes('shangshu')?['shangshu']:id.includes('shiji')?['shiji']:id.includes('fengshen')?['fengshen']:id.includes('xiyou')?['xiyou']:['shanhaijing','huainanzi']);
+CN_NODE_SOURCES.china_note=['shanhaijing','huainanzi','chuci','shangshu','shiji'];
+function chinaSourceLinks(keys){ return (keys||[]).map(k=>CN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
+
 /* ============ 亞伯拉罕諸傳統：天使與墮天者 ============ */
 const AN_NODE_DEFS = [
  ['divine_note','神／至高者','The Most High','各傳統中的創造主・非天使節點',8,0,'本圖以「至高者」標示天使受命的來源，並不把猶太教、基督教、伊斯蘭教對神的理解合併成同一套教義。天使階級、姓名與職能多屬不同時代的文本或後世神學整理。',true,'key'],
@@ -6619,6 +6794,11 @@ Object.assign(DM_NODE_NAMES,{
 const DEMON_USER_EDITS = {};
 
 const PANTHEONS = {
+  china: {
+    title:'🐉 中國神話與傳說', defs:CN_NODE_DEFS, groups:CN_GROUPS, unions:CN_UNIONS, names:CN_NODE_NAMES,
+    seed:CHINA_USER_EDITS, storage:'china_edits', yokai:false, placeholder:'搜尋神祇、帝王、異獸、神器或典籍…', editBtn:'✏️ 編輯此項目',
+    labels:{kana:'卡片副標（漢語拼音／英文）', kojiki:'漢語拼音／英文名', nihonshoki:'繁體中文通用名', reading:'讀音／轉寫', aliases:'別稱', shrine:'相關地區／信仰'},
+  },
   buddhism: {
     title:'☸️ 佛教世界', defs:BU_NODE_DEFS, groups:BU_GROUPS, unions:BU_UNIONS, names:BU_NODE_NAMES,
     seed:BUDDHISM_USER_EDITS, storage:'buddhism_edits', yokai:false, placeholder:'搜尋佛菩薩、弟子、護法、教法或經典…', editBtn:'✏️ 編輯此項目',
@@ -8196,7 +8376,7 @@ function openPanel(n){
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const sources = document.getElementById('p-sources');
-  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='greek' ? greekSourceLinks(GR_NODE_SOURCES[n.id] || []) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : currentPantheon==='buddhism' ? buddhismSourceLinks(BU_NODE_SOURCES[n.id] || ['earlyCanon']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
+  sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='china' ? chinaSourceLinks(CN_NODE_SOURCES[n.id] || ['shanhaijing']) : currentPantheon==='greek' ? greekSourceLinks(GR_NODE_SOURCES[n.id] || []) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : currentPantheon==='buddhism' ? buddhismSourceLinks(BU_NODE_SOURCES[n.id] || ['earlyCanon']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
   sources.style.display = sources.innerHTML ? 'flex' : 'none';
   const counterpart = document.getElementById('p-counterpart');
   const target = P.counterpart;
@@ -8645,6 +8825,7 @@ function openPantheon(key){
   localStorage.setItem('mythCurrentPage', key);
 }
 function openJapan(){ openPantheon('japan'); }
+function openChina(){ openPantheon('china'); }
 function openAngels(){ openPantheon('angels'); }
 function openDemons(){ openPantheon('demons'); }
 function openCounterpart(){
