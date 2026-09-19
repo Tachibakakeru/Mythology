@@ -6427,6 +6427,100 @@ const CN_NODE_DEFS = [
  ['text_shiji','《史記》','Shǐjì','五帝、夏本紀與歷史化上古敘事',0,0,'司馬遷《史記》以五帝本紀、夏本紀整理黃帝至禹的上古譜系，把神話、口傳、諸子與政治記憶編入通史；其敘事具有漢代史學選擇，不代表所有古代版本。',true],
  ['text_fengshen','《封神演義》','Fēngshén Yǎnyì','商周易代題材的明代神魔小說',0,0,'《封神演義》以武王伐紂為骨架，融合道教、佛教、民間神祇與作者創作，塑造姜子牙、哪吒、楊戩及封神榜。小說影響深遠，但不是商周時代原始神話記錄。',true],
  ['text_xiyouji','《西遊記》','Xīyóu Jì','取經傳說成熟形態的明代小說',0,0,'百回本《西遊記》以玄奘取經為歷史核心，經長期講唱與文學發展形成孫悟空、豬八戒、沙悟淨及天庭龍宮世界；小說中的神佛關係不等於佛教或道教正式教義。',true],
+ ['jiuge_note','《楚辭・九歌》祭歌','Nine Songs','楚地祭祀文學・十一篇',0,0,'《九歌》通行本共十一篇，歌詠天神、河湘之神，也包含悼念戰死者與送神的篇章。這是楚地祭歌的文學呈現，不是一份固定血緣譜；東皇太一已有節點，本組另列其他十篇。',true,'key'],
+ ['yunzhongjun','雲中君','Yúnzhōng Jūn','《九歌》雲中神靈',0,0,'《雲中君》寫以浴蘭、華服與歌舞迎接神靈，神光與日月同輝，乘龍車遠遊四海。篇中的「靈」可涉及神降與祭祀扮演，不能直接把每句話當成神的固定生平。'],
+ ['xiangjun','湘君','Xiāng Jūn','《九歌》湘水相關神靈',0,0,'《湘君》描寫祭者乘舟尋神、望而未見，經洞庭與湘水而生離思。與《湘夫人》互成呼應；後世有與舜及二妃相聯的解釋，但原篇角色身分與敘述視角仍有爭議。'],
+ ['xiangfuren','湘夫人','Xiāng Fūrén','《九歌》湘水相關神靈',0,0,'《湘夫人》以「帝子降兮北渚」開篇，寫秋風洞庭、采芳築室與迎而不得的情境。後世常以娥皇、女英解說湘水神話，然而不宜把不同篇章、注家與傳說中的身分直接合為同一確定譜系。'],
+ ['dasiming','大司命','Dà Sīmìng','《九歌》司命神',0,0,'《大司命》呈現司掌生命際遇的神靈乘雲而來，歌辭提到人之命有長短與相會離別。與少司命並列為不同祭歌主角，具體神職的系統化分工多出自後世詮釋。'],
+ ['shaosiming','少司命','Shào Sīmìng','《九歌》司命神',0,0,'《少司命》以秋蘭、荷衣與神靈忽來忽去的意象鋪陳，並提及保護幼弱者。雖與大司命共享司命稱號，文本沒有交代二者的血緣或固定上下級關係。'],
+ ['dongjun','東君','Dōng Jūn','《九歌》日神形象',0,0,'《東君》寫日出扶桑、駕龍車、舉弓射天狼，最終向東行去。這是楚辭祭歌中的太陽神形象；不可因此認定他與《山海經》的帝俊或十日必為同一人物。'],
+ ['hebo_jiuge','河伯','Hé Bó','《九歌》河神',0,0,'《河伯》寫與神同遊九河、乘水車駕雙龍，並在南浦送別。河伯是河水神的稱號，後世另有馮夷等身世說，不能把晚出的傳記全當作《九歌》原文。'],
+ ['shangui_jiuge','山鬼','Shān Guǐ','《九歌》山中神靈',0,0,'《山鬼》描寫身披薜荔、腰束女蘿，乘赤豹與文貍，等待所思之人而遭風雨阻隔。文本呈現山中神靈與巫祭意象，性別、身分及是否具固定神職，各家解讀未必一致。'],
+ ['guoshang_jiuge','《國殤》','Guó Shāng','《九歌》悼戰死者之篇',0,0,'《國殤》歌詠持兵赴戰、車馬交錯與為國而死者的英勇，末以英靈讚頌犧牲者。這是祭悼戰亡群體的篇章，不是名為國殤的單獨神祇。',true],
+ ['lihun_jiuge','《禮魂》','Lǐ Hún','《九歌》祭儀收束之篇',0,0,'《禮魂》篇幅短，寫鼓舞相和、獻芳與春蘭秋菊的長久祭祀；常被視為《九歌》送神或祭儀終章。它是歌章而非具獨立形象的天神。',true],
+ ['yi_foes_note','羿除害','Yi defeats the calamities','《淮南子・本經訓》堯時六害與十日',0,0,'《本經訓》說堯時十日並出，猰貐、鑿齒、九嬰、大風、封豨、修蛇也為民害，於是堯命羿逐一除害。六害是同段敘事所列的異怪，不必假定牠們是同族或組織。',true,'key'],
+ ['yayu','猰貐','Yàyǔ','《本經訓》羿所殺之害',0,0,'《淮南子・本經訓》列猰貐為堯時為害者，稱羿在射十日之後於下界殺猰貐。其他古籍的窫窳／猰貐形貌傳說不一，本段並未指定一套固定外觀。'],
+ ['zaochi','鑿齒','Záochǐ','羿誅於疇華之野',0,0,'《本經訓》說羿受堯命，在疇華之野誅鑿齒；它與其他五害同列為民間災患。名字提示齒的特徵，但本段不交代詳細形貌與身世。'],
+ ['jiuying','九嬰','Jiǔyīng','羿殺於凶水之上',0,0,'《本經訓》記羿在凶水之上殺九嬰，將其列在十日並出時為民害的異怪之中。後來常畫成九頭怪物，但原段落沒有敘明九個頭或其他固定造型。'],
+ ['dafeng_monster','大風','Dàfēng','羿繳於青丘之澤',0,0,'《本經訓》說羿在青丘之澤以繳射大風。此處「繳」指繫線之箭，原段僅將大風列為危害之一；把它與風伯或某種固定鳥獸直接等同，仍需其他文本證據。'],
+ ['fengxi_monster','封豨','Fēngxī','羿禽於桑林',0,0,'《本經訓》說羿在桑林擒封豨。封豨亦常寫作封豕，後世通常理解為巨野豬；原段重點是羿平定為害之物，沒有敘述牠的完整外貌或族系。'],
+ ['xiushe','修蛇','Xiūshé','羿斷於洞庭',0,0,'《本經訓》說羿在洞庭斷修蛇，以「修」表其長大的蛇形。它與《山海經》吞象的巴蛇可比較，但不同書中的蛇怪不可無據地判定為同一個體。'],
+ ['xia_succession_note','夏代王統與失國復國','Xia succession','《史記》《左傳》的不同敘事層次',0,0,'《史記・夏本紀》從禹、益、啟寫到太康、仲康、相、少康與桀；《左傳・襄公四年》另詳述有窮羿、寒浞奪政及少康復夏。兩書並非完全同一敘事，圖中分列來源，不把夏代故事視為有確定年代的同步史實。',true,'key'],
+ ['boyi_xia','益／伯益','Yì / Bóyì','禹所舉的繼承者',0,0,'《史記・夏本紀》說禹舉益為繼承人；禹死後，益讓位於禹子啟，諸侯多離益而朝啟。這則敘事反映禪讓與世襲交接的傳統解釋，不等同考古學已證實的宮廷實錄。'],
+ ['qi_xia','夏后啟','Qǐ','禹之子・夏代繼承傳說',0,0,'《史記・夏本紀》記諸侯歸附禹子啟，啟承夏后之位；有扈氏不服，啟率師在甘地交戰。《尚書・甘誓》保存誓師文本，篇章與事件的形成年代仍須分開看。'],
+ ['youhu_xia','有扈氏','Yǒuhù Shì','不服夏啟的方國',0,0,'《史記・夏本紀》記有扈氏不服啟，雙方於甘地大戰，啟作《甘誓》；《尚書》亦存同名誓辭。有扈氏在此是對立的氏族／方國，不是妖魔。'],
+ ['taikang_xia','太康','Tàikāng','啟之子・夏初失國傳統',0,0,'《史記・夏本紀》列啟子太康繼位，卻沒有詳記有窮羿奪政的經過；《左傳・襄公四年》以夏衰為背景敘有窮羿代夏政。後世「太康失國」常將不同來源合讀，應標明文本差異。'],
+ ['zhongkang_xia','仲康','Zhòngkāng','太康之弟・夏王序列',0,0,'《史記・夏本紀》記太康死後由弟仲康繼位，仲康之子相再繼位。其在有窮羿控制下的具體政治地位，見於後世整理與注疏，並非《夏本紀》詳敘。'],
+ ['xiang_xia','相','Xiàng','仲康之子・少康之父',0,0,'《史記・夏本紀》將相列為仲康之子、少康之父；《左傳・襄公四年》則說寒浞之子澆滅斟灌、斟尋，殺夏后相，相妻后緡逃至有仍氏，生下少康。'],
+ ['yi_youqiong','有窮后羿','Hòu Yì of Youqiong','《左傳》代夏政的善射首領',0,0,'《左傳・襄公四年》說有窮羿由鉏遷窮石，憑射術代夏政，卻耽於畋獵、不理民事，終被其相寒浞篡奪。此為夏代政治傳說中的羿，不直接與射十日的神話羿合併。'],
+ ['hanzhuo','寒浞','Hán Zhuó','有窮羿之相・奪政者',0,0,'《左傳・襄公四年》說寒浞原被伯明氏所逐，得有窮羿信任任相；他內外結黨、趁羿狩獵奪其國，並使兒子澆、豷繼續攻夏。後來靡收集舊部滅浞而立少康。'],
+ ['shaokang_xia','少康','Shàokāng','相之子・復夏傳統主角',0,0,'《左傳・襄公四年》記相妻后緡避難有仍氏而生少康，靡聯合斟灌、斟尋遺民滅寒浞後立少康。《史記・夏本紀》僅列「相崩，子少康立」，沒有同樣詳盡的復國故事。'],
+ ['jie_xia','夏桀','Jié','《史記》夏代末王',0,0,'《史記・夏本紀》記孔甲以後諸侯多叛，桀不修德而傷百姓，商湯修德得諸侯歸附，終率兵伐桀。桀的暴君敘事帶有後代以商革夏為鑑的政治詮釋。'],
+ ['xiyou_journey_note','《西遊記》取經行旅','Journey to the West','百回本小說的師徒、護持者與關卡',0,0,'《西遊記》以玄奘取經史事為遠源，百回本將唐僧、悟空、八戒、悟淨與白龍馬寫成取經隊伍，另有觀音、如來與沿途妖王。此群組是明代小說敘事，不作佛教全部傳統共同的神佛譜。',true,'key'],
+ ['tangsanzang_xiyou','唐三藏／唐僧','Táng Sānzàng','《西遊記》取經師父',0,0,'小說將歷史玄奘塑為受唐王託付、往西天求經的三藏法師；他曾因誤會逐走悟空，路上屢遭妖魔擄掠，終與徒弟取得真經。小說唐僧的身世與磨難，須與玄奘史傳分開。'],
+ ['bajie_xiyou','豬八戒／豬悟能','Zhū Bājiè','《西遊記》取經弟子',0,0,'豬八戒在小說中原為天蓬元帥，因犯戒被貶，錯投豬胎；後受觀音勸化，在高老莊被悟空收服，隨唐僧取經。他以九齒釘耙為兵器，常兼有貪食、好逸與救援同伴的兩面性。'],
+ ['wujing_xiyou','沙悟淨／沙僧','Shā Wùjìng','《西遊記》取經弟子',0,0,'小說說沙悟淨原為捲簾大將，被貶至流沙河作怪；觀音差木叉引導，後與八戒、悟空交戰而皈依，成為挑擔護師的一員。其背景與法器為小說情節，不等同歷史僧侶。'],
+ ['bailongma_xiyou','白龍馬','Báilóngmǎ','西海龍王之子・唐僧坐騎',0,0,'《西遊記》中的西海龍王三太子因罪將受刑，經觀音安排化為白馬，載唐僧西行；到達西天後獲封八部天龍馬。此小說身分與佛典一般龍王傳統不可直接混同。'],
+ ['guanyin_xiyou','觀音菩薩（西遊記）','Guānyīn','小說中的取經策劃與救援者',0,0,'百回本《西遊記》寫觀音奉如來之命在東土尋取經人，勸化悟空、八戒、悟淨與白龍馬，途中屢次解救師徒。此為小說塑造的角色功能，不表示所有佛教經典都採同一取經故事。'],
+ ['rulai_xiyou','如來佛祖（西遊記）','Rúlái','小說天竺靈山之主',0,0,'《西遊記》中的如來以手掌鎮住大鬧天宮的悟空，並在靈山授經、為取經眾敕封。小說將多種佛教概念納入戲劇化天界秩序，不應當成佛教全部宗派的正式神職表。'],
+ ['niumo_xiyou','牛魔王','Niú Mówáng','火焰山篇的妖王',0,0,'牛魔王在小說中是孫悟空昔日結義之友、鐵扇公主之夫、紅孩兒之父；圍繞芭蕉扇與火焰山和悟空屢次交鋒。其家族關係屬《西遊記》小說敘事。'],
+ ['tieshan_xiyou','鐵扇公主／羅剎女','Tiěshàn Gōngzhǔ','芭蕉扇持有者',0,0,'《西遊記》寫鐵扇公主持芭蕉扇，可熄火焰山烈火；悟空因紅孩兒被觀音收伏而難借其扇，遂有三調芭蕉扇情節。她與牛魔王為夫妻，是小說內設定。'],
+ ['honghai_xiyou','紅孩兒／聖嬰大王','Hónghái’ér','牛魔王與鐵扇公主之子',0,0,'小說中的紅孩兒以三昧真火困住取經隊伍，悟空難以獨力制伏，最後由觀音收服為善財童子。這是《西遊記》對善財童子身世的文學改寫，不是《華嚴經》原有說法。'],
+ ['baigujing_xiyou','白骨精／白骨夫人','Báigǔ Jīng','三打白骨精的變化妖怪',0,0,'《西遊記》第二十七回的屍魔數次變化人形試圖接近唐僧，悟空識破並擊殺，唐僧卻誤解而逐徒。小說稱其白骨夫人；流行名「白骨精」是後來廣用的稱呼。'],
+ ['fengshen_cast_note','《封神演義》商周人物','Investiture of the Gods','明代小說的殷周陣營與仙道師承',0,0,'《封神演義》以商周易代為骨架，將帝辛、妲己、武王、聞仲、申公豹等歷史與傳說人物同仙道角色交織。此群組著重小說的人物關係與敘事，不把法寶、師承寫成商周時代史實。',true,'key'],
+ ['dixin_fengshen','紂王／帝辛（封神）','Dì Xīn','小說中的商末君主',0,0,'《封神演義》以商紂王題詩褻瀆女媧開篇，使狐妖妲己入宮惑主，繼以酷刑、征伐與諸侯離心推進商亡。歷史帝辛與小說紂王須區分，妖妃設定不是商代史料。'],
+ ['daji_fengshen','蘇妲己（封神）','Dájǐ','小說中被狐妖附身的王妃',0,0,'《封神演義》把妲己寫為冀州侯蘇護之女，赴朝歌途中為狐妖奪舍，入宮後助紂王施暴。史書中的妲己與小說的九尾狐附身屬不同文本層次，不能直接等同。'],
+ ['jifa_fengshen','周武王／姬發（封神）','Jī Fā','小說中伐紂的周王',0,0,'《封神演義》讓姬發繼承文王遺志，以姜子牙等人輔佐東征，最終伐商建周。小說戰役加上仙人鬥法與封神榜，是對商周變革的文學重寫。'],
+ ['shengongbao_fengshen','申公豹','Shēn Gōngbào','與姜子牙對立的小說道士',0,0,'《封神演義》中的申公豹同姜子牙有師門關係，四處遊說仙道與將領助商抗周，屢次使封神之役擴大。他的神通與結局屬小說故事，不可作為商周人物實錄。'],
+ ['wenzhong_fengshen','聞仲／聞太師','Wén Zhòng','小說商朝太師',0,0,'聞仲在《封神演義》中為商朝重臣，奉命征伐西岐，麾下眾將與截教仙人參戰；其忠商與紂王失德形成張力。聞太師的法術和坐騎屬小說形象。'],
+ ['lijing_fengshen','李靖／托塔天王（封神）','Lǐ Jìng','哪吒之父・小說將領與仙真',0,0,'《封神演義》寫陳塘關總兵李靖為哪吒之父，與其衝突後由仙人調解，後參與周陣營作戰；「托塔天王」形象也在中國佛道與《西遊記》等傳統中流變，不能只用一書定型。'],
+ ['taiyi_fengshen','太乙真人（封神）','Tàiyǐ Zhēnrén','哪吒之師・蓮花化身的安排者',0,0,'《封神演義》中太乙真人收哪吒為徒，賜予兵器法寶，哪吒死後又以蓮花為其重塑身體。此小說人物不應與道教「太乙救苦天尊」僅因名稱近似便判為同一神格。'],
+ ['leizhenzi_fengshen','雷震子','Léi Zhènzǐ','姬昌義子・雲中子門人',0,0,'《封神演義》寫姬昌在燕山收雷震子為義子，後由雲中子教養；吃仙杏後生雙翼，執棍助周。雷震子是小說英雄，不等同民間雷公或道教雷部諸神。'],
+ ['huangfeihu_fengshen','黃飛虎','Huáng Fēihǔ','武成王・由商歸周',0,0,'《封神演義》寫黃飛虎原是商將，因家變反出五關投周，成為西岐重要將領；身後封為東嶽泰山天齊仁聖大帝。這是小說封神設定，不等於各地東嶽大帝信仰的唯一來源。'],
+ ['yinjiao_fengshen','殷郊','Yīn Jiāo','紂王之子・小說悲劇人物',0,0,'《封神演義》寫殷郊為紂王與姜后之子，受仙人救護後下山，本應助周卻被申公豹勸回商營；其法寶、師承與結局展現小說對親情、誓言和天數的衝突。'],
+ ['nanshan_note','《山海經・南山經》神物','Southern Mountain Classic','山川、草木、異獸與占驗',0,0,'《南山經》循山記地理、物產、神祇與祭法；此組選出十種有原文描述的草木、獸鳥與魚。其療效、瑞應是古籍記述，並非現代生物學或醫療事實；已有的旋龜、九尾狐另以關係線連回。',true,'key'],
+ ['zhuyu_plant','祝餘','Zhùyú','招搖山・食之不飢的草',0,0,'《南山經》說招搖山有草形如韭而開青花，名祝餘，食之不飢。這是山經記錄的奇草與效用說法，不是可據以實際服用的藥方。',true],
+ ['migu_tree','迷穀','Mígǔ','招搖山・佩之不迷的木',0,0,'《南山經》記招搖山迷穀木形如穀樹、木理黑，花光照耀四方，佩帶它便不迷路。它是奇木而非人物或神器，功效屬文本敘事。',true],
+ ['shengsheng_south','狌狌','Shēngshēng','招搖山・白耳猿形獸',0,0,'《南山經》說招搖山有獸形如禺、耳白，伏行而人走，名狌狌，食之善走。其他篇章也有同名狌狌描述，這裡只呈現招搖山條，不混成唯一固定物種。'],
+ ['lushu_south','鹿蜀','Lùshǔ','杻陽山・白首虎紋赤尾',0,0,'《南山經》寫杻陽山鹿蜀形如馬，白首、虎紋、赤尾，叫聲如歌；原文稱佩之宜子孫。它是與山川物產並列的異獸，不應把後世插畫當作原文唯一形象。'],
+ ['lu_fish_south','鯥','Lù','柢山・陵居的翼魚',0,0,'《南山經》說柢山鯥形如牛，棲於陸地，蛇尾有翼，冬死夏生；食之無腫疾。其形貌與功效依古籍呈現，不作現實醫療建議。'],
+ ['lei_beast_south','類','Lèi','亶爰山・自為牝牡之獸',0,0,'《南山經》記亶爰山之獸「類」形如貍而有髦，自為牝牡，食者不妒。原文以簡短形貌與功效記述它，沒有進一步的族系或故事。'],
+ ['botuo_south','猼訑','Bóyí','基山・九尾四耳、目在背',0,0,'《南山經》說基山猼訑形如羊，有九尾四耳，眼睛在背，佩之不畏。部分傳本字形和讀音有差異；此處依原文形貌，不增添後世想像的能力。'],
+ ['guanguan_south','灌灌','Guànguàn','青丘山・鳩形鳴鳥',0,0,'《南山經》記青丘山灌灌形如鳩，叫聲如「呵」，佩之不惑。它與同山的九尾狐並見於原典，但沒有親屬或主從關係。'],
+ ['chiru_south','赤鱬','Chìrú','青丘英水・人面魚',0,0,'《南山經》記青丘山英水有赤鱬，形如魚而人面，叫聲如鴛鴦，食之不疥。這是水中異魚，不能與後來各種「人魚」傳說直接等同。'],
+ ['changyou_south','長右','Chángyòu','長右山・四耳猿形水災徵兆',0,0,'《南山經》寫長右山有同名獸，形如禺而四耳，聲如吟，出現則郡縣大水。這是古代災異占驗敘事，不能推成自然災害的因果解釋。'],
+ ['xishan_note','《山海經・西山經》神物','Western Mountain Classic','山神、異獸、鳥與奇異功用',0,0,'《西山經》沿山脈記下西方山川、礦物、草木、鳥獸與祭祀。本組十個節點依原典各自的地點和形貌整理；白帝少昊是長留山神靈，其他多為不同山中的異獸，並非同一家族。',true,'key'],
+ ['xianyang_west','羬羊','Xiányáng','錢來山・羊形馬尾',0,0,'《西山經》在錢來山記羬羊，形如羊而馬尾，脂可治「腊」。原文沒有說它就是今日某種山羊；藥用描述屬古籍記載。'],
+ ['xibian_west','谿邊','Xībiān','天帝山・犬形避蠱之獸',0,0,'《西山經》說天帝山有獸形如犬，名谿邊，席其皮者不蠱。這是文本中的辟蠱功用，不等於經驗證的防病措施。'],
+ ['yingwu_west','鸚䳇','Yīngwǔ','黃山・能言的異鳥',0,0,'《西山經》記黃山有鳥形如鴞，青羽赤喙、人舌能言，名鸚䳇。名稱和後世鸚鵡相近，但原文給出的形貌不能直接當成現生鸚鵡的標準記錄。'],
+ ['lei_bird_west','鸓','Lěi','翠山・四足避火鳥',0,0,'《西山經》記翠山有鸓，形如鵲、赤黑相間而四足，說它可以禦火。文本沒有交代其神譜；特殊形貌與效用宜保持古籍敘述。'],
+ ['jufu_west','舉父','Jǔfù','崇吾山・善投之獸',0,0,'《西山經》在崇吾山記舉父，形如禺，手臂有紋，善於投擲。它是山中異獸而非帝王或戰將；後世圖像對豹虎般紋色有不同詮釋。'],
+ ['manman_west','蠻蠻','Mánmán','崇吾山・成雙而飛的鳥',0,0,'《西山經》說蠻蠻形如鳧，只有一翼一目，兩鳥相得才飛，出現預示天下大水。這與後世「比翼鳥」意象可比較，但不能斷言各文本指同一對鳥。'],
+ ['shaohao_west','少昊／白帝（西山經）','Shàohào','長留山・司反景之神',0,0,'《西山經》記長留山為白帝少昊所居，其神「主司反景」。少昊在其他譜系有不同身分與子嗣；本節點只呈現《西山經》所載的山神面向，不將所有少昊傳說硬合。'],
+ ['zhuyan_west','朱厭','Zhūyàn','小次山・白首赤足兵災徵兆',0,0,'《西山經》記小次山朱厭形如猿，白首赤足，出現則天下大兵。它是兵災徵兆的異獸記錄，不是發動戰爭的歷史人物。'],
+ ['zheng_west','猙','Zhēng','章莪山・赤豹五尾一角',0,0,'《西山經》說章莪山猙形如赤豹，五尾一角，聲如擊石。除這些形貌與聲音外，原文沒有完整生平或族群設定。'],
+ ['huan_west','讙','Huān','翼望山・一目三尾',0,0,'《西山經》記翼望山讙形如貍，一目三尾，能發出多種聲音，說可禦凶、服之已癉。避免與同字的言語「歡」或其他後世妖怪混同。'],
+ ['beishan_note','《山海經・北山經》神物','Northern Mountain Classic','北方山川的魚鳥與異獸',0,0,'《北山經》在山川路線中並列神靈、異獸、水族與祭法。本組依十條原文記述建立節點；形貌、食用或避災效用是古籍文化資料，不作現代事實與療法。',true,'key'],
+ ['heluo_north','何羅魚','Héluó Yú','譙明山・一首十身之魚',0,0,'《北山經》說譙明山譙水有何羅魚，一個頭、十個身體，聲如犬吠，食之已癰。原典描述奇異水族，與其他「多頭魚」圖像不可任意合一。'],
+ ['menghuai_north','孟槐','Mènghuái','譙明山・赤豪辟凶之獸',0,0,'《北山經》記譙明山孟槐形如貆而有赤豪，聲如「榴榴」，可以禦凶。同山亦記何羅魚，二者僅是地點相近，原文未指親屬關係。'],
+ ['ershu_north','耳鼠','Ěrshǔ','丹熏山・兔首麋身、以尾飛',0,0,'《北山經》說丹熏山耳鼠形如鼠，兔首麋身，以尾飛行；原文又稱食之不䐆、可以禦百毒。這是古籍功效記述，不可當成現實解毒方法。'],
+ ['zhuhuai_north','諸懷','Zhūhuái','北嶽山・四角人目彘耳',0,0,'《北山經》記北嶽山諸懷形如牛而四角，人目、彘耳，聲如雁，會食人。它與該山流出的諸懷之水同名，但不是水神譜系中的親子。'],
+ ['yi_fish_north','鮨魚','Yíyú','諸懷水・魚身犬首',0,0,'《北山經》說諸懷之水有鮨魚，魚身犬首，叫聲如嬰兒，食之已狂。此處「鮨魚」是文本中的奇魚，不與今日同字食物名稱混同。'],
+ ['xiao_bird_north','囂（北山鳥）','Xiāo','梁渠山・四翼一目犬尾',0,0,'《北山經》記梁渠山有囂鳥，四翼、一目、犬尾，聲如鵲；古文說食之可治腹痛、止衕。名稱與其他篇章同名獸可能有異，故明標北山鳥。'],
+ ['zhujian_north','諸犍','Zhūjiān','單張山・人首牛耳豹身',0,0,'《北山經》記單張山諸犍形如豹，長尾、人首牛耳、獨目；行時銜尾，靜止時蟠尾。它是獨立的異獸條目，並非既有諸懷的同類族群。'],
+ ['zuzi_north','足訾','Zúzī','蔓聯山・見人則呼之獸',0,0,'《北山經》說蔓聯山足訾形如禺而有鬣，牛尾、紋臂、馬蹄，見人便呼，叫聲又像呼自己的名字。原文沒有指定其善惡陣營。'],
+ ['mengji_north','孟極','Mèngjí','石者山・善伏的豹形獸',0,0,'《北山經》記石者山孟極形如豹，額有花紋而身白，善於伏藏，叫聲像在呼自己的名字。與孟槐名稱相近，但分屬不同山中條目。'],
+ ['tianma_north','天馬（北山經）','Tiānmǎ','馬成山・犬形飛獸',0,0,'《北山經》中的天馬並非現代意義的翼馬，而是馬成山一種形如白犬、黑頭，見人便飛的異獸。此名稱與後世天馬或西方飛馬不必視作同一。'],
+ ['dragon_nine_note','龍生九子','Nine offspring of the dragon','明代器物與建築裝飾的九子傳說',0,0,'明代李東陽《懷麓堂集・記龍生九子》列囚牛、睚眥、嘲風、蒲牢、狻猊、霸上（霸下）、狴犴、贔㞒（後常作負屭）、蚩吻（螭吻），各有所好，並對應琴頭、刀柄、殿角、鐘鈕、佛座、碑座、獄門、碑旁與殿脊裝飾。李東陽自述名目得自轉抄舊冊，來源已不可詳考。楊慎《升菴集》另列贔屭、螭吻、蒲牢、狴犴、饕餮、蚣蝮、睚眥、金猊、椒圖；兩份九子名單不可拼成唯一排行，也不宜視為先秦固定譜系。',true,'key'],
+ ['qiuniu_dragon','囚牛','Qiúniú','好音樂・胡琴琴頭獸飾',0,0,'李東陽《懷麓堂集》稱囚牛為龍種，平生好音樂，胡琴頭上的刻獸被說成牠的遺像。此說解釋器物裝飾，不提供固定外貌或獨立生平；楊慎所列另一九子名單沒有囚牛。'],
+ ['yazi_dragon','睚眥','Yázì','好殺・刀柄吞口裝飾',0,0,'《懷麓堂集》稱睚眥平生好殺，刀柄上龍形吞口被視為其遺像。楊慎《升菴集》也收睚眥，但排列次序不同；「好殺」是傳說賦予兵器飾物的性格，不是可考證的族譜事實。'],
+ ['chaofeng_dragon','嘲風','Cháofēng','好險・殿角走獸',0,0,'《懷麓堂集》說嘲風好險，殿角走獸即其遺像。它與建築屋角、飛簷上的獸飾相連；原文沒有交代詳盡體色或神力，不能把所有屋脊獸都確定為嘲風。'],
+ ['pulao_dragon','蒲牢','Púláo','好鳴・鐘上獸鈕',0,0,'《懷麓堂集》稱蒲牢好鳴，鐘上的獸鈕是其遺像。楊慎《升菴集》另形容牠形似小龍、好叫吼。鐘鈕與聲響的關聯是兩篇明代文本共有的核心說法。'],
+ ['suanni_dragon','狻猊','Suānní','好坐・佛座獅子裝飾',0,0,'《懷麓堂集》說狻猊好坐，佛座上的獅子是其遺像。楊慎名單改列形似獅、好煙而置於香爐的「金猊」；兩者可比較，但不應抹掉文本名稱及用途差異。'],
+ ['baxia_dragon','霸下／霸上','Bàxià','好負重・石碑龜形座',0,0,'《懷麓堂集》原列「霸上」好負重，碑座獸為其遺像，通行轉寫多作霸下。楊慎名單把形似龜、好負重的碑下龜趺稱為「贔屭」。這是跨文本的名稱對應，不等於李東陽把好文的贔㞒也稱作負重者。'],
+ ['bian_dragon','狴犴','Bì’àn','好訟・獄門獅子頭',0,0,'《懷麓堂集》稱狴犴好訟，獄門上的獅子頭飾被視為其遺像；楊慎《升菴集》另稱其形似虎、有威力，故立於獄門。獅頭與虎形是不同文本的描述，宜並列保留。'],
+ ['fuxi_dragon','負屭／贔㞒','Fùxì','好文・碑旁龍紋',0,0,'《懷麓堂集》把好文、位於碑兩旁的龍紋寫作「贔㞒」；後世為與負重的贔屭／霸下區分，常寫作「負屭」。兩字形與角色曾被混用，本節點專指李東陽名單中的碑旁好文者，不與龜趺負重者強行合併。'],
+ ['chiwen_dragon','螭吻／蚩吻','Chīwěn','好吞・殿脊獸頭',0,0,'《懷麓堂集》寫作「蚩吻」，稱其好吞，殿脊獸頭即其遺像；今常寫螭吻。楊慎《升菴集》的螭吻好望、立於屋上獸頭，名稱相近但性情描述不同。它是屋脊裝飾傳說，不等於所有古建築脊獸都出自同一文本。'],
 ];
 const CN_CREATION_IDS=['creation_note','hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'];
 const CN_RULER_IDS=['rulers_note','suiren','fuxi','nuwa','shennong','huangdi','zhuanxu','diku','yao','shun'];
@@ -6449,6 +6543,15 @@ const CN_SANGUAN_IDS=['sanguan_note','tianguan','diguan','shuiguan'];
 const CN_FULUSHOU_IDS=['fulushou_note','fuxing','luxing','shouxing'];
 const CN_SHANHAI_BEAST_IDS=['shanhai_beasts_note','zhulong','luwu','dijiang','bifang','feiyi','yingzhao','kaiming_beast','bashe','xuangui','yufu'];
 const CN_DRAGON_KINGS_IDS=['dragon_kings','aoguang','aoqin','aorun','aoshun'];
+const CN_JIUGE_IDS=['jiuge_note','yunzhongjun','xiangjun','xiangfuren','dasiming','shaosiming','dongjun','hebo_jiuge','shangui_jiuge','guoshang_jiuge','lihun_jiuge'];
+const CN_YI_FOES_IDS=['yi_foes_note','yayu','zaochi','jiuying','dafeng_monster','fengxi_monster','xiushe'];
+const CN_XIA_IDS=['xia_succession_note','boyi_xia','qi_xia','youhu_xia','taikang_xia','zhongkang_xia','xiang_xia','yi_youqiong','hanzhuo','shaokang_xia','jie_xia'];
+const CN_XIYOU_IDS=['xiyou_journey_note','tangsanzang_xiyou','bajie_xiyou','wujing_xiyou','bailongma_xiyou','guanyin_xiyou','rulai_xiyou','niumo_xiyou','tieshan_xiyou','honghai_xiyou','baigujing_xiyou'];
+const CN_FENGSHEN_CAST_IDS=['fengshen_cast_note','dixin_fengshen','daji_fengshen','jifa_fengshen','shengongbao_fengshen','wenzhong_fengshen','lijing_fengshen','taiyi_fengshen','leizhenzi_fengshen','huangfeihu_fengshen','yinjiao_fengshen'];
+const CN_NANSHAN_IDS=['nanshan_note','zhuyu_plant','migu_tree','shengsheng_south','lushu_south','lu_fish_south','lei_beast_south','botuo_south','guanguan_south','chiru_south','changyou_south'];
+const CN_XISHAN_IDS=['xishan_note','xianyang_west','xibian_west','yingwu_west','lei_bird_west','jufu_west','manman_west','shaohao_west','zhuyan_west','zheng_west','huan_west'];
+const CN_BEISHAN_IDS=['beishan_note','heluo_north','menghuai_north','ershu_north','zhuhuai_north','yi_fish_north','xiao_bird_north','zhujian_north','zuzi_north','mengji_north','tianma_north'];
+const CN_DRAGON_NINE_IDS=['dragon_nine_note','qiuniu_dragon','yazi_dragon','chaofeng_dragon','pulao_dragon','suanni_dragon','baxia_dragon','bian_dragon','fuxi_dragon','chiwen_dragon'];
 function packChineseNodes(ids,startCol,startRow,cols=5){ const [head,...children]=ids, h=CN_NODE_DEFS.find(n=>n[0]===head), span=Math.min(cols,Math.max(1,children.length)); if(h){h[4]=startCol+span-1;h[5]=startRow;} children.forEach((id,i)=>{const d=CN_NODE_DEFS.find(n=>n[0]===id);if(d){d[4]=startCol+(i%cols)*2;d[5]=startRow+2+Math.floor(i/cols)*2;}}); }
 packChineseNodes(CN_CREATION_IDS,0,4,5); packChineseNodes(CN_RULER_IDS.filter(id=>id!=='fuxi'&&id!=='nuwa'),12,4,5); packChineseNodes(CN_FLOOD_IDS,24,4,3);
 packChineseNodes(CN_CELESTIAL_IDS,0,14,6); packChineseNodes(CN_HERO_IDS,14,14,4); packChineseNodes(CN_HEAVEN_IDS.filter(id=>id!=='jade_emperor'),24,14,5);
@@ -6457,15 +6560,23 @@ packChineseNodes(CN_TEN_KINGS_IDS,0,34,5); packChineseNodes(CN_SANQING_IDS,12,34
 packChineseNodes(CN_LOCAL_IDS,0,42,3); packChineseNodes(CN_TEXT_IDS,10,42,4); packChineseNodes(CN_BAXIAN_IDS,20,42,5); packChineseNodes(CN_FOUR_PERILS_IDS.filter(id=>id!=='hundun'&&id!=='taotie'),0,50,3);
 packChineseNodes(CN_CIVILIZATION_IDS,0,58,3); packChineseNodes(CN_SANGUAN_IDS,12,58,3); packChineseNodes(CN_FULUSHOU_IDS,20,58,3);
 packChineseNodes(CN_SHANHAI_BEAST_IDS,0,66,6); packChineseNodes(CN_DRAGON_KINGS_IDS,16,66,4);
+packChineseNodes(CN_JIUGE_IDS,0,74,5); packChineseNodes(CN_YI_FOES_IDS,16,74,3);
+packChineseNodes(CN_XIA_IDS,0,82,5); packChineseNodes(CN_XIYOU_IDS,12,82,5); packChineseNodes(CN_FENGSHEN_CAST_IDS,24,82,5);
+packChineseNodes(CN_NANSHAN_IDS,0,90,5); packChineseNodes(CN_XISHAN_IDS,12,90,5); packChineseNodes(CN_BEISHAN_IDS,24,90,5);
+packChineseNodes(CN_DRAGON_NINE_IDS,0,98,5);
 const CN_GROUPS = [
  ['創世與天地秩序',CN_CREATION_IDS,'#72c6e8'],['三皇常見名單與異說',['rulers_note','suiren','fuxi','nuwa','shennong','zhurong','huangdi'],'#e5b95f'],['《史記》五帝與禪讓傳說',['huangdi','zhuanxu','diku','yao','shun'],'#c8a860'],['洪水與夏初傳說',CN_FLOOD_IDS,'#79b9ef'],
  ['日月與天象神話',CN_CELESTIAL_IDS,'#c8a860'],['《山海經》英雄與異怪',CN_HERO_IDS,'#d98484'],['天界與民間神祇',CN_HEAVEN_IDS,'#a98de0'],
  ['地府與冥界信仰',CN_UNDERWORLD_IDS,'#8bc8a2'],['十殿閻王',CN_TEN_KINGS_IDS,'#9b83c9'],['四象與祥瑞神獸',CN_BEAST_IDS,'#77c6b6'],['四凶（跨區聚焦）',CN_FOUR_PERILS_IDS,'#d98484'],['明代小說神魔世界',CN_LITERATURE_IDS,'#e06e62'],
  ['三清',CN_SANQING_IDS,'#8bbde8'],['四御／六御異說',CN_SIYU_IDS,'#b99ae3'],['地方與社會守護神',CN_LOCAL_IDS,'#70c9a7'],['中國神話重要典籍',CN_TEXT_IDS,'#c8a860'],['八仙',CN_BAXIAN_IDS,'#70c9a7'],
  ['上古文明始祖',CN_CIVILIZATION_IDS,'#e5b95f'],['三官大帝',CN_SANGUAN_IDS,'#8bbde8'],['福祿壽三星',CN_FULUSHOU_IDS,'#c8a860'],['《山海經》神獸與山海神',CN_SHANHAI_BEAST_IDS,'#d98484'],['四海龍王',CN_DRAGON_KINGS_IDS,'#72c6e8'],
+ ['《九歌》楚地祭歌',CN_JIUGE_IDS,'#a98de0'],['羿除六害',CN_YI_FOES_IDS,'#d98484'],
+ ['夏代王統與失國復國',CN_XIA_IDS,'#e5b95f'],['《西遊記》取經人物',CN_XIYOU_IDS,'#70c9a7'],['《封神演義》商周人物',CN_FENGSHEN_CAST_IDS,'#e06e62'],
+ ['《南山經》草木與異獸',CN_NANSHAN_IDS,'#77c6b6'],['《西山經》山神與異獸',CN_XISHAN_IDS,'#b99ae3'],['《北山經》魚鳥與異獸',CN_BEISHAN_IDS,'#72c6e8'],
+ ['龍生九子（《懷麓堂集》）',CN_DRAGON_NINE_IDS,'#72c6e8'],
 ];
 const CN_UNIONS = [
- {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings'],label:'依文本時代與主題向下展開'},
+ {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings','jiuge_note','yi_foes_note','xia_succession_note','xiyou_journey_note','fengshen_cast_note','nanshan_note','xishan_note','beishan_note','dragon_nine_note'],label:'依文本時代與主題向下展開'},
  {parent:'creation_note',children:['hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'],label:'不同文本的創世與秩序神話'},
  {spouses:['fuxi','nuwa'],marriage:'partner',label:'漢代圖像常成對・兄妹／配偶說有異',labelClass:'ritual'},
  {spouses:['gonggong','zhurong'],marriage:'partner',label:'部分傳統的水火之戰',labelClass:'blood'},
@@ -6510,6 +6621,47 @@ const CN_UNIONS = [
  {parent:'fulushou_note',children:['fuxing','luxing','shouxing'],label:'福、祿、壽三種吉祥人格化'},
  {parent:'shanhai_beasts_note',children:['zhulong','luwu','dijiang','bifang','feiyi','yingzhao','kaiming_beast','bashe','xuangui','yufu'],label:'《山海經》不同篇章的神與異獸'},
  {parent:'dragon_kings',children:['aoguang','aoqin','aorun','aoshun'],label:'明代小說通行的東南西北四海龍王'},
+ {parent:'jiuge_note',children:CN_JIUGE_IDS.slice(1),label:'《九歌》其他十篇的主角與歌章'},
+ {spouses:['jiuge_note','taiyi'],marriage:'partner',label:'首篇東皇太一另有節點',labelClass:'ritual'},
+ {spouses:['jiuge_note','text_chuci'],marriage:'partner',label:'《楚辭》祭歌',labelClass:'ritual'},
+ {parent:'yi_foes_note',children:CN_YI_FOES_IDS.slice(1),label:'《本經訓》六害'},
+ {spouses:['yi_foes_note','houyi'],marriage:'partner',label:'堯命羿除害',labelClass:'ritual'},
+ {spouses:['yi_foes_note','text_huainanzi'],marriage:'partner',label:'《本經訓》所載',labelClass:'ritual'},
+ {parent:'xia_succession_note',children:CN_XIA_IDS.slice(1),label:'夏初繼承、奪政與復國的多文本傳統'},
+ {parent:'yu',children:['qi_xia'],label:'《史記》：禹之子'},
+ {parent:'qi_xia',children:['taikang_xia','zhongkang_xia'],label:'《史記》：啟之子'},
+ {parent:'zhongkang_xia',children:['xiang_xia'],label:'《史記》：仲康之子'},
+ {parent:'xiang_xia',children:['shaokang_xia'],label:'《史記》《左傳》：相之子'},
+ {spouses:['qi_xia','youhu_xia'],marriage:'partner',label:'甘地交戰',labelClass:'blood'},
+ {spouses:['yi_youqiong','hanzhuo'],marriage:'partner',label:'《左傳》：相臣奪政',labelClass:'blood'},
+ {spouses:['yi_youqiong','houyi'],marriage:'partner',label:'同名羿：傳統有合有分',labelClass:'ritual'},
+ {spouses:['xia_succession_note','text_shiji'],marriage:'partner',label:'《夏本紀》王統',labelClass:'ritual'},
+ {parent:'xiyou_journey_note',children:CN_XIYOU_IDS.slice(1),label:'小說師徒、護持者與妖王'},
+ {spouses:['xiyou_journey_note','sun_wukong'],marriage:'partner',label:'悟空沿用既有節點',labelClass:'ritual'},
+ {spouses:['tangsanzang_xiyou','sun_wukong'],marriage:'partner',label:'取經師徒',labelClass:'ritual'},
+ {spouses:['tangsanzang_xiyou','bajie_xiyou'],marriage:'partner',label:'取經師徒',labelClass:'ritual'},
+ {spouses:['tangsanzang_xiyou','wujing_xiyou'],marriage:'partner',label:'取經師徒',labelClass:'ritual'},
+ {parent:'niumo_xiyou',children:['honghai_xiyou'],label:'《西遊記》：父子'},
+ {spouses:['niumo_xiyou','tieshan_xiyou'],marriage:'primary',label:'《西遊記》夫妻'},
+ {spouses:['xiyou_journey_note','text_xiyouji'],marriage:'partner',label:'百回本小說來源',labelClass:'ritual'},
+ {parent:'fengshen_cast_note',children:CN_FENGSHEN_CAST_IDS.slice(1),label:'小說殷周人物與仙道門人'},
+ {spouses:['dixin_fengshen','daji_fengshen'],marriage:'primary',label:'《封神演義》宮廷關係'},
+ {parent:'dixin_fengshen',children:['yinjiao_fengshen'],label:'《封神演義》：父子'},
+ {parent:'lijing_fengshen',children:['nezha'],label:'《封神演義》：父子'},
+ {spouses:['taiyi_fengshen','nezha'],marriage:'partner',label:'師徒／蓮花化身',labelClass:'ritual'},
+ {spouses:['jifa_fengshen','jiang_ziya'],marriage:'partner',label:'武王伐紂的君臣',labelClass:'ritual'},
+ {spouses:['fengshen_cast_note','text_fengshen'],marriage:'partner',label:'明代神魔小說來源',labelClass:'ritual'},
+ {parent:'nanshan_note',children:CN_NANSHAN_IDS.slice(1),label:'《南山經》不同山中的神物'},
+ {spouses:['nanshan_note','nine_tailed_fox'],marriage:'partner',label:'青丘山另有九尾狐',labelClass:'ritual'},
+ {spouses:['nanshan_note','xuangui'],marriage:'partner',label:'杻陽山水中另有旋龜',labelClass:'ritual'},
+ {parent:'xishan_note',children:CN_XISHAN_IDS.slice(1),label:'《西山經》不同山中的神與異獸'},
+ {spouses:['xishan_note','buzhou'],marriage:'partner',label:'西山經亦記不周山',labelClass:'ritual'},
+ {parent:'beishan_note',children:CN_BEISHAN_IDS.slice(1),label:'《北山經》不同山中的魚鳥與異獸'},
+ {spouses:['nanshan_note','text_shanhaijing'],marriage:'partner',label:'《山海經》南山篇',labelClass:'ritual'},
+ {spouses:['xishan_note','text_shanhaijing'],marriage:'partner',label:'《山海經》西山篇',labelClass:'ritual'},
+ {spouses:['beishan_note','text_shanhaijing'],marriage:'partner',label:'《山海經》北山篇',labelClass:'ritual'},
+ {parent:'dragon_nine_note',children:CN_DRAGON_NINE_IDS.slice(1),label:'李東陽《懷麓堂集》九子名單'},
+ {spouses:['chinese_dragon','dragon_nine_note'],marriage:'partner',label:'明代龍子傳說・非先秦固定譜系',labelClass:'ritual'},
 ];
 const CN_NODE_NAMES = Object.fromEntries(CN_NODE_DEFS.map(([id,name,reading])=>[id,{kojiki:reading,nihonshoki:name,reading,aliases:[],shrine:'—'}]));
 Object.assign(CN_NODE_NAMES,{
@@ -6526,6 +6678,12 @@ Object.assign(CN_NODE_NAMES,{
  sanguan_note:{...CN_NODE_NAMES.sanguan_note,aliases:['三官','三元大帝','天官地官水官']},fulushou_note:{...CN_NODE_NAMES.fulushou_note,aliases:['福祿壽','三星']},shouxing:{...CN_NODE_NAMES.shouxing,aliases:['南極老人','壽星公','老人星']},
  zhulong:{...CN_NODE_NAMES.zhulong,aliases:['燭陰','鐘山之神']},dijiang:{...CN_NODE_NAMES.dijiang,aliases:['帝鴻','混沌神獸']},yufu:{...CN_NODE_NAMES.yufu,aliases:['禺強','禺京','玄冥']},
  aoguang:{...CN_NODE_NAMES.aoguang,aliases:['敖光','東海龍王']},aoqin:{...CN_NODE_NAMES.aoqin,aliases:['南海龍王']},aorun:{...CN_NODE_NAMES.aorun,aliases:['敖潤','西海龍王']},aoshun:{...CN_NODE_NAMES.aoshun,aliases:['北海龍王']},
+ jiuge_note:{...CN_NODE_NAMES.jiuge_note,aliases:['九歌','楚辭九歌']},yayu:{...CN_NODE_NAMES.yayu,aliases:['窫窳','䝟貐']},fengxi_monster:{...CN_NODE_NAMES.fengxi_monster,aliases:['封豕','大豬']},guoshang_jiuge:{...CN_NODE_NAMES.guoshang_jiuge,aliases:['國殤']},
+ boyi_xia:{...CN_NODE_NAMES.boyi_xia,aliases:['伯益','伯翳']},yi_youqiong:{...CN_NODE_NAMES.yi_youqiong,aliases:['夷羿','有窮羿','夏代后羿']},shaokang_xia:{...CN_NODE_NAMES.shaokang_xia,aliases:['少康中興']},
+ tangsanzang_xiyou:{...CN_NODE_NAMES.tangsanzang_xiyou,aliases:['唐僧','玄奘（小說）']},bajie_xiyou:{...CN_NODE_NAMES.bajie_xiyou,aliases:['豬悟能','天蓬元帥（西遊記）']},wujing_xiyou:{...CN_NODE_NAMES.wujing_xiyou,aliases:['沙僧','沙和尚']},bailongma_xiyou:{...CN_NODE_NAMES.bailongma_xiyou,aliases:['小白龍','八部天龍馬']},
+ honghai_xiyou:{...CN_NODE_NAMES.honghai_xiyou,aliases:['聖嬰大王','善財童子（小說）']},baigujing_xiyou:{...CN_NODE_NAMES.baigujing_xiyou,aliases:['屍魔','三打白骨精']},shengongbao_fengshen:{...CN_NODE_NAMES.shengongbao_fengshen,aliases:['申公豹']},
+ botuo_south:{...CN_NODE_NAMES.botuo_south,aliases:['搏訑']},chiru_south:{...CN_NODE_NAMES.chiru_south,aliases:['赤𩹓']},yingwu_west:{...CN_NODE_NAMES.yingwu_west,aliases:['鸚鵡（西山經）']},huan_west:{...CN_NODE_NAMES.huan_west,aliases:['歡獸']},
+ dragon_nine_note:{...CN_NODE_NAMES.dragon_nine_note,aliases:['龍之九子','龍有九子']},baxia_dragon:{...CN_NODE_NAMES.baxia_dragon,aliases:['霸上','碑座獸']},fuxi_dragon:{...CN_NODE_NAMES.fuxi_dragon,aliases:['贔㞒','碑旁龍']},chiwen_dragon:{...CN_NODE_NAMES.chiwen_dragon,aliases:['蚩吻','鴟吻']},
 });
 const CHINA_USER_EDITS = {};
 const CN_SOURCE_LIBRARY = {
@@ -6543,6 +6701,12 @@ const CN_SOURCE_LIBRARY = {
  fourperils:{zh:'《左傳》四凶原文與注疏',url:'https://ctext.org/dictionary.pl?char=%E5%9B%9B%E5%87%B6&if=zh'},
  hanfeizi:{zh:'《韓非子・五蠹》：有巢氏與燧人氏',url:'https://ctext.org/hanfeizi/wu-du/zh'}, cangjie:{zh:'《藝文類聚》引《淮南子》：倉頡作書',url:'https://ctext.org/text.pl?node=547555&if=zh'},
  sanguan:{zh:'道教文化資料庫：三官大帝',url:'https://en.daoinfo.org/wiki/The_Three_Great_Emperor-Officials'}, fulushou:{zh:'道教文化資料庫：福祿壽三星',url:'https://en.daoinfo.org/index.php?mobileaction=toggle_view_mobile&title=The_Stars_of_Luck%2C_Wealth_and_Longevity'},
+ jiuge:{zh:'《楚辭・九歌》十一篇（四部叢刊本）',url:'https://ctext.org/library.pl?if=gb&res=77454'}, benjing:{zh:'《淮南子・本經訓》：堯命羿除六害',url:'https://ctext.org/text.pl?if=en&node=361775&show=parallel'},
+ xiaannals:{zh:'《史記・夏本紀》：禹、益、啟與夏王序列',url:'https://ctext.org/shiji/xia-ben-ji/zh'}, zuoyi:{zh:'《左傳・襄公四年》：羿浞代夏與少康',url:'https://ctext.org/text.pl?if=gb&node=19297&show=parallel'},
+ ganshi:{zh:'《尚書・甘誓》：啟與有扈氏戰於甘',url:'https://ctext.org/shang-shu/speech-at-gan/zh'},
+ fengshenNovel:{zh:'《封神演義》百回本',url:'https://ctext.org/fengshen-yanyi/zh'},
+ nanshan:{zh:'《山海經・南山經》原文',url:'https://ctext.org/shan-hai-jing/nan-shan-jing/zh'}, xishan:{zh:'《山海經・西山經》原文',url:'https://ctext.org/shan-hai-jing/xi-shan-jing/zh'}, beishan:{zh:'《山海經・北山經》原文',url:'https://ctext.org/shan-hai-jing/bei-shan-jing/zh'},
+ dragonNineLi:{zh:'李東陽《懷麓堂集・記龍生九子》原文',url:'https://www.shidianguji.com/book/SK2993/chapter/1m1ihugzpbdwy'}, dragonNineYang:{zh:'楊慎《升菴集・龍生九子》異說',url:'https://www.shidianguji.com/zh/book/SK3044/chapter/1l9pefmbc4lya'},
 };
 const CN_NODE_SOURCES = {};
 CN_CREATION_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='pangu'?['pangu']:id==='hundun'?['zhuangzi']:['huainanzi','sky']);
@@ -6558,6 +6722,12 @@ CN_LOCAL_IDS.forEach(id=>CN_NODE_SOURCES[id]=[id==='chenghuang'?'chenghuang':id=
 CN_TEN_KINGS_IDS.forEach(id=>CN_NODE_SOURCES[id]=['tenkings']); CN_FOUR_PERILS_IDS.forEach(id=>CN_NODE_SOURCES[id]=[...(CN_NODE_SOURCES[id]||[]),'fourperils']);
 CN_CIVILIZATION_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='youchao'?['hanfeizi']:id==='cangjie'?['cangjie','huainanzi']:['shiji']);
 CN_SANGUAN_IDS.forEach(id=>CN_NODE_SOURCES[id]=['sanguan']); CN_FULUSHOU_IDS.forEach(id=>CN_NODE_SOURCES[id]=['fulushou']); CN_SHANHAI_BEAST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['shanhaijing']); CN_DRAGON_KINGS_IDS.forEach(id=>CN_NODE_SOURCES[id]=['xiyou']);
+CN_JIUGE_IDS.forEach(id=>CN_NODE_SOURCES[id]=['jiuge']); CN_YI_FOES_IDS.forEach(id=>CN_NODE_SOURCES[id]=['benjing']);
+CN_XIA_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='yi_youqiong'||id==='hanzhuo'?['zuoyi']:['xiaannals',...(id==='shaokang_xia'||id==='xiang_xia'||id==='xia_succession_note'?['zuoyi']:[])]);
+CN_NODE_SOURCES.qi_xia.push('ganshi'); CN_NODE_SOURCES.youhu_xia.push('ganshi'); CN_NODE_SOURCES.taikang_xia.push('zuoyi');
+CN_XIYOU_IDS.forEach(id=>CN_NODE_SOURCES[id]=['xiyou']); CN_FENGSHEN_CAST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['fengshenNovel']);
+CN_NANSHAN_IDS.forEach(id=>CN_NODE_SOURCES[id]=['nanshan']); CN_XISHAN_IDS.forEach(id=>CN_NODE_SOURCES[id]=['xishan']); CN_BEISHAN_IDS.forEach(id=>CN_NODE_SOURCES[id]=['beishan']);
+CN_DRAGON_NINE_IDS.forEach(id=>CN_NODE_SOURCES[id]=['dragonNineLi',...(id==='dragon_nine_note'||['yazi_dragon','pulao_dragon','suanni_dragon','baxia_dragon','bian_dragon','chiwen_dragon'].includes(id)?['dragonNineYang']:[])]);
 CN_NODE_SOURCES.china_note=['shanhaijing','huainanzi','chuci','shangshu','shiji'];
 function chinaSourceLinks(keys){ return (keys||[]).map(k=>CN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 
