@@ -6686,6 +6686,46 @@ const CN_NODE_DEFS = [
  ['penglai_east','蓬萊山','Pénglái Shān','《海內東經》海中之山',0,0,'《海內東經》說蓬萊山在海中，本段未述仙藥、宮殿或三神山體系；這些後世或其他文獻的蓬萊意象應另外標示來源。',true],
  ['darenmarket_east','大人之市','Dàrén zhī Shì','海中大人集市',0,0,'《海內東經》僅記大人之市位於海中，未描述其交易內容；與《海外東經》的大人國可並讀，但不能直接斷定居民完全相同。',true],
  ['douzhou_east','都州','Dūzhōu','海中之洲・一作郁州',0,0,'《海內東經》說都州在海中，一說郁州；篇中還以都州定位海中的韓鴈。保留兩種名稱，不逕指為現代某一海島。',true],
+ ['nine_skies_note','《淮南子・天文訓》九野','Nine regions of sky','中央與八方的天區',0,0,'《天文訓》把天空分作中央及八方九野，逐一配列星宿；這是漢代宇宙與天文分類，不是九位有血緣的天神，也不要與佛教九重天混同。',true,'key'],
+ ['juntian_nine','鈞天','Jūntiān','中央天區・角亢氐',0,0,'《天文訓》列鈞天為九野中央，配角、亢、氐三星宿。這是天區名稱而非某一位名叫鈞天的神祇。',true],
+ ['cangtian_nine','蒼天','Cāngtiān','東方天區・房心尾',0,0,'《天文訓》稱東方為蒼天，配房、心、尾三星宿；此處「蒼天」是九野方位名，不自動等同後世祭天的特定神格。',true],
+ ['biantian_nine','變天','Biàntiān','東北天區・箕斗牽牛',0,0,'《天文訓》把東北方稱變天，配箕、斗、牽牛三星宿；「變」是原文名稱，本篇未賦予它獨立的人格故事。',true],
+ ['xuantian_nine','玄天','Xuántiān','北方天區・須女虛危營室',0,0,'《天文訓》稱北方為玄天，配須女、虛、危、營室四宿；不可僅因同名「玄」字便與後世玄天上帝合併。',true],
+ ['youtian_nine','幽天','Yōutiān','西北天區・東壁奎婁',0,0,'《天文訓》將西北方稱幽天，配東壁、奎、婁三星宿。它是九野的天區，不是本篇另有傳記的人物。',true],
+ ['haotian_nine','顥天','Hàotiān','西方天區・胃昴畢',0,0,'《天文訓》稱西方為顥天，配胃、昴、畢三星宿；顥天在此是方位名稱，勿與別篇上帝名號無註記合併。',true],
+ ['zhutian_nine','朱天','Zhūtiān','西南天區・觜嶲參東井',0,0,'《天文訓》稱西南方為朱天，配觜嶲、參、東井三星宿。其顏色意象屬本篇天區體系，不另創守護神。',true],
+ ['yantian_nine','炎天','Yántiān','南方天區・輿鬼柳七星',0,0,'《天文訓》稱南方為炎天，配輿鬼、柳、七星三星宿；這是九野天文配置，不等於佛教地獄或現代炎熱帶。',true],
+ ['yangtian_nine','陽天','Yángtiān','東南天區・張翼軫',0,0,'《天文訓》稱東南方為陽天，配張、翼、軫三星宿；名稱與星宿依本篇記載，不憑字面增添神格。',true],
+ ['liezi_ocean_note','《列子・湯問》歸墟五山','Five mountains of Guixu','巨鰲負山與龍伯釣鰲',0,0,'《湯問篇》藉殷湯與夏革問答講歸墟、五座浮山、禺彊命巨鰲負山及龍伯巨人釣走六鰲的傳說。蓬萊已在《海內東經》另有節點，本組只以文本對照線連回，不複製。',true,'key'],
+ ['guixu_liezi','歸墟','Guīxū','東海無底大壑・眾水所歸',0,0,'《湯問篇》說渤海以東有無底大壑「歸墟」，八紘九野之水與天漢之流都注入，卻不增不減；五座仙山原本隨潮起落於此。',true],
+ ['dayu_liezi','岱輿','Dàiyú','五山之一・後沉海',0,0,'《湯問篇》列岱輿為歸墟五山之一。龍伯巨人釣去負山的六鰲後，岱輿與員嶠流向北極、沉入海中，令大量仙聖遷徙；它不是同篇仍安定存在的仙山。',true],
+ ['yuanqiao_liezi','員嶠','Yuánqiáo','五山之一・與岱輿同沉',0,0,'《湯問篇》將員嶠列於岱輿之後。龍伯之國巨人釣走六鰲，使員嶠與岱輿同向北極漂去並沉海；保留篇中文字「員嶠」，不擅改別字。',true],
+ ['fanghu_liezi','方壺','Fānghú','歸墟五山之一',0,0,'《湯問篇》列方壺為五座仙山中的第三山；五山臺觀用金玉，山上有白色禽獸與可食而不老的珠玕果實。龍伯釣鰲後，原文只說岱輿、員嶠沉海。',true],
+ ['yingzhou_liezi','瀛洲','Yíngzhōu','歸墟五山之一',0,0,'《湯問篇》將瀛洲列為五山第四座，與岱輿、員嶠、方壺、蓬萊並見。它屬仙聖飛來往返的敘事空間，不能據此認為是可定位的現實島嶼。',true],
+ ['zhugan_liezi','珠玕之樹','Zhūgān tree','五山上的不老果樹',0,0,'《湯問篇》說歸墟五山上珠玕之樹叢生，花果有滋味，食之不老不死；這是本篇明載功效，不回填到《海內西經》僅列名稱的珠樹。',true],
+ ['ao_fifteen_liezi','負山巨鰲十五','Fifteen giant ao','三組輪替・負載五山',0,0,'《湯問篇》說帝命禺彊令十五隻巨鰲舉首負五山，分三番輪替，每六萬年一交；龍伯巨人後來一釣得六鰲。巨鰲在本段是負山者，不記逐隻姓名。'],
+ ['longbo_liezi','龍伯之國巨人','Giant of Longbo','一釣得六鰲',0,0,'《湯問篇》記龍伯之國有巨人，走幾步便至五山，一次釣走六鰲並帶回國中灼骨占卜；帝因仙山沉沒而縮小其國土與人民身形。這是寓言式神話地理，不視為真實民族史。'],
+ ['immortals_liezi','五山仙聖','Immortals of the five mountains','飛行往來的仙聖群體',0,0,'《湯問篇》說五山上住有仙聖，一日一夕飛行往來者不可勝數；原文沒有為這群居民列固定名冊。岱輿與員嶠沉海後，多數仙聖播遷。'],
+ ['yugong_note','《列子・湯問》愚公移山','The Old Man Who Moved Mountains','太行王屋、智叟與操蛇之神',0,0,'《湯問篇》敘北山愚公率家人開鑿太行、王屋，與河曲智叟論子孫無窮而山不增；操蛇之神上告，帝命夸蛾氏二子移山。這是寓言敘事，不當成可考歷史工程。',true,'key'],
+ ['yugong_liezi','北山愚公','Yúgōng','率子孫移山的老人',0,0,'《湯問篇》說愚公年近九十，因太行、王屋阻塞出入，召集家人挖山，把土石運到渤海之尾。面對智叟譏笑，他以子孫代代相續、山不再增長作答；帝終命神力移山。'],
+ ['taihang_liezi','太行山（湯問篇）','Tàiháng Shān','愚公門前二山之一',0,0,'《湯問篇》說太行與王屋原在冀州南、河陽北，方七百里、高萬仞，阻擋愚公家往來；結尾帝命夸蛾氏二子負走二山，一置朔東、一置雍南，未分述哪座落於哪一地。',true],
+ ['wangwu_liezi','王屋山（湯問篇）','Wángwū Shān','愚公門前二山之一',0,0,'《湯問篇》把王屋與太行並列為愚公要移走的山。故事結尾說兩山分置朔東和雍南，並未逐一指明王屋的去處；現實同名山脈與寓言尺寸須分層。',true],
+ ['yugong_wife_liezi','愚公之妻','Wife of Yugong','詢問土石去處',0,0,'《湯問篇》中愚公之妻並非單純反對，她提出具體疑問：愚公之力連魁父之丘都難減，如何對付太行王屋，挖出的土石要放哪裡？眾人答將投於渤海之尾。'],
+ ['orphan_liezi','京城氏遺男','Orphan of the Jingcheng clan','跳來協助移山的孩子',0,0,'《湯問篇》記鄰居京城氏的寡婦有個剛換牙的遺男，他跳著來幫愚公挖山；篇中沒有為孩子另取姓名，也未說他是愚公親生孫子。'],
+ ['zhisou_liezi','河曲智叟','Zhìsǒu','譏笑愚公不能移山',0,0,'《湯問篇》記河曲智叟嘲笑愚公年老力衰、連山上一草一木都難動；愚公以子孫無窮、山不增長回應，智叟最終無言。智叟是寓言對話人物，不是移山的神祇。'],
+ ['snake_god_liezi','操蛇之神','Snake-holding deity','向帝稟告移山',0,0,'《湯問篇》說操蛇之神擔心愚公不停挖山，於是把此事告知帝；帝受愚公誠意感動，命夸蛾氏二子負走兩山。原文未記操蛇之神的個人姓名。'],
+ ['kuae_sons_liezi','夸蛾氏二子','Sons of Kuae','奉帝命移走太行王屋',0,0,'《湯問篇》記帝命夸蛾氏二子負太行、王屋二山，分置朔東與雍南，使冀州之南、漢水之陰不再受山阻隔。這對兒子在原文沒有各自姓名，也不能與逐日夸父混同。'],
+ ['yugong_event_liezi','愚公移山','Moving the mountains','子孫不盡與帝命移山',0,0,'《湯問篇》的故事由愚公及家人持續掘土、智叟質疑、操蛇之神上告到帝命夸蛾氏二子移山構成；這是堅持與人力、神力相接的寓言，不寫成愚公一人徒手扛走山岳。',true],
+ ['zhongbei_note','《列子・湯問》終北國','The land of Zhongbei','神瀵之水與無君長的國度',0,0,'《湯問篇》另述大禹治水失路到終北國：境內壺領山生神瀵之水，居民不爭、不耕、不設君臣；周穆王流連，管仲亦想往。此為寓言中的理想國，不是可考地理國家。',true,'key'],
+ ['zhongbei_liezi','終北國','Zhōngběi Guó','禹誤入的北海以北之國',0,0,'《湯問篇》說禹治水土時迷路到終北國，位於北海更北，無風雨霜露，也不生鳥獸草木；國土中央有壺領山和神瀵。這是篇中敘事位置，不能直接對應現實國界。',true],
+ ['huling_liezi','壺領山','Húlǐng Shān','終北國中央的山',0,0,'《湯問篇》記終北國中央有壺領山，山形像甔甀，頂端有圓口滋穴，神瀵之水自此湧出並分成四流遍及一國。',true],
+ ['zixue_liezi','滋穴','Zīxué','壺領山頂的圓口',0,0,'《湯問篇》稱壺領山頂有一個狀如圓環的口，名滋穴；氣味芬芳、味勝醪醴的神瀵自其中流出。滋穴是水源開口，不是另一座山。',true],
+ ['shenfen_liezi','神瀵','Shénfèn','終北國分四流的神水',0,0,'《湯問篇》說神瀵自滋穴湧出，分為四流遍及終北國；居民飲之可以解飢勞，飲多者醉十日才醒，浴之則皮膚潤澤、香氣經旬。這些是寓言中的水性，不作現代醫療主張。',true],
+ ['zhongbei_people_liezi','終北國之民','People of Zhongbei','無君臣、不競爭的居民',0,0,'《湯問篇》描述終北居民不爭、不妒，長幼相處而無君臣，男女不待媒聘，不耕稼、織衣，百年而終且不病；這是小說化的理想社會描寫，不比附現實民族。'],
+ ['kingmu_liezi','周穆王（終北國）','King Mu in Zhongbei','北遊三年忘歸',0,0,'《湯問篇》說周穆王北遊經終北國，留三年而忘歸；回到周室後仍懷念那裡的生活，數月不近酒肉與嬪御。這是本篇寓言人物，不把行程當成可考史實。'],
+ ['guanzhong_liezi','管仲（終北國）','Guǎn Zhòng','勸齊桓公遊終北',0,0,'《湯問篇》記管仲勉齊桓公循遼口遊終北國，幾乎成行；隰朋勸桓公不要捨棄齊國，桓公作罷。管仲仍說終北之境難以被隰朋理解。'],
+ ['xipeng_liezi','隰朋','Xí Péng','勸桓公留齊',0,0,'《湯問篇》中隰朋勸齊桓公別因嚮往終北國而棄齊國社稷，逐一舉出齊國的土地、人民、禮義與忠良；桓公採納其勸，沒有成行。'],
+ ['huanggong_liezi','齊桓公（終北國）','Duke Huan in Zhongbei','聽隰朋勸而止步',0,0,'《湯問篇》說管仲邀齊桓公前往終北國，桓公幾欲出遊；隰朋以齊國社稷為由進諫，桓公遂止。這個終北段落是寓言敘事，不等於史傳記錄實際旅程。'],
 ];
 const CN_CREATION_IDS=['creation_note','hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'];
 const CN_RULER_IDS=['rulers_note','suiren','fuxi','nuwa','shennong','huangdi','zhuanxu','diku','yao','shun'];
@@ -6732,6 +6772,10 @@ const CN_HAINEI_SOUTH_IDS=['hainei_south_note','guilin_eight_south','bolu_south'
 const CN_HAINEI_WEST_IDS=['hainei_west_note','erfu_west','wei_west','liuhuang_west','kunlun_inner_west','muhe_west','busishu_west','zhushu_west','six_wu_west','fuchang_west','nine_gates_west'];
 const CN_HAINEI_NORTH_IDS=['hainei_north_note','daxingbo_north','jiliang_north','guiguo_north','taoquan_north','four_terraces_north','tafei_north','jubi_north','zouwu_north','bingyi_north','xiaoming_zhuguang_north'];
 const CN_HAINEI_EAST_IDS=['hainei_east_note','leize_east','leishen_east','liegushe_east','gusheguo_east','daxie_east','lingyu_east','dabian_east','penglai_east','darenmarket_east','douzhou_east'];
+const CN_NINE_SKIES_IDS=['nine_skies_note','juntian_nine','cangtian_nine','biantian_nine','xuantian_nine','youtian_nine','haotian_nine','zhutian_nine','yantian_nine','yangtian_nine'];
+const CN_LIEZI_OCEAN_IDS=['liezi_ocean_note','guixu_liezi','dayu_liezi','yuanqiao_liezi','fanghu_liezi','yingzhou_liezi','zhugan_liezi','ao_fifteen_liezi','longbo_liezi','immortals_liezi'];
+const CN_YUGONG_IDS=['yugong_note','yugong_liezi','taihang_liezi','wangwu_liezi','yugong_wife_liezi','orphan_liezi','zhisou_liezi','snake_god_liezi','kuae_sons_liezi','yugong_event_liezi'];
+const CN_ZHONGBEI_IDS=['zhongbei_note','zhongbei_liezi','huling_liezi','zixue_liezi','shenfen_liezi','zhongbei_people_liezi','kingmu_liezi','guanzhong_liezi','xipeng_liezi','huanggong_liezi'];
 function packChineseNodes(ids,startCol,startRow,cols=5){ const [head,...children]=ids, h=CN_NODE_DEFS.find(n=>n[0]===head), span=Math.min(cols,Math.max(1,children.length)); if(h){h[4]=startCol+span-1;h[5]=startRow;} children.forEach((id,i)=>{const d=CN_NODE_DEFS.find(n=>n[0]===id);if(d){d[4]=startCol+(i%cols)*2;d[5]=startRow+2+Math.floor(i/cols)*2;}}); }
 packChineseNodes(CN_CREATION_IDS,0,4,5); packChineseNodes(CN_RULER_IDS.filter(id=>id!=='fuxi'&&id!=='nuwa'),12,4,5); packChineseNodes(CN_FLOOD_IDS,24,4,3);
 packChineseNodes(CN_CELESTIAL_IDS,0,14,6); packChineseNodes(CN_HERO_IDS,14,14,4); packChineseNodes(CN_HEAVEN_IDS.filter(id=>id!=='jade_emperor'),24,14,5);
@@ -6748,6 +6792,7 @@ packChineseNodes(CN_DONGSHAN_IDS,0,106,5); packChineseNodes(CN_ZHONGSHAN_IDS,12,
 packChineseNodes(CN_DAHUANG_EAST_IDS,0,114,5); packChineseNodes(CN_DAHUANG_SOUTH_IDS,12,114,5); packChineseNodes(CN_DAHUANG_WEST_IDS,24,114,5); packChineseNodes(CN_DAHUANG_NORTH_IDS,0,122,5);
 packChineseNodes(CN_HAIWAI_EAST_IDS,0,130,5); packChineseNodes(CN_HAIWAI_SOUTH_IDS,12,130,5); packChineseNodes(CN_HAIWAI_WEST_IDS,24,130,5); packChineseNodes(CN_HAIWAI_NORTH_IDS,0,138,5);
 packChineseNodes(CN_HAINEI_SOUTH_IDS,0,146,5); packChineseNodes(CN_HAINEI_WEST_IDS,12,146,5); packChineseNodes(CN_HAINEI_NORTH_IDS,24,146,5); packChineseNodes(CN_HAINEI_EAST_IDS,0,154,5);
+packChineseNodes(CN_NINE_SKIES_IDS,0,162,5); packChineseNodes(CN_LIEZI_OCEAN_IDS,12,162,5); packChineseNodes(CN_YUGONG_IDS,24,162,5); packChineseNodes(CN_ZHONGBEI_IDS,0,170,5);
 const CN_GROUPS = [
  ['創世與天地秩序',CN_CREATION_IDS,'#72c6e8'],['三皇常見名單與異說',['rulers_note','suiren','fuxi','nuwa','shennong','zhurong','huangdi'],'#e5b95f'],['《史記》五帝與禪讓傳說',['huangdi','zhuanxu','diku','yao','shun'],'#c8a860'],['洪水與夏初傳說',CN_FLOOD_IDS,'#79b9ef'],
  ['日月與天象神話',CN_CELESTIAL_IDS,'#c8a860'],['《山海經》英雄與異怪',CN_HERO_IDS,'#d98484'],['天界與民間神祇',CN_HEAVEN_IDS,'#a98de0'],
@@ -6762,9 +6807,10 @@ const CN_GROUPS = [
  ['《大荒東經》日出與東海',CN_DAHUANG_EAST_IDS,'#e5b95f'],['《大荒南經》南海奇國',CN_DAHUANG_SOUTH_IDS,'#77c6b6'],['《大荒西經》十巫與西海',CN_DAHUANG_WEST_IDS,'#b99ae3'],['《大荒北經》異國與神靈',CN_DAHUANG_NORTH_IDS,'#72c6e8'],
  ['《海外東經》青丘與日出',CN_HAIWAI_EAST_IDS,'#e5b95f'],['《海外南經》異國與神木',CN_HAIWAI_SOUTH_IDS,'#77c6b6'],['《海外西經》巫咸與奇獸',CN_HAIWAI_WEST_IDS,'#b99ae3'],['《海外北經》異國與北海',CN_HAIWAI_NORTH_IDS,'#72c6e8'],
  ['《海內南經》南方奇國',CN_HAINEI_SOUTH_IDS,'#77c6b6'],['《海內西經》崑崙神都',CN_HAINEI_WEST_IDS,'#b99ae3'],['《海內北經》神獸與河神',CN_HAINEI_NORTH_IDS,'#72c6e8'],['《海內東經》雷澤與海中',CN_HAINEI_EAST_IDS,'#e5b95f'],
+ ['《淮南子・天文訓》九野',CN_NINE_SKIES_IDS,'#72c6e8'],['《列子・湯問》歸墟五山',CN_LIEZI_OCEAN_IDS,'#b99ae3'],['《列子・湯問》愚公移山',CN_YUGONG_IDS,'#e5b95f'],['《列子・湯問》終北國',CN_ZHONGBEI_IDS,'#77c6b6'],
 ];
 const CN_UNIONS = [
- {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings','jiuge_note','yi_foes_note','xia_succession_note','xiyou_journey_note','fengshen_cast_note','nanshan_note','xishan_note','beishan_note','dragon_nine_note','dongshan_note','zhongshan_note','hainei_note','dahuang_east_note','dahuang_south_note','dahuang_west_note','dahuang_north_note','haiwai_east_note','haiwai_south_note','haiwai_west_note','haiwai_north_note','hainei_south_note','hainei_west_note','hainei_north_note','hainei_east_note'],label:'依文本時代與主題向下展開'},
+ {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings','jiuge_note','yi_foes_note','xia_succession_note','xiyou_journey_note','fengshen_cast_note','nanshan_note','xishan_note','beishan_note','dragon_nine_note','dongshan_note','zhongshan_note','hainei_note','dahuang_east_note','dahuang_south_note','dahuang_west_note','dahuang_north_note','haiwai_east_note','haiwai_south_note','haiwai_west_note','haiwai_north_note','hainei_south_note','hainei_west_note','hainei_north_note','hainei_east_note','nine_skies_note','liezi_ocean_note','yugong_note','zhongbei_note'],label:'依文本時代與主題向下展開'},
  {parent:'creation_note',children:['hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'],label:'不同文本的創世與秩序神話'},
  {spouses:['fuxi','nuwa'],marriage:'partner',label:'漢代圖像常成對・兄妹／配偶說有異',labelClass:'ritual'},
  {spouses:['gonggong','zhurong'],marriage:'partner',label:'部分傳統的水火之戰',labelClass:'blood'},
@@ -6913,6 +6959,22 @@ const CN_UNIONS = [
  {spouses:['hainei_west_note','text_shanhaijing'],marriage:'partner',label:'《山海經》海內西篇',labelClass:'ritual'},
  {spouses:['hainei_north_note','text_shanhaijing'],marriage:'partner',label:'《山海經》海內北篇',labelClass:'ritual'},
  {spouses:['hainei_east_note','text_shanhaijing'],marriage:'partner',label:'《山海經》海內東篇',labelClass:'ritual'},
+ {parent:'nine_skies_note',children:CN_NINE_SKIES_IDS.slice(1),label:'《天文訓》中央與八方九野'},
+ {parent:'liezi_ocean_note',children:CN_LIEZI_OCEAN_IDS.slice(1),label:'《湯問》歸墟五山與負山巨鰲'},
+ {parent:'yugong_note',children:CN_YUGONG_IDS.slice(1),label:'《湯問》愚公移山敘事'},
+ {parent:'zhongbei_note',children:CN_ZHONGBEI_IDS.slice(1),label:'《湯問》終北國敘事'},
+ {spouses:['nine_skies_note','text_huainanzi'],marriage:'partner',label:'《淮南子・天文訓》原典',labelClass:'ritual'},
+ {spouses:['nine_skies_note','celestial_note'],marriage:'partner',label:'漢代九野天文與日月神話對讀',labelClass:'ritual'},
+ {spouses:['liezi_ocean_note','penglai_east'],marriage:'partner',label:'蓬萊在《湯問》列為五山之一',labelClass:'ritual'},
+ {spouses:['ao_fifteen_liezi','yufu'],marriage:'partner',label:'《湯問》：帝命禺彊令巨鰲負山',labelClass:'ritual'},
+ {spouses:['longbo_liezi','ao_fifteen_liezi'],marriage:'partner',label:'龍伯巨人釣走六鰲',labelClass:'ritual'},
+ {spouses:['guixu_liezi','liezi_ocean_note'],marriage:'partner',label:'五山原在歸墟大壑',labelClass:'ritual'},
+ {spouses:['yugong_liezi','zhisou_liezi'],marriage:'partner',label:'智叟質疑・愚公回應',labelClass:'ritual'},
+ {spouses:['yugong_liezi','yugong_wife_liezi'],marriage:'partner',label:'《湯問》：愚公之妻',labelClass:'ritual'},
+ {spouses:['snake_god_liezi','kuae_sons_liezi'],marriage:'partner',label:'操蛇之神上告・帝命二子移山',labelClass:'ritual'},
+ {spouses:['zhongbei_liezi','shenfen_liezi'],marriage:'partner',label:'終北國居民飲神瀵',labelClass:'ritual'},
+ {spouses:['guanzhong_liezi','huanggong_liezi'],marriage:'partner',label:'管仲邀桓公遊終北',labelClass:'ritual'},
+ {spouses:['xipeng_liezi','huanggong_liezi'],marriage:'partner',label:'隰朋勸桓公不棄齊國',labelClass:'ritual'},
 ];
 const CN_NODE_NAMES = Object.fromEntries(CN_NODE_DEFS.map(([id,name,reading])=>[id,{kojiki:reading,nihonshoki:name,reading,aliases:[],shrine:'—'}]));
 Object.assign(CN_NODE_NAMES,{
@@ -6940,6 +7002,7 @@ Object.assign(CN_NODE_NAMES,{
  gumang_overseas_east:{...CN_NODE_NAMES.gumang_overseas_east,aliases:['勾芒','句芒神']},shuhai_overseas_east:{...CN_NODE_NAMES.shuhai_overseas_east,aliases:['竪亥']},guanxiong_overseas_south:{...CN_NODE_NAMES.guanxiong_overseas_south,aliases:['穿匈國']},fanshe_overseas_south:{...CN_NODE_NAMES.fanshe_overseas_south,aliases:['支舌國','岐舌國']},
  daleye_overseas_west:{...CN_NODE_NAMES.daleye_overseas_west,aliases:['大遺之野']},wuxian_overseas_west:{...CN_NODE_NAMES.wuxian_overseas_west,aliases:['巫咸之國']},rushou_overseas_west:{...CN_NODE_NAMES.rushou_overseas_west,aliases:['蓐收神']},rouli_overseas_north:{...CN_NODE_NAMES.rouli_overseas_north,aliases:['留利國']},juying_overseas_north:{...CN_NODE_NAMES.juying_overseas_north,aliases:['拘纓國','利癭國']},
  erfu_west:{...CN_NODE_NAMES.erfu_west,aliases:['貳負神']},kunlun_inner_west:{...CN_NODE_NAMES.kunlun_inner_west,aliases:['昆侖之虛','崑崙墟']},six_wu_west:{...CN_NODE_NAMES.six_wu_west,aliases:['巫彭巫抵巫陽巫履巫凡巫相']},xiaoming_zhuguang_north:{...CN_NODE_NAMES.xiaoming_zhuguang_north,aliases:['宵明','燭光','登比氏二女']},leishen_east:{...CN_NODE_NAMES.leishen_east,aliases:['雷澤之神','雷澤雷神']},douzhou_east:{...CN_NODE_NAMES.douzhou_east,aliases:['郁州']},
+ nine_skies_note:{...CN_NODE_NAMES.nine_skies_note,aliases:['九野','天有九野']},juntian_nine:{...CN_NODE_NAMES.juntian_nine,aliases:['鈞天九野']},liezi_ocean_note:{...CN_NODE_NAMES.liezi_ocean_note,aliases:['歸墟五山','東海五山']},ao_fifteen_liezi:{...CN_NODE_NAMES.ao_fifteen_liezi,aliases:['十五巨鰲','巨鰲負山']},longbo_liezi:{...CN_NODE_NAMES.longbo_liezi,aliases:['龍伯巨人','龍伯釣鰲']},yugong_liezi:{...CN_NODE_NAMES.yugong_liezi,aliases:['愚公']},yugong_note:{...CN_NODE_NAMES.yugong_note,aliases:['愚公移山']},snake_god_liezi:{...CN_NODE_NAMES.snake_god_liezi,aliases:['操蛇神']},kuae_sons_liezi:{...CN_NODE_NAMES.kuae_sons_liezi,aliases:['夸蛾氏之子']},zhongbei_liezi:{...CN_NODE_NAMES.zhongbei_liezi,aliases:['終北之國']},
 });
 const CHINA_USER_EDITS = {};
 const CN_SOURCE_LIBRARY = {
@@ -6970,6 +7033,7 @@ const CN_SOURCE_LIBRARY = {
  haiwaiWest:{zh:'《山海經・海外西經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海外西經'}, haiwaiNorth:{zh:'《山海經・海外北經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海外北經'},
  haineiSouth:{zh:'《山海經・海內南經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內南經'}, haineiWest:{zh:'《山海經・海內西經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內西經'},
  haineiNorth:{zh:'《山海經・海內北經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內北經'}, haineiEast:{zh:'《山海經・海內東經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內東經'},
+ tianwen:{zh:'《淮南子・天文訓》九野原文',url:'https://zh.wikisource.org/zh-hant/淮南子/天文訓'}, tangwen:{zh:'《列子・湯問篇》原文',url:'https://zh.wikisource.org/zh-hant/列子/湯問篇'},
 };
 const CN_NODE_SOURCES = {};
 CN_CREATION_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='pangu'?['pangu']:id==='hundun'?['zhuangzi']:['huainanzi','sky']);
@@ -6998,6 +7062,8 @@ CN_HAIWAI_EAST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haiwaiEast']); CN_HAIWAI_SO
 CN_HAIWAI_WEST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haiwaiWest']); CN_HAIWAI_NORTH_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haiwaiNorth']);
 CN_HAINEI_SOUTH_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haineiSouth']); CN_HAINEI_WEST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haineiWest']);
 CN_HAINEI_NORTH_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haineiNorth']); CN_HAINEI_EAST_IDS.forEach(id=>CN_NODE_SOURCES[id]=['haineiEast']);
+CN_NINE_SKIES_IDS.forEach(id=>CN_NODE_SOURCES[id]=['tianwen']);
+CN_LIEZI_OCEAN_IDS.concat(CN_YUGONG_IDS,CN_ZHONGBEI_IDS).forEach(id=>CN_NODE_SOURCES[id]=['tangwen']);
 CN_NODE_SOURCES.china_note=['shanhaijing','huainanzi','chuci','shangshu','shiji'];
 function chinaSourceLinks(keys){ return (keys||[]).map(k=>CN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 
