@@ -6851,6 +6851,51 @@ const CN_NODE_DEFS = [
  ['xuanyuan_dixing','玄黿','Xuányuán','先龍後、靈龜前',0,0,'《墜形訓》列先龍生玄黿、玄黿生靈龜；與《列子》負山巨鰲不可直接視作同一種或同一個體。'],
  ['linggui_dixing','靈龜（墜形訓）','Língguī','玄黿後、庶龜前',0,0,'《墜形訓》列靈龜承玄黿而生庶龜；其位於本篇介類鏈，不回填其他龜卜神話。'],
  ['shugui_dixing','庶龜','Shùguī','介類鏈之泛稱',0,0,'《墜形訓》稱靈龜生庶龜、凡介者生於庶龜；「庶龜」在此是分類歸結。',true],
+ ['nuwa_lanming_note','《覽冥訓》女媧補天','Nǚwā mends heaven','四極廢、九州裂後重整天地',0,0,'《淮南子・覽冥訓》說往古四極崩廢、九州裂開，火水與猛獸危害人民；女媧煉五色石補天、斷鼇足立四極、殺黑龍濟冀州、積蘆灰止水。此篇另寫她乘雷車上九天，不能把後世各種補天版本都當成這一段原文。',true,'key'],
+ ['four_poles_break','四極廢・九州裂','Four poles fail','女媧補天的災變背景',0,0,'《覽冥訓》以四極廢、九州裂、天不兼覆地不周載開場，續記火不滅、水不息、猛獸與鷙鳥傷人；屬古代失序的神話敘事。',true],
+ ['five_stones_lanming','煉五色石','Five-colored stones','女媧補蒼天的材料',0,0,'《覽冥訓》明說女媧煉五色石以補蒼天，但此段未逐色說明礦物來源或採石地點，不能以後世小說補作原典事實。',true],
+ ['ao_feet_lanming','斷鼇足立四極','Ao legs','以鼇足立四極',0,0,'《覽冥訓》將斷鼇足立四極列為女媧救災行動之一；原段未說這隻鼇就是《列子》負載五仙山的十五巨鼇。',true],
+ ['black_dragon_lanming','黑龍（覽冥訓）','Black dragon','女媧殺之以濟冀州',0,0,'《覽冥訓》記女媧殺黑龍以濟冀州；沒有交代黑龍家系、與應龍的同一性或屠龍過程，故只保留文本所述。'],
+ ['reed_ash_lanming','積蘆灰止水','Reed ashes','阻止漫溢洪水',0,0,'《覽冥訓》記女媧積蘆灰以止淫水，與煉石、斷鼇足、殺黑龍並列；「淫水」在此指漫溢之水。',true],
+ ['nuwa_restored_lanming','蒼天補・四極正','Restored order','洪水涸、冀州平、人民得生',0,0,'《覽冥訓》在四項行動後說蒼天補、四極正、淫水涸、冀州平，猛獸退而人民得生；敘事重點是秩序與生命的恢復。',true],
+ ['nuwa_thunder_chariot','女媧雷車巡天','Thunder chariot','應龍駕車、青虯為驂',0,0,'《覽冥訓》在補天之後寫女媧乘雷車，以應龍為駕、青虯為驂，前有白螭、後有奔蛇，遊行而登九天。這是本篇的儀仗描寫，不一定為其他版本共有。',true],
+ ['green_qiu_lanming','青虯（女媧儀仗）','Qīngqiú','雷車旁的青色虯龍',0,0,'《覽冥訓》記女媧雷車「驂青虯」，與應龍駕車、白螭前導、奔蛇隨後並列；本段未給青虯獨立姓名或族譜。'],
+ ['lingmen_lanming','靈門朝帝','Língmén','女媧登九天後的場景',0,0,'《覽冥訓》記女媧登九天、朝帝於靈門、休於太宜之下，隨即說她不彰功名。原文未指明這位「帝」的固定後世神名。',true],
+ ['heroic_response_note','《覽冥訓》武王與魯陽','Response to adversity','孟津平波與援戈返日',0,0,'《覽冥訓》以武王渡孟津、魯陽公揮戈令日退三舍，舉例說明精神與急難感應。兩事是並列例證，不是兩人同場戰役；自然現象也不作可驗史實。',true,'key'],
+ ['mengjin_lanming','孟津渡河','Mèngjīn','武王伐紂時的渡口',0,0,'《覽冥訓》說武王伐紂渡於孟津，遭陽侯之波逆流及疾風晦冥；此節點僅呈現本篇的渡河場景，不將《封神演義》情節回填。',true],
+ ['yanghou_wave_lanming','陽侯之波','Yánghóu waves','逆流擊武王渡軍',0,0,'《覽冥訓》以「陽侯之波，逆流而擊」寫武王渡河遇險，接著疾風晦冥、人馬不相見。本段以波濤為事件，不說陽侯親自出場交戰。',true],
+ ['yellow_axe_lanming','黃鉞','Yellow axe','武王左手持之',0,0,'《覽冥訓》記武王左操黃鉞、右秉白旄，瞋目宣言擔天下之任；黃鉞是敘事中的儀仗兵器，未記神力。',true],
+ ['white_mao_lanming','白旄','White banner','武王右手持之',0,0,'《覽冥訓》記武王右秉白旄與左手黃鉞，面對逆流疾風宣示使命；不把白旄寫成能獨力平息波浪的神器。',true],
+ ['wind_wave_stop_lanming','風濟波罷','Wind and waves cease','武王宣言後渡河復平',0,0,'《覽冥訓》在武王持鉞與旄、宣言後記「風濟而波罷」。篇章用此作精神感通的例證，而非可測的氣象記錄。',true],
+ ['luyang_lanming','魯陽公','Lǔyáng Gōng','與韓構交戰時援戈',0,0,'《覽冥訓》說魯陽公與韓構交戰，戰酣日暮，援戈一揮，使日返三舍；這是本篇的英雄感通故事，不推定為天文史實。'],
+ ['hangou_lanming','韓構','Hán Gòu','魯陽公交戰對手',0,0,'《覽冥訓》只記魯陽公與韓構交戰，沒有在此提供韓構身世或戰役結局；不將其誤認為補天敘事的人物。'],
+ ['sun_retreat_lanming','援戈返日三舍','Sun retreats','魯陽公暮戰的神話情節',0,0,'《覽冥訓》記魯陽公在戰酣日暮時援戈而揮，日為之反三舍；「三舍」是原文尺度，不推導精確現代距離或日行時間。',true],
+ ['huangdi_peace_note','《覽冥訓》黃帝治世','Huángdì’s rule','力牧與太山稽輔政',0,0,'《覽冥訓》將黃帝、力牧、太山稽的治世秩序與伏羲之道對比，並列鳳凰、麒麟、青龍、飛黃等祥瑞。這是道德政治的理想圖景，不是可逐項證明的實際施政紀錄。',true,'key'],
+ ['limu_lanming','力牧','Lìmù','黃帝輔佐者',0,0,'《覽冥訓》說力牧與太山稽輔佐黃帝，治日月行律、陰陽氣、四時度與律曆之數；本段未給其獨立戰功或親屬。'],
+ ['taishanji_lanming','太山稽','Tàishānjī','黃帝輔佐者',0,0,'《覽冥訓》列太山稽與力牧共同輔佐黃帝，治理曆數與社會秩序；不可因「太山」二字把他併入泰山神。'],
+ ['calendar_lanming','日月四時與律曆','Calendar order','黃帝治世的天時制度',0,0,'《覽冥訓》說黃帝與輔臣治日月行律、陰陽之氣、節四時之度、正律曆之數；此處是理想治理敘述，不宣稱黃帝一人發明所有後世曆法。',true],
+ ['just_rule_lanming','黃帝治世之治','Just rule','強不掩弱、百官無私',0,0,'《覽冥訓》敘述黃帝時強不掩弱、人民保命、百官正而無私，田者不侵畔，風雨時節、五穀成熟；是篇章的治世理想。',true],
+ ['phoenix_qilin_lanming','鳳凰麒麟至庭郊','Auspicious beings','德治祥瑞的描寫',0,0,'《覽冥訓》說鳳皇翔於庭、麒麟遊於郊，與青龍進駕、飛黃伏皂並列，意在象徵治世；鳳凰與麒麟已有各自節點，此處只標本篇場景。',true],
+ ['flying_yellow_lanming','飛黃','Fēihuáng','黃帝治世的祥瑞之一',0,0,'《覽冥訓》列「飛黃伏皂」於黃帝治世祥瑞之中；原文在這段沒有描述飛黃外形或主人，不補上其他傳說版本。'],
+ ['fuside_lanming','猶未及伏羲之道','Fúxī’s way','黃帝理想治世的對照',0,0,'《覽冥訓》在描寫黃帝治世極盛後仍說「猶未及虙戲氏之道」，用以鋪陳其推崇無為自然的論旨，不當成客觀王朝排名。',true],
+ ['huangdi_auspices_lanming','青龍進駕','Azure dragon','治世祥瑞儀仗',0,0,'《覽冥訓》以青龍進駕、飛黃伏皂與鳳凰麒麟並列為黃帝理想治世之兆；不把青龍在此的出現寫成黃帝的子嗣。',true],
+ ['kunlun_springs_note','《墜形訓》崑崙四神泉','Kunlun springs','河、赤、弱、洋四水',0,0,'《墜形訓》敘崑崙附近河水、赤水、弱水、洋水的出處與流向，稱「凡四水者，帝之神泉」，以和百藥、潤萬物。這四水與前段「六水」是不同的列舉脈絡。',true,'key'],
+ ['river_kunlun_dixing','河水（崑崙）','Héshuǐ','出崑崙東北陬',0,0,'《墜形訓》稱河水出崑崙東北陬，貫渤海，入禹所導積石山；是本篇的神話水道，與現代河流測繪需區分。',true],
+ ['red_river_dixing','赤水（崑崙）','Chìshuǐ','出崑崙東南陬',0,0,'《墜形訓》稱赤水出崑崙東南陬，西南注南海丹澤之東；不直接等同疏圃黃水三周所化的丹水。',true],
+ ['weak_river_dixing','弱水（崑崙）','Ruòshuǐ','窮石至合黎、流沙',0,0,'《墜形訓》說赤水之東有弱水出窮石至合黎，餘波入流沙，絕流沙南至南海；原文不在此說它能淹沒一切羽毛。',true],
+ ['yang_river_dixing','洋水（崑崙）','Yángshuǐ','出崑崙西北陬',0,0,'《墜形訓》稱洋水出崑崙西北陬，入南海羽民之南；與河水、赤水、弱水合稱帝之四神泉。',true],
+ ['jishi_dixing','積石山（禹所導）','Jīshí Shān','河水經禹導之處',0,0,'《墜形訓》在河水路線中提到「禹所導積石山」，未在此詳寫另一完整治水戰役；與大禹節點作文本對照。',true],
+ ['qiongshi_dixing','窮石','Qióngshí','本篇弱水出處',0,0,'《墜形訓》記弱水出自窮石，至合黎、餘波入流沙；不把這個地名直接當成《左傳》有窮氏的身分。',true],
+ ['heli_dixing','合黎與流沙','Hélí · Liúshā','弱水路線所經',0,0,'《墜形訓》記弱水至合黎、餘波入流沙而後南至南海；在本段是神話水道的接續地點。',true],
+ ['directional_winds_note','《墜形訓》方位八風','Eight directional winds','東北至北方的八個風名',0,0,'《墜形訓》按八方列炎、條、景、巨、涼、飂、麗、寒八風；《天文訓》的八風則按冬至後每四十五日的節候排列，兩套表不可混作同一套神格。',true,'key'],
+ ['wind_yan_dixing','炎風（東北）','Yánfēng','《墜形訓》東北風',0,0,'《墜形訓》方位八風列東北為炎風；它是風名而非此段具身的人物。',true],
+ ['wind_tiao_dixing','條風（東方）','Tiáofēng','《墜形訓》東方風',0,0,'《墜形訓》按方位列東方條風；《天文訓》另以條風作冬至後節候八風之首，兩篇分類方式不同。',true],
+ ['wind_jing_dixing','景風（東南）','Jǐngfēng','《墜形訓》東南風',0,0,'《墜形訓》按方位列東南景風；《天文訓》景風有不同的節令位置，不把方位與時序視作同一張表。',true],
+ ['wind_ju_dixing','巨風（南方）','Jùfēng','《墜形訓》南方風',0,0,'《墜形訓》列正南巨風，原文此段只提供方位與風名，不增設風神的個人傳記。',true],
+ ['wind_liang_dixing','涼風（西南）','Liángfēng','《墜形訓》西南風',0,0,'《墜形訓》方位八風列西南涼風；這不是崑崙神域的涼風之山，也不是《天文訓》節候表的同一欄位。',true],
+ ['wind_liu_dixing','飂風（西方）','Liùfēng','《墜形訓》西方風',0,0,'《墜形訓》方位八風列西方飂風，原文沒有附上固定的化身或家世。',true],
+ ['wind_li_dixing','麗風（西北）','Lìfēng','《墜形訓》西北風',0,0,'《墜形訓》列西北麗風，與《天文訓》節候不周風、崑崙西北門的不周之風不可未經註記合併。',true],
+ ['wind_han_dixing','寒風（北方）','Hánfēng','《墜形訓》北方風',0,0,'《墜形訓》以北方寒風收束方位八風；此處為風名，而非獨立的神祇。',true],
 ];
 const CN_CREATION_IDS=['creation_note','hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'];
 const CN_RULER_IDS=['rulers_note','suiren','fuxi','nuwa','shennong','huangdi','zhuanxu','diku','yao','shun'];
@@ -6914,6 +6959,11 @@ const CN_NINE_MOUNTAINS_IDS=['nine_mountains_note','mount_kuaiji','mount_taishan
 const CN_NINE_PASSES_IDS=['nine_passes_note','pass_taifen','pass_miene','pass_jingruan','pass_fangcheng','pass_yaoban','pass_jingxing','pass_lingci','pass_juzhu','pass_juyong'];
 const CN_NINE_MARSHES_IDS=['nine_marshes_note','fen_juqu','fen_yunmeng','fen_yangyu','fen_dalu','fen_putian','fen_mengzhu','fen_haiyu','fen_julu','fen_zhaoyu'];
 const CN_AQUATIC_CHAIN_IDS=['aquatic_chain_note','kungeng_dixing','jianxie_dixing','shuyu_dixing','jietan_dixing','xianlong_dixing','xuanyuan_dixing','linggui_dixing','shugui_dixing'];
+const CN_NUWA_LANMING_IDS=['nuwa_lanming_note','four_poles_break','five_stones_lanming','ao_feet_lanming','black_dragon_lanming','reed_ash_lanming','nuwa_restored_lanming','nuwa_thunder_chariot','green_qiu_lanming','lingmen_lanming'];
+const CN_HEROIC_RESPONSE_IDS=['heroic_response_note','mengjin_lanming','yanghou_wave_lanming','yellow_axe_lanming','white_mao_lanming','wind_wave_stop_lanming','luyang_lanming','hangou_lanming','sun_retreat_lanming'];
+const CN_HUANGDI_PEACE_IDS=['huangdi_peace_note','limu_lanming','taishanji_lanming','calendar_lanming','just_rule_lanming','phoenix_qilin_lanming','flying_yellow_lanming','fuside_lanming','huangdi_auspices_lanming'];
+const CN_KUNLUN_SPRINGS_IDS=['kunlun_springs_note','river_kunlun_dixing','red_river_dixing','weak_river_dixing','yang_river_dixing','jishi_dixing','qiongshi_dixing','heli_dixing'];
+const CN_DIRECTIONAL_WINDS_IDS=['directional_winds_note','wind_yan_dixing','wind_tiao_dixing','wind_jing_dixing','wind_ju_dixing','wind_liang_dixing','wind_liu_dixing','wind_li_dixing','wind_han_dixing'];
 function packChineseNodes(ids,startCol,startRow,cols=5){ const [head,...children]=ids, h=CN_NODE_DEFS.find(n=>n[0]===head), span=Math.min(cols,Math.max(1,children.length)); if(h){h[4]=startCol+span-1;h[5]=startRow;} children.forEach((id,i)=>{const d=CN_NODE_DEFS.find(n=>n[0]===id);if(d){d[4]=startCol+(i%cols)*2;d[5]=startRow+2+Math.floor(i/cols)*2;}}); }
 packChineseNodes(CN_CREATION_IDS,0,4,5); packChineseNodes(CN_RULER_IDS.filter(id=>id!=='fuxi'&&id!=='nuwa'),12,4,5); packChineseNodes(CN_FLOOD_IDS,24,4,3);
 packChineseNodes(CN_CELESTIAL_IDS,0,14,6); packChineseNodes(CN_HERO_IDS,14,14,4); packChineseNodes(CN_HEAVEN_IDS.filter(id=>id!=='jade_emperor'),24,14,5);
@@ -6934,6 +6984,7 @@ packChineseNodes(CN_NINE_SKIES_IDS,0,162,5); packChineseNodes(CN_LIEZI_OCEAN_IDS
 packChineseNodes(CN_FIVE_PHASES_IDS,0,178,5); packChineseNodes(CN_EIGHT_WINDS_IDS,12,178,4); packChineseNodes(CN_NINE_LANDS_IDS,24,178,5); packChineseNodes(CN_LIEZI_SCALE_IDS,0,186,5);
 packChineseNodes(CN_KUNLUN_DIXING_IDS,0,194,5); packChineseNodes(CN_EIGHT_MARSHES_IDS,12,194,4); packChineseNodes(CN_EIGHT_GATES_IDS,24,194,4); packChineseNodes(CN_CREATURE_CHAIN_IDS,0,202,5);
 packChineseNodes(CN_EIGHT_HONG_IDS,0,210,4); packChineseNodes(CN_NINE_MOUNTAINS_IDS,12,210,5); packChineseNodes(CN_NINE_PASSES_IDS,24,210,5); packChineseNodes(CN_NINE_MARSHES_IDS,0,218,5); packChineseNodes(CN_AQUATIC_CHAIN_IDS,12,218,4);
+packChineseNodes(CN_NUWA_LANMING_IDS,0,226,5); packChineseNodes(CN_HEROIC_RESPONSE_IDS,12,226,4); packChineseNodes(CN_HUANGDI_PEACE_IDS,24,226,4); packChineseNodes(CN_KUNLUN_SPRINGS_IDS,0,234,4); packChineseNodes(CN_DIRECTIONAL_WINDS_IDS,12,234,4);
 const CN_GROUPS = [
  ['創世與天地秩序',CN_CREATION_IDS,'#72c6e8'],['三皇常見名單與異說',['rulers_note','suiren','fuxi','nuwa','shennong','zhurong','huangdi'],'#e5b95f'],['《史記》五帝與禪讓傳說',['huangdi','zhuanxu','diku','yao','shun'],'#c8a860'],['洪水與夏初傳說',CN_FLOOD_IDS,'#79b9ef'],
  ['日月與天象神話',CN_CELESTIAL_IDS,'#c8a860'],['《山海經》英雄與異怪',CN_HERO_IDS,'#d98484'],['天界與民間神祇',CN_HEAVEN_IDS,'#a98de0'],
@@ -6952,9 +7003,10 @@ const CN_GROUPS = [
  ['《天文訓》五方星象',CN_FIVE_PHASES_IDS,'#e5b95f'],['《天文訓》八風',CN_EIGHT_WINDS_IDS,'#72c6e8'],['《墜形訓》九州土',CN_NINE_LANDS_IDS,'#77c6b6'],['《湯問》巨細與長壽',CN_LIEZI_SCALE_IDS,'#b99ae3'],
  ['《墜形訓》崑崙神域',CN_KUNLUN_DIXING_IDS,'#e5b95f'],['《墜形訓》八殥八澤',CN_EIGHT_MARSHES_IDS,'#77c6b6'],['《墜形訓》八極八門',CN_EIGHT_GATES_IDS,'#72c6e8'],['《墜形訓》羽毛鱗類生化',CN_CREATURE_CHAIN_IDS,'#b99ae3'],
  ['《墜形訓》八紘',CN_EIGHT_HONG_IDS,'#77c6b6'],['《墜形訓》九山',CN_NINE_MOUNTAINS_IDS,'#e5b95f'],['《墜形訓》九塞',CN_NINE_PASSES_IDS,'#72c6e8'],['《墜形訓》九藪',CN_NINE_MARSHES_IDS,'#77c6b6'],['《墜形訓》鱗介生化續篇',CN_AQUATIC_CHAIN_IDS,'#b99ae3'],
+ ['《覽冥訓》女媧補天',CN_NUWA_LANMING_IDS,'#e5b95f'],['《覽冥訓》武王與魯陽',CN_HEROIC_RESPONSE_IDS,'#b99ae3'],['《覽冥訓》黃帝治世',CN_HUANGDI_PEACE_IDS,'#77c6b6'],['《墜形訓》崑崙四神泉',CN_KUNLUN_SPRINGS_IDS,'#72c6e8'],['《墜形訓》方位八風',CN_DIRECTIONAL_WINDS_IDS,'#b99ae3'],
 ];
 const CN_UNIONS = [
- {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings','jiuge_note','yi_foes_note','xia_succession_note','xiyou_journey_note','fengshen_cast_note','nanshan_note','xishan_note','beishan_note','dragon_nine_note','dongshan_note','zhongshan_note','hainei_note','dahuang_east_note','dahuang_south_note','dahuang_west_note','dahuang_north_note','haiwai_east_note','haiwai_south_note','haiwai_west_note','haiwai_north_note','hainei_south_note','hainei_west_note','hainei_north_note','hainei_east_note','nine_skies_note','liezi_ocean_note','yugong_note','zhongbei_note','five_phases_note','eight_winds_note','nine_lands_note','liezi_scale_note','kunlun_dixing_note','eight_marshes_note','eight_gates_note','creature_chain_note','eight_hong_note','nine_mountains_note','nine_passes_note','nine_marshes_note','aquatic_chain_note'],label:'依文本時代與主題向下展開'},
+ {parent:'china_note',children:['creation_note','rulers_note','flood_note','celestial_note','heroes_note','heaven_note','underworld_note','beasts_note','literature_note','ten_kings_note','sanqing_note','siyu_note','local_gods_note','texts_note','baxian_note','four_perils_note','civilization_note','sanguan_note','fulushou_note','shanhai_beasts_note','dragon_kings','jiuge_note','yi_foes_note','xia_succession_note','xiyou_journey_note','fengshen_cast_note','nanshan_note','xishan_note','beishan_note','dragon_nine_note','dongshan_note','zhongshan_note','hainei_note','dahuang_east_note','dahuang_south_note','dahuang_west_note','dahuang_north_note','haiwai_east_note','haiwai_south_note','haiwai_west_note','haiwai_north_note','hainei_south_note','hainei_west_note','hainei_north_note','hainei_east_note','nine_skies_note','liezi_ocean_note','yugong_note','zhongbei_note','five_phases_note','eight_winds_note','nine_lands_note','liezi_scale_note','kunlun_dixing_note','eight_marshes_note','eight_gates_note','creature_chain_note','eight_hong_note','nine_mountains_note','nine_passes_note','nine_marshes_note','aquatic_chain_note','nuwa_lanming_note','heroic_response_note','huangdi_peace_note','kunlun_springs_note','directional_winds_note'],label:'依文本時代與主題向下展開'},
  {parent:'creation_note',children:['hundun','pangu','nuwa','fuxi','gonggong','zhurong','buzhou','sky_mending'],label:'不同文本的創世與秩序神話'},
  {spouses:['fuxi','nuwa'],marriage:'partner',label:'漢代圖像常成對・兄妹／配偶說有異',labelClass:'ritual'},
  {spouses:['gonggong','zhurong'],marriage:'partner',label:'部分傳統的水火之戰',labelClass:'blood'},
@@ -7162,6 +7214,24 @@ const CN_UNIONS = [
  {spouses:['nine_mountains_note','taihang_liezi'],marriage:'partner',label:'太行山同名・不同篇章',labelClass:'ritual'},
  {spouses:['nine_marshes_note','eight_marshes_note'],marriage:'partner',label:'九藪與八澤兩套分類',labelClass:'ritual'},
  {spouses:['aquatic_chain_note','creature_chain_note'],marriage:'partner',label:'同篇鱗類鏈接續及介類另列',labelClass:'ritual'},
+ {parent:'nuwa_lanming_note',children:CN_NUWA_LANMING_IDS.slice(1),label:'女媧救災四舉與巡天'},
+ {parent:'heroic_response_note',children:CN_HEROIC_RESPONSE_IDS.slice(1),label:'武王平波與魯陽返日兩例'},
+ {parent:'huangdi_peace_note',children:CN_HUANGDI_PEACE_IDS.slice(1),label:'輔政、律曆、治世與祥瑞'},
+ {parent:'kunlun_springs_note',children:CN_KUNLUN_SPRINGS_IDS.slice(1),label:'河、赤、弱、洋四神泉'},
+ {parent:'directional_winds_note',children:CN_DIRECTIONAL_WINDS_IDS.slice(1),label:'《墜形訓》八方風名'},
+ {spouses:['nuwa_lanming_note','nuwa'],marriage:'partner',label:'《覽冥訓》女媧本篇事蹟',labelClass:'ritual'},
+ {spouses:['nuwa_lanming_note','sky_mending'],marriage:'partner',label:'補天總覽的原典展開',labelClass:'ritual'},
+ {spouses:['nuwa_thunder_chariot','yinglong'],marriage:'partner',label:'《覽冥訓》應龍駕雷車',labelClass:'ritual'},
+ {spouses:['ao_feet_lanming','ao_fifteen_liezi'],marriage:'partner',label:'鼇同名異篇・不得合併個體',labelClass:'ritual'},
+ {spouses:['heroic_response_note','jifa_fengshen'],marriage:'partner',label:'武王同名・《封神》為後出小說',labelClass:'ritual'},
+ {spouses:['huangdi_peace_note','huangdi'],marriage:'partner',label:'《覽冥訓》黃帝治世版本',labelClass:'ritual'},
+ {spouses:['huangdi_peace_note','fuxi'],marriage:'partner',label:'本篇以伏羲之道對照',labelClass:'ritual'},
+ {spouses:['phoenix_qilin_lanming','fenghuang'],marriage:'partner',label:'鳳皇翔庭之祥瑞',labelClass:'ritual'},
+ {spouses:['phoenix_qilin_lanming','qilin'],marriage:'partner',label:'麒麟遊郊之祥瑞',labelClass:'ritual'},
+ {spouses:['kunlun_springs_note','kunlun_dixing_note'],marriage:'partner',label:'同篇崑崙神域水道',labelClass:'ritual'},
+ {spouses:['jishi_dixing','yu'],marriage:'partner',label:'禹所導積石山',labelClass:'ritual'},
+ {spouses:['directional_winds_note','eight_winds_note'],marriage:'partner',label:'方位八風／節候八風異表',labelClass:'ritual'},
+ {spouses:['wind_liang_dixing','liangfeng_mountain_dixing'],marriage:'partner',label:'涼風同名・風與山分列',labelClass:'ritual'},
 ];
 const CN_NODE_NAMES = Object.fromEntries(CN_NODE_DEFS.map(([id,name,reading])=>[id,{kojiki:reading,nihonshoki:name,reading,aliases:[],shrine:'—'}]));
 Object.assign(CN_NODE_NAMES,{
@@ -7223,6 +7293,7 @@ const CN_SOURCE_LIBRARY = {
  haineiNorth:{zh:'《山海經・海內北經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內北經'}, haineiEast:{zh:'《山海經・海內東經》原文',url:'https://zh.wikisource.org/zh-hant/山海經/海內東經'},
  tianwen:{zh:'《淮南子・天文訓》原文',url:'https://zh.wikisource.org/zh-hant/淮南子/天文訓'}, tangwen:{zh:'《列子・湯問篇》原文',url:'https://zh.wikisource.org/zh-hant/列子/湯問篇'},
  dixing:{zh:'《淮南子・墜形訓》原文',url:'https://zh.wikisource.org/zh-hant/淮南子/墜形訓'},
+ lanming:{zh:'《淮南子・覽冥訓》原文',url:'https://zh.wikisource.org/zh-hant/淮南子/覽冥訓'},
 };
 const CN_NODE_SOURCES = {};
 CN_CREATION_IDS.forEach(id=>CN_NODE_SOURCES[id]=id==='pangu'?['pangu']:id==='hundun'?['zhuangzi']:['huainanzi','sky']);
@@ -7257,6 +7328,8 @@ CN_FIVE_PHASES_IDS.concat(CN_EIGHT_WINDS_IDS).forEach(id=>CN_NODE_SOURCES[id]=['
 CN_NINE_LANDS_IDS.forEach(id=>CN_NODE_SOURCES[id]=['dixing']); CN_LIEZI_SCALE_IDS.forEach(id=>CN_NODE_SOURCES[id]=['tangwen']);
 CN_KUNLUN_DIXING_IDS.concat(CN_EIGHT_MARSHES_IDS,CN_EIGHT_GATES_IDS,CN_CREATURE_CHAIN_IDS).forEach(id=>CN_NODE_SOURCES[id]=['dixing']);
 CN_EIGHT_HONG_IDS.concat(CN_NINE_MOUNTAINS_IDS,CN_NINE_PASSES_IDS,CN_NINE_MARSHES_IDS,CN_AQUATIC_CHAIN_IDS).forEach(id=>CN_NODE_SOURCES[id]=['dixing']);
+CN_NUWA_LANMING_IDS.concat(CN_HEROIC_RESPONSE_IDS,CN_HUANGDI_PEACE_IDS).forEach(id=>CN_NODE_SOURCES[id]=['lanming']);
+CN_KUNLUN_SPRINGS_IDS.concat(CN_DIRECTIONAL_WINDS_IDS).forEach(id=>CN_NODE_SOURCES[id]=['dixing']);
 CN_NODE_SOURCES.china_note=['shanhaijing','huainanzi','chuci','shangshu','shiji'];
 function chinaSourceLinks(keys){ return (keys||[]).map(k=>CN_SOURCE_LIBRARY[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`).join(''); }
 
@@ -8568,7 +8641,11 @@ function hexToRgba(hex, a){
 // 節點（先建立，量到真實高度後才佈線）
 // #japan 初始為 display:none，offsetHeight 會量到 0，因此建構期間先暫時顯示
 const japanEl = document.getElementById('japan');
+let graphPaintItems=[];
+let graphView;
 function renderGraph(){
+graphPaintItems=[];
+graphView=undefined;
 const wasOpen = japanEl.style.display === 'block';
 japanEl.style.display = 'block';
 // 重畫前先清乾淨（字型載入完成後會再跑一次，屆時方塊高度才是最終值）
@@ -8592,6 +8669,7 @@ Object.values(nodes).forEach(n=>{
   div.addEventListener('click', (ev)=>{ ev.stopPropagation(); focusNode(n.id); });
   stage.appendChild(div);
   n.h = div.offsetHeight || NODE_H;
+  graphPaintItems.push([div,n.px,n.py,n.px+NODE_W,n.py+n.h]);
 });
 function botY(n){ return n.py + n.h; }
 function midY(n){ return n.py + n.h/2; }
@@ -8883,6 +8961,9 @@ function drawPoly(pts, uid, cls, dash){
   hit.style.cursor = 'pointer';
   hit.dataset.uid = uid;
   svg.appendChild(hit);
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+  const bounds=[Math.min(...xs)-10,Math.min(...ys)-10,Math.max(...xs)+10,Math.max(...ys)+10];
+  graphPaintItems.push([path,...bounds],[hit,...bounds]);
 }
 childDraws.forEach(cd=> drawPoly(cd.pts, cd.uid, 'edge'));
 spouseDraws.forEach(s=> drawPoly(s.pts, s.uid,
@@ -8921,7 +9002,9 @@ labelDraws.forEach(l=>{
   lab.style.left = x+'px';
   lab.style.top  = y+'px';
   placedEdgeLabels.push({x1:x, y1:y, x2:x+w, y2:y+h});
+  graphPaintItems.push([lab,x,y,x+w,y+h]);
 });
+if(wasOpen) cullGraph();
 if(!wasOpen) japanEl.style.display = 'none';   // 量測完畢，回到原本的顯示狀態
 }
 
@@ -8945,8 +9028,33 @@ function clampGraphView(){
   ty = Math.min(maxTy, Math.max(minTy, ty));
 }
 function snapToDevicePixel(v){ const d=window.devicePixelRatio||1; return Math.round(v*d)/d; }
-function applyTransform(){ clampGraphView(); stage.style.transform = `translate(${snapToDevicePixel(tx)}px,${snapToDevicePixel(ty)}px) scale(${scale})`; }
-stage.addEventListener('transitionend',e=>{ if(e.propertyName==='transform') setSmooth(false); });
+// 固定座標只計算一次；縮放時只做數字比較，不再追蹤數千個 DOM/SVG 的交集。
+function cullGraph(keepOld=false){
+  if(!graphPaintItems.length || !wrap.clientWidth || !scale) return;
+  const now={x1:(-tx-180)/scale,y1:(-ty-180)/scale,
+    x2:(wrap.clientWidth-tx+180)/scale,y2:(wrap.clientHeight-ty+180)/scale};
+  const view=keepOld && graphView ? {
+    x1:Math.min(now.x1,graphView.x1),y1:Math.min(now.y1,graphView.y1),
+    x2:Math.max(now.x2,graphView.x2),y2:Math.max(now.y2,graphView.y2)
+  } : now;
+  graphView=now;
+  for(const [el,x1,y1,x2,y2] of graphPaintItems){
+    const visibility=x1<view.x2 && x2>view.x1 && y1<view.y2 && y2>view.y1 ? '' : 'hidden';
+    if(el.style.visibility!==visibility) el.style.visibility=visibility;
+  }
+}
+function applyTransform(){
+  clampGraphView();
+  cullGraph(stage.classList.contains('smooth'));
+  stage.style.transform = `translate(${snapToDevicePixel(tx)}px,${snapToDevicePixel(ty)}px) scale(${scale})`;
+}
+let transformQueued=false;
+function queueTransform(){
+  if(transformQueued) return;
+  transformQueued=true;
+  requestAnimationFrame(()=>{ transformQueued=false; applyTransform(); });
+}
+stage.addEventListener('transitionend',e=>{ if(e.propertyName==='transform'){ setSmooth(false); cullGraph(); } });
 
 function fitInitial(smooth){
   const r = wrap.getBoundingClientRect();
@@ -8970,7 +9078,7 @@ window.addEventListener('mousemove', e=>{
   moved=true;
   tx += (e.clientX-lastX); ty += (e.clientY-lastY);
   lastX=e.clientX; lastY=e.clientY;
-  applyTransform();
+  queueTransform();
 });
 wrap.addEventListener('wheel', e=>{
   e.preventDefault();
@@ -8993,7 +9101,7 @@ function zoomAt(mx,my,factor){
   tx = mx - (mx-tx)*ratio;
   ty = my - (my-ty)*ratio;
   scale = newScale;
-  applyTransform();
+  queueTransform();
 }
 
 /* ---- 觸控（手機／平板）：單指拖曳平移、雙指縮放 ---- */
@@ -9027,7 +9135,7 @@ wrap.addEventListener('touchmove', e=>{
     touchMoved=true; moved=true;
     tx += dx; ty += dy;
     lastX=t.clientX; lastY=t.clientY;
-    applyTransform();
+    queueTransform();
   } else if(touchMode==='pinch' && e.touches.length===2){
     e.preventDefault();
     const dist = touchDist(e.touches[0], e.touches[1]);
@@ -9036,7 +9144,7 @@ wrap.addEventListener('touchmove', e=>{
     tx = pinchCx - (pinchCx-tx)*ratio;
     ty = pinchCy - (pinchCy-ty)*ratio;
     scale = newScale;
-    applyTransform();
+    queueTransform();
   }
 }, {passive:false});
 wrap.addEventListener('touchend', e=>{
@@ -10046,6 +10154,12 @@ function yClamp(){
   yty = Math.min(maxTy, Math.max(minTy, yty));
 }
 function yApplyTransform(){ yClamp(); ystage.style.transform = `translate(${snapToDevicePixel(ytx)}px,${snapToDevicePixel(yty)}px) scale(${yscale})`; }
+let yTransformQueued=false;
+function yQueueTransform(){
+  if(yTransformQueued) return;
+  yTransformQueued=true;
+  requestAnimationFrame(()=>{ yTransformQueued=false; yApplyTransform(); });
+}
 ystage.addEventListener('transitionend',e=>{ if(e.propertyName==='transform') ySetSmooth(false); });
 
 ycanvasWrap.addEventListener('mousedown', e=>{
@@ -10057,7 +10171,7 @@ window.addEventListener('mousemove', e=>{
   if(!ydragging) return;
   ytx += (e.clientX-ylastX); yty += (e.clientY-ylastY);
   ylastX=e.clientX; ylastY=e.clientY;
-  yApplyTransform();
+  yQueueTransform();
 });
 // 滾輪＝上下（含左右）平移，如同一般網頁捲動，而非縮放
 ycanvasWrap.addEventListener('wheel', e=>{
@@ -10065,7 +10179,7 @@ ycanvasWrap.addEventListener('wheel', e=>{
   ySetSmooth(false);
   yty -= e.deltaY;
   ytx -= e.deltaX;
-  yApplyTransform();
+  yQueueTransform();
 }, {passive:false});
 
 function yZoomAt(mx,my,factor){
@@ -10140,7 +10254,7 @@ ycanvasWrap.addEventListener('touchmove', e=>{
     const t=e.touches[0];
     ytx += (t.clientX-ylastX); yty += (t.clientY-ylastY);
     ylastX=t.clientX; ylastY=t.clientY;
-    yApplyTransform();
+    yQueueTransform();
   } else if(yTouchMode==='pinch' && e.touches.length===2){
     e.preventDefault();
     const dist = yTouchDist(e.touches[0], e.touches[1]);
@@ -10149,7 +10263,7 @@ ycanvasWrap.addEventListener('touchmove', e=>{
     ytx = yPinchCx - (yPinchCx-ytx)*ratio;
     yty = yPinchCy - (yPinchCy-yty)*ratio;
     yscale = newScale;
-    yApplyTransform();
+    yQueueTransform();
   }
 }, {passive:false});
 ycanvasWrap.addEventListener('touchend', e=>{
