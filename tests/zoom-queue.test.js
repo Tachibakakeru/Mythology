@@ -21,18 +21,18 @@ for (const [name, applied] of [['queueTransform', 'applyTransform'], ['yQueueTra
 }
 console.log('zoom queues OK');
 
-const near = {style:{visibility:''}}, far = {style:{visibility:''}};
+const near = {style:{display:''}}, far = {style:{display:''}};
 const cull = {
   graphPaintItems:[[near,0,0,10,10],[far,500,0,510,10]],
   graphView:undefined, wrap:{clientWidth:100,clientHeight:100}, scale:1, tx:0, ty:0
 };
 vm.runInNewContext(html.slice(html.indexOf('function cullGraph('),html.indexOf('function applyTransform(){')),cull);
 cull.cullGraph();
-assert.equal(far.style.visibility,'hidden');
+assert.equal(far.style.display,'none');
 cull.tx=-500;
 cull.cullGraph(true);
-assert.equal(near.style.visibility,''); // 平滑轉場途中的舊視角仍可見
+assert.equal(near.style.display,''); // 平滑轉場途中的舊視角仍可見
 cull.cullGraph();
-assert.equal(near.style.visibility,'hidden');
-assert.equal(far.style.visibility,'');
+assert.equal(near.style.display,'none');
+assert.equal(far.style.display,'');
 console.log('graph culling OK');
