@@ -848,3 +848,218 @@
 - 《聊齋志異》卷二〈聶小倩〉（10 節點）：甯采臣、燕赤霞、金華蘭若、小倩受迫、假金與錐足、遷葬、劍囊、原配病故後成婚；不套電影的樹妖名。卷一〈畫皮〉（9 節點）：王生、妻陳氏、綠面鬼、彩繪人皮、道士、蠅拂、瘋乞丐及復生；妖物原文無固定人名。六組沿原有向下 `packChineseNodes()` 排 row334／342，新增 58 節點、6 實體框群組、25 關係，中國頁由 898／96／346 增至 **956 節點／102 群組／371 關係**，新節點均有逐筆原典或公立館藏／官方演出來源。
 - 來源：[《西遊記》紅孩兒始於第四十回](https://zh.wikisource.org/zh-hant/西遊記/第040回)、[車遲國始於第四十四回](https://zh.wikisource.org/zh-hant/西遊記/第044回)、[《封神演義》比干段始於第二十五回](https://zh.wikisource.org/zh-hant/封神演義/卷025)、[文化部《沉香救母》紙偶](https://collections.culture.tw/Object?RNO=MTEyMDEwMDIxMTU%3D&SYSUID=17)、[文化和旅遊部京劇《寶蓮燈》](https://www.mct.gov.cn/gtb/index.jsp?url=https%3A%2F%2Fwww.mct.gov.cn%2Fggfw%2Fzyjzzt%2Fyanchu%2Fyanchuwqhg%2F201909%2Ft20190923_846995.html)、[教育部教育百科舞劇《寶蓮燈》](https://pedia.cloud.edu.tw/Entry/Detail/?title=寶蓮燈)、[《聊齋志異》卷一〈畫皮〉](https://zh.wikisource.org/zh-hant/聊齋志異/第01卷#畫皮)、[卷二〈聶小倩〉](https://zh.wikisource.org/zh-hant/聊齋志異/第02卷#聶小倩)。精確回次對照寫於 `CN_NODE_SOURCES`。
 - 驗證與限制：headless Chrome 實際開中國頁得 956 節點、102 群組、371 關係；新六組均有實體框，58 新節點與全頁其他節點皆無方框重疊；ID 無重複，群組／關係引用有效，58 個新節點來源鍵都在來源庫且已渲染，瀏覽器 pageerror 為空。改動共用繪圖器後另切佛教與日本頁，分別正常渲染 494／267 節點，無 pageerror。`node tests/zoom-queue.test.js`、inline JS `vm.Script` 編譯、效能／結構測試及 `git diff --check` 均通過。未做手機實機、真機首進時間與全圖人工逐線視覺檢查。主要敘事脈絡已足夠，不為湊數繼續增建無清楚文本的節點；新區域由使用者決定。
+
+## 2026-09-27｜已推送中國頁；瑪雅／基切神話首批至王統（瑪雅改動本機待確認）
+
+- 發布界線：使用者本輪明確允許先推送上一批中國頁進入效能與六組故事改動，已提交並推送 `74dbc5b` 至 `origin/main`。其後新建的瑪雅頁和交接紀錄尚未 commit／push，沿用「先本機確認，再由使用者決定推送」的工作方式。若後續任務繼續，勿將本段「未推送」誤認為上一批中國改動也未推送。
+- 首頁／路由：`index.html` 新增 🌽 瑪雅／基切神話卡片，`data-region="americas"`，地區篩選加入「美洲」；註冊 `PANTHEONS.maya`、`openMaya()` 與專屬藍綠／金色主題 token，繼承現有首頁 3D 轉盤與共用圖譜、搜尋、詳情面板、節點編輯、邊界、群組及縮放器，沒有額外套框架或建立第二套渲染器。瑪雅面板沿用現有來源區，讀 `MY_NODE_SOURCES`／`MY_SOURCE_LIBRARY`，每個節點至少一個可點來源。
+- 主敘事／版型：目前 166 節點、25 群組、51 關係。首個《Popol Wuj》導覽節點置頂；創世議事→動物／泥人／木偶創造→七鸚鵡假日月與上一代球手分支→血女逃冥府及祖母玉米考驗→英雄雙子童年、老鼠取球具、冥府十二名領主席次與六屋試煉→雙子升日月、四百少年為星→黃白玉米造四初人→四對先民→圖蘭求火、守護神、曙光→哈卡維茨的祭儀與人群衝突→五子、三名出使者、王權信物→奇・基什／奇・伊茲馬奇／庫馬爾卡赫及後期王統。資料座標由上而下逐段展開；七鸚鵡與上一代家系、血女與雙子童年、圖蘭求火與哈卡維茨衝突、晚期兩處聚落都各自側枝，主要敘事不用方塊彼此孤立取代連線。
+- 群組／關係：22 個緊密群組在實際渲染中有可見外框；三個跨世代家系（基采→卡維克、阿卡布→尼哈伊卜、馬胡庫塔→阿豪・基切）因相隔太遠採 marker-only，點選時只亮組內 4–5 節點、其他 161 節點淡化。血緣只畫出明載的初人夫妻及子女、祖父母至雙子、血女與聚血；一胡納普的先妻與血女所生兒子分清，伊基・巴蘭無子不補假後代。守護神、創世稱號、敘事承接、職銜及戰事用具名非血緣線。群組第 4 欄直接存來源鍵，避免另用位置索引造成擴充時錯引。
+- 核對與修正：依[Christenson 的《Popol Vuh》英譯與註](https://www.mesoweb.com/publications/Christenson/PopolVuh.pdf)分頁對照；抄本史連[美國國會圖書館](https://www.loc.gov/item/2021668226/)，創世與當代基切脈絡比照[史密森尼美洲印第安人國家博物館](https://maya.nmai.si.edu/the-maya/creation-story-maya)。本輪將西巴爾巴四岔路從誤寫「黃路」改成本譯本的藍綠路；「包裹的榮耀」修正為四位先民留下。七鸚鵡不能直接等同所有古典瑪雅的主鳥神；庫庫馬茨人間領主不與創世羽蛇同節點；雙子升日月不擅定哪位為太陽；托希爾賜火的「獻胸」雙關、擄人獻祭與後期征服不粉飾為無代價神蹟。
+- 視覺修正：實測詳情面板開啟時 `highlightGroup()` 的 `fitGroup()` 原本用完整畫布寬度，群組右緣會壓在面板後。共用 `fitGroup()` 現改用扣除右側面板的可視寬度計算縮放與置中；桌面 1600×900 截圖確認創世群組外框完整留在面板左側。390×844 模擬手機截圖確認詳情面板可讀且按鈕、來源未溢出；這不是實體手機性能驗證。
+- 自動檢查：`tests/entry-performance.mjs` 擴充瑪雅頁校驗，現有 166 節點全部渲染、所有 ID 唯一、群組及關係參照有效、全頁節點無外框重疊、所有節點都有有效來源鍵，22 實體框／3 遠距標記符合預期，遠距家系點選後 5 亮／161 淡，沒有瀏覽器例外；同時回歸中國 956、佛教 494、日本 267 正常載入。可設 `MAYA_SCREENSHOT` 或 `MAYA_MOBILE_SCREENSHOT` 產生臨時 QA 圖。其他檢查與最後本機狀態以本節後續紀錄為準。
+
+### 同日續批：祖母召令與雙子復生（本機未推送）
+
+- 再增 13 節點、2 個緊密群組、4 條敘事連線，瑪雅頁現 **179 節點／27 群組／55 關係**。祖母的冥府召令由虱→塔馬祖爾蟾蜍→白生命蛇→獵隼傳到球場，連七日之約與出發前玉米標記；雙子預先囑修盧、帕卡姆兩預言者促使冥府領主研骨入河，五日後以魚人形、次日以貧童舞者形態重現。兩段皆依[Christenson 譯本第 140–143、163–166 頁](https://www.mesoweb.com/publications/Christenson/PopolVuh.pdf)逐段核對，不把祖母的傳訊動物當成四名冥府貓頭鷹，也不將雙子復生改成無由來的天降。
+- 自動檢查再跑：179 節點全渲染，24 個實體群組框、3 個跨世代 marker-only；無重複 ID、缺失群組／關係參照、缺失來源或節點外框重疊，遠距家系 5 亮／174 淡，無瀏覽器例外；中國／佛教／日本頁回歸通過。桌面與 390px 模擬手機詳情面板皆已截圖檢視。瑪雅仍未 commit／push。
+
+### 同日續批：古典瑪雅圖像平行分支（本機未推送）
+
+- 以大都會博物館[「古典瑪雅神靈」展覽解說](https://www.metmuseum.org/fr/exhibitions/gods-divinity-maya-art/visiting-guide)建立與《Popol Wuj》主線分開的 11 節點實體框群組：查克雨神、卡維爾閃電神、古典玉米神、伊察姆納赫可能讀名、基尼奇太陽神、主鳥神、四方與世界樹、古典創世曆日、冥府美洲豹神、楚文藝術守護意象。查克連[雨神陶盤](https://www.metmuseum.org/art/collection/search/718242)、玉米神連[玉飾](https://www.metmuseum.org/art/collection/search/317760)、主鳥神連[玉雕](https://www.metmuseum.org/art/collection/search/313262)、基尼奇連[石雕](https://www.metmuseum.org/art/collection/search/889934)；每個節點註明與基切文本不可自動同一，伊察姆納赫讀名標為不確定。原擬多加的泛用「器物來源」節點造成群組跨度過大且內容重複，已刪除，直接在神祇節點連藏品。
+- 瑪雅現 **190 節點／28 群組／56 關係**；25 群實體框、3 群跨世代標記，古典平行組亦成功畫框。測試結果：190 全渲染、零 ID 重複／引用遺失／來源缺漏／節點重疊／瀏覽器例外；遠距群 5 亮／185 淡，並已回歸中國、佛教、日本頁。這是本機測試與模擬桌面／手機檢視，尚未由使用者驗收或推送。
+
+### 同日續批：古典月神與王權器物（本機未推送）
+
+- 另外建立兩個與《Popol Wuj》家系分開的實體框群組：月與夜 6 節點（古典月女神、夜土新生、紡織、王后月神意象，以及**另標時地**的後期猶加敦伊什切爾）；王權玉器 6 節點（Ux Yop Hu’n 神面、登基紙頭帶、玉耳飾、四方加中央、玉與生命氣息）。古典王權頭帶和紙神的意義來自[大都會博物館玉墜說明](https://www.metmuseum.org/art/collection/search/319873)，四方／中央及玉的生命隱喻來自[該館玉耳飾說明](https://www.metmuseum.org/art/collection/search/317429)；冥府美洲豹神補上[具體陶器出處](https://www.metmuseum.org/art/collection/search/310607)。古典月神依[大都會博物館展覽解說](https://www.metmuseum.org/fr/exhibitions/gods-divinity-maya-art/visiting-guide)，後期猶加敦伊什切爾另連[館方地方歷史](https://82nd-and-fifth.metmuseum.org/toah/ht/08/cana.html)。未把主鳥神與七鸚鵡、古典月女神與伊什切爾、神話原初君王與基切王統畫成同一血緣人物。
+- 現 **202 節點／30 群組／60 關係**；27 個實體群框，3 個跨世代群組只標記並可點亮／淡化。瀏覽器自動核對：202 節點全渲染，零重複 ID、失效群組／關係引用、缺漏來源或外框重疊；跨世代點選 5 亮／197 淡，零瀏覽器例外，中國 956、佛教 494、日本 267 節點亦正常載入。瑪雅改動仍**沒有 commit 或 push**，等使用者本機確認後再推送。
+
+### 同日續批：後期瑪雅抄本的獨立來源分枝（本機未推送）
+
+- 首頁根節點的三條非血緣來源分枝現為「基切《Popol Wuj》故事」、「古典期器物圖像」和「後期倖存抄本」；避免把跨世紀的文本畫成一條親子線。第三支增 10 節點、1 實體框群組、2 條具名非血緣關係：德勒斯登、馬德里、巴黎與墨西哥四部倖存抄本；德勒斯登內的金星表、日月食表、查克雨神段落、洪水畫面；殖民時期焚書與文本失落。依[德勒斯登圖書館抄本逐頁導覽](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/content)、[館方其他抄本介紹](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/other-maya-codices)及[美國國會圖書館藏品說明](https://www.loc.gov/item/2021667917/)核對，未把後期抄本洪水當成基切木偶人毀滅的同一事件或推論現代末日。
+- 現 **212 節點／31 群組／62 關係**；28 實體群框、3 跨世代標記群。自動檢查 212 全渲染，ID／群組／關係／來源有效、節點外框零重疊、遠距點亮 5／淡化 207、無瀏覽器例外；中國 956、佛教 494、日本 267 亦能切換載入。未 commit／push，待使用者確認。
+
+### 同日群組視覺校驗與修正（本機未推送）
+
+- 實際桌面截圖發現「古典瑪雅器物與神祇圖像」11 個節點橫跨太寬，原先雖符合面積閾值而被畫框，點擊適應視野後卡片過小；依使用者規則改為遠距標記，點選仍亮出 11 名成員並淡化其他。另把鄰近的「雨神／閃電／玉米神」和「主鳥神／世界樹／創世曆日」各畫一個小實體框，避免整個古典分枝只剩標記。來源鍵仍留在 `MY_GROUPS` 第四欄，第五欄明確控制畫框，轉入共用 renderer 時才取畫框值，避免把來源陣列誤當 `drawBox` 布林值。手機 390×844 詳情面板亦已截圖檢視。
+- 本機現 **212 節點／33 群組／62 關係**；29 實體框、4 遠距標記（含古典總覽及 3 跨世代家系）。再次測試無節點重疊、失效來源或瀏覽器錯誤；仍未 commit／push。
+
+### 同日續批：古典雨神與玉米神的具體陶杯（本機未推送）
+
+- 依[大都會博物館藏 2014.632.1 彩繪陶杯](https://www.metmuseum.org/art/collection/search/662967)新增 5 節點和一個緊密實體框：查克劈開石造建物、起舞的玉米神、蛇口中的無名年長神，以及身分可能與夜間玉米神有關但銘文難讀的被縛人物。具名關係為同件器物場景、非血緣；對「可能復生」、「可能是夜間形態」都保留館方不確定語氣，未替無名人物造專名或與基切故事硬畫等號。
+- 目前 **217 節點／34 群組／64 關係**；30 個實體框、4 個遠距標記。217 全渲染，來源／引用／外框重疊／瀏覽器錯誤檢查均通過，跨世代點亮 5／淡化 212；仍是本機未推送批次。
+
+### 同日續批：聖巴托洛早期壁畫（本機未推送）
+
+- 新增 5 節點／1 實體框／2 條非血緣敘事連結：約西元前百年的聖巴托洛壁畫總覽、北壁洞口前的玉米神供奉、西壁龜殼鼓與起舞玉米神、世界樹與主鳥神的圖像學對照、登基與創世圖像。依[UNESCO 遺址資料](https://whc.unesco.org/en/tentativelists/5738)、[史密森尼美洲印第安人國家博物館舞蹈解說](https://b.asp.si.edu/exhibitions/circleofdance/index.html)、[金貝爾美術館北壁解說](https://kimbellart.org/news-and-stories/learn-story-behind-san-bartolo-north-wall-mural)、[美國考古學會壁畫保護計畫](https://www.archaeological.org/conservation-and-outreach-at-san-bartolo-guatemala/)及[大都會博物館主鳥神玉雕說明](https://www.metmuseum.org/art/collection/search/313262)核對。保留「圖像詮釋」而非確定與《Popol Wuj》每個人物同名的界線。
+- 現 **222 節點／35 群組／66 關係**；31 實體框、4 遠距標記。222 全渲染、零節點重疊／失效參照／來源缺漏／瀏覽器例外，遠距點亮 5／淡化 217；仍未 commit／push。
+
+### 同日續批：德勒斯登抄本的具名圖像（本機未推送）
+
+- 依[德勒斯登館方逐頁內容](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/content)補 5 節點、1 實體框、2 條敘事關係：抄本神像總覽、洪水頁的天鱷及查克・切爾老女神、K’in Ajaw 太陽神、Kimi 骷髏死神。第74頁傾水者的館方稱名保留括註，明確區分古典年輕月女神；Kimi 不與基切冥府的一死、七死合併；K’in Ajaw 不直接改寫英雄雙子的身分。這些連線都是同一抄本的圖像歸類，非血緣。
+- 現 **227 節點／36 群組／68 關係**；32 實體框、4 遠距標記。測試 227 全渲染，無外框重疊、來源／引用遺失或瀏覽器例外，遠距點亮 5／淡化 222；本批仍未 commit／push。
+
+### 同日進場視角修正（本機未推送）
+
+- 檢視初始視角發現共用 `fitInitial()` 對 133 排高的瑪雅圖強制總覽，根節點只有約 21px 寬，不符合使用者希望從上方一路往下閱讀的方式。只對 `currentPantheon==='maya'` 改為以頂端《Popol Wuj》導覽根節點為中心、桌面最大 0.85 倍、390px 手機最低 0.65 倍的閱讀視角；重置檢視與螢幕尺寸變化走同一規則，不影響其他神話頁的全圖初始視角。測試新增桌面與 390×844 行動視窗檢查，兩者根節點都完整位於可視範圍；資料、群組、搜尋和連線回歸仍通過。
+
+## 2026-09-27｜使用者回報古庫馬茲搜尋與初始總覽（本機未推送）
+
+- 根因：既有 `my_plumed_serpent` 把基切原文分列的 Tepew 主宰者與 Q’ukumatz 羽蛇合成「主宰者與羽蛇」，搜尋別名僅列 Qucumatz／羽蛇，漏了「古庫馬茲」等轉寫。依[Christenson 逐行基切／英文對照](https://www.mesoweb.com/publications/Christenson/PV-Literal.pdf)及[史密森尼基切創世導覽](https://maya.nmai.si.edu/the-maya/creation-story-maya)將原節點明名為「古庫馬茲／羽蛇神」，新增獨立的 Tepew／特佩烏節點並接至創世議事群組；保留後段同名人間領主為另一節點，二者不混為血緣。搜尋新增 Gukumatz、Gucumatz、Q’ukumatz、古庫馬茲等別名，且角色欄保留「人類的創造者之一」。
+- 使用者明確要求進頁顯示**全部**節點，因此撤下前批「只聚焦頂端」的瑪雅專用初始視角，改為共用 `fitInitial` 的全圖外接矩形總覽，但瑪雅允許低於其他頁面的 0.14 倍下限，滾輪與雙指縮放同樣可回到該倍率；其他頁初始行為不變。相對代價是 228 節點橫跨約 133 排，全圖總覽時卡片很小，精讀需放大或用搜尋聚焦。桌面與 390×844 測試皆驗證所有節點位於可視畫布、名稱／轉寫／角色搜尋都命中同一創世羽蛇節點；群組、來源、關係、外框重疊與其他頁回歸無誤。現 228 節點／36 群組／68 關係，瑪雅整批仍未 commit／push。
+
+### 同日續批：猶加敦聖地、古典黑水陶盤與活的神聖曆（本機未推送）
+
+- 奇琴伊察新增庫庫爾坎、卡斯蒂略、羽蛇光影、金星臺、查克穆爾人像、查克雨神建築裝飾等 8 節點；以[墨西哥 INAH 遺址說明](https://lugares.inah.gob.mx/en/node/4335)為來源，羽蛇光影補[INAH 天文觀測](https://www.inah.gob.mx/boletines/aspectos-calendaricos-y-astronomicos-de-el-castillo-de-chichen-itza-en-arqueologia-mexicana)，明言光影不僅分點當日可見。庫庫爾坎與基切古庫馬茲呈地方傳統對照，不畫血緣或無註合併；查克穆爾是人像類型，不等於雨神查克。
+- 增烏斯馬爾、圖盧姆共 13 節點及地方聖地導覽節點。烏斯馬爾組標明侏儒傳說一夜成塔與實際多期擴建的區別、查克雨神面具和同名人間查克領主的區別，來源為[INAH 烏斯馬爾](https://lugares.inah.gob.mx/es/node/4482)與[占卜師金字塔解說](https://lugares.inah.gob.mx/es/pagina-de-elemento/2805)。圖盧姆組依[INAH 遺址](https://lugares.inah.gob.mx/es/node/4361)及[下降神殿壁畫說明](https://lugares.inah.gob.mx/es/pagina-de-elemento/2799)記下降神、日月女神、金星、天象帶，未把有爭論的下降神姓名定死。
+- 增古典陶盤 7 節點，依[大都會博物館單件器物](https://www.metmuseum.org/art/collection/search/718242)記赤色查克、黑水與天然井、豹、玉米神、星斑鹿鱷、黑曜石擬人形；器物圖像與基切文字隔開，視覺形變不畫父子血緣。另增神聖曆、守日人、Wajxaqib’ B’atz’、阿盧什等 7 節點，取自[史密森尼曆法](https://maya.nmai.si.edu/calendar/calendar-system)與[傳統詞彙](https://maya.nmai.si.edu/glossary)，基切與猶加敦社群背景逐一標明。
+- 再以基切守日人團體 Komon Tohil 的[二十日名原始詮釋表](https://maya.nmai.si.edu/sites/default/files/resources/The%20Meaning%20of%20the%20Days%20in%20the%20Maya%20Sacred%20Calendar.pdf)補完整 20 日名、4 組順序導覽與 1 根節點（共 25 節點）。每名列基切／猶加敦對應名與個別象徵；不把日名化為二十名神。從神聖曆向下依序開枝，緊密組畫框，非血緣連線有明確標籤。
+- 累計 **289 節點／47 群組／86 關係**，43 個實體框、4 個遠距標記。`node tests/entry-performance.mjs` 驗證 289 節點全渲染，零重複 ID、漏群組／連線／來源、外框重疊或瀏覽器例外；桌面和 390px 手機初始全圖皆落於視窗，中文古庫馬茲搜尋聚焦與跨世代點亮／黯淡皆通過；中國 956、佛教 494、日本 267 節點回歸正常。截圖確認全圖總覽卡片很小，屬使用者要求「進頁即看到全部節點」的必要取捨；可再透過搜尋、放大查看。尚未 commit／push，未取得使用者本機視覺驗收。
+
+### 同日續批：阿蒂特蘭地方創世與《奇蘭・巴蘭書》文獻（本機未推送）
+
+- 增 7 個楚圖希爾社群地方節點：阿蒂特蘭湖、三火山托天、閃電使玉米萌生、教堂世界肚臍、帕卡利巴爾聖洞、雅克斯佩爾及導覽根節點。取自[Christenson 與阿蒂特蘭社群雕刻師的田野訪談](https://www.mesoweb.com/features/fabric/textindex.html)，明確標註其為當代楚圖希爾地方詮釋，不冒充基切《Popol Wuj》逐句內容；雅克斯佩爾與伊什切爾只記學者提出的可能對照，不硬併神名。
+- 增殖民期猶加敦《奇蘭・巴蘭書》群 4 節點：文書總覽、儀式曆法、預言及具名伊希爾本。以[大都會博物館殖民期年表](https://82nd-and-fifth.metmuseum.org/toah/ht/08/cana.html)與[UNESCO 世界記憶文獻](https://media.unesco.org/sites/default/files/webform/mow001/collection_of_mexican_codices.pdf)核對，指出多地文本與四部前殖民原始摺疊抄本不同；沒有把模糊預言編成現代末日故事。
+- 現 **300 節點／49 群組／89 關係**，45 實體框／4 跨遠標記。`node tests/entry-performance.mjs` 驗證所有節點渲染且零重疊、缺漏引用／來源、瀏覽器例外；桌面與 390px 手機初始全圖、搜尋和群組高亮皆通過。新增兩群均能畫實框。此輪仍未 commit／push。
+
+### 同日續批：宇宙樹、四方承天與活的農事儀式（本機未推送）
+
+- 新增宇宙圖式與承天神群 11 節點：木棉世界樹、四方中央、四位巴卡布、帕瓦赫通群、十三層天空、九層地下、奧什拉洪提庫、博隆提庫、阿・普奇／尤姆・基米爾及導覽節點。來源為[INAH 瑪雅宇宙觀展廳](https://lugares.inah.gob.mx/es/pagina-de-elemento/1421)、[INAH 對 Bacab／Pawahtun 的研究](https://investigacion.inah.gob.mx/_flysystem/fedora/2024-06/mm-el-mal-viento-entre-los-mayas-de-yucatan.pdf)與[史密森尼世界樹解說](https://maya.nmai.si.edu/the-maya/connecting-earth-and-sky)。「十三天／九地」是特定地方／博物館概述，與基切西巴爾巴試煉屋分開，未補造十三名天神或九名對應冥府領主。
+- 新增 4 個猶加敦農事儀式節點：供奉白水 Sac Ha’、Pa Puul 碎陶求雨、Wajikol 收穫儀式與導覽，依[史密森尼玉米曆法活傳統](https://maya.nmai.si.edu/corn-and-maya-time/corn-and-calendar-traditions)及[詞彙表](https://maya.nmai.si.edu/glossary)，明言不是基切 260 日新年 Wajxaqib’ B’atz’。群組採實體框；非血緣連線明示來源對照。
+- 瑪雅現 **315 節點／52 群組／95 關係**，48 群實體框／4 個遠距標記。自動瀏覽器驗證 315 節點皆出現且無重疊、漏來源／關係、重複 ID 或頁面例外；桌面／390px 手機總覽全圖皆在可視畫布，搜尋古庫馬茲與跨世代群組黯淡互動仍通過。仍未 commit／push。
+
+### 同日續批：帕倫克三神（本機未推送）
+
+- 新增古典帕倫克三神與十字神殿群 8 節點：導覽、三神始祖女神之研究假說、GI／GII／GIII 與各自十字神殿、十字葉神殿、太陽神殿。根據[墨西哥國家人類學博物館的三神解說](https://mna.inah.gob.mx/detalle_pieza_mes.php?id=275)及[David Stuart 對帕倫克銘文的研究](https://www.mesoweb.com/publications/Stuart/TXIX.s.pdf)。將 GI、GII、GIII 視為研究編號；始祖女神「母性創造者」為學術解讀，故用非血緣標籤，不畫成已證實親子，也不與基切英雄雙子或較晚抄本神祇無註合一。
+- 現 **323 節點／53 群組／100 關係**，49 群實體框／4 遠距標記。`node tests/entry-performance.mjs` 通過：全節點渲染、無漏來源或參照、零重疊／重複 ID／瀏覽器例外；桌面與 390px 手機全圖初始可見。新三神群能畫實體框。仍待使用者本機驗收，未 commit／push。
+
+### 同日續批：猶加敦口述異靈（本機未推送）
+
+- 新增口述傳統 9 節點：什塔拜、Huaay 化獸者、尤姆・巴蘭守護者；什塔拜的一種地方起源版本中的什克班、烏茨・科萊爾、什塔本通花、查卡姆仙人掌；化獸山羊及導覽節點。依[墨西哥國立自治大學口述材料實驗室田野計畫](https://lanmo.unam.mx/trazarelpaisaje/)、[什塔拜採錄](https://lanmo.unam.mx/trazarelpaisaje/dentidades.php?nentidad=1)、[Huaay 採錄](https://lanmo.unam.mx/trazarelpaisaje/dentidades.php?nentidad=4)與[UNAM 什克班版本整理](https://www.iifl.unam.mx/uploads/plantassagradasmayas/documentosPrivados/3.pdf)；特別註明各地版本不一、含殖民後意象，不以一版稱為所有瑪雅社群的古代唯一原典。既有阿盧什節點不重複建立。
+- 現 **332 節點／54 群組／104 關係**，50 實體框／4 遠距標記；`node tests/entry-performance.mjs` 全渲染、零重疊／缺引用／來源／例外，桌面與 390px 手機初始全圖在可視畫布。口述異靈群可實際畫框，非血緣連線已註明。未 commit／push。
+
+### 同日續批：商旅守護神、完整侏儒傳說與創世三石銘文（本機未推送）
+
+- 猶加敦商旅守護神埃克・楚亞與可可、商路、祈願、Chen Mul 雙面神像香爐增 5 節點。依[INAH 猶加敦博物館商貿展](https://www.inah.gob.mx/boletines/ek-chuah-el-comercio-entre-los-mayas-nueva-exposicion-del-museo-regional-de-antropologia-de-yucatan)及[香爐藏品](https://inah.gob.mx/foto-del-dia/incensario-chen-mul)；香爐右半可能為 God L／埃克・楚亞，沒有把推測寫成確定合體神。
+- 找到[史密森尼刊烏斯馬爾侏儒與總督故事全文](https://maya.nmai.si.edu/sites/default/files/resources/The%20Legend%20of%20the%20Dwarf%20and%20the%20Governor%20of%20Uxmal.pdf)，補老婦孵蛋、築通卡巴白石路、一夜建塔、玉米餅護頭與 cocoyol 硬果較力、地下水蛇共 6 節點，並擴寫原侏儒節點。三次試煉按該地方版本順序連線；每段明示是口述傳說，與多期建塔考古事實分開。原烏斯馬爾群擴框仍未碰到鄰群。
+- 依[史密森尼刊 Erik Velásquez 基里瓜 C 石碑逐字譯本](https://maya.nmai.si.edu/sites/default/files/resources/Quirigua%20Stela%20C%20Deciphered.pdf)增 8 節點：4 Ajaw 8 Kumk’u 神話日、原初三石火塘、划舟神、美洲豹／鯊魚／水石座、瓦克・昌・阿豪與導覽。稱為古典銘文創世敘事，不與基切文本合併；缺損神名不擅補。第一次布局與基切「寨牆木製假兵」同座標，測試抓到後整群移至右方，再跑零重疊。
+- 現 **351 節點／56 群組／109 關係**，52 實體框、4 遠距標記。`node tests/entry-performance.mjs` 最終通過：351 節點全渲染，來源、群組、關係參照完整，零外框重疊／瀏覽器例外；桌機和 390px 手機初始全圖可見。仍未 commit／push。
+
+## 2026-09-27｜God L 與兔神敘事延伸（本機待確認）
+
+- 依[墨西哥國家人類學博物館 God L 器物解說](https://mna.inah.gob.mx/detalle_pieza_mes.php?id=324)新增 6 個節點，包含研究上仍有爭議的 God L、T’ul 兔神及相關失物敘事。與埃克・楚亞及基切冥府眾神分開，關係標成非血緣的敘事承接，避免將異傳硬併成同一神譜。新組為緊密實體框並有個別可點來源。
+- 瑪雅現 **357 節點／57 群組／111 關係**；`node tests/entry-performance.mjs` 通過：357 節點全部渲染、53 實體框／4 遠距標記、無節點外框重疊、缺失來源／參照或頁面例外；桌機及 390px 手機初始全圖可見，古庫馬茲搜尋及遠距群組淡化互動通過。仍未 commit／push。
+
+## 2026-09-27｜古典陶杯神話與卡維爾王權器物（本機待確認）
+
+- 依[大都會博物館雨季陶杯](https://www.metmuseum.org/art/collection/search/314217)新增 7 節點：水蓮美洲豹、初雨查克、具生命的山體、死神／共靈、山蛇與抄本式陶器。館方未完全解讀原故事，故將查克「威嚇或舞蹈」、死神「可能與阿坎有關」等不確定處保留，不擅接為基切《Popol Wuj》人物。
+- 依[大都會博物館玉米與雨神陶杯](https://www.metmuseum.org/art/collection/search/662967)再增 7 節點：年老查克、裂開石殿、年輕玉米神、黑面被縛者、蛇口老神、初雨及導覽。銘文對被縛者身分難釋，將「可能是玉米神夜間形態」保留為可能性。兩件不同陶杯分開群組，沒有寫成同一場確證戰事。
+- 依[大都會博物館翡翠蛇首權杖殘件](https://www.metmuseum.org/art/collection/search/313325)再增 6 節點：可能的卡維爾權杖、額煙、化蛇之腿、有生命的神杖、即位「召現」等。殘件和蛇腿意義皆保留館方的不確定性，不把儀式擬人畫面當成物理事實。
+- 瑪雅現 **377 節點／60 群組／117 關係**，56 緊密群組畫框／4 遠距群組標記。`node tests/entry-performance.mjs` 通過：377 節點全渲染、無重複 ID、節點外框重疊、缺來源／關係及瀏覽器例外；桌機和 390px 手機初始全圖可見，古庫馬茲搜尋、選中遠距群組後其餘淡化仍通過。仍未 commit／push。
+
+## 2026-09-27｜哈伊納織女與月女地方故事（本機待確認）
+
+- 依[墨西哥國家人類學博物館哈伊納織女陶偶專文](https://mna.inah.gob.mx/detalle_pieza_mes.php?id=64)新增 13 節點：87 號墓織女哨笛、伊什切爾的織造與分娩職能、故事月女與祖父大地之主、隱日化蜂鳥、黑曜石鏡、雷之主、龜／蟹逃亡、蜻蜓和十三木段、月女再現、背帶織機活傳統。館方將實物、地方起源敘事與今日織造並列，本頁明確區分三者，不把陶偶畫面當成整篇故事刻本，也不把月女必然等同各時期伊什切爾圖像。
+- 新群橫跨 13 節點且過大，依既有群組幾何規則採 marker-only：點選僅亮本組、其他黯淡。現 **390 節點／61 群組／119 關係**，56 實體框／5 遠距標記；桌機與 390px 手機初始全圖、來源與關係、零重疊及無頁面例外檢查通過。仍未 commit／push。
+
+## 2026-09-27｜幼豹陶杯、主鳥神哨笛與納哈創世口述（本機待確認）
+
+- 依[大都會博物館幼豹陶杯](https://www.metmuseum.org/art/collection/search/310364)加 7 節點：神性幼豹、舞蹈青年查克、有靈山、夜間死神、螢火蟲、斑尾狗。畫中八字塊銘文不明，敘事採館方解讀並保留推測詞，不把幼豹編成基切創世家系成員。
+- 依[大都會博物館主鳥神雙腔哨笛](https://www.metmuseum.org/art/collection/search/310542)加 6 節點：跪獻者、獸形、蛇翼、注水鳴響、伊察姆納赫可能共靈等。實物西元四至五世紀，不將主鳥神與晚期基切七鸚鵡直接畫等號。
+- 依[墨西哥國家人類學博物館對納哈社群領袖 Chan K’in Viejo 口述的整理](https://mna.inah.gob.mx/detalle_pieza_mes.php?id=212)加 17 節點／2 緊密群組：卡科奇、花生三兄弟蘇昆基尤姆／阿・基揚托／哈查基尤姆、花中老者陶偶，及七層宇宙、五天、人界、洞穴神、玉米神阿・基因・喬布、地下基辛。區分納哈活傳統、古典陶偶比較和基切《Popol Wuj》；女婿關係有來源但不造無名女兒節點，十三天／九地下不與五天七層硬併。
+- 現 **420 節點／65 群組／127 關係**，60 緊密畫框／5 遠距標記。`node tests/entry-performance.mjs` 通過：420 全渲染、無外框重疊／缺來源／缺關係／頁面例外；桌機及 390px 手機初始全圖可見、古庫馬茲搜尋與群組淡化有效。仍未 commit／push。
+
+## 2026-09-27｜古典球戲的神話與托尼納歷史石板（本機待確認）
+
+- 依[墨西哥國家人類學博物館托尼納球戲石板專文](https://mna.inah.gob.mx/detalle_pieza_mes.php?id=378)新增 14 節點／2 個實體群組。神話支系含 pitz 球戲、地下黑淵 Ik’ Waynal、玉米神再生之 Yahxhaal Witznal、亞什奇蘭階梯三次黎明及斬首復醒三神、淡水蓮蛇神扮演與人格化球；歷史支系含托尼納 727 年石板、卡拉克穆爾／托尼納三位具名統治者、球具與政治結盟。館方指出圖中一名王當時已逝約十八年，故不能把石板當作同一天三人在場的照片；古典片段亦不可和基切英雄雙子比賽逐字合併。
+- 瑪雅現 **434 節點／67 群組／131 關係**，62 緊密畫框／5 遠距標記。`node tests/entry-performance.mjs` 通過：無重疊、漏來源／關係、重複 ID 或頁面例外，桌機和 390px 手機初始可見全圖。仍未 commit／push。
+
+## 2026-09-27｜內容去重：同一件雨神／玉米神陶杯（本機待確認）
+
+- 交叉核對來源 URL 後發現新建「破石殿的初雨與玉米神」7 節點與既有「查克與玉米神的陶杯」5 節點其實引用大都會博物館同一件藏品 `662967`。撤掉後建的重複 7 節點、1 群組及重複來源鍵；保留既有完整節點，將新分支連線接到原節點。這是本機未推送內容的去重，沒有刪除使用者既有資料。
+- 修正後現 **427 節點／66 群組／130 關係**，61 緊密框／5 遠距標記。`node tests/entry-performance.mjs` 再通過，零重複 ID、缺來源／關係、節點框重疊或瀏覽器例外；桌機、手機初始全圖與古庫馬茲搜尋有效。此數字覆蓋上一節的暫時計數；仍未 commit／push。
+
+## 2026-09-27｜胡納布・庫史料爭議與德勒斯登抄本兩分支（本機待確認）
+
+- 依[Noemí Cruz Cortés 對 López Cogolludo《猶加敦史》的史學研究](https://doi.org/10.19130/iifl.ecm.2019.53.960)加 3 節點，將胡納布・庫列為殖民文獻中的「唯一神」稱名並保留是否有前殖民淵源的爭論；不把可能的基督教譯稱硬畫成古典創世最高神，也不造其與伊察姆納赫的父子線。
+- 依[德勒斯登抄本館藏逐頁解說](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/content)及[館藏小冊](https://www.slub-dresden.de/fileadmin/groups/slubsite/Sammlungen/PDF_Sammlungen/SLUB-Maya-Codex_EN_20241101_RZ.pdf)加 11 節點／2 緊密群組：584 日金星週期、晨星凶兆、上層傾器神、中層戰神卡克・圖納爾、下層受擊者；另有月女神曆的「白色夫人」字形、醫治、疾病鳥與背負死神。保留圖頁間差異，不把金星占候改成一場真實戰爭、月女神圖像也不直接合併哈伊納地方故事。
+- 現 **441 節點／69 群組／136 關係**，64 實體框／5 遠距標記；`node tests/entry-performance.mjs` 通過 441 全渲染、來源／關係完整、無重疊或頁面例外，桌機和 390px 手機初始全圖可見。仍未 commit／push。
+
+## 2026-09-27｜帕卡爾王室與蜂神活傳統（本機待確認）
+
+- 依[INAH 帕卡爾石棺研究](https://revistas.inah.gob.mx/index.php/lakamha/article/download/18639/20006)、[大都會博物館帕倫克王室專文](https://www.metmuseum.org/pt/perspectives/golden-kingdoms-calakmul-palenque-maya-game-of-thrones)及[帕倫克銘文親緣整理](https://www.mesoweb.com/palenque/resources/rulers/PalenqueRulers-03.pdf)加 7 節點：帕卡爾、銘文神殿、石棺世界樹、玉米神再生圖像、玉製喪葬面具、紅后察克布・阿豪、其子坎・巴拉姆二世。父母／兒子的血緣線有銘文支持；石棺神話再生是圖像與宗教政治詮釋，不當作生理復活。
+- 依[INAH 東海岸蜂神與今日無螫蜂養殖](https://www.inah.gob.mx/boletines/en-quintana-roo-pervive-la-dulce-tradicion-de-la-meliponicultura-prehispanica)及[出土蜂巢石蓋與馬德里抄本報導](https://inah.gob.mx/boletines/hallan-vestigios-de-antigua-apicultura-maya-en-quintana-roo)加 6 節點：阿・穆森・卡布、原生無螫蜂、霍邦蜂巢、抄本記載、蜂蜜用途及導覽。東海岸下降蜂神不直接等同圖盧姆每一幅下降神像；實物器具和社群活技藝與神像分清。
+- 瑪雅現 **454 節點／71 群組／141 關係**，66 緊密框／5 遠距標記。`node tests/entry-performance.mjs` 通過，節點均有來源，無參照缺漏／框重疊／頁面例外，桌機與 390px 手機初始全圖可見。仍未 commit／push。
+
+## 2026-09-27｜墨西哥瑪雅抄本、療病文獻與猶加敦米爾帕（本機待確認）
+
+- 在 `index.html` 的 `MY_NODE_DEFS`／`MY_GROUPS`／`MY_UNIONS`／`MY_SOURCE_LIBRARY` 增加 17 節點、3 實體群組與對應非血緣連線。依[INAH 墨西哥瑪雅抄本研究](https://codicemayademexico.inah.gob.mx/interpretacion/)補金星四相、殘存十葉、受擊對象與曆日計數，和德勒斯登金星表明確分開；依[普林斯頓大學館藏](https://digital-collections.princeton.edu/i/ritual-bacabs-manuscript-between-17/item/959399f1-63ee-468a-bcb4-2e3ef0561a20/metadata)及[Cambridge 的伊什・洪・阿豪研究](https://www.cambridge.org/core/journals/ancient-mesoamerica/article/abs/filth-and-healing-in-yucatan-interpreting-ix-hun-ahau-a-maya-goddess/3FFA2E9B07EDE24F616AF76FFD836B57)補《巴卡布儀式書》六個節點，區分十八世紀末手稿與更早傳統；依[《Estudios de Cultura Maya》民族誌整理](https://www.scielo.org.mx/scielo.php?pid=S0185-25742011000100005&script=sci_arttext)補林主、風主、雨主及米爾帕麵餅供奉六個節點，不把林主無註等同古典玉米神。
+
+## 2026-09-27｜辨名審核與雅克斯奇蘭王室門楣（本機待確認）
+
+- 依[INAH《Cuicuilco》史料重審](https://revistas.inah.gob.mx/index.php/cuicuilco/article/download/16565/18043?inline=1)加 4 個「伊什塔布」辨名節點與實體框。保留早期「自殺女神」舊讀供搜尋，明示新研究不支持把她確立為古代獨立神，也不與什塔拜混同；避免編造職掌、祭祀或血緣。
+- 依[英國博物館門楣 24–26 解說](https://www.britishmuseum.org/blog/history-storytelling-through-pictures)及[門楣 25 藏品記錄](https://www.britishmuseum.org/collection/image/423948001)加 7 節點與實體框：朔克夫人、伊察姆納赫・巴拉姆二世、穿舌放血、幻視之蛇、蛇口人物身分爭議及豹盔授權。與古典王權用非血緣標籤相連；歷史王后、祖靈辨讀、基切羽蛇神各自分層。
+- `tests/entry-performance.mjs` 實測瑪雅 **482 節點／76 群組／151 關係**全部渲染；71 群畫實體框、5 群因跨距採點亮／黯淡標記，無節點外框重疊、重複 ID、漏群組／來源／關係或瀏覽器例外。桌機與 390px 手機初始全圖可見，古庫馬茲名稱搜尋通過；中國、佛教、日本共用渲染回歸亦通過。本機改動未 commit／push，等待使用者檢查。
+
+## 2026-09-27｜《拉比納爾勇士》舞劇與活傳統（本機待確認）
+
+- 依[聯合國教科文組織非物質文化遺產記錄](https://ich.unesco.org/en/RL/rabinal-ach-dance-drama-tradition-00144)，在 `index.html` 加 10 節點、1 個緊密實體框、2 條非血緣關係及逐節點來源：拉比納爾／基切兩位勇士、霍卜・托赫王、阿奇・蒙侍者、綠羽母親、卡胡尤布、十三鷹與十三豹、祖靈面具及聖保祿節演出。以 `maya_note` 連到獨立劇本分支，標示十五世紀王族舞劇、殖民後節慶與今日傳承的時間層次；不併入《波波爾・烏》族譜，亦不將角色稱號硬接神祇血緣。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **492 節點／77 群組／153 關係**，72 個緊密框、5 個跨距標記；全節點渲染，零重疊／重複 ID／漏來源／缺關係／頁面例外。桌機與 390px 手機初始視角包含全部節點，古庫馬茲搜尋、分散群組黯淡互動及其他頁面回歸通過。仍未 commit／push。
+
+## 2026-09-27｜《卡克奇克爾編年史》平行起源敘事（本機待確認）
+
+- 核對[卡克奇克爾原文與 Brinton 1885 英譯第 1–5、16、21–22 節](https://www.gutenberg.org/files/20775/20775-h/20775-h.htm)，在 `index.html` 新增 11 節點、1 緊密群組、2 條非血緣關係：卡卡維茨／薩克特卡烏祖先聲音、四圖蘭、黑曜石初人、帕希爾的郊狼與烏鴉、蒂烏・蒂烏所取蛇與貘血、紅樹杖分海砂、森林之心薩基・科索爾、科薩希爾與科巴基爾、說話森林地名。它是卡克奇克爾家族文書，不是基切《波波爾・烏》的同一版本；故不用共同血緣、確證地理或現代生物學口吻。逐節點指向可檢查原典。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **503 節點／78 群組／155 關係**，73 個緊密框、5 個跨距標記；零重疊、缺群組／關係／來源、重複 ID 或頁面例外，桌機及 390px 手機初始全圖可見，創世者搜尋和跨距群組淡化通過。未 commit／push。
+
+## 2026-09-27｜馬姆社群 Nan Pa’ch 玉米感恩儀式（本機待確認）
+
+- 依[聯合國教科文組織活傳承記錄](https://ich.unesco.org/en/USL/nan-pach-ceremony-00863)及[保護決議](https://ich.unesco.org/en/Decisions/6.COM/8.7)，在 `index.html` 新增 8 節點、1 緊密實體框、2 非血緣線和逐節點來源，涵蓋四位祈禱者／四助手、四位玉米教母、穿衣玉米穗、舞蹈與馬林巴、權威木杖、四處十字架以及傳承困境。區分馬姆社群今日豐收謝恩、基切《波波爾・烏》玉米造人及殖民後天主教場域；不把真人祭司當神族、服飾玉米穗當古典神祇標準畫像。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **511 節點／79 群組／157 關係**，74 實體框、5 遠距標記；節點均可渲染，無重疊、漏關係／來源或例外；桌機與 390px 手機初始全圖可見。另 `node tests/zoom-queue.test.js` 通過，共用縮放佇列與圖譜裁切正常。未 commit／push。
+
+## 2026-09-27｜長紀曆與 2012 末日誤讀的來源對照（本機待確認）
+
+- 依[史密森尼長紀曆計數解說](https://maya.nmai.si.edu/calendar/maya-calendar-converter)、[十三巴克屯／基里瓜與托爾圖格羅銘文對照](https://maya.nmai.si.edu/2012-resetting-count/meaning-of-2012)及[德勒斯登館藏曆法說明](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/calendar)，在 `index.html` 新增 6 節點、1 緊密實體框與 3 條非血緣線。說明長紀曆五級計數、十三巴克屯、4 Ajaw 8 Kumk’u 創世日、托爾圖格羅第六號碑及「2012 世界末日」誤讀；與既有基里瓜 C 石碑用來源對照線連接，未重複造出另一塊石碑，也未將天文占候說成真實毀滅事件。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **517 節點／80 群組／160 關係**，75 實體框、5 遠距標記；全渲染、來源／關係／群組完整、零外框重疊或瀏覽器例外，桌機及 390px 手機初始全圖可見。未 commit／push。
+
+## 2026-09-27｜巴黎抄本的卡屯與動物星象（本機待確認）
+
+- 依[德勒斯登州立暨大學圖書館對巴黎抄本的館藏整理](https://www.slub-dresden.de/en/explore/manuscripts/the-dresden-maya-codex/other-maya-codices)、[史密森尼瑪雅星象解說](https://maya.nmai.si.edu/calendar/calendar-system)及[博南帕克壁畫資料](https://maya.nmai.si.edu/gallery/bonampak)，在 `index.html` 新增 7 節點、1 緊密實體框、2 非血緣線及逐節點來源：十一葉殘本、十三卡屯循環、時段守護神與供品、巴黎本查克曆、動物星象、龜／獵戶座以及野豬／昴宿對照。保留 1300–1500 年年代範圍與殘頁限制；星座跨文化比照不等於希臘神話人物，博南帕克壁畫亦非巴黎抄本的同一頁。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **524 節點／81 群組／162 關係**，76 實體框、5 遠距標記；全節點渲染、無重疊、缺來源／群組／關係或例外，桌機及 390px 手機初始可見全圖。仍未 commit／push。
+
+## 2026-09-27｜博南帕克王室壁畫與星象（本機待確認）
+
+- 依[史密森尼博南帕克遺址壁畫導覽](https://maya.nmai.si.edu/gallery/bonampak)，在 `index.html` 新增 8 節點、1 緊密實體框及 2 非血緣線：昌・穆萬王、二室戰事與戰俘、野豬／龜星象、三室兔夫人與王族放血、今日拉坎東社群和遺址。以古典王權分支承接，對應巴黎抄本動物星象但不畫成同一畫卷；王室人物、傷害事件、宇宙象徵與活社群各有分層，兔夫人身分以館方「可能」語氣標示，未與同名兔神合併。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **532 節點／82 群組／164 關係**，77 實體框、5 遠距標記；全數渲染、零重複 ID／漏來源／漏關係／節點重疊／瀏覽器例外，桌機與 390px 手機進頁總覽全圖可見。仍未 commit／push。
+
+## 2026-09-27｜古典戰蛇圖像的跨遺址辨讀（本機待確認）
+
+- 依[Karl Taube 對古典瑪雅戰蛇圖像的比較研究](https://www.mesoweb.com/publications/Works1/Taube%5B1992%5D2018b.pdf)及[英國博物館門楣 25 館藏](https://www.britishmuseum.org/collection/image/423948001)，在 `index.html` 新增 6 節點、1 緊密實體框和 2 非血緣線，介紹王者頭飾、吐火響尾蛇、蒂卡爾門楣、雅克斯奇蘭幻視蛇及提奧提華坎圖像影響。明示「戰蛇」是圖像研究辨讀，不等於所有羽蛇神同一位，也不把蛇口人物定名為無爭議祖神。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **538 節點／83 群組／166 關係**，78 實體框、5 遠距標記；全數渲染、無重疊／漏來源／漏關係／漏群組或例外，桌機及 390px 手機初始全圖可見。未 commit／push。
+
+## 2026-09-27｜科潘羅莎莉拉神殿的王朝神話圖像（本機待確認）
+
+- 依[史密森尼科潘遺址圖像導覽](https://maya.nmai.si.edu/gallery/copan)、[INAH 科潘灰泥保存研究](https://mediateca.inah.gob.mx/repositorio/islandora/object/libro%3A401/datastream/OBJ/view)及[聯合國教科文組織羅莎莉拉保存報告](https://whc.unesco.org/document/116601)，在 `index.html` 新增 7 節點、1 緊密實體框與 2 非血緣線：王朝開創者基尼奇・亞什・庫克・莫、天鳥神與伊察姆納赫構圖、正面太陽神灰泥、Witz 有靈山與蛇、埋藏於後期神殿下的羅莎莉拉原建築，以及科潘持兔的月象徵。區分王者神聖化的造像、考古建築年代與真正創世神，不把王名所含鳥義轉成神獸血緣。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **545 節點／84 群組／168 關係**，79 實體框、5 遠距標記；全節點渲染、無重疊、缺來源／關係／群組或頁面例外，桌機與 390px 手機初始可見全圖。未 commit／push。
+
+## 2026-09-27｜《托托尼卡潘地權文書》的基切異文（本機待確認）
+
+- 依[科羅拉多大學出版社 Christenson 英譯介紹](https://www.upcolorado.com/university-press-of-colorado/the-title-of-totonicapan)、[UNAM 手稿版本書目](https://www.iifilologicas.unam.mx/chiifl9/doku.php/el_t%C3%ADtulo_de_totonicap%C3%A1n)及[所收舊西譯原文](https://filosofiamexicana.org/wp-content/uploads/2012/11/de-la-garza-mercedes-comp-literatura-maya.pdf)，在 `index.html` 新增 8 節點、1 緊密實體框及 2 非血緣線：1554 年地權文書、三支系簽署、七洞七峽與圖蘭起源、納希特權威贈物、殖民時期聖經敘事交織及與《波波爾・烏》的異文邊界。不能把殖民後的亞當／以色列等敘述倒寫為前殖民基切創世原典；文書是政治／土地與祖先記憶，不是神祇血緣表。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **553 節點／85 群組／170 關係**，80 實體框、5 遠距標記；所有節點可渲染，零重複、漏來源／關係／群組、外框重疊或瀏覽器例外，桌機和 390px 手機初始全圖可見。未 commit／push。
+
+## 2026-09-27｜《奇蘭・巴蘭書》楚馬耶爾本世界更新（本機待確認）
+
+- 依[Roys 英譯第十章](https://sacred-texts.com/book/the-book-of-chilam-balam-of-chumayel/shell/x-the-creation-of-the-world)、[第十三章](https://sacred-texts.com/book/the-book-of-chilam-balam-of-chumayel/shell/xiii-the-creation-of-the-uinal)、[史密森尼書目](https://www.si.edu/object/book-chilam-balam-chumayel-translated-ralph-l-roys-introd-j-eric-s-thompson%3Asiris_sil_11756)及[墨西哥國立自治大學研究](https://www.iifl.unam.mx/uploads/plantassagradasmayas/documentosPrivados/9.pdf)，新增 12 節點、1 緊密實體框、2 條非血緣關係：天塌與水湧、四巴卡布、北白／西黑／南黃樹、中央綠樹、十三神與九神稱名、日名造物、四方引路使者、阿・烏克・切克納爾、伊察姆・卡布・艾因。來源逐節點由群組鍵繼承；以既有《奇蘭・巴蘭書》節點連至本段，不納入《波波爾・烏》基切血緣。
+- 核對原文後修正最初暫擬的「四方樹」標題：第十章此段未列東方紅樹，只列三方色樹與中央綠樹；同書第一章另有東方紅木棉樹，不能偷渡至第十章。西方引路者原文名 Lahun Chaan，不強行改成 Piltec。把新增的五節點移至第二列後，群組由跨距標記恢復實體框。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **565 節點／86 群組／172 關係**，81 實體框、5 遠距標記；全節點渲染、無重複／漏來源／漏關係／外框重疊或瀏覽器例外，桌機與 390px 手機初始全圖可見，古庫馬茲可搜尋。仍未 commit／push。
+
+## 2026-09-27｜楚馬耶爾本四方祭儀與烏納克・塞爾王權記憶（本機待確認）
+
+- 依[Roys 英譯第一章四方儀式](https://sacred-texts.com/book/the-book-of-chilam-balam-of-chumayel/shell/i-the-ritual-of-the-four-world-quarters)新增 8 節點、1 緊密框、2 條非血緣關係。第一章把東紅、北白、西黑、南黃連到木棉、燧石、玉米和野蜂；東紅樹確實在第一章，不在前批所引第十章天崩段落。另補金・帕瓦赫通作科蘇梅爾蜂群祭司、阿・胡爾內布為受守護神祇，保留 Roys 註的身分推測，不強併現有蜂神與帕瓦赫通群。
+- 依[楚馬耶爾本第二章原文及譯註](https://sacred-texts.com/nam/maya/cbc/cbc07.htm)新增 9 節點、1 緊密框、2 條非血緣關係：烏納克・塞爾、奇琴伊察聖井、投井問卜、阿・梅什・庫克、鷹母象徵語、查克・希卜・查克、瑪雅潘與奇琴伊察權力轉折、馬尼與蒂齊明異文。暴力與權力正當化須如實註記，政治人物不因同名雨神而轉成神祇，也不把殖民編年文書當成無爭議考古年表。
+- `node tests/entry-performance.mjs` 通過：瑪雅現 **582 節點／88 群組／176 關係**，83 實體框、5 跨距標記；全節點渲染、零重複、缺來源／關係／群組、節點外框重疊或瀏覽器例外。桌機與 390px 手機初始全圖可見，古庫馬茲搜尋成功；佛教、日本與中國共用渲染回歸通過。本機尚未 commit／push。
+
+## 2026-09-27｜德勒斯登年承者與瓦耶卜新年儀式（本機待確認）
+
+- 依[Vail 與 Looper 發表於《Estudios de Cultura Maya》的研究](https://revistas-filologicas.unam.mx/estudios-cultura-maya/index.php/ecm/article/download/135/136/136)、[史密森尼曆法說明](https://maya.nmai.si.edu/calendar/calendar-system)和[美國國會圖書館的德勒斯登抄本館藏目錄](https://www.loc.gov/item/2021667917/)，在 `index.html` 新增 9 節點、1 緊密框及 2 非血緣關係：Wayeb 五日過渡、十六世紀猶加敦四年承日、德勒斯登較早／不同的年承日、舊新守護者交替、方向神祇組合、akantun 立石／年樹的研究辨讀、乾旱與豐收歲占及五十二年曆輪。以既有 Haab 節點導向，不重複造神也不把 260 日基切 Wajxaqib’ B’atz’ 當成同一個 365 日新年。
+- 清楚標記論文對德勒斯登第 25–28 頁、蘭達記錄與現代比較的詮釋層；抄本日名的曆位有學術爭論，akantun 亦可能是石筍意象。不可把跨時代資料合併為一套全瑪雅一致的固定儀式，或把占候寫成既成氣象事實。
+- `node tests/entry-performance.mjs` 通過：瑪雅 **591 節點／89 群組／178 關係**，84 個可見實體群組框、5 個跨距標記；所有節點有來源並已渲染，無重複／漏連線／外框重疊或頁面例外。桌機與 390px 手機初始全圖可見，古庫馬茲搜尋成功；中國、佛教、日本共用渲染回歸通過。未 commit／push。
