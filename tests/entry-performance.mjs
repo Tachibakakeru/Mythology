@@ -108,6 +108,63 @@ try {
   console.log(JSON.stringify({mayaMobile}, null, 2));
   if(!mayaMobile.allVisible) process.exitCode=1;
   await request('Emulation.clearDeviceMetricsOverride');
+  const aztec = await evaluate(`(() => {
+    openAztec();
+    const ids=AZ_NODE_DEFS.map(n=>n[0]), known=new Set(ids), seen=new Set(), bounds=wrap.getBoundingClientRect();
+    const duplicates=ids.filter(id=>seen.has(id)||!seen.add(id));
+    const malformed=AZ_NODE_DEFS.filter(d=>d.length<7||typeof d[3]!=='string'||!Number.isFinite(d[4])||!Number.isFinite(d[5])||!d[6]).map(d=>d[0]);
+    const badStyles=AZ_UNIONS.filter(u=>u.spouses&&!['primary','secondary','partner'].includes(u.marriage)).map(u=>u.label);
+    const missingGroups=AZ_GROUPS.flatMap(([name,members])=>members.filter(id=>!known.has(id)).map(id=>name+':'+id));
+    const missingRelations=AZ_UNIONS.flatMap(u=>[u.parent,...(u.spouses||[]),...(u.children||[])].filter(id=>id&&!known.has(id)));
+    const linked=new Set(AZ_UNIONS.flatMap(u=>[u.parent,...(u.spouses||[]),...(u.children||[])].filter(Boolean)));
+    const orphans=ids.filter(id=>!linked.has(id));
+    const missingSources=ids.filter(id=>!AZ_NODE_SOURCES[id]?.length||AZ_NODE_SOURCES[id].some(k=>!AZ_SOURCE_LIBRARY[k]));
+    const missingPanels=ids.filter(id=>{openPanel(nodes[id]); return !document.querySelector('#p-sources a');});
+    const edgeIntrusions=[...svg.querySelectorAll('.edge')].flatMap(path=>{const hits=new Set(),len=path.getTotalLength();for(let s=0;s<=len;s+=8){const p=path.getPointAtLength(s);for(const n of Object.values(nodes))if(p.x>n.px+3&&p.x<n.px+NODE_W-3&&p.y>n.py+3&&p.y<n.py+n.h-3)hits.add(path.dataset.uid+':'+n.id);}return [...hits];});
+    closePanel();
+    const overlap=Object.values(nodes).flatMap(a=>Object.values(nodes).filter(b=>b.id>a.id&&a.px<b.px+NODE_W-2&&a.px+NODE_W>b.px+2&&a.py<b.py+b.h-2&&a.py+a.h>b.py+2).map(b=>a.id+':'+b.id));
+    const boxes=[...stage.querySelectorAll('.groupbox')], markerNames=boxes.filter(el=>el.classList.contains('marker-only')).map(el=>AZ_GROUPS[+el.dataset.gi][0]);
+    fitInitial();
+    const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=bounds.left-2&&a.right<=bounds.right+2&&a.top>=bounds.top-2&&a.bottom<=bounds.bottom+2;});
+    const search=[['羽蛇神','az_quetzalcoatl'],['Quetzalcoatl','az_quetzalcoatl'],['惠齊洛波契特利','az_huitzilopochtli'],['五個太陽','az_suns'],['太陽傳說','az_leyenda'],['托皮爾津','az_topiltzin'],['黑曜石蝴蝶','az_itzpapalotl'],['新火典禮','az_new_fire'],['阿茲特蘭','az_aztlan'],['鹽女神','az_huixtocihuatl'],['Huehueteotl','az_xiuhtecuhtli'],['淨化女神','az_tlazolteotl'],['花王','az_xochipilli'],['Centeotl','az_cinteotl'],['二十日名','az_day_signs'],['Tóxcatl','az_toxcatl'],['我們的祖母','az_toci']].every(([q,id])=>matchNodes(q).some(n=>n.id===id));
+    const cross=AZ_GROUPS.findIndex(([name])=>name==='跨故事的主要神祇'); highlightGroup(cross);
+    const lit=stage.querySelectorAll('.node:not(.dim)').length, expectedLit=AZ_GROUPS[cross][1].length;
+    highlightGroup(AZ_GROUPS.findIndex(g=>g[0]==='九位夜主（跨故事神格）'));
+    const nightLit=stage.querySelectorAll('.node:not(.dim)').length;
+    const newSearch=[['九夜主','az_night_lords'],['山之心','az_tepeyollotl'],['灶火女神','az_chantico'],['寶玉火雞神','az_chalchiuhtotolin'],['墨西哥人圖畫史','az_paintings']].every(([q,id])=>matchNodes(q).some(n=>n.id===id));
+    return {nodes:ids.length,rendered:stage.querySelectorAll('.node').length,groups:AZ_GROUPS.length,relations:AZ_UNIONS.length,duplicates,malformed,badStyles,missingGroups,missingRelations,orphans,missingSources,missingPanels,overlap,edgeIntrusions,boxed:boxes.length-markerNames.length,markerNames,allVisible,search,lit,expectedLit,nightLit,newSearch,region:document.querySelector('.myth-icon[onclick="openAztec()"]').dataset.region};
+  })()`);
+  console.log(JSON.stringify({aztec,pageErrors},null,2));
+  if(aztec.nightLit!==9||!aztec.newSearch)process.exitCode=1;
+  if(aztec.nodes!==aztec.rendered||aztec.boxed!==aztec.groups-3||aztec.markerNames.length!==3||!aztec.allVisible||!aztec.search||aztec.lit!==aztec.expectedLit||aztec.region!=='americas'||['duplicates','malformed','badStyles','missingGroups','missingRelations','orphans','missingSources','missingPanels','overlap','edgeIntrusions'].some(k=>aztec[k].length)||pageErrors.length) process.exitCode=1;
+  const aztecExport=await evaluate(`(async()=>{let saved;const create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click,original=LIVE_EDITS.aztec.az_note;try{LIVE_EDITS.aztec.az_note={name:'匯出驗證 $&'};URL.createObjectURL=blob=>{saved=blob;return 'blob:test';};HTMLAnchorElement.prototype.click=()=>{};await exportHTML();return (await saved.text()).includes('const AZTEC_USER_EDITS = '+JSON.stringify(LIVE_EDITS.aztec)+';');}finally{URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;if(original)LIVE_EDITS.aztec.az_note=original;else delete LIVE_EDITS.aztec.az_note;}})()`);
+  console.log(JSON.stringify({aztecExport},null,2));if(!aztecExport)process.exitCode=1;
+  await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  const aztecMobile=await evaluate(`(async()=>{clearHighlight();closePanel();fitInitial();const b=wrap.getBoundingClientRect();const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=b.bottom+2;});focusNode('az_quetzalcoatl');await new Promise(r=>setTimeout(r,1000));const n=stage.querySelector('.node[data-id="az_quetzalcoatl"]').getBoundingClientRect(),p=document.getElementById('panel').getBoundingClientRect();return {allVisible,panelVisible:p.width>0&&p.left>=-2&&p.right<=392,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.bottom<=p.top+2,sourceLinks:document.querySelectorAll('#p-sources a').length};})()`);
+  console.log(JSON.stringify({aztecMobile},null,2));
+  if(!aztecMobile.allVisible||!aztecMobile.panelVisible||!aztecMobile.nodeVisible||!aztecMobile.sourceLinks) process.exitCode=1;
+  if(process.env.AZTEC_MOBILE_SCREENSHOT){const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.AZTEC_MOBILE_SCREENSHOT,Buffer.from(shot.data,'base64'));}
+  const mobileFocus={};
+  for(const key of ['japan','buddhism','china','maya']){
+    await evaluate(`openPantheon('${key}')`);
+    await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    await evaluate('focusNode(NODE_DEFS[0][0])');
+    // 大型長圖在 headless Chromium 中可能晚一畫格才提交動畫；等實際矩陣到目標，不猜固定延遲。
+    for(let i=0;i<60;i++){
+      if(await evaluate('Math.abs(new DOMMatrix(getComputedStyle(stage).transform).a-scale)<0.001'))break;
+      await new Promise(resolve=>setTimeout(resolve,100));
+    }
+    await new Promise(resolve=>setTimeout(resolve,300));
+    mobileFocus[key]=await evaluate(`(()=>{const a=stage.querySelector('.node[data-id="'+NODE_DEFS[0][0]+'"]').getBoundingClientRect(),b=wrap.getBoundingClientRect(),p=panel.getBoundingClientRect();return {visible:a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=p.top+2,left:a.left,right:a.right,top:a.top,bottom:a.bottom,panelTop:p.top};})()`);
+  }
+  console.log(JSON.stringify({mobileFocus},null,2));if(Object.values(mobileFocus).some(v=>!v.visible))process.exitCode=1;
+  await request('Emulation.clearDeviceMetricsOverride');
+  if(process.env.AZTEC_SCREENSHOT){
+    await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
+    await evaluate('openAztec();closePanel();highlightGroup(AZ_GROUPS.findIndex(g=>g[0]==="昌蒂科：家火與化犬異文"))');await new Promise(r=>setTimeout(r,1400));
+    const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.AZTEC_SCREENSHOT,Buffer.from(shot.data,'base64'));
+  }
+  await evaluate('openMaya()');
   if (process.env.MAYA_INITIAL_SCREENSHOT) {
     await request('Emulation.setDeviceMetricsOverride', { width: 1600, height: 900, deviceScaleFactor: 1, mobile: false });
     await evaluate('clearHighlight(); closePanel(); fitInitial()');
@@ -131,6 +188,27 @@ try {
     const shot=await request('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
     writeFileSync(process.env.MAYA_MOBILE_SCREENSHOT, Buffer.from(shot.data,'base64'));
   }
+  // 自有 headless 預覽驗證：模擬已保存檔案的 revision 差異，不改專案檔或使用者偏好。
+  await request('Page.navigate',{url:'http://127.0.0.1:7788/tools/preview.html'});
+  for(let i=0;i<60;i++){
+    if(await evaluate("document.getElementById('preview')?.contentDocument?.querySelector('#stage .node')!==null && !!document.getElementById('preview')?.contentDocument?.querySelector('#stage .node')"))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  const preview=await evaluate(`(async()=>{
+    const before=frame.contentDocument.querySelectorAll('#stage .node').length;
+    revision='test-previous-revision';await check();
+    const reloaded=frame.getAttribute('src').includes('?preview=');
+    return {before,reloaded,expected:${aztec.nodes}};
+  })()`);
+  for(let i=0;i<60;i++){
+    if(await evaluate(`document.getElementById("preview")?.contentWindow?.location.search.startsWith('?preview=') && document.getElementById("preview")?.contentDocument?.querySelectorAll("#stage .node").length===${aztec.nodes}`))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  preview.after=await evaluate('frame.contentDocument.querySelectorAll("#stage .node").length');
+  preview.status=await evaluate('document.getElementById("status").textContent');
+  preview.page=await evaluate('frame.contentDocument.getElementById("japan")?.dataset.pantheon');
+  console.log(JSON.stringify({preview},null,2));
+  if(preview.before!==preview.expected||preview.after!==preview.expected||!preview.reloaded)process.exitCode=1;
   if (process.env.PROFILE === '1') {
     const { profile } = await request('Profiler.stop');
     const counts = new Map();

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>神話圖譜・本地即時預覽</title>
+<style>
+html,body{margin:0;height:100%;background:#080e1b;color:#8bc7ef;font:14px system-ui}body{display:flex;flex-direction:column}header{padding:8px 12px}iframe{flex:1;width:100%;border:0;min-height:0}span{margin-left:12px;color:#a9b9ce}
+</style>
+<header>阿茲特克／墨西加・本地即時預覽<span id="status">讀取中…</span></header>
+<iframe id="preview" src="../index.html" title="神話圖譜"></iframe>
+<script>
+const frame=document.getElementById('preview'),status=document.getElementById('status');
+let page='aztec',revision='',checking=false;
+frame.addEventListener('load',()=>{
+  frame.contentWindow.openPantheon(page);
+  status.textContent='已更新 '+new Date().toLocaleTimeString('zh-TW')+'（存檔後自動更新）';
+});
+async function check(){
+  if(checking)return;
+  checking=true;
+  try{
+    const response=await fetch('../index.html',{method:'HEAD',cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const next=response.headers.get('last-modified')+'|'+response.headers.get('content-length');
+    if(revision&&next!==revision){
+      page=frame.contentWindow.document.getElementById('japan').dataset.pantheon||page;
+      frame.src='../index.html?preview='+Date.now();
+    }
+    revision=next;
+  }catch{status.textContent='預覽伺服器暫時無法連線，稍後重試';}
+  finally{checking=false;}
+}
+// 僅此開發入口輪詢；正式 index 不載入它，也不寫入使用者的編輯或偏好。
+if(['127.0.0.1','localhost'].includes(location.hostname)){check();setInterval(check,5000);}
+</script>
+</html>
