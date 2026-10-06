@@ -78,6 +78,25 @@ try {
   const sharedRender = await evaluate(`(() => { const out={}; for(const key of ['buddhism','japan']) { openPantheon(key); out[key]={data:Object.keys(nodes).length,rendered:stage.querySelectorAll('.node').length}; } return out; })()`);
   console.log(JSON.stringify({sharedRender,pageErrors}, null, 2));
   if (Object.values(sharedRender).some(v=>!v.data||v.data!==v.rendered)||pageErrors.length) process.exitCode=1;
+  const miyajidake = await evaluate(`(()=>{
+    const out=[];
+    for(const lang of ['zh-TW','ja']){
+      openPantheon('japan');if(japanLocale!==lang)toggleJapanLocale();
+      const ids=['jingu','katsumura','katsuyori'];
+      const overlap=ids.flatMap(id=>{const a=nodes[id];return Object.values(nodes).filter(b=>b.id!==id&&a.px<b.px+NODE_W-2&&a.px+NODE_W>b.px+2&&a.py<b.py+b.h-2&&a.py+a.h>b.py+2).map(b=>id+':'+b.id);});
+      const boxed=[...stage.querySelectorAll('.groupbox')].some(el=>el.textContent.includes('宮地嶽三柱大神'));
+      const searchable=['勝村大神','勝頼大神','勝賴大神','Katsuyori'].every(q=>matchNodes(q).some(n=>ids.includes(n.id)));
+      const source=ids.every(id=>JP_NODE_SOURCES[id].includes('miyajidake')&&JP_NODE_NAMES[id].shrine.includes('宮地嶽神社')&&nodes[id].desc.includes('宮地嶽'));
+      const relations=JP_UNIONS.filter(u=>u.label==='宮地嶽神社で共に祀る');
+      const ritual=relations.length===2&&relations.every(u=>u.marriage==='partner'&&!u.children&&!u.parent);
+      const edgeIntrusions=[...svg.querySelectorAll('.edge')].flatMap(path=>{const hits=new Set(),len=path.getTotalLength(),related=Number(path.dataset.uid)<2;for(let s=0;s<=len;s+=8){const p=path.getPointAtLength(s);for(const n of Object.values(nodes))if((related||['katsumura','katsuyori'].includes(n.id))&&p.x>n.px+3&&p.x<n.px+NODE_W-3&&p.y>n.py+3&&p.y<n.py+n.h-3)hits.add(path.dataset.uid+':'+n.id);}return [...hits];});
+      highlightGroup(0);const lit=stage.querySelectorAll('.node:not(.dim)').length;
+      out.push({lang,overlap,edgeIntrusions,boxed,searchable,source,ritual,lit,name:nodes.katsuyori.name,groups:JP_GROUPS.length,relations:JP_UNIONS.length});
+    }
+    if(japanLocale!=='zh-TW')toggleJapanLocale();return out;
+  })()`);
+  console.log(JSON.stringify({miyajidake},null,2));
+  if(miyajidake.some(v=>v.overlap.length||v.edgeIntrusions.length||v.lit!==3||!v.boxed||!v.searchable||!v.source||!v.ritual||v.name!==(v.lang==='ja'?'勝頼大神':'勝賴大神')))process.exitCode=1;
   const maya = await evaluate(`(() => {
     openMaya();
     const initialScale=scale, rootRect=stage.querySelector('.node[data-id="maya_note"]').getBoundingClientRect(), wrapRect=wrap.getBoundingClientRect();

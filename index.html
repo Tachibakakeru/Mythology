@@ -999,6 +999,8 @@ const JP_NODE_DEFS = [
 
 ["chuai","仲哀天皇","ちゅうあい","第14代天皇",4.6,32.8,"倭建命の子。神託を疑ったために神の怒りに触れて急逝したと伝わる。"],
 ["jingu","神功皇后","じんぐう","仲哀天皇の皇后",5.9,32.8,"神託を受けて新羅へ遠征したと伝わる（三韓征伐）。帰還後に応神天皇を産み、長く政を執ったとされる。"],
+["katsumura","勝村大神","かつむらのおおかみ","宮地嶽三柱大神の一柱",7.4,32.8,"宮地嶽神社で神功皇后・勝頼大神と共に祀られる神。神社の由緒に伝わる阿曇族の長の奉斎に関わる。"],
+["katsuyori","勝頼大神","かつよりのおおかみ","宮地嶽三柱大神の一柱",9.0,32.8,"宮地嶽神社で神功皇后・勝村大神と共に祀られる神。神社の由緒に伝わる阿曇族の長の奉斎に関わる。"],
 ["okinagasukune","息長宿禰王","おきながのすくねのみこ","神功皇后の父",9.5,31.0,"神功皇后の父。近江・息長氏の祖とされる皇族。"],
 ["takanukahime","葛城高額媛","かづらきのたかぬかひめ","神功皇后の母",10.8,31.0,"神功皇后の母。新羅から渡来したと伝わる天之日矛（あめのひぼこ）の子孫とされ、その血筋を通じて神功皇后は新羅王子の末裔にあたるとされる。"],
 
@@ -1108,6 +1110,7 @@ const JP_NODE_DEFS = [
 ];
 
 const JP_GROUPS = [
+  ["宮地嶽三柱大神", ["jingu","katsumura","katsuyori"], "#7ec4f0"],
   ["禊と祓の神々", ["magatsuhi_note","naobi_note","izunome","haraedo_note","misogi_sutemono","kukurihime"], "#7fc0b0"],
   ["神武東征の人物", ["jimmu","itsuse","inahi","mikenu","nagasunehiko","takakuraji","yatagarasu","jimmu_toseikou"], "#d08a70", false],
   ["高天原", ["amenominakanushi","takamimusubi","kamimusubi","umashiashikabihikoji","amenotokotachi","kuninotokotachi","toyokumono","uhijini","suhijini","tsunuguhi","ikuguhi","otonoji","otonobe","omodaru","ayakashikone","amaterasu","tsukuyomi","amenouzume","futodama","amenoiwatowake","omoikane","oshihomimi","amenohohi","amatsuhikone","ikutsuhikone","kumanokusubi","amenomahitotsu","munakata_takiri","munakata_ichikishima","munakata_takitsu","takuhatachijihime","amenohoakari","amenokoyane","amenotajikarao","amatsukunitama","amewakahiko","amanosagume","takemikazuchi","torinoiwakusufune","ninigi","nigihayahi","amenoiwato_note","sanshu_note"], "#e0c890", false],
@@ -1143,6 +1146,8 @@ const JP_GROUPS = [
 ];
 
 const JP_UNIONS = [
+  {spouses:["jingu","katsumura"], marriage:"partner", label:"宮地嶽神社で共に祀る", labelClass:"ritual"},
+  {spouses:["katsumura","katsuyori"], marriage:"partner", label:"宮地嶽神社で共に祀る", labelClass:"ritual"},
   {spouses:["amenoiwato_note","amenotajikarao"], marriage:"partner", label:"岩戸を開く力神", labelClass:"ritual"},
   {spouses:["amewakahiko","amanosagume"], marriage:"partner", label:"鳴女を射るよう進言", labelClass:"ritual"},
   {parent:"izanagi", children:["magatsuhi_note","naobi_note","izunome"], label:"禊で化生した禍と直しの神", labelClass:"ritual"},
@@ -1513,7 +1518,9 @@ const JP_NODE_NAMES = {
   "seimu":{kojiki:"若帯日子命",nihonshoki:"稚足彦尊（わかたらしひこのみこと）",reading:"わかたらしひこ の みこと",aliases:["成務天皇（せいむてんのう）"]},
   "ototachibana":{kojiki:"弟橘比売命",nihonshoki:"弟橘媛（おとたちばなひめ）",reading:"おとたちばなひめ の みこと",aliases:[]},
   "chuai":{kojiki:"帯中日子命",nihonshoki:"足仲彦尊（たらしなかつひこのみこと）",reading:"たらしなかつひこ の みこと",aliases:["仲哀天皇（ちゅうあいてんのう）"]},
-  "jingu":{kojiki:"息長帯比売命",nihonshoki:"気長足姫尊（おきながたらしひめのみこと）",reading:"おきながたらしひめ の みこと",aliases:["神功皇后（じんぐうこうごう）","大帯比売命（おおたらしひめのみこと）"]},
+  "jingu":{kojiki:"息長帯比売命",nihonshoki:"気長足姫尊（おきながたらしひめのみこと）",reading:"おきながたらしひめ の みこと",aliases:["神功皇后（じんぐうこうごう）","大帯比売命（おおたらしひめのみこと）","息長足比売命（宮地嶽神社）"]},
+  "katsumura":{reading:"かつむらのおおかみ",aliases:["Katsumura no Ōkami","宮地嶽三柱大神"]},
+  "katsuyori":{reading:"かつよりのおおかみ",aliases:["勝賴大神","勝頼大神","Katsuyori no Ōkami","宮地嶽三柱大神"]},
   "okinagasukune":{kojiki:"息長宿禰王",nihonshoki:"息長宿禰王（おきながのすくねのみこ）",reading:"おきながのすくね の みこ",aliases:[]},
   "takanukahime":{kojiki:"葛城之高額比売命",nihonshoki:"葛城高額媛（かづらきのたかぬかひめ）",reading:"かづらきのたかぬかひめ",aliases:[]},
   "ojin":{kojiki:"品陀和気命",nihonshoki:"誉田別命（ほんだわけのみこと）",reading:"ほんだわけ の みこと",aliases:["応神天皇（おうじんてんのう）","八幡神（はちまんしん）"]},
@@ -1602,7 +1609,9 @@ const JP_SHRINES = {
   "omononushi":"大神神社（奈良・三輪山）",
   "ojin":"宇佐神宮・石清水八幡宮・鶴岡八幡宮（八幡神として）",
   "hachiman":"宇佐神宮（大分）・石清水八幡宮（京都）・鶴岡八幡宮（鎌倉）",
-  "jingu":"住吉大社（配祀）・気比神宮（配祀）",
+  "jingu":"住吉大社（配祀）・気比神宮（配祀）・宮地嶽神社",
+  "katsumura":"宮地嶽神社",
+  "katsuyori":"宮地嶽神社",
   "takeuchi":"気比神宮（配祀）・宇倍神社（鳥取）",
   "jimmu":"橿原神宮（奈良）",
   "yamatotakeru":"大鳥大社（大阪）・熱田神宮（配祀）",
@@ -10055,6 +10064,7 @@ const PANTHEONS = {
 
 /* ============ 日本頁限定：語言層（介面／分類先行；敘述逐批補譯） ============ */
 let japanLocale = localStorage.getItem('japanLocale') === 'ja' ? 'ja' : 'zh-TW';
+const JP_DISPLAY_NAMES_ZH = {katsuyori:'勝賴大神'};
 const JP_UI = {
   'zh-TW': {title:'⛩️ 日本神話系譜', yokaiTitle:'👹 日本妖怪圖鑑', back:'← 返回', yokai:'👹 妖怪圖鑑', myth:'⛩️ 神話系譜', reset:'重置檢視', favorites:'⭐ 只看收藏', editGod:'✏️ 編輯此神明', editYokai:'✏️ 編輯此妖怪', searchGod:'搜尋神名或讀音…', searchYokai:'搜尋妖怪名或讀音…', noDetail:'（尚無詳細記載）', original:'日文原名', aliases:'別稱', shrine:'祭祀神社', reading:'讀音', kojiki:'古事記', nihonshoki:'日本書紀', emptyFav:'尚未收藏任何妖怪，點擊卡片右上角的☆即可加入收藏。', addFav:'☆ 加入收藏', addedFav:'★ 已加入收藏'},
   ja: {title:'⛩️ 日本神話系譜', yokaiTitle:'👹 日本妖怪図鑑', back:'← 戻る', yokai:'👹 妖怪図鑑', myth:'⛩️ 神話系譜', reset:'表示をリセット', favorites:'⭐ お気に入りのみ', editGod:'✏️ この神を編集', editYokai:'✏️ この妖怪を編集', searchGod:'神名・読みを検索…', searchYokai:'妖怪名・読みを検索…', noDetail:'（詳細な記載なし）', original:'原名', aliases:'別名', shrine:'祭祀神社', reading:'読み', kojiki:'古事記', nihonshoki:'日本書紀', emptyFav:'お気に入りの妖怪はまだありません。カード右上の☆で追加できます。', addFav:'☆ お気に入りに追加', addedFav:'★ お気に入りに追加済み'}
@@ -10062,6 +10072,7 @@ const JP_UI = {
 const JP_GROUP_ZH = {'禊と祓の神々':'禊與祓除諸神','神武東征の人物':'神武東征人物','高天原':'高天原','葦原中國':'葦原中國','根之國・黄泉':'根之國・黃泉','八雷神':'八雷神','神話の事件と神器':'神話事件與神器','氏族の祖':'氏族始祖','後世の信仰・神仏習合':'後世信仰・神佛習合','伝説・昔話':'傳說・昔話','造化三神':'造化三神','別天津神':'別天津神','神世七代':'神世七代','三貴子':'三貴子','宗像三女神':'宗像三女神','綿津見三神':'綿津見三神','住吉三神':'住吉三神','誓約の五男神':'誓約五男神','国造家の祖':'國造家始祖','カグツチの血から生まれた神':'迦具土之血所生諸神','出雲・大国主神の一族':'出雲・大國主神一族','地神五代':'地神五代','日向三代':'日向三代','天孫降臨・皇統':'天孫降臨・皇統','岩戸隠れ・天孫降臨に関わった神々':'天岩戶隱居・天孫降臨相關諸神','国生みの後に生まれた神々':'國土生成後所生諸神','家宅六神':'家宅六神','欠史八代（第2〜9代）':'缺史八代（第2～9代）','崇神〜仁徳（人代の展開）':'崇神～仁德（人代發展）','17〜33代天皇（履中〜推古）':'第17～33代天皇（履中～推古）','天津神':'天津神','國津神':'國津神','日本三大妖怪':'日本三大妖怪','日本三大幽靈':'日本三大幽靈','日本三大怨靈':'日本三大怨靈','鬼':'鬼','妖狐・妖狸':'妖狐・妖狸','天狗':'天狗','水中妖怪':'水中妖怪','幽靈・怪談':'幽靈・怪談','付喪神':'付喪神','山野異怪':'山野異怪','家中・変化の妖怪':'家中・變化妖怪','動物精怪':'動物精怪','神代の大怪':'神代大怪','百鬼夜行・絵巻':'百鬼夜行・繪卷'};
 const JP_RELATION_ZH = {'岩戸を開く力神':'開啟天岩戶的力神','鳴女を射るよう進言':'進言射殺雉鳥','禊で化生した禍と直しの神':'禊禮所化的禍神與直毘神','大祓詞の祓の神々':'《大祓詞》的祓除諸神','黄泉比良坂で仲裁':'在黃泉比良坂調解','斬った剣の神格':'斬神之劍的神格','剣より生じた武神':'自神劍而生的武神','神武天皇の兄たち':'神武天皇的兄長們','東征最大の抵抗':'東征中的最大抵抗','布都御魂を献じる':'獻上布都御魂','海神の宮への導き':'引導前往海神宮','稔りを司る子神':'司掌穀物收成的子神','天岩戸で文布を織る':'於天岩戶編織文布','黄泉比良坂で決別':'在黃泉比良坂訣別','腐乱した身体の八箇所に生じた雷神':'腐朽遺體八處所生的雷神','黄泉醜女と共に夫を追跡':'與黃泉醜女追趕丈夫','桃の実を投げつけられ撃退される':'被桃子擊退','岩戸と神器':'天岩戶與神器','八岐大蛇退治と熊野習合':'八岐大蛇退治與熊野神佛習合','尾から現れた神剣':'自蛇尾出現的神劍','大国主神の説話と祭祀伝承':'大國主神的故事與祭祀傳承','釣針の物語':'釣鉤故事','神武東征':'神武東征','天孫降臨に随伴':'隨天孫降臨','西宮に流れ着く':'漂流至西宮','八幡神として祀られる':'作為八幡神祭祀','龍宮伝説':'龍宮傳說','丹後国風土記の天女':'《丹後國風土記》的天女','五世の孫':'第五代孫','斬られて誕生':'遭斬後誕生','死の間際に誕生':'臨終時誕生','禊で誕生':'禊禮中誕生','誓約（うけい）':'誓約（宇氣比）','父の跡を追い出雲へ遣わされるも復命せず':'繼承父志被遣往出雲，卻未復命','『日本書紀』一書第八の兄系譜':'《日本書紀》一書第八的兄長系譜','国造りの相棒':'國土營造的夥伴','悲恋':'悲戀','一例：『日本書紀』本書の長子・次子・三男':'一例：《日本書紀》本書的長子、次子、三子','『古事記』の第二子（異伝）':'《古事記》的第二子（異傳）','火闌降命の子':'火闌降命之子','隼人・阿多氏の祖系':'隼人與阿多氏祖系','『海部氏勘注系図』の父系':'《海部氏勘注系圖》的父系','『新撰姓氏録』の後裔氏族':'《新撰姓氏錄》的後裔氏族','同一視／父子とする異伝':'同一視／父子說的異傳','皇室へ続く日向系譜':'通往皇室的日向系譜','東征前の妃':'東征前的妻子','大神神社の神主に指名':'獲指定為大神神社神主','草薙剣を託す':'託付草薙劍','生母は諸説あり':'生母有諸種說法'};
 const JP_GROUP_JA = {'日本三大幽靈':'日本三大幽霊','日本三大怨靈':'日本三大怨霊','幽靈・怪談':'幽霊・怪談','家中・変化の妖怪':'家中・変化の妖怪','百鬼夜行・絵巻':'百鬼夜行・絵巻'};
+JP_RELATION_ZH['宮地嶽神社で共に祀る'] = '宮地嶽神社共同奉祀';
 // 日本語表示用の逐次翻訳。ユーザー編集（ov.desc）がある場合は、その内容を常に優先する。
 const JP_DESC_JA = {
   amenominakanushi:'『古事記』の天地開闢で最初に現れる別天津神の筆頭。高御産巣日神・神産巣日神とともに造化三神に数えられ、宇宙の中心と生成の始まりを象徴する。『日本書紀』には対応する神名が明確には記されず、後世には北極星・妙見信仰とも結び付けられた。',
@@ -10238,7 +10249,9 @@ const JP_DESC_JA = {
   ehime:'兄比売。美濃国造の娘で弟比売の姉。景行天皇の妃として望まれたが、迎えに遣わされた大碓命が自ら妻にしたという伝承に登場する。',
   otohime:'弟比売。美濃国造の娘で兄比売の妹。姉とともに大碓命に娶られたとされ、景行家の対立を語る伝承に関わる。',
   chuai:'第14代天皇とされる仲哀天皇。倭建命の子で、神託を疑ったため神の怒りに触れて急死したと伝えられる。神功皇后の物語へ続く転機となる。',
-  jingu:'神功皇后。仲哀天皇の皇后で、神託を受けて新羅へ遠征した（三韓征伐）と記紀は伝える。帰国後に応神天皇を生み、長く政を執ったとされるが、強い伝説性と後世の政治的解釈を持つ。',
+  jingu:'神功皇后。仲哀天皇の皇后で、神託を受けて新羅へ遠征した（三韓征伐）と記紀は伝える。帰国後に応神天皇を生み、長く政を執ったとされるが、強い伝説性と後世の政治的解釈を持つ。福岡県福津市の宮地嶽神社では息長足比売命として祀られ、勝村大神・勝頼大神と合わせて宮地嶽三柱大神と称される。同社の由緒には、渡海前にこの地に滞在し、宮地嶽の頂に祭壇を設けて天神地祇に開運を祈願したという伝承がある。これは神社の由緒・信仰伝承であり、遠征の史実を確定するものではない。',
+  katsumura:'勝村大神（かつむらのおおかみ）は、福岡県福津市の宮地嶽神社に祀られる三柱の祭神の一柱。主祭神の息長足比売命（神功皇后）と勝頼大神と共に、宮地嶽三柱大神と称される。神社公式の由緒は、神功皇后の渡海前の滞在・祈願伝承を語り、皇后を奉斎するとともに、その随従者である阿曇族の長も併せ祀ったと説明する。三柱は何事にも打ち勝つ開運の神として信仰される。ただし、公式の祭神紹介には勝村大神だけの具体的な事績や血縁関係は記されていないため、本図の連線は共同奉祀を示し、親子・婚姻を意味しない。',
+  katsuyori:'勝頼大神（かつよりのおおかみ）は、福岡県福津市の宮地嶽神社で、息長足比売命（神功皇后）・勝村大神と共に祀られる神。三柱を合わせて宮地嶽三柱大神と称する。公式由緒では、神功皇后が渡海に先立ってこの地に滞在し、山頂で天神地祇に開運を祈願したと伝え、皇后とその随従者である阿曇族の長を併せ祀ったと説明する。勝頼大神もこの奉斎の文脈で紹介され、三柱一体の開運信仰を担う。公式ページは勝頼大神単独の生涯や勝村大神との血縁を詳述しない。「頼」は日本語の表記で、繁体字では「賴」と書く。戦国武将の武田勝頼とは別の祭神である。',
   okinagasukune:'息長宿禰王。神功皇后の父で、近江の息長氏の祖とされる皇族。神功皇后の母系を示す系譜上の人物である。',
   takanukahime:'葛城高額媛。神功皇后の母で、新羅から渡来したとされる天之日矛の後裔に数えられる。渡来系譜と皇統を結び付ける伝承に置かれる。',
   ojin:'第15代天皇とされる応神天皇。神功皇后の子とされ、後世には八幡神と強く結び付けられ、八幡大神の人格的な源流の一つとして信仰された。',
@@ -10491,7 +10504,9 @@ const JP_DESC_ZH = {
   ,ehime:'兄比賣，美濃國造之女、弟比賣之姊。她們原被期望成為景行天皇妃，卻在傳說中被受命迎接的大碓命自行娶為妻。'
   ,otohime:'弟比賣，美濃國造之女、兄比賣之妹。她與姊姊的婚事成為景行、大碓與倭建命家族衝突敘事的開端。'
   ,chuai:'仲哀天皇，被列為第十四代天皇、倭建命之子。記紀傳說稱祂因懷疑神諭而觸怒神明、突然去世；此後神功皇后接續相關敘事。'
-  ,jingu:'神功皇后，仲哀天皇皇后。傳說稱她接受神諭後遠征新羅（三韓征伐），返國後生下應神天皇並長期執政；這是具有強烈傳說性與後世政治詮釋的記紀敘事。'
+  ,jingu:'神功皇后，仲哀天皇皇后。傳說稱她接受神諭後遠征新羅（三韓征伐），返國後生下應神天皇並長期執政；這是具有強烈傳說性與後世政治詮釋的記紀敘事。福岡縣福津市的宮地嶽神社以息長足比賣命之名祭祀她，並與勝村大神、勝賴大神合稱宮地嶽三柱大神。神社由緒記述她渡海前曾停留此地，在宮地嶽山頂設壇，向天地諸神祈求開運，然後啟航。這是神社的由緒與信仰傳承，不代表遠征已獲歷史證實。'
+  ,katsumura:'勝村大神，宮地嶽神社三柱祭神之一。宮地嶽神社位於福岡縣福津市，主祭神為息長足比賣命（神功皇后），並共同奉祀勝村大神與勝賴大神，合稱宮地嶽三柱大神。依神社官方由緒，皇后渡海前停留此地，在山頂設壇向天地諸神祈求開運；其後皇后受到奉祀，隨從的阿曇族首領也一併受到祭祀。勝村大神是在這個隨從首領與共同奉祀的傳承脈絡中介紹的祭神，三柱共同受到克服困難、開運的信仰。官方介紹未明載勝村大神個人的詳細生平、戰功或親屬，因此不補造個人事蹟；圖中的關係線表示共同奉祀，不是血緣或婚姻。'
+  ,katsuyori:'勝賴大神，宮地嶽神社三柱祭神之一。日文神名寫作勝頼大神，讀作 Katsuyori no Ōkami；與神功皇后、勝村大神共同奉祀，合稱宮地嶽三柱大神。神社官方由緒記述皇后渡海前停留此地，在宮地嶽山頂祭祀天地諸神、祈求開運，並說明皇后與隨從的阿曇族首領一併受到奉祀。勝賴大神也屬於這個地方祭祀傳承，與另外兩柱共同受到克服困難、開運的信仰。官方祭神頁未詳列他的獨立事蹟，也未說明他與勝村大神有何血緣，不應自行推定為兄弟。這位祭神不是戰國武將武田勝賴；本圖連線只表示共同奉祀。'
   ,okinagasukune:'息長宿禰王，神功皇后之父，被視為近江息長氏的皇族祖先。祂的地位主要見於神功皇后母系的系譜記錄。'
   ,takanukahime:'葛城高額媛，神功皇后之母。傳說稱她是自新羅渡來的天之日矛後裔，因此透過此系譜將神功皇后與渡來王子傳承相連。'
   ,ojin:'應神天皇，被列為第十五代天皇，傳為神功皇后之子。後世廣泛與八幡神信仰相結合，常被尊為八幡大神的人格來源之一。'
@@ -10586,6 +10601,7 @@ const JP_DESC_ZH = {
   ,amenohaduchio:'天之羽槌雄神，是大年神後裔的神名之一。祂位於農耕與地方氏族神系的世譜中，記紀未保存獨立冒險故事。'
 };
 const JP_SOURCE_LIBRARY = {
+  miyajidake:{ja:'宮地嶽神社公式：御祭神・由緒',zh:'宮地嶽神社官方：祭神與由緒',url:'https://www.miyajidake.or.jp/history/gosaijin'},
   musuhi:{ja:'國學院大學：Musuhi',zh:'國學院大學：產靈',url:'https://d-museum.kokugakuin.ac.jp/eos/detail/?id=8720'},
   kuniumi:{ja:'國學院大學：Kuniumi',zh:'國學院大學：國土生成',url:'https://d-museum.kokugakuin.ac.jp/eos/detail/?id=8984'},
   kamiumi:{ja:'國學院大學：Kamiumi',zh:'國學院大學：神祇生成',url:'https://d-museum.kokugakuin.ac.jp/eos/detail/?id=8995'},
@@ -10614,6 +10630,7 @@ const JP_SOURCE_LIBRARY = {
   yokaiDb:{ja:'国際日本文化研究センター：怪異・妖怪伝承DB',zh:'國際日本文化研究中心：怪異・妖怪傳承資料庫',url:'https://sekiei.nichibun.ac.jp/YoukaiDB/search.html'}
 };
 const JP_NODE_SOURCES = Object.fromEntries([
+  [['jingu',['nihongi','miyajidake']],['katsumura',['miyajidake']],['katsuyori',['miyajidake']]],
   ['amenominakanushi','takamimusubi','kamimusubi','umashiashikabihikoji','amenotokotachi','kuninotokotachi','toyokumono','uhijini','suhijini','tsunuguhi','ikuguhi','otonoji','otonobe','omodaru','ayakashikone'].map(id=>[id,['musuhi']]),
   [['izanagi',['izanagi','kuniumi']],['izanami',['izanami','kuniumi']]],
   ['hiruko','awashima'].map(id=>[id,['kuniumi']]),
@@ -10882,7 +10899,8 @@ function layoutNodes(){
     if(currentPantheon==='japan'){
       baseDesc = japanLocale==='ja' ? (JP_DESC_JA[id] ?? japaneseFallbackDesc(name,role)) : strengthenShortZh(JP_DESC_ZH[id] ?? desc);
     }
-    nodes[id] = {id, name:ov.name??name, kana:ov.kana??kana, role:ov.role??role, desc:ov.desc??baseDesc, isNote:!!isNote, tag, px:col*COLW, py:row*ROWH};
+    const displayName = currentPantheon==='japan' && japanLocale==='zh-TW' ? (JP_DISPLAY_NAMES_ZH[id] ?? name) : name;
+    nodes[id] = {id, name:ov.name??displayName, kana:ov.kana??kana, role:ov.role??role, desc:ov.desc??baseDesc, isNote:!!isNote, tag, px:col*COLW, py:row*ROWH};
   });
   let minPx=Infinity,minPy=Infinity,maxPx=-Infinity,maxPy=-Infinity;
   Object.values(nodes).forEach(n=>{
