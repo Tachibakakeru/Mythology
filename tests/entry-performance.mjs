@@ -36,7 +36,7 @@ try {
   };
   const evaluate = async expression => {
     const result = await request('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-    if (result.exceptionDetails) throw new Error(result.exceptionDetails.text);
+    if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
     return result.result.value;
   };
   await request('Runtime.enable');
@@ -78,6 +78,79 @@ try {
   const sharedRender = await evaluate(`(() => { const out={}; for(const key of ['buddhism','japan']) { openPantheon(key); out[key]={data:Object.keys(nodes).length,rendered:stage.querySelectorAll('.node').length}; } return out; })()`);
   console.log(JSON.stringify({sharedRender,pageErrors}, null, 2));
   if (Object.values(sharedRender).some(v=>!v.data||v.data!==v.rendered)||pageErrors.length) process.exitCode=1;
+  const legends = await evaluate(`(()=>{
+    const out=[];
+    for(const key of Object.keys(LEGENDS)){
+      openPantheon(key);const ids=NODE_DEFS.map(d=>d[0]),known=new Set(ids);
+      const refs=UNIONS.flatMap(u=>[u.parent,...(u.spouses||[]),...(u.children||[])].filter(Boolean));
+      const overlap=Object.values(nodes).flatMap(a=>Object.values(nodes).filter(b=>b.id>a.id&&a.px<b.px+NODE_W-2&&a.px+NODE_W>b.px+2&&a.py<b.py+b.h-2&&a.py+a.h>b.py+2).map(b=>a.id+':'+b.id));
+      const missingSources=ids.filter(id=>{openPanel(nodes[id]);return !document.querySelector('#p-sources a')});
+      closePanel();fitInitial();const r=wrap.getBoundingClientRect();
+      const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=r.left-2&&a.right<=r.right+2&&a.top>=r.top-2&&a.bottom<=r.bottom+2});
+      const intrusions=[...svg.querySelectorAll('.edge')].flatMap(path=>{const hits=new Set(),len=path.getTotalLength();for(let s=0;s<=len;s+=8){const p=path.getPointAtLength(s);for(const n of Object.values(nodes))if(p.x>n.px+3&&p.x<n.px+NODE_W-3&&p.y>n.py+3&&p.y<n.py+n.h-3)hits.add(path.dataset.uid+':'+n.id);}return [...hits]});
+      const groupSelection=GROUPS.every((g,i)=>{highlightGroup(i);return stage.querySelectorAll('.node:not(.dim)').length===g[1].length});clearHighlight();
+      const aliasSearch=ids.every(id=>(PANTHEONS[key].names[id]?.aliases||[]).every(q=>matchNodes(q).some(n=>n.id===id)));
+      const missingSourceKeys=LEGENDS[key].sections.flatMap(([,records])=>records.flatMap(r=>(Array.isArray(r[5])?r[5]:[r[5]]).filter(s=>!LEGENDS[key].sources[s]).map(s=>r[0]+':'+s)));
+      const narrativePaths=[...svg.querySelectorAll('.edge')].filter(p=>UNIONS[Number(p.dataset.uid)]?.narrative);
+      const narrativeStyle=narrativePaths.length>0&&narrativePaths.every(p=>p.classList.contains('narrative')&&getComputedStyle(p).strokeDasharray!=='none')&&document.getElementById('narrativeLegend').style.display!=='none';
+      out.push({key,count:ids.length,groups:GROUPS.length,relations:UNIONS.length,duplicates:ids.length-known.size,missingRefs:refs.filter(id=>!known.has(id)),isolated:ids.filter(id=>!refs.includes(id)),overlap,missingSources,missingSourceKeys,allVisible,intrusions,groupSelection,aliasSearch,narrativeStyle,boxes:stage.querySelectorAll('.groupbox:not(.marker-only)').length,searchable:ids.every(id=>matchNodes(nodes[id].name).some(n=>n.id===id))});
+    }return out;
+  })()`);
+  console.log(JSON.stringify({legends},null,2));
+  if(legends.some(v=>v.duplicates||v.missingRefs.length||v.isolated.length||v.overlap.length||v.missingSources.length||v.missingSourceKeys.length||v.intrusions.length||!v.allVisible||!v.groupSelection||!v.searchable||!v.aliasSearch||!v.narrativeStyle||v.boxes!==v.groups))process.exitCode=1;
+  if(process.env.CHECK_LEGEND_SOURCES==='1'){
+    const urls=await evaluate(`Object.values(LEGENDS).flatMap(b=>Object.values(b.sources).flatMap(s=>[s.url,s.alternate].filter(Boolean)))`);
+    const queue=[...new Set(urls)],results=[];
+    await Promise.all(Array.from({length:4},async()=>{
+      while(queue.length){const url=queue.shift();try{const res=await fetch(url,{signal:AbortSignal.timeout(12000)});results.push({url,status:res.status,ok:res.ok});await res.body?.cancel();}catch(e){results.push({url,ok:false,error:e.message});}}
+    }));
+    console.log(JSON.stringify({legendSources:results},null,2));
+    // External servers can block automated clients; report separately from local regressions.
+  }
+  const legendExport=await evaluate(`(async()=>{
+    const create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click;
+    const keys=Object.keys(LEGENDS),previous=Object.fromEntries(keys.map(k=>[k,LIVE_EDITS[k][k+'_root']]));let saved;
+    try{
+      keys.forEach(k=>LIVE_EDITS[k][k+'_root']={name:'逐頁匯出 $& '+k});
+      URL.createObjectURL=blob=>{saved=blob;return 'blob:legend-test'};HTMLAnchorElement.prototype.click=()=>{};
+      await exportHTML();const html=await saved.text(),m=html.match(/const LEGEND_USER_EDITS = ([^\\n]+);/);
+      const data=m?JSON.parse(m[1]):{};
+      return keys.every(k=>data[k]?.[k+'_root']?.name==='逐頁匯出 $& '+k);
+    }finally{
+      URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;
+      keys.forEach(k=>{if(previous[k])LIVE_EDITS[k][k+'_root']=previous[k];else delete LIVE_EDITS[k][k+'_root']});
+    }
+  })()`);
+  console.log(JSON.stringify({legendExport},null,2));if(!legendExport)process.exitCode=1;
+  const legendCards=await evaluate(`(()=>{
+    const keys=Object.keys(LEGENDS),saved=[...hiddenRegions],storage=localStorage.getItem(REGION_FILTER_KEY);
+    try{
+      hiddenRegions=new Set(presentRegions.filter(r=>r!=='other'));applyRegionFilter();
+      const correct=keys.every(k=>allWheelCards.some(c=>c.dataset.legend===k&&c.dataset.region==='other'&&wheelCards.includes(c)));
+      const count=wheelCards.filter(c=>c.dataset.legend).length;
+      hiddenRegions=new Set(presentRegions);applyRegionFilter();const none=WHEEL_N===0;
+      hiddenRegions.clear();applyRegionFilter();const all=keys.every(k=>wheelCards.some(c=>c.dataset.legend===k));
+      return {correct,count,none,all};
+    }finally{hiddenRegions=new Set(saved);applyRegionFilter();if(storage===null)localStorage.removeItem(REGION_FILTER_KEY);else localStorage.setItem(REGION_FILTER_KEY,storage)}
+  })()`);
+  console.log(JSON.stringify({legendCards},null,2));if(!legendCards.correct||!legendCards.none||!legendCards.all||legendCards.count!==legends.length)process.exitCode=1;
+  await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  const legendMobile=await evaluate(`(async()=>{
+    const out=[];
+    for(const key of Object.keys(LEGENDS)){
+      openPantheon(key);closePanel();fitInitial();const b=wrap.getBoundingClientRect();
+      const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const r=el.getBoundingClientRect();return r.left>=b.left-2&&r.right<=b.right+2&&r.top>=b.top-2&&r.bottom<=b.bottom+2});
+      const id=NODE_DEFS[NODE_DEFS.length-1][0];
+      searchInput.value=nodes[id].name;searchInput.dispatchEvent(new Event('input',{bubbles:true}));
+      const result=searchResults.querySelector('[data-id="'+id+'"]');if(!result)throw new Error(key+' search row missing');result.click();
+      await new Promise(r=>setTimeout(r,800));
+      const p=panel.getBoundingClientRect(),n=stage.querySelector('.node[data-id="'+id+'"]').getBoundingClientRect();
+      out.push({key,allVisible,panelVisible:p.top<844&&p.bottom<=845,nodeVisible:n.top>=b.top-2&&n.bottom<=p.top+2&&n.left>=b.left-2&&n.right<=b.right+2,sourceLinks:document.querySelectorAll('#p-sources a').length,rects:{node:{left:n.left,right:n.right,top:n.top,bottom:n.bottom},wrap:{left:b.left,right:b.right,top:b.top,bottom:b.bottom},panelTop:p.top}});
+      closePanel();
+    }return out;
+  })()`);
+  console.log(JSON.stringify({legendMobile},null,2));if(legendMobile.some(v=>!v.allVisible||!v.panelVisible||!v.nodeVisible||!v.sourceLinks))process.exitCode=1;
+  await request('Emulation.clearDeviceMetricsOverride');
   const miyajidake = await evaluate(`(()=>{
     const out=[];
     for(const lang of ['zh-TW','ja']){

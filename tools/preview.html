@@ -6,12 +6,15 @@
 <style>
 html,body{margin:0;height:100%;background:#080e1b;color:#8bc7ef;font:14px system-ui}body{display:flex;flex-direction:column}header{padding:8px 12px}iframe{flex:1;width:100%;border:0;min-height:0}span{margin-left:12px;color:#a9b9ce}
 </style>
-<header>阿茲特克／墨西加・本地即時預覽<span id="status">讀取中…</span></header>
+<header>神話與傳說・本地即時預覽<span id="status">讀取中…</span></header>
 <iframe id="preview" src="../index.html" title="神話圖譜"></iframe>
 <script>
 const frame=document.getElementById('preview'),status=document.getElementById('status');
-let page='aztec',revision='',checking=false;
+let page=new URLSearchParams(location.search).get('page')||'aztec',revision='',checking=false;
 frame.addEventListener('load',()=>{
+  // 同時保留既有體系與新增傳說；存檔重載時不把日本等舊頁誤換回預設。
+  const existing=['japan','greek','norse','egypt','mesopotamia','persia','celtic','arthur','india','cthulhu','angels','demons','buddhism','china','maya','aztec'];
+  if(!existing.includes(page)&&![...frame.contentWindow.document.querySelectorAll('[data-legend]')].some(c=>c.dataset.legend===page))page='aztec';
   frame.contentWindow.openPantheon(page);
   status.textContent='已更新 '+new Date().toLocaleTimeString('zh-TW')+'（存檔後自動更新）';
 });
