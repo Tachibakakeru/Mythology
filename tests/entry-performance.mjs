@@ -42,6 +42,17 @@ try {
   await request('Runtime.enable');
   for (let i = 0; i < 100 && await evaluate('typeof openChina') !== 'function'; i++) await new Promise(resolve => setTimeout(resolve, 100));
   if (await evaluate('typeof openChina') !== 'function') throw new Error('Mythology page did not initialize');
+  const uniqueLogos=await evaluate(`(()=>{
+    const normalize=s=>s.trim().replaceAll(String.fromCharCode(0xfe0f),'');
+    const cards=[...document.querySelectorAll('#wheel .myth-icon')].map(c=>({page:c.querySelector('.label').textContent,logo:normalize(c.querySelector('.glyph').textContent)||c.querySelector('.glyph svg')?.outerHTML||''}));
+    const headers=Object.entries(PANTHEONS).map(([page,p])=>({page,logo:normalize(p.title.split(' ')[0])}));
+    headers.push({page:'yokai',logo:normalize(JP_UI['zh-TW'].yokaiTitle.split(' ')[0])});
+    const duplicates=items=>items.filter((a,i)=>!a.logo||items.some((b,j)=>j<i&&a.logo===b.logo)).map(a=>a.page);
+    const changed=['nibelungen','beowulf','cid'].every(k=>cards.some(c=>c.page===LEGENDS[k].title.slice(LEGENDS[k].title.indexOf(' ')+1)&&c.logo===normalize(PANTHEONS[k].title.split(' ')[0])));
+    return {cards:cards.length,headers:headers.length,duplicateCards:duplicates(cards),duplicateHeaders:duplicates(headers),changed};
+  })()`);
+  console.log(JSON.stringify({uniqueLogos},null,2));
+  if(uniqueLogos.duplicateCards.length||uniqueLogos.duplicateHeaders.length||!uniqueLogos.changed)process.exitCode=1;
   if (process.env.WAIT_IDLE_FONT === '1') await evaluate('document.fonts.ready');
   if (process.env.PROFILE === '1') { await request('Profiler.enable'); await request('Profiler.start'); }
   const result = await evaluate(`(async () => {
