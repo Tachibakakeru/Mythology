@@ -108,6 +108,17 @@ try {
     }return out;
   })()`);
   console.log(JSON.stringify({legends},null,2));
+  const charlemagne=await evaluate(`(()=>{
+    openPantheon('roland');
+    const peers=GROUPS.find(g=>g[0]==='十二同儕（牛津本：恰十二名）');
+    const astolfo=matchNodes('阿斯托爾福').some(n=>n.id==='rl_astolfo');
+    const variants=['Astolfo','Astolpho','阿斯托福','阿斯托爾佛'].every(q=>matchNodes(q).some(n=>n.id==='rl_astolfo'));
+    openPanel(nodes.rl_astolfo);const sources=[...document.querySelectorAll('#p-sources a')].map(a=>a.href);closePanel();
+    const father=UNIONS.find(u=>u.parent==='rl_aymon');
+    return {count:NODE_DEFS.length,groups:GROUPS.length,relations:UNIONS.length,oxfordTwelve:peers?.[1].length===12&&!peers[1].includes('rl_astolfo'),astolfo,variants,source:sources.some(s=>s.includes('Canto_34')),fourSons:father?.children.length===4&&father.children.includes('rl_rinaldo'),newBoxes:GROUPS.slice(6,11).every(g=>[...stage.querySelectorAll('.groupbox:not(.marker-only)')].some(e=>e.textContent.includes(g[0])))};
+  })()`);
+  console.log(JSON.stringify({charlemagne},null,2));
+  if(charlemagne.count!==111||charlemagne.groups!==12||charlemagne.relations!==57||!charlemagne.oxfordTwelve||!charlemagne.astolfo||!charlemagne.variants||!charlemagne.source||!charlemagne.fourSons||!charlemagne.newBoxes)process.exitCode=1;
   if(legends.some(v=>v.duplicates||v.missingRefs.length||v.isolated.length||v.overlap.length||v.missingSources.length||v.missingSourceKeys.length||v.intrusions.length||!v.allVisible||!v.groupSelection||!v.searchable||!v.aliasSearch||!v.narrativeStyle||v.boxes!==v.groups))process.exitCode=1;
   if(process.env.CHECK_LEGEND_SOURCES==='1'){
     const urls=await evaluate(`Object.values(LEGENDS).flatMap(b=>Object.values(b.sources).flatMap(s=>[s.url,s.alternate].filter(Boolean)))`);
