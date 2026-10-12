@@ -4,7 +4,7 @@
 
 - 使用者確認「PUSH」，本輪只提交既有 `index.html`、`tests/entry-performance.mjs`、`AGENTS.md`、`PROGRESS.md`：查理曼新增59節點／5群組／32關係，總計111／12／57；沒有額外新增故事或變動共用UI。
 - 沿用上一輪最終完整桌機／手機回歸exit0，發布前再次核對四檔變更與 `git diff --check`，無錯，僅預期的LF→CRLF提示。本輪未重跑完整瀏覽器測試；程式與測試內容未再變更。
-- 發布目標為既有 `origin/main`，實際成功須以git push及遠端提交核對；本記錄不預先聲稱已成功。預覽面板開啟工具回報queued，未把佇列當作已成功顯示。
+- 已提交並成功PUSH至既有 `origin/main`：`4ff8b731e944afe93a72315a44f0dc6a0f41be08`（Expand Charlemagne legends with Italian and French branches）。git push顯示f465dbb→4ff8b73，git ls-remote與本機HEAD完整SHA相同，工作樹乾淨；其後僅補此成功記錄與AGENTS發布狀態。預覽面板開啟工具回報queued，未把佇列當作已成功顯示。
 
 ## 2026-10-12｜查理曼：義大利羅曼史與法國艾蒙四子（本機待確認）
 
