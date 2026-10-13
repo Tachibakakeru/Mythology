@@ -2,6 +2,8 @@
 
 ## 專案概覽
 
+- 2026-10-13使用者已授權PUSH，九項傳說與首頁搜尋已以 `23619491fb2f2a19843a97541643754c30d947a1` 發布至origin/main並核對遠端完整SHA；下方「未授權／未PUSH」均為上一製作階段的歷史狀態。本輪僅發布與補交接記錄，程式及測試未另改。
+
 - 2026-10-13新增工作：建立kalevala、ulster、fianna、mabinogion、manas、dede、mwindo、panji、hangtuah九頁，沿用LEGENDS轉換、向下敘事分枝、實體框與具名非血緣關係；資料逐頁核對來源，未完成前不得宣稱全集。首頁搜尋使用homeSearchInput／homeSearchResults，不篩掉轉盤、不改地區偏好，含異名與代表人物；隱藏地區也可直開。輸入框方向鍵不得轉動背景轉盤，結果捲軸隱藏但可原生捲動。這輪未授權PUSH。
 - 九頁可檢閱第一版已完成：kalevala38/6/21、ulster39/6/23、fianna36/6/22、mabinogion39/6/22、manas30/5/16、dede45/7/24、mwindo25/5/16、panji27/5/16、hangtuah33/6/19（節點/框/關係），新增合計312/52/179；十九LEGENDS合計931/130/521。全部其他傳說，首頁34標誌／36頁首唯一。2026-10-13最新完整回歸exit0：十九頁桌機／390px、來源／別名／全覽／框選／幾何／匯出、首頁搜尋、預覽首頁與圖譜重載、既有日本／佛教／中國／瑪雅／阿茲特克；zoom-queue單測亦exit0。這不是所有口傳異本全集，圖片未新增。
 - 首頁home保留overflow-x:clip，防34卡3D轉盤外溢撐大手機layout viewport；指示點可換行。matchNodes姓名與精確排序必須同查詢一致去空格，避免混合中外文名稱失搜。fianna母子分枝父母在上、芬恩在下一行，勿改回導致第13號關係穿框的行序。tools/preview存檔重載依japan容器display與目標opacity判斷入頁／返首頁，不能只看尚未淡出完的home，否則圖譜進場時誤重載成首頁。
