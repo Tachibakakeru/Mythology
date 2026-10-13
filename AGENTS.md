@@ -2,6 +2,15 @@
 
 ## 專案概覽
 
+- 2026-10-13本輪使用者明確授權PUSH：發布首頁全站內容搜尋與全頁異名／搜尋一致性修正，範圍為index.html、tests/entry-performance.mjs、tools/preview.html及兩份交接文件。沿用session7673完整回歸exit0，本輪程式未另改，重跑zoom-queue與diff檢查通過；推送至origin/main後必須核對完整SHA。下方「本機未PUSH」保留為製作階段歷史，發布實際結果以Git核對與本輪最終回覆為準，不擅自接續新功能。
+
+- 2026-10-13全站異名與搜尋一致性（本機未PUSH）：主圖譜matchNodes、matchGroups與妖怪matchYokai共用buildHomeSearchPages／searchPageNodes索引與normalizePageSearch；節點顯示名稱完全相符優先，再原名／異名，再群組／關係，最後簡介。簡介命中必須標「內容提及（非此人物的別名）」，不能把文本比較、否定句或另一角色混成別名。單節點保存／重設與載入頁面都需清除homeSearchPages快取，否則同頁編輯後仍失搜。保留首頁懶建、不建圖譜DOM。
+- 異名補強集中SEARCH_ALIAS_ADDITIONS與LEGEND_PERSON_VARIANTS，121節點／252筆對照（含原有名稱去重），不新增節點或改血緣。異拼只按原典或具名規範庫核實；禁止依音近合併、全表拆斜線，因斜線也可能指不同地點／武器。Sigemund可列齊格蒙德／Sigmund，但不能列齊格飛／Sigurd；後兩者在貝奧武夫只屬簡介比較提及。丘比特不屬宙斯，邱比特／Cupid列厄洛斯的羅馬對應。異名參考用aliasSourceLinks追加，不覆寫原敘事來源；佛教用DILA個人規範ID，不能把同名他人、未來授記名或不同觀音形態全部當平義別稱。
+- 全頁搜尋驗證新增36頁、21,502個非空索引欄位比對與所有關係／分類可達節點掃描，及首頁→貝奧武夫→齊格飛內容提及→Sigmund直接命中與來源面板測試。NFKD外另處理ð／þ／æ／œ／ø／ı／ł／đ及轉寫撇號；僅查詢正規化、不改顯示語言。這不是全世界所有譯名全集；無可信來源不亂補。最終完整回歸session7673 exit0（含十九傳說桌機／390px、既有頁、三種預覽重載），zoom-queue與diff檢查通過。未PUSH；詳細來源、曾失敗斷言與修正界線見PROGRESS最新段。
+
+- 2026-10-13首頁內容搜尋修正（本機，未PUSH）：靜態卡片以data-pantheon連PANTHEONS、傳說用data-legend。homeSearchMatches現為{key,card,title,detail,...}頁面結果，不能再當DOM卡片；36個可選頁含獨立yokai與demons，共用原有34張轉盤卡，不新增重複卡。buildHomeSearchPages只讀defs／names／groups／unions／LIVE_EDITS與日本雙語／妖怪資料，不loadPantheon、不建節點DOM。索引首次輸入懶建、重新聚焦或返回首頁失效重建。名稱／異名／角色／群組／關係命中優先，簡介命中註「內容提及」；一頁最多一列、多頁全列，不截掉其餘頁。保持隱藏地區可直開、不改偏好與無外觀捲軸。天照補天照大神、Amaterasu異名。預覽增加yokai載入與保存重載，arthurian鍵對齊實際頁名。
+- 內容搜尋最終完整回歸session52287 exit0（含36頁代表內容、人物／事件／物件／神社／簡介、多頁與妖怪／惡魔直開、本地編輯重建、首次搜尋不建圖譜DOM、十九傳說桌機／390px與既有頁、首頁／圖譜／妖怪預覽重載），zoom-queue單測exit0。暖查詢約1–2ms僅本機診斷值，不宣稱所有裝置。此為既有文字與異名的部分比對，不推測未收錄同義詞。
+
 - 2026-10-13使用者已授權PUSH，九項傳說與首頁搜尋已以 `23619491fb2f2a19843a97541643754c30d947a1` 發布至origin/main並核對遠端完整SHA；下方「未授權／未PUSH」均為上一製作階段的歷史狀態。本輪僅發布與補交接記錄，程式及測試未另改。
 
 - 2026-10-13新增工作：建立kalevala、ulster、fianna、mabinogion、manas、dede、mwindo、panji、hangtuah九頁，沿用LEGENDS轉換、向下敘事分枝、實體框與具名非血緣關係；資料逐頁核對來源，未完成前不得宣稱全集。首頁搜尋使用homeSearchInput／homeSearchResults，不篩掉轉盤、不改地區偏好，含異名與代表人物；隱藏地區也可直開。輸入框方向鍵不得轉動背景轉盤，結果捲軸隱藏但可原生捲動。這輪未授權PUSH。

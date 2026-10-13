@@ -23,7 +23,7 @@ try {
   const pageErrors = [];
   socket.addEventListener('message', ev => {
     const msg = JSON.parse(ev.data);
-    if (msg.method === 'Runtime.exceptionThrown') pageErrors.push(msg.params.exceptionDetails.text);
+    if (msg.method === 'Runtime.exceptionThrown') pageErrors.push(msg.params.exceptionDetails.exception?.description||msg.params.exceptionDetails.text);
     if (!msg.id || !pending.has(msg.id)) return;
     const { resolve, reject } = pending.get(msg.id); pending.delete(msg.id);
     msg.error ? reject(new Error(msg.error.message)) : resolve(msg.result);
@@ -42,6 +42,35 @@ try {
   await request('Runtime.enable');
   for (let i = 0; i < 100 && await evaluate('typeof openChina') !== 'function'; i++) await new Promise(resolve => setTimeout(resolve, 100));
   if (await evaluate('typeof openChina') !== 'function') throw new Error('Mythology page did not initialize');
+  if(pageErrors.length)throw new Error(pageErrors.join('\n'));
+  const aliasSearch=await evaluate(`(()=>{
+    homeSearchPages=buildHomeSearchPages();
+    const failures=[];let identities=0,aliases=0,targets=0;
+    for(const page of homeSearchPages){
+      const defs=page.key==='yokai'?YOKAI_DEFS:PANTHEONS[page.key].defs;
+      const objects=Object.fromEntries(defs.map(d=>[d[0],{id:d[0]}]));
+      for(const record of page.records.filter(r=>!r.related)){
+        for(const name of new Set(record.identities.filter(Boolean))){
+          identities++;
+          if(!searchPageNodes(page.key,objects,name).some(h=>h.node.id===record.nodeIds[0]&&h.kind==='direct'))failures.push([page.key,record.nodeIds[0],name]);
+        }
+      }
+      for(const [id,list] of Object.entries({...SEARCH_ALIAS_ADDITIONS[page.key],...LEGEND_PERSON_VARIANTS[page.key]})){
+        targets++;aliases+=list.length;
+        if(!list.every(a=>PANTHEONS[page.key].names[id].aliases.includes(a)))failures.push([page.key,id,'aliases missing']);
+      }
+      for(const r of page.records.filter(r=>r.related))if(r.identities.some(Boolean)&&!searchPageNodes(page.key,objects,r.identities.find(Boolean)).length)failures.push([page.key,r.label,'no related target']);
+    }
+    const bw=Object.fromEntries(PANTHEONS.beowulf.defs.map(d=>[d[0],{id:d[0]}]));
+    const hit=q=>searchPageNodes('beowulf',bw,q).find(h=>h.node.id==='bw_sigemund');
+    const distinction=hit('齊格飛')?.kind==='mention'&&hit('齊格蒙德')?.kind==='direct'&&!PANTHEONS.beowulf.names.bw_sigemund.aliases.includes('齊格飛');
+    const spelling=[['Sigurðr','Sigurdr'],['Æschere','Aeschere'],['Ongenþēow','Ongentheow'],['Hızır','Hizir'],['Mīkāʾēl','Mikael']].every(([a,b])=>normalizePageSearch(a)===normalizePageSearch(b));
+    const correctCupid=!GR_NODE_NAMES.zeus.aliases.includes('丘比特')&&GR_NODE_NAMES.eros.aliases.includes('邱比特');
+    return {pages:homeSearchPages.length,identities,targets,aliases,failures,distinction,spelling,correctCupid};
+  })()`);
+  console.log(JSON.stringify({aliasSearch},null,2));
+  if(aliasSearch.failures.length||!aliasSearch.distinction||!aliasSearch.spelling||!aliasSearch.correctCupid)process.exitCode=1;
+  if(process.env.AUDIT_ALIASES==='1')for(const row of await evaluate(`Object.entries(PANTHEONS).map(([k,p])=>({key:k,nodes:p.defs.length,withAliases:p.defs.filter(d=>p.names[d[0]]?.aliases?.length).length,missing:p.defs.filter(d=>!d[7]&&!p.names[d[0]]?.aliases?.length).slice(0,12).map(d=>[d[0],d[1],d[2]])}))`))console.log('ALIAS_AUDIT '+JSON.stringify(row));
   const uniqueLogos=await evaluate(`(()=>{
     const normalize=s=>s.trim().replaceAll(String.fromCharCode(0xfe0f),'');
     const cards=[...document.querySelectorAll('#wheel .myth-icon')].map(c=>({page:c.querySelector('.label').textContent,logo:normalize(c.querySelector('.glyph').textContent)||c.querySelector('.glyph svg')?.outerHTML||''}));
@@ -59,8 +88,24 @@ try {
     const key=k=>homeSearchInput.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));
     const back=async()=>{closeJapan();await new Promise(r=>setTimeout(r,330))};
     const registered=keys.every(k=>LEGENDS[k]&&PANTHEONS[k]&&allWheelCards.some(c=>c.dataset.legend===k));
-    input('日本');const existing=homeSearchMatches.some(c=>c.getAttribute('onclick')==='openJapan()');
-    input('Cú Chulainn');const accents=homeSearchMatches.some(c=>c.dataset.legend==='ulster');
+    input('日本');const existing=homeSearchMatches.some(p=>p.key==='japan')&&homeSearchMatches.some(p=>p.key==='yokai');
+    input('Cú Chulainn');const accents=homeSearchMatches.some(p=>p.key==='ulster');
+    const pagesFor=q=>{input(q);return homeSearchMatches.map(p=>p.key)};
+    const allPages=homeSearchPages.length===Object.keys(PANTHEONS).length+1&&new Set(homeSearchPages.map(p=>p.key)).size===homeSearchPages.length;
+    const everyPageContent=Object.entries(PANTHEONS).every(([k,p])=>pagesFor(p.defs.find(d=>!d[7])?.[1]||p.defs[0][1]).includes(k));
+    const people=pagesFor('天照大神').includes('japan')&&homeSearchResults.textContent.includes('符合：天照大御神')&&pagesFor('Amaterasu').includes('japan');
+    const events=pagesFor('那伽蛇祭').includes('india');
+    const objects=pagesFor('八咫鏡').includes('japan');
+    const places=pagesFor('宮地嶽神社').includes('japan');
+    const descriptions=pagesFor('禊洗左眼時誕生').includes('japan')&&homeSearchResults.textContent.includes('內容提及：');
+    const crossPages=pagesFor('庫丘林');const multiple=crossPages.includes('celtic')&&crossPages.includes('ulster')&&new Set(crossPages).size===crossPages.length;
+    const fallen=pagesFor('路西法');const subpages=fallen.includes('angels')&&fallen.includes('demons')&&pagesFor('河童').includes('yokai');
+    const indexedWithoutRendering=Object.keys(nodes).length===0&&document.querySelectorAll('#stage .node').length===0;
+    const warmIndex=homeSearchPages;const t=performance.now();pagesFor('天照大神');const cached=homeSearchPages===warmIndex;const warmMs=Math.round(performance.now()-t);
+    const oldEdit=LIVE_EDITS.japan.amaterasu;
+    let edits=false;
+    try{LIVE_EDITS.japan.amaterasu={...oldEdit,name:'首頁測試天照名',aliases:['首頁測試天照別稱']};homeSearchInput.dispatchEvent(new Event('focus'));edits=pagesFor('首頁測試天照別稱').includes('japan')&&homeSearchResults.textContent.includes('首頁測試天照名')}
+    finally{if(oldEdit)LIVE_EDITS.japan.amaterasu=oldEdit;else delete LIVE_EDITS.japan.amaterasu;homeSearchPages=null;}
     input('神話');const count=homeSearchMatches.length,index=wheelIndex;
     key('ArrowUp');const up=homeSearchIndex===count-1;key('ArrowDown');const down=homeSearchIndex===0;
     const keyboard=up&&down&&wheelIndex===index&&homeSearchInput.getAttribute('aria-activedescendant')===homeSearchResults.firstElementChild.id;
@@ -73,10 +118,15 @@ try {
     input('神話');document.querySelector('#home h1').click();const outside=homeSearchResults.hidden;
     const opened=[];
     for(const k of keys){
-      input(k);const i=homeSearchMatches.findIndex(c=>c.dataset.legend===k);
+      input(k);const i=homeSearchMatches.findIndex(p=>p.key===k);
       if(i<0){opened.push(false);continue}homeSearchResults.children[i].click();
       await new Promise(r=>setTimeout(r,330));opened.push(currentPantheon===k&&document.getElementById('home').style.display==='none');await back();
     }
+    input('河童');homeSearchResults.children[homeSearchMatches.findIndex(p=>p.key==='yokai')].click();
+    const yokaiOpened=document.getElementById('yokai').style.display==='block'&&document.getElementById('home').style.display==='none';
+    closeYokai();await new Promise(r=>setTimeout(r,330));
+    input('路西法');homeSearchResults.children[homeSearchMatches.findIndex(p=>p.key==='demons')].click();
+    const demonOpened=currentPantheon==='demons';await back();
     const saved=[...hiddenRegions],storage=localStorage.getItem(REGION_FILTER_KEY);
     let hiddenRegion=false;
     try{
@@ -85,9 +135,26 @@ try {
       hiddenRegion=currentPantheon==='hangtuah'&&WHEEL_N===0&&localStorage.getItem(REGION_FILTER_KEY)===before;await back();
     }finally{hiddenRegions=new Set(saved);applyRegionFilter();if(storage===null)localStorage.removeItem(REGION_FILTER_KEY);else localStorage.setItem(REGION_FILTER_KEY,storage)}
     homeSearchClear.click();
-    return {registered,existing,accents,keyboard,ime,escape,noResult,safe,clear,outside,allNineOpened:opened.every(Boolean),hiddenRegion};
+    return {registered,existing,accents,allPages,everyPageContent,people,events,objects,places,descriptions,multiple,subpages,indexedWithoutRendering,cached,warmMs,edits,keyboard,ime,escape,noResult,safe,clear,outside,allNineOpened:opened.every(Boolean),yokaiOpened,demonOpened,hiddenRegion};
   })()`);
-  console.log(JSON.stringify({homeSearch},null,2));if(Object.values(homeSearch).some(v=>!v))process.exitCode=1;
+  console.log(JSON.stringify({homeSearch},null,2));if(Object.entries(homeSearch).some(([k,v])=>k!=='warmMs'&&!v))process.exitCode=1;
+  const aliasUI=await evaluate(`(async()=>{
+    homeSearchInput.value='齊格';renderHomeSearch();
+    const homepage=homeSearchMatches.some(p=>p.key==='beowulf');
+    openHomeSearchResult(homeSearchMatches.findIndex(p=>p.key==='beowulf'));
+    searchInput.value='齊格飛';showSearchResults();
+    const row=searchResults.querySelector('[data-id="bw_sigemund"]');
+    const mention=!!row&&row.textContent.includes('非此人物的別名');
+    row?.click();
+    const panel=document.getElementById('panel').textContent.includes('齊格蒙德');
+    const source=!!document.querySelector('#p-sources a[href*="editions.mml.ox.ac.uk"]');
+    searchInput.value='Sigmund';showSearchResults();
+    const direct=!!searchResults.querySelector('[data-id="bw_sigemund"]')&&!searchResults.querySelector('[data-id="bw_sigemund"]').textContent.includes('非此人物');
+    closeJapan();await new Promise(r=>setTimeout(r,330));
+    homeSearchClear.click();
+    return {homepage,mention,panel,source,direct};
+  })()`);
+  console.log(JSON.stringify({aliasUI},null,2));if(Object.values(aliasUI).some(v=>!v))process.exitCode=1;
   if (process.env.WAIT_IDLE_FONT === '1') await evaluate('document.fonts.ready');
   if (process.env.PROFILE === '1') { await request('Profiler.enable'); await request('Profiler.start'); }
   const result = await evaluate(`(async () => {
@@ -383,6 +450,18 @@ try {
     if(previewHome)break;await new Promise(resolve=>setTimeout(resolve,100));
   }
   console.log(JSON.stringify({previewHome},null,2));if(!previewHome)process.exitCode=1;
+  await request('Page.navigate',{url:'http://127.0.0.1:7788/tools/preview.html?page=yokai'});
+  for(let i=0;i<60;i++){
+    if(await evaluate("document.getElementById('preview')?.contentDocument?.querySelectorAll('#yokai .ycard').length>0"))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  await evaluate("revision='test-yokai-revision';check()");
+  let previewYokai=false;
+  for(let i=0;i<60;i++){
+    previewYokai=await evaluate("(()=>{const f=document.getElementById('preview');return !!f?.contentWindow?.location.search.startsWith('?preview=')&&f.contentDocument.getElementById('yokai').style.display==='block'&&f.contentDocument.querySelectorAll('#yokai .ycard').length>0})()");
+    if(previewYokai)break;await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  console.log(JSON.stringify({previewYokai},null,2));if(!previewYokai)process.exitCode=1;
   if (process.env.PROFILE === '1') {
     const { profile } = await request('Profiler.stop');
     const counts = new Map();

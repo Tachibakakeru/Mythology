@@ -1,5 +1,35 @@
 # World Mythology Genealogy — PROGRESS.md
 
+## 2026-10-13｜授權發布全站內容搜尋與異名修正
+
+- 使用者本輪明確要求PUSH，發布前確認目前分支main、遠端origin為既有Mythology倉庫、HEAD 50b8e22，恰好五個相關修改檔，沒有其他未追蹤檔案。包含前兩輪待確認的首頁36頁內容索引、121節點／252筆異名對照、主圖譜／妖怪搜尋統一、身分區分與來源、預覽重載及回歸測試，沒有額外新增故事／圖片或改UI架構。
+- 驗證沿用最近完整session7673 exit0（36頁21,502索引欄位、十九傳說桌機／390px、既有頁、三種預覽），本輪程式未改，不重跑整套；重新執行node tests/zoom-queue.test.js與git diff --check均通過，只有既有LF→CRLF提示。依ponytail維持最小發布範圍，未驗證正式站部署完成，不把Git推送成功當網站快取已更新。
+- 已核對原有本地可見預覽確實為首頁，保留原分頁；開啟請求原先回queued後產生的重複分頁已關閉，未把排隊回覆當完成展示。只提交五個上述檔案，提交標題Fix cross-page search and verified character aliases；不強制推送。推送後以git ls-remote origin refs/heads/main與本地完整SHA核對，成功狀態／提交碼以本輪Git結果和最終回覆確認；若失敗保留本機提交並回報，不覆蓋遠端。下方未PUSH為上一製作階段的歷史記錄。
+
+## 2026-10-13｜全頁異名補強與首頁／頁內搜尋一致（本機未PUSH）
+
+- 問題：首頁「齊格」能找到貝奧武夫，頁內找不到。核對發現首頁索引包含簡介，頁內原只搜名稱／假名／部分names欄位；bw_sigemund簡介有「不能直接改成……齊格飛」，首頁由此命中。不能把否定句提及的人物直接變成此人的別名。牛津線上校讀與Wyatt公版人物索引都區別Sigemund和後來屠龍的Sigurd。
+- index.html搜尋根因修正：matchNodes與matchYokai改用searchPageNodes，matchGroups也讀同一索引。record保留nodeIds／groupIndex／related，分類和關係可找到實際相連節點；精確顯示名rank5、精確原名／異名rank4、名稱欄部分比對rank3、群組／關係rank2、簡介rank1。非直接結果加「內容提及（非此人物的別名）」或「分類／關係提及」，妖怪同樣標示；選取仍沿用focusNode或妖怪定位。文字結果經esc避免本地自訂名稱被當HTML執行。
+- normalizePageSearch統一NFKD、漢字變體、大小寫、空白／分隔符，新增古英語／北歐ð→d、þ→th、æ→ae等字母及轉寫撇號折疊；不更改原名顯示或故事。loadPantheon、主圖譜／妖怪保存與重設清除索引快取，避免本頁修改後需離開才查得到。首頁依舊首次非空輸入懶建，不因索引初始化各頁圖譜或增加正式頁輪詢。
+- 異名資料：SEARCH_ALIAS_ADDITIONS與逐人物白名單LEGEND_PERSON_VARIANTS整理121個既有節點、252筆對照（含已存在名稱，Set去重；不是聲稱新增252個獨立新譯名）。涵蓋西格蒙德／齊格蒙德、Siegfried的齊格菲／齊格弗里德、Sigurd常用中文轉寫、印度Vishnu／Shiva／Ganesha／Krishna等、天使Michael／Gabriel／Raphael及天主教中文名、佛教九位佛菩薩／弟子、各英雄史詩原典異拼。日本補國學院已使用的羅馬字；所羅門名單補Agreas、Bimé／Bim、Hauras／Havres／Flauros、Amdukias等原文異拼。原有別稱保留，沒有改座標、群組、節點／關係數或人物版本。
+- 身分安全：bw_sigemund新增西格蒙德／齊格蒙德／Sigemund／Sigmund，不添加齊格飛／Siegfried／Sigurd或未核實的「齊格夫」。後者部分用語仍可藉真正別名齊格弗里德搜尋尼伯龍根頁，不能硬把夫／弗當全球同字。修正宙斯誤收丘比特，厄洛斯補教育部辭典的邱比特／Cupid。未把Brahman等同Brahma、羅睺羅等同Rahu、阿難等泛稱全部他人、不同Upāli／Kāśyapa、Bran王與同名獵犬或Raphael與Israfil合併；未全表機械拆斜線。
+- 出處：牛津 https://editions.mml.ox.ac.uk/editions/beowulf/ 與Wyatt https://en.wikisource.org/wiki/Beowulf_(Wyatt)/Persons_and_Places 供人物區別；中文譯名用中文維基齊格弗里德／貝奧武夫／格倫戴爾條目只核名稱用例，不當古典情節證明。希臘Heracles／Dionysus依Theoi，邱比特依教育部重編辭典ID147286。印度依亞洲藝術博物館India a Celebration教材與Parvati／Lakshmi／Krishna館藏。日本依國學院Susanoo／Tsukuyomi等條。天主教中英名依大埔堂區2022-08刊物；所羅門異拼依1904《小鑰匙》Shemhamphorash原文，不採網頁OCR的Gamigm作可靠Gamigin拼寫。十九史詩的同人異拼逐項對照既有original與節點所附原典；同一異名不代表各版本情節完全相同。
+- 佛教九筆規範來源：https://authority.dila.edu.tw/person/search.php?aid= 對應釋迦A002799、舍利弗A002402、目犍連A000053、阿難A003861、摩訶迦葉A002188、羅睺羅A006022、優波離A003353、阿那律A005158、觀音A002803。只選可明確指認的譯名／梵巴名，不搬入資料庫全部泛稱、授記佛名、化身或不同人。aliasSourceLinks把名稱依據追加到適用節點來源區，不取代原故事引用；傳說白名單沿用原典連結。
+- tests/entry-performance.mjs新增36頁共21,502個非空、逐節點去重索引欄位的直接命中檢查、群組／關係至少可達一節點、121異名目標存在及對照保存、Sigmund／Sigurd身分區別、古字母轉寫、Cupid歸屬與實際首頁→頁內結果→面板來源操作。首次初始化因誤用buddha而非實際siddhartha ID被明確斷言攔下，已修正；第二次UI測試以「齊格」預期內容提及失敗，因補上齊格蒙德後它正確成直接命中，改以「齊格飛」測試提及、「Sigmund」測試直接命中，不改產品迎合錯誤斷言。
+- 最終完整回歸session7673 exit0：36頁21,502索引欄位零失敗、121目標／252對照、古字母／身分／Cupid、aliasUI首頁→貝奧武夫→齊格飛提及→來源與Sigmund直接命中全部true；既有首頁鍵盤／IME／安全／隱藏地區／跨頁、十九傳說桌機與390px全覽／搜尋定位／來源／群組／幾何／匯出、日本雙語／宮地嶽、佛教／中國／瑪雅／阿茲特克、首頁與圖譜／妖怪預覽重載均通過，pageErrors皆空。zoom-queue單測與git diff --check通過。可見預覽實際搜尋首頁齊格→貝奧武夫→齊格飛，已見「內容提及（非此人物的別名）」；點選後面板顯示四別名與牛津來源，截圖已檢閱：C:/Users/user/AppData/Local/Temp/mythology-alias-parity-20261013.png。此為有來源常用異名補強及全頁程式檢查，不能宣稱人工窮盡所有語言／版本。未新增圖片或框架，ponytail促使沿既有資料和索引修根因；未PUSH，HEAD仍50b8e22，上一批未發布修改保留。
+
+## 2026-10-13｜首頁人物／事件／物件的全站搜尋（本機待確認，未PUSH）
+
+- 使用者指出「天照大神」找不到，要求人、事、物皆可找所屬頁，跨頁同時存在便全部列出。確認舊renderHomeSearch僅掃卡片textContent＋dataset.search，而dataset.search只在LEGENDS建立人物名／異名；既有十五張神話卡沒有節點索引。另外天照的JP_NODE_NAMES也漏常用別名。先前「代表人物」說明不適用全站，這輪修正而非新增一套外部搜尋服務。
+- index.html十五張靜態卡加data-pantheon對應現有鍵，動態LEGENDS沿data-legend。移除只對傳說建立的dataset.search，改buildHomeSearchPages統一讀PANTHEONS defs（名稱、轉寫、副標、簡介）、names（異名／原文／神社等）、groups與unions標籤、LIVE_EDITS；日本加繁中／日文介紹、群組／關係譯文與名稱覆蓋，妖怪用YOKAI_DEFS／NAMES／雙語敘述／編輯／群組。
+- 搜尋結果改為36個頁面入口，仍保留34張原轉盤卡：日本神話與日本妖怪分列，天使與惡魔分列；不是把兩子頁混成一個不可選結果。homeSearchMatches由DOM卡片改為頁面資料物件，測試與點選流程同步；點選直接openPantheon或openYokai，僅轉到對應原卡、不觸發兩次卡片click或改地區偏好。
+- 查詢以NFKD、大小寫、空白／常見分隔符與既有漢字變體規則正規化；此為文字部分比對，非語意模型或任意未知同義詞推測。補天照大神與Amaterasu兩個異名，原天照大御神資料保留。頁名精確優先，再名稱／異名／角色／分類，最後簡介提及；每頁只列一次、其餘命中頁全保留。結果副標列最多三個命中內容，明確標「符合」或「內容提及」，三個限制只限提示文字而非頁面數。全程textContent產生，使用者查詢／本地編輯不當HTML執行。
+- 為避免搜尋卡頓，索引首次非空查詢懶建與正規化快取，不在首頁初始化預建圖譜、不切換神話、不建節點DOM；closeJapan／closeYokai與搜尋重新聚焦會失效重建，納入本地編輯。首輪測試確認索引時stage節點數仍0，暖查詢約2ms（單次機器診斷，非所有裝置保證）。輸入提示改為頁面、人物、故事、神器或地點，沿用原藍色UI、鍵盤／IME／清除／隱藏捲軸。
+- tools/preview.html同步支援yokai直接載入與存檔後留在妖怪頁；既有arthur錯鍵改arthurian。否則首頁搜尋進妖怪後，下一次存檔會誤切首頁。只改開發預覽，不增加正式頁輪詢。
+- 首輪完整回歸session4096 exit0：36頁索引、天照中文／英文、那伽蛇祭、八咫鏡、宮地嶽神社、庫丘林多頁、路西法雙頁／河童妖怪、原有首頁鍵盤／安全／隱藏地區直開與十九傳說桌機／390px、既有頁皆通過。其後補每個PANTHEONS代表節點、純簡介詞與妖怪預覽重載斷言，最終完整回歸進行中，完成後再補結果。本輪未獲PUSH授權。
+- 最終完整回歸session52287 exit0，新增everyPageContent／純簡介命中／previewYokai皆true，暖查詢約1ms；全部既有桌機／390px、資料／幾何／來源／匯出、首頁鍵盤／IME／無結果／安全字串／地區偏好及三種預覽重載通過。`node --test tests/zoom-queue.test.js` exit0，`git diff --check`無錯（只有既有LF→CRLF提示）。未測所有實體裝置或任意未知同義詞；沒有新增搜尋服務、框架或依賴。
+- 可見預覽實際輸入天照大神→列出日本神話並點擊成功進入；庫丘林→凱爾特、庫丘林與阿爾斯特、僅介紹提及的芬恩三頁，提示分類清楚。截圖 `C:/Users/user/AppData/Local/Temp/mythology-home-amaterasu-20261013.png` 與 `C:/Users/user/AppData/Local/Temp/mythology-home-cross-page-search-20261013.png`。五檔修改留在本機，等待確認，不沿用上一輪PUSH授權發布此次修改。
+
 ## 2026-10-13｜使用者授權發布九項傳說與首頁搜尋
 
 - 使用者確認「可以PUSH」。發布前工作樹乾淨，HEAD為2361949；沿用上一輪完整十九傳說桌機／390px、首頁搜尋、既有頁與預覽回歸exit0及zoom-queue單測，不重跑未變更的程式測試。本輪未新增功能、節點或圖片。

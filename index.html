@@ -563,7 +563,7 @@
   <h1>世界神話系譜計畫</h1>
   <p>點選一個神話體系，探索諸神的血脈與傳說</p>
   <div id="homeSearchWrap">
-    <div class="home-search-bar"><span aria-hidden="true">⌕</span><input id="homeSearchInput" type="text" role="combobox" aria-label="搜尋神話或傳說頁面" aria-controls="homeSearchResults" aria-expanded="false" aria-autocomplete="list" placeholder="搜尋神話、傳說或代表人物…" autocomplete="off"><button id="homeSearchClear" aria-label="清除頁面搜尋" hidden>×</button></div>
+    <div class="home-search-bar"><span aria-hidden="true">⌕</span><input id="homeSearchInput" type="text" role="combobox" aria-label="搜尋神話或傳說頁面" aria-controls="homeSearchResults" aria-expanded="false" aria-autocomplete="list" placeholder="搜尋頁面、人物、故事、神器或地點…" autocomplete="off"><button id="homeSearchClear" aria-label="清除頁面搜尋" hidden>×</button></div>
     <div id="homeSearchResults" role="listbox" aria-label="符合的頁面" hidden></div>
   </div>
   <button id="homeThemeBtn" onclick="toggleTheme()" title="切換明暗模式">🌓</button>
@@ -571,54 +571,54 @@
     <button id="wheelPrev" class="wheelArrow" aria-label="上一個" onclick="wheelStep(-1)">‹</button>
     <div id="wheel">
     <!-- 東亞 -->
-    <div class="myth-icon" data-region="east_asia" onclick="openJapan()">
+    <div class="myth-icon" data-region="east_asia" data-pantheon="japan" onclick="openJapan()">
       <div class="glyph">⛩️</div>
       <div class="label">日本神話・妖怪</div>
       <div class="sub">古事記・日本書紀・妖怪傳承</div>
     </div>
-    <div class="myth-icon" data-region="east_asia" onclick="openChina()">
+    <div class="myth-icon" data-region="east_asia" data-pantheon="china" onclick="openChina()">
       <div class="glyph">🐉</div>
       <div class="label">中國神話</div>
       <div class="sub">創世・三皇五帝・山海異獸・天界地府</div>
     </div>
-    <div class="myth-icon" data-region="south_asia" onclick="openIndia()">
+    <div class="myth-icon" data-region="south_asia" data-pantheon="india" onclick="openIndia()">
       <div class="glyph">🕉️</div>
       <div class="label">印度神話</div>
       <div class="sub">三相神・化身・羅摩衍那・摩訶婆羅多</div>
     </div>
-    <div class="myth-icon" data-region="south_asia" onclick="openBuddhism()">
+    <div class="myth-icon" data-region="south_asia" data-pantheon="buddhism" onclick="openBuddhism()">
       <div class="glyph">☸️</div>
       <div class="label">佛教世界</div>
       <div class="sub">佛傳・佛菩薩・護法・宇宙觀・經典</div>
     </div>
     <!-- 歐洲 -->
-    <div class="myth-icon" data-region="europe" onclick="openGreek()">
+    <div class="myth-icon" data-region="europe" data-pantheon="greek" onclick="openGreek()">
       <div class="glyph">🏛️</div>
       <div class="label">希臘神話</div>
       <div class="sub">神譜・奧林帕斯・英雄傳說</div>
     </div>
-    <div class="myth-icon" data-region="europe" onclick="openNorse()">
+    <div class="myth-icon" data-region="europe" data-pantheon="norse" onclick="openNorse()">
       <div class="glyph">⚡</div>
       <div class="label">北歐神話</div>
       <div class="sub">埃達・阿薩神族・諸神黃昏</div>
     </div>
-    <div class="myth-icon" data-region="europe" onclick="openCeltic()">
+    <div class="myth-icon" data-region="europe" data-pantheon="celtic" onclick="openCeltic()">
       <div class="glyph">🍀</div>
       <div class="label">凱爾特神話</div>
       <div class="sub">圖阿哈德達南・庫丘林・芬尼亞</div>
     </div>
-    <div class="myth-icon" data-region="other" onclick="openArthurian()">
+    <div class="myth-icon" data-region="other" data-pantheon="arthurian" onclick="openArthurian()">
       <div class="glyph">⚔️</div>
       <div class="label">騎士王・亞瑟王傳說</div>
       <div class="sub">圓桌騎士・聖杯・卡姆蘭之戰</div>
     </div>
     <!-- 中東 -->
-    <div class="myth-icon" data-region="middle_east" onclick="openMesopotamia()">
+    <div class="myth-icon" data-region="middle_east" data-pantheon="mesopotamia" onclick="openMesopotamia()">
       <div class="glyph">𒀭</div>
       <div class="label">美索不達米亞神話</div>
       <div class="sub">提亞馬特・吉爾伽美什・伊絲塔</div>
     </div>
-    <div class="myth-icon" data-region="middle_east" onclick="openPersia()">
+    <div class="myth-icon" data-region="middle_east" data-pantheon="persia" onclick="openPersia()">
       <div class="glyph faravahar-glyph">
         <svg class="faravahar-icon" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path fill="currentColor" d="M130,42 150,15 156,30 172,8 180,26 198,10 206,30 222,18 228,36 240,32 232,50 130,58 Z"/>
@@ -640,30 +640,30 @@
       <div class="sub">法拉瓦哈・阿胡拉·馬茲達・羅斯坦</div>
     </div>
     <!-- 非洲 -->
-    <div class="myth-icon" data-region="africa" onclick="openEgypt()">
+    <div class="myth-icon" data-region="africa" data-pantheon="egypt" onclick="openEgypt()">
       <div class="glyph">𓂀</div>
       <div class="label">埃及神話</div>
       <div class="sub">九柱神・歐西里斯・冥界審判</div>
     </div>
     <!-- 美洲 -->
-    <div class="myth-icon" data-region="americas" onclick="openMaya()">
+    <div class="myth-icon" data-region="americas" data-pantheon="maya" onclick="openMaya()">
       <div class="glyph">🌽</div>
       <div class="label">瑪雅／基切神話</div>
       <div class="sub">《Popol Wuj》・創世・英雄雙子・玉米人</div>
     </div>
-    <div class="myth-icon" data-region="americas" onclick="openAztec()">
+    <div class="myth-icon" data-region="americas" data-pantheon="aztec" onclick="openAztec()">
       <div class="glyph">☀️</div>
       <div class="label">阿茲特克／墨西加神話</div>
       <div class="sub">五個太陽・羽蛇神・戰神誕生・造人</div>
     </div>
     <!-- 近代創作神話 -->
-    <div class="myth-icon" data-region="modern" onclick="openCthulhu()">
+    <div class="myth-icon" data-region="modern" data-pantheon="cthulhu" onclick="openCthulhu()">
       <div class="glyph">🐙</div>
       <div class="label">克蘇魯神話</div>
       <div class="sub">舊日支配者・偉大種族・瘋狂邊緣</div>
     </div>
     <!-- 其他傳說（非神話） -->
-    <div class="myth-icon" data-region="other" onclick="openAngels()">
+    <div class="myth-icon" data-region="other" data-pantheon="angels" onclick="openAngels()">
       <div class="glyph">🪽</div>
       <div class="label">天使與惡魔</div>
       <div class="sub">天使九階・墮天者・惡魔傳統</div>
@@ -1423,7 +1423,7 @@ const JP_NODE_NAMES = {
   "sumiyoshi_soko":{kojiki:"底筒之男神",nihonshoki:"底筒男命（そこつつのおのみこと）",reading:"そこつつのお の かみ",aliases:[]},
   "sumiyoshi_naka":{kojiki:"中筒之男神",nihonshoki:"中筒男命（なかつつのおのみこと）",reading:"なかつつのお の かみ",aliases:[]},
   "sumiyoshi_uwa":{kojiki:"上筒之男神",nihonshoki:"表筒男命（うわつつのおのみこと）",reading:"うわつつのお の かみ",aliases:[]},
-  "amaterasu":{kojiki:"天照大御神",nihonshoki:"天照大日孁貴神",reading:"あまてらすおおみかみ",aliases:["大日孁貴（おおひるめのむち）","天照坐皇大御神（あまてらしますすめおおみかみ）"]},
+  "amaterasu":{kojiki:"天照大御神",nihonshoki:"天照大日孁貴神",reading:"あまてらすおおみかみ",aliases:["天照大神","Amaterasu","大日孁貴（おおひるめのむち）","天照坐皇大御神（あまてらしますすめおおみかみ）"]},
   "tsukuyomi":{kojiki:"月読命",nihonshoki:"月夜見尊",reading:"つくよみ の みこと",aliases:["月弓尊（つくゆみのみこと）","月読神（つきよみのかみ）"]},
   "susanoo":{kojiki:"建速須佐之男命",nihonshoki:"素戔嗚尊",reading:"たけはやすさのお の みこと",aliases:["素盞嗚尊（すさのおのみこと）","速素戔嗚尊（はやすさのおのみこと）"]},
   "amenouzume":{kojiki:"天宇受賣命",nihonshoki:"天鈿女命",reading:"あめのうずめ の みこと",aliases:["宮比神（みやびのかみ）","大宮能売命（おおみやのめのみこと）"]},
@@ -2513,7 +2513,7 @@ const GR_NODE_NAMES = {
   iapetos:{kojiki:"Ἰαπετός",nihonshoki:"（羅馬）Iapetus",reading:"Iapetós",aliases:["伊阿珀托斯","雅佩特斯"]},
   themis:{kojiki:"Θέμις",nihonshoki:"（羅馬）Iustitia 尤斯提提亞",reading:"Thémis",aliases:["提密斯","正義女神"]},
   mnemosyne:{kojiki:"Μνημοσύνη",nihonshoki:"（羅馬）Moneta",reading:"Mnēmosýnē",aliases:["謨涅摩緒涅","記憶女神"]},
-  zeus:{kojiki:"Ζεύς",nihonshoki:"（羅馬）Iuppiter 尤庇特",reading:"Zeús",aliases:["宙斯","丘比特","朱庇特","木星","狄俄斯"]},
+  zeus:{kojiki:"Ζεύς",nihonshoki:"（羅馬）Iuppiter 尤庇特",reading:"Zeús",aliases:["宙斯","朱庇特","木星","狄俄斯"]},
   hera:{kojiki:"Ἥρα",nihonshoki:"（羅馬）Iuno 尤諾",reading:"Hḗrā",aliases:["希拉","朱諾","天后"]},
   poseidon:{kojiki:"Ποσειδῶν",nihonshoki:"（羅馬）Neptunus 涅普頓",reading:"Poseidōn",aliases:["波賽頓","海王星","涅普頓"]},
   hades:{kojiki:"Ἅιδης",nihonshoki:"（羅馬）Pluto 普魯托／Dis Pater",reading:"Háidēs",aliases:["黑帝斯","冥王","普魯托","冥王星"]},
@@ -11794,10 +11794,77 @@ for(const [key,book] of Object.entries(LEGENDS)){
     labels:{kana:'原文／轉寫',kojiki:'原文／文本名稱',nihonshoki:'其他拼寫',reading:'轉寫',aliases:'別稱',shrine:'相關地點'},
     sourceLinks:id=>(sourceKeys[id]||[]).map(k=>book.sources[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`+(s.alternate?`<a href="${s.alternate}" target="_blank" rel="noopener noreferrer">${s.zh}（古騰堡備用入口）</a>`:'')).join('')};
   const card=document.createElement('div');card.className='myth-icon';card.dataset.region='other';card.dataset.legend=key;
-  card.dataset.search=[key,...(book.aliases||[]),...book.sections.flatMap(([,records])=>records.flatMap(r=>[r[1],r[2],...(r[6]||[])]))].join(' ');
   const space=book.title.indexOf(' ');
   for(const [className,value] of [['glyph',book.title.slice(0,space)],['label',book.title.slice(space+1)],['sub',book.sub]]){const el=document.createElement('div');el.className=className;el.textContent=value;card.appendChild(el);}
   card.addEventListener('click',()=>openPantheon(key));document.getElementById('wheel').appendChild(card);
+}
+
+/* ============ 已核對的異名：保留版本人物，不以音近自動合併 ============ */
+const SEARCH_ALIAS_ADDITIONS={
+  beowulf:{bw_sigemund:['西格蒙德','齊格蒙德','Sigemund','Sigmund'],bw_beowulf:['貝奧武甫'],bw_grendel:['格蘭德爾','格倫戴爾']},
+  nibelungen:{nb_siegfried:['齊格菲','齊格弗里德','西格弗里德'],nb_siegmund:['西格蒙德','Siegmund']},
+  norse:{sigurd:['西格魯德','齊格魯德','希格爾德'],sigmund:['Sigmund']},
+  greek:{eros:['邱比特','Cupid'],herakles:['Heracles','Hercules'],dionysos:['Dionysus']},
+  japan:{susanoo:['Susanoo'],tsukuyomi:['Tsukuyomi'],okuninushi:['Ōkuninushi'],izanagi:['Izanagi','Izanaki'],izanami:['Izanami']},
+  india:{vishnu:['Vishnu'],shiva:['Shiva'],ganesha:['Ganesha'],brahma:['Brahma'],saraswati:['Saraswati'],krishna:['Krishna'],parvati:['Parvati'],lakshmi:['Lakshmi']},
+  buddhism:{
+    siddhartha:['釋迦牟尼','釋迦文佛','釋尊','喬答摩','Gautama Buddha','Siddhattha'],
+    sariputra:['舍利子','舍利弗多羅','舍利弗怛羅','奢利弗多羅','優波底沙','Sāriputta'],
+    maudgalyayana:['目連','大目連','大目犍連','摩訶目犍連','摩訶目揵連','目犍連延','Moggallāna','Mahāmoggallāna'],
+    ananda:['阿難陀','阿難陁','慶喜'],mahakasyapa:['大迦葉','大迦葉波','摩訶迦葉波','頭陀迦葉','Mahākassapa'],
+    rahula:['羅雲','羅護羅','羅怙羅','羅侯羅'],upali:['優婆離','鄔波離','憂波利','優波釐','優波梨'],
+    anuruddha:['阿那律陀','阿尼盧陀','阿耨樓陀','Aniruddha'],
+    avalokiteshvara:['光世音菩薩','觀音大士','觀世音大士','Avalokiteshvara']
+  },
+  angels:{michael:['Michael','彌額爾'],gabriel:['Gabriel','加俾厄爾'],raphael:['Raphael','辣法厄爾'],uriel:['Uriel'],azazel:['Azazel'],shemihazah:['Shemihazah']},
+  demons:{azazel:['Azazel'],shemihazah:['Shemihazah'],satan:['撒旦','Satan'],lilith:['Lilith'],agares:['Agreas'],bune:['Bimé','Bim'],haures:['Hauras','Havres','Flauros'],amdusias:['Amdukias']}
+};
+// 只提升本頁已逐項核對為同一人物的原文異拼；斜線也可能分隔兩個地點／武器，禁止全表自動拆分。
+const LEGEND_PERSON_VARIANTS={
+  roland:{rl_naimes:['Naimes','Neimes'],rl_aude:['Aude','Alde'],rl_ogier:['Ogier','Oger'],rl_roland:['Roland','Rollant'],rl_oliver:['Olivier','Oliver'],rl_ganelon:['Ganelon','Guenes'],rl_astolfo:['Astolfo','Astolpho']},
+  cid:{cd_jimena:['Jimena','Ximena'],cd_avengalvon:['Abengalbón','Avengalvón'],cd_yusuf:['Yusuf','Yúcef']},
+  robinhood:{rh_robin:['Robin Hood','Robyn Hode'],rh_tuck:['Friar Tuck','Friar Tuc']},
+  tell:{tl_tell:['Wilhelm Tell','William Tell']},
+  rostam:{rs_rostam:['Rostam','Rustem'],rs_rudabeh:['Rūdāba','Rudabeh'],rs_simurgh:['Sīmorḡ','Simurgh'],rs_rakhsh:['Raḵš','Rakush'],rs_mihrab:['Mehrāb','Mihrab'],rs_kobad:['Kay Qobād','Kai Kobad'],rs_esfandiyar:['Esfandīār','Isfendiyar']},
+  yoshitsune:{ys_yoshitsune:['源義経','Minamoto no Yoshitsune'],ys_benkei:['武蔵坊弁慶','Benkei'],ys_tokiwa:['常盤','常盤御前']},
+  gesar:{gs_joru:['Gesar','Joru'],gs_trothung:['Trothung','Trojyal']},
+  yang:{yj_ye:['楊繼業','楊令公']},
+  kalevala:{kv_ilmatar:['Ilmatar','Luonnotar'],kv_joukahainen:['Joukahainen','Youkahainen'],kv_lemminkainen:['Lemminkäinen','Ahti'],kv_kullervo:['Kullervo','Kullerwoinen'],kv_untamo:['Untamo','Untamoinen'],kv_marjatta:['Marjatta','Mariatta']},
+  mabinogion:{mb_bran:['Bendigeidfran','Bendigeid Vran'],mb_efnisien:['Efnisien','Evnissyen'],mb_manawydan:['Manawydan','Manawyddan'],mb_cigfa:['Cigfa','Kicva']},
+  ulster:{ul_cu:['Cú Chulainn','Setanta'],ul_conchobar:['Conchobar','Conor'],ul_lugh:['Lug','Lugh'],ul_dechtire:['Dechtire','Deichtine'],ul_aife:['Aífe','Aiffe'],ul_connla:['Connla','Conla'],ul_medb:['Medb','Maeve'],ul_ferdiad:['Fer Diad','Ferdiad']},
+  fianna:{fn_fionn:['Fionn mac Cumhaill','Finn'],fn_bodhmall:['Bodhmall','Bovmall'],fn_cumhal:['Cumhall','Cumhal'],fn_muirne:['Muirne','Muirni'],fn_finegas:['Finegas','Finnegas'],fn_sadhbh:['Sadhbh','Sadbh','Saba'],fn_uirne:['Uirne','Tuiren'],fn_caoilte:['Caoilte','Caílte'],fn_grainne:['Gráinne','Grania'],fn_aengus:['Aengus','Angus Óg'],fn_sherbhan:['Searbhán','Sharvan']},
+  manas:{mn_jakyp:['Jakïp','Jakyp'],mn_chiyirdi:['Chïyïrdï','Chiyrdy'],mn_akbalta:['Akbalta','Akbaltay'],mn_oshpur:['Oshpur','Oshpurbay'],mn_dongo:['Döngö','Dongo'],mn_kanykei:['Kanïkei','Kanykei'],mn_almanbet:['Almanbet','Almambet'],mn_bakai:['Bakai','Bakay'],mn_aichurok:['Aichürök','Aichurok'],mn_seytek:['Seitek','Seytek']},
+  mwindo:{mw_iyangura:['Iyangura','Iangura']},
+  dede:{dk_bogach:['Boğaç Khan','Bugach'],dk_hizir:['Hızır','Khidr'],dk_karajuk:['Karajuk','Karacuk'],dk_banu:['Banu Chichek','Banu Çiçek'],dk_baybure:['Bay Büre','Kam Büre'],dk_beyrek:['Bamsı Beyrek','Bamsi Beyrek']},
+  panji:{pj_panji:['Panji Inu Kertapati','Asmara Bangun'],pj_candra:['Candra Kirana','Sekartaji']},
+  hangtuah:{ht_tuah:['Hang Tuah','Hangtuah']}
+};
+for(const table of [SEARCH_ALIAS_ADDITIONS,LEGEND_PERSON_VARIANTS])for(const [key,entries] of Object.entries(table)){
+  for(const [id,aliases] of Object.entries(entries)){
+    const nn=PANTHEONS[key].names[id];
+    if(!nn)throw new Error('Unknown alias target: '+key+'/'+id);
+    nn.aliases=[...new Set([...(nn.aliases||[]),...aliases])];
+  }
+}
+const SEARCH_ALIAS_SOURCES={
+  beowulf:['牛津《貝奧武夫》校讀：Sigemund 與 Sigurd 的區別','https://editions.mml.ox.ac.uk/editions/beowulf/'],
+  nibelungen:['中文譯名對照：齊格菲／齊格弗里德','https://zh.wikipedia.org/zh-tw/齊格弗里德'],
+  norse:['中文譯名對照：北歐與德意志版本分層','https://zh.wikipedia.org/zh-tw/齊格弗里德'],
+  greek:['教育部重編辭典：愛神／邱比特','https://dict.revised.moe.edu.tw/dictView.jsp?ID=147286'],
+  india:['亞洲藝術博物館：印度神祇英文名稱','https://education.asianart.org/wp-content/uploads/sites/6/2019/12/IndiaaCelebration.pdf'],
+  angels:['天主教堂區刊物：三位總領天使中英名稱','https://taipo.catholic.org.hk/zh/wp-content/uploads/sites/2/2022/08/NL-202208.pdf']
+};
+const BUDDHIST_ALIAS_AUTHORITIES={siddhartha:'A002799',sariputra:'A002402',maudgalyayana:'A000053',ananda:'A003861',mahakasyapa:'A002188',rahula:'A006022',upali:'A003353',anuruddha:'A005158',avalokiteshvara:'A002803'};
+function aliasSourceLinks(key,id){
+  if(key==='buddhism'&&BUDDHIST_ALIAS_AUTHORITIES[id])return `<a href="https://authority.dila.edu.tw/person/search.php?aid=${BUDDHIST_ALIAS_AUTHORITIES[id]}" target="_blank" rel="noopener noreferrer">異名核對：法鼓人名規範資料庫</a>`;
+  if(key==='india'&&['krishna','parvati','lakshmi'].includes(id)){
+    const url=id==='parvati'?'https://searchcollection.asianart.org/objects/11234/the-hindu-deity-parvati':'https://searchcollection.asianart.org/objects/19307/the-hindu-deity-lakshmi-with-elephants-front-the-hindu-de';
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">異名核對：亞洲藝術博物館館藏名稱</a>`;
+  }
+  const s=SEARCH_ALIAS_ADDITIONS[key]?.[id]&&SEARCH_ALIAS_SOURCES[key];
+  // 只在來源實際支持的節點顯示；其他異拼沿用各節點既有原典來源。
+  if(!s||key==='greek'&&id!=='eros'||key==='angels'&&!['michael','gabriel','raphael'].includes(id)||key==='beowulf'&&id!=='bw_sigemund')return '';
+  return `<a href="${esc(s[1])}" target="_blank" rel="noopener noreferrer">異名核對：${esc(s[0])}</a>`;
 }
 
 /* ============ 日本頁限定：語言層（介面／分類先行；敘述逐批補譯） ============ */
@@ -12657,6 +12724,7 @@ function layoutNodes(){
 function loadPantheon(key){
   const p = PANTHEONS[key];
   if(!p) return;
+  homeSearchPages=null;
   currentPantheon = key; P = p;
   NODE_DEFS=p.defs; GROUPS=p.groups; UNIONS=p.unions; NODE_NAMES=p.names;
   p.namesOrig = p.namesOrig || JSON.parse(JSON.stringify(p.names));
@@ -13377,6 +13445,7 @@ function openPanel(n){
   const sources = document.getElementById('p-sources');
   sources.innerHTML = currentPantheon==='japan' ? sourceLinksHTML(JP_NODE_SOURCES[n.id] || ['nihongi']) : currentPantheon==='china' ? chinaSourceLinks(CN_NODE_SOURCES[n.id] || ['shanhaijing']) : currentPantheon==='maya' ? mayaSourceLinks(MY_NODE_SOURCES[n.id] || []) : currentPantheon==='aztec' ? aztecSourceLinks(AZ_NODE_SOURCES[n.id] || []) : currentPantheon==='greek' ? greekSourceLinks(GR_NODE_SOURCES[n.id] || []) : currentPantheon==='india' ? indiaSourceLinks(IN_NODE_SOURCES[n.id] || ['puranas']) : currentPantheon==='buddhism' ? buddhismSourceLinks(BU_NODE_SOURCES[n.id] || ['earlyCanon']) : (currentPantheon==='angels'||currentPantheon==='demons') ? angelDemonSourceLinks(AD_NODE_SOURCES[n.id] || ['bible']) : '';
   if(P.sourceLinks) sources.innerHTML=P.sourceLinks(n.id);
+  sources.innerHTML+=aliasSourceLinks(currentPantheon,n.id);
   sources.style.display = sources.innerHTML ? 'flex' : 'none';
   const counterpart = document.getElementById('p-counterpart');
   const target = P.counterpart;
@@ -13445,6 +13514,7 @@ function saveNodeEdit(){
   if(custom.length) rec.custom = custom; else delete rec.custom;
   if(images.length) rec.images = images; else delete rec.images;
   if(!saveLS(EDITS_KEY, USER_EDITS_LIVE)) return;
+  homeSearchPages=null;
   // Patch in-memory node
   const n = nodes[id];
   if(ov.name) n.name=ov.name;
@@ -13468,6 +13538,7 @@ function resetNodeEdit(){
   if(!editingNodeId) return;
   const id = editingNodeId;
   delete USER_EDITS_LIVE[id];
+  homeSearchPages=null;
   saveLS(EDITS_KEY, USER_EDITS_LIVE);
   const orig = NODE_DEFS.find(d=>d[0]===id);
   if(orig){
@@ -13670,7 +13741,8 @@ document.addEventListener('click', e=>{
   if(!e.target.closest('.groupPickerWrap')){ groupPickerList.classList.remove('open'); groupPickerBtn.classList.remove('active'); }
 });
 function matchGroups(q){
-  return GROUPS.map((g,i)=>({idx:i,label:currentPantheon==='japan'?localGroupLabel(g[0]):g[0]})).filter(g=>g.label.includes(q));
+  const query=normalizePageSearch(q);
+  return getPageSearchRecords(currentPantheon).filter(r=>r.groupIndex!==undefined&&searchRecordRank(r,query)>0).map(r=>({idx:r.groupIndex,label:currentPantheon==='japan'?localGroupLabel(GROUPS[r.groupIndex][0]):r.label}));
 }
 // 日文舊字體／繁體中文常見異體字，搜尋時視為相同（例：彦／彥）
 const KANJI_VARIANTS = {
@@ -13693,20 +13765,11 @@ function normKanji(s){
   for(const ch of s) out += (KANJI_VARIANTS[ch] || ch);
   return out;
 }
+let nodeSearchDetails=new Map();
 function matchNodes(q){
-  q = normKanji(q.toLowerCase().replace(/ /g,''));
-  return Object.values(nodes).filter(n =>{
-    const nn = NODE_NAMES[n.id]||{};
-    const reading = normKanji((nn.reading||'').replace(/ の /g,'の').replace(/ /g,''));
-    return normKanji(n.name.toLowerCase().replace(/ /g,'')).includes(q) ||
-      (n.kana||'').toLowerCase().replace(/ /g,'').includes(q) ||
-      normKanji((n.role||'').toLowerCase()).includes(q) ||
-      normKanji((nn.nihonshoki||'').toLowerCase()).includes(q) ||
-      normKanji((nn.kojiki||'').toLowerCase()).includes(q) ||
-      reading.includes(q) ||
-      normKanji((nn.shrine||'').toLowerCase()).includes(q) ||
-      (nn.aliases||[]).some(a=>normKanji(a.toLowerCase().replace(/ /g,'')).includes(q));
-  }).sort((a,b)=>Number(normKanji(b.name.toLowerCase().replace(/ /g,''))===q)-Number(normKanji(a.name.toLowerCase().replace(/ /g,''))===q));
+  const hits=searchPageNodes(currentPantheon,nodes,q);
+  nodeSearchDetails=new Map(hits.map(h=>[h.node.id,h]));
+  return hits.map(h=>h.node);
 }
 const searchClear = document.getElementById('searchClear');
 let searchFocusIdx = -1;
@@ -13718,12 +13781,13 @@ function showSearchResults(){
   if(!q){ searchResults.style.display='none'; clearHighlight(); return; }
   const gm = matchGroups(q);
   const nm = matchNodes(q);
-  const qn = normKanji(q.toLowerCase().replace(/ /g,''));
-  let html = gm.map(g=>`<div data-gi="${g.idx}" class="r-group">▸ ${g.label}</div>`).join('');
+  const qn = normalizePageSearch(q);
+  let html = gm.map(g=>`<div data-gi="${g.idx}" class="r-group">▸ ${esc(g.label)}</div>`).join('');
   html += nm.map(n=>{
     const nn = NODE_NAMES[n.id]||{};
-    const shrineHit = nn.shrine && normKanji(nn.shrine.toLowerCase()).includes(qn);
-    return `<div data-id="${n.id}">${n.name}<span class="r-kana">${n.kana||''}</span>${shrineHit?`<span class="r-shrine">⛩ ${nn.shrine}</span>`:''}</div>`;
+    const shrineHit = nn.shrine && normalizePageSearch(nn.shrine).includes(qn);
+    const kind=nodeSearchDetails.get(n.id)?.kind;
+    return `<div data-id="${n.id}">${esc(n.name)}<span class="r-kana">${esc(n.kana||'')}</span>${shrineHit?`<span class="r-shrine">⛩ ${esc(nn.shrine)}</span>`:''}${kind&&kind!=='direct'?`<span class="r-shrine">${kind==='mention'?'內容提及（非此人物的別名）':'分類／關係提及'}</span>`:''}</div>`;
   }).join('');
   searchResults.innerHTML = html || `<div style="color:var(--dim);cursor:default;">找不到符合的神明或群組</div>`;
   searchResults.style.display='block';
@@ -13853,6 +13917,7 @@ function openCeltic(){ openPantheon('celtic'); }
 function openArthurian(){ openPantheon('arthurian'); }
 function openCthulhu(){ openPantheon('cthulhu'); }
 function closeJapan(){
+  homeSearchPages=null;
   const japanEl = document.getElementById('japan');
   document.getElementById('home').style.display='flex';
   animateViewOut(japanEl);
@@ -14464,6 +14529,7 @@ function patchYokaiCard(id){
   const ce=card.querySelector('.ycat');   if(ce) ce.textContent=y.category||'';
 }
 function saveYokaiEdit(){
+  homeSearchPages=null;
   if(!currentYokaiId) return;
   const id = currentYokaiId;
   const aliasRaw = document.getElementById('ye-aliases').value;
@@ -14493,6 +14559,7 @@ function saveYokaiEdit(){
   openYPanel(id);
 }
 function resetYokaiEdit(){
+  homeSearchPages=null;
   if(!currentYokaiId) return;
   const id = currentYokaiId;
   delete YOKAI_EDITS_LIVE[id];
@@ -14508,16 +14575,11 @@ function resetYokaiEdit(){
   openYPanel(id);
 }
 
+let yokaiSearchDetails=new Map();
 function matchYokai(q){
-  q = normKanji(q.toLowerCase().replace(/ /g,''));
-  return Object.values(yokais).filter(y=>{
-    const yn = YOKAI_NAMES[y.id]||{};
-    return normKanji(y.name.toLowerCase()).includes(q) ||
-      (y.kana||'').toLowerCase().replace(/ /g,'').includes(q) ||
-      normKanji((y.category||'').toLowerCase()).includes(q) ||
-      normKanji((yn.original||'').toLowerCase()).includes(q) ||
-      (yn.aliases||[]).some(a=>normKanji(a.toLowerCase().replace(/ /g,'')).includes(q));
-  });
+  const hits=searchPageNodes('yokai',yokais,q);
+  yokaiSearchDetails=new Map(hits.map(h=>[h.node.id,h]));
+  return hits.map(h=>h.node);
 }
 const ysearchInput = document.getElementById('ysearchInput');
 const yresults = document.getElementById('yresults');
@@ -14531,7 +14593,7 @@ function showYResults(){
   const nm = matchYokai(q);
   const matchIds = new Set(nm.map(y=>y.id));
   document.querySelectorAll('.ycard').forEach(c=>c.classList.toggle('dim', !matchIds.has(c.dataset.id)));
-  yresults.innerHTML = nm.length ? nm.map(y=>`<div data-id="${y.id}">${y.name}<span class="r-kana">${y.kana||''}</span></div>`).join('')
+  yresults.innerHTML = nm.length ? nm.map(y=>`<div data-id="${y.id}">${esc(y.name)}<span class="r-kana">${esc(y.kana||'')}</span>${yokaiSearchDetails.get(y.id)?.kind!=='direct'?'<span class="r-shrine">內容／分類提及（非此妖怪的別名）</span>':''}</div>`).join('')
     : `<div style="color:var(--dim);cursor:default;">找不到符合的妖怪</div>`;
   yresults.style.display='block';
 }
@@ -14655,6 +14717,7 @@ function openYokai(){
   localStorage.setItem('mythCurrentPage','yokai');
 }
 function closeYokai(){
+  homeSearchPages=null;
   const yokaiEl=document.getElementById('yokai');
   document.getElementById('home').style.display='flex';
   animateViewOut(yokaiEl);
@@ -14939,31 +15002,79 @@ applyRegionFilter();
 /* ============ 首頁頁面搜尋：不改變地區偏好或轉盤排列 ============ */
 const homeSearchInput=document.getElementById('homeSearchInput'),homeSearchResults=document.getElementById('homeSearchResults'),homeSearchClear=document.getElementById('homeSearchClear');
 let homeSearchMatches=[],homeSearchIndex=-1;
-function normalizePageSearch(s){return s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[\s・·／/《》「」—–-]/g,'');}
+let homeSearchPages=null;
+function normalizePageSearch(s){return normKanji(s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[ðþæœøıłđ]/g,c=>({'ð':'d','þ':'th','æ':'ae','œ':'oe','ø':'o','ı':'i','ł':'l','đ':'d'}[c])).replace(/[\s・·／/《》「」—–\-'’ʻʼʾʿ]/g,''));}
+function getPageSearchRecords(key){homeSearchPages??=buildHomeSearchPages();return homeSearchPages.find(p=>p.key===key)?.records||[];}
+function searchRecordRank(record,q){return !q?0:record.primary===q?5:record.identities.includes(q)?4:record.terms.includes(q)?3:record.body.includes(q)?1:0;}
+function searchPageNodes(key,objects,q){
+  const query=normalizePageSearch(q),hits=new Map();
+  for(const record of getPageSearchRecords(key)){
+    const score=searchRecordRank(record,query);if(!score)continue;
+    const rank=record.related?Math.min(score,2):score,kind=record.related?'related':score===1?'mention':'direct';
+    for(const id of record.nodeIds||[]){if(objects[id]&&rank>(hits.get(id)?.rank||0))hits.set(id,{node:objects[id],rank,kind});}
+  }
+  return [...hits.values()].sort((a,b)=>b.rank-a.rank);
+}
+function buildHomeSearchPages(){
+  const text=values=>normalizePageSearch(values.flat().filter(v=>typeof v==='string').join(' '));
+  const record=(label,fields,descs,target={})=>({label,primary:normalizePageSearch(label),terms:text(fields),identities:fields.flat().filter(v=>typeof v==='string').map(normalizePageSearch),body:text(descs),...target});
+  const pages=[];
+  for(const card of allWheelCards){
+    if(card.classList.contains('disabled'))continue;
+    const first=card.dataset.legend||card.dataset.pantheon;
+    for(const key of [first,...(first==='japan'?['yokai']:first==='angels'?['demons']:[])]){
+      const p=PANTHEONS[key],records=[];
+      if(key==='yokai'){
+        for(const [id,name,kana,,category,desc] of YOKAI_DEFS){
+          const ov=YOKAI_EDITS_LIVE[id]||{};
+          records.push(record(ov.name??name,[name,kana,category,...Object.values(YOKAI_NAMES[id]||{}),...Object.entries(ov).filter(([field])=>field!=='desc').map(([,value])=>value)],[desc,YOKAI_DESC_ZH[id],ov.desc],{nodeIds:[id]}));
+        }
+        YOKAI_GROUPS.forEach(([label,ids],i)=>records.push(record(JP_GROUP_ZH[label]||label,[label,JP_GROUP_ZH[label],JP_GROUP_JA[label]],[],{groupIndex:i,nodeIds:ids,related:true})));
+      }else if(p){
+        for(const [id,name,kana,role,,,desc] of p.defs){
+          const ov=LIVE_EDITS[key]?.[id]||{};
+          records.push(record(ov.name??(key==='japan'?JP_DISPLAY_NAMES_ZH[id]:null)??name,[name,kana,role,...Object.values(p.names[id]||{}),...Object.entries(ov).filter(([field])=>field!=='desc').map(([,value])=>value)],[desc,ov.desc,...(key==='japan'?[JP_DESC_ZH[id],JP_DESC_JA[id]]:[])],{nodeIds:[id]}));
+        }
+        p.groups.forEach(([label,ids],i)=>records.push(record(key==='japan'?(JP_GROUP_ZH[label]||label):label,[label,...(key==='japan'?[JP_GROUP_ZH[label],JP_GROUP_JA[label]]:[])],[],{groupIndex:i,nodeIds:ids,related:true})));
+        p.unions.forEach(u=>{if(u.label)records.push(record(key==='japan'?(JP_RELATION_ZH[u.label]||u.label):u.label,[u.label,...(key==='japan'?[JP_RELATION_ZH[u.label]]:[])],[],{nodeIds:[u.parent,...(u.spouses||[]),...(u.children||[])].filter(Boolean),related:true}))});
+      }else continue;
+      const title=key==='yokai'?JP_UI['zh-TW'].yokaiTitle:p.title;
+      pages.push({key,card,title,records,terms:text([key,title,card.textContent,...(LEGENDS[key]?.aliases||[])])});
+    }
+  }
+  return pages;
+}
 function closeHomeSearch(){homeSearchResults.hidden=true;homeSearchInput.setAttribute('aria-expanded','false');homeSearchInput.removeAttribute('aria-activedescendant');homeSearchIndex=-1;}
 function renderHomeSearch(){
   const q=normalizePageSearch(homeSearchInput.value.trim());homeSearchClear.hidden=!q;homeSearchIndex=-1;
   if(!q){homeSearchMatches=[];closeHomeSearch();return;}
-  homeSearchMatches=allWheelCards.filter(c=>!c.classList.contains('disabled')&&normalizePageSearch(c.textContent+' '+(c.dataset.search||'')).includes(q));
-  homeSearchMatches.sort((a,b)=>Number(normalizePageSearch(b.querySelector('.label').textContent)===q)-Number(normalizePageSearch(a.querySelector('.label').textContent)===q));
+  // 索引只讀資料，不載入／重繪圖譜；回首頁或重新聚焦時更新本地編輯。
+  homeSearchPages??=buildHomeSearchPages();
+  homeSearchMatches=homeSearchPages.flatMap(page=>{
+    const direct=page.records.filter(r=>r.terms.includes(q)),mentions=direct.length?[]:page.records.filter(r=>r.body.includes(q));
+    if(!page.terms.includes(q)&&!direct.length&&!mentions.length)return [];
+    const labels=[...new Set((direct.length?direct:mentions).map(r=>r.label))].slice(0,3);
+    const exact=normalizePageSearch(page.title.slice(page.title.indexOf(' ')+1))===q||normalizePageSearch(page.card.querySelector('.label').textContent)===q;
+    return [{...page,detail:labels.length?(direct.length?'符合：':'內容提及：')+labels.join('、'):page.card.querySelector('.sub').textContent,rank:exact?2:direct.length?1:0}];
+  }).sort((a,b)=>b.rank-a.rank);
   homeSearchResults.replaceChildren();
-  homeSearchMatches.forEach((card,i)=>{
+  homeSearchMatches.forEach((page,i)=>{
     const button=document.createElement('button');button.type='button';button.className='home-search-result';button.id='home-result-'+i;button.setAttribute('role','option');button.setAttribute('aria-selected','false');
-    button.textContent=card.querySelector('.glyph').textContent+' '+card.querySelector('.label').textContent;
-    const sub=document.createElement('small');sub.textContent=card.querySelector('.sub').textContent+(card.classList.contains('region-hidden')?'（此地區目前隱藏，仍可直接開啟）':'');button.appendChild(sub);
+    button.textContent=page.title;
+    const sub=document.createElement('small');sub.textContent=page.detail+(page.card.classList.contains('region-hidden')?'（此地區目前隱藏，仍可直接開啟）':'');button.appendChild(sub);
     button.addEventListener('click',()=>openHomeSearchResult(i));homeSearchResults.appendChild(button);
   });
-  if(!homeSearchMatches.length){const empty=document.createElement('div');empty.className='home-search-empty';empty.textContent='找不到符合的頁面，請試其他名稱或代表人物。';homeSearchResults.appendChild(empty);}
+  if(!homeSearchMatches.length){const empty=document.createElement('div');empty.className='home-search-empty';empty.textContent='找不到符合的頁面，請試其他人物、故事、物件或地點名稱。';homeSearchResults.appendChild(empty);}
   homeSearchResults.hidden=false;homeSearchInput.setAttribute('aria-expanded','true');homeSearchInput.removeAttribute('aria-activedescendant');
 }
 function openHomeSearchResult(i){
-  const card=homeSearchMatches[i];if(!card)return;
+  const page=homeSearchMatches[i];if(!page)return;
   closeHomeSearch();closeRegionFilter();
-  const wheelPosition=wheelCards.indexOf(card);if(wheelPosition>=0)wheelGoTo(wheelPosition);
-  card.click();
+  const wheelPosition=wheelCards.indexOf(page.card);if(wheelPosition>=0)wheelGoTo(wheelPosition);
+  if(page.key==='yokai')openYokai();else openPantheon(page.key);
 }
 homeSearchInput.addEventListener('input',renderHomeSearch);
-homeSearchInput.addEventListener('focus',()=>{if(homeSearchInput.value.trim())renderHomeSearch();});
+homeSearchInput.addEventListener('focus',()=>{homeSearchPages=null;if(homeSearchInput.value.trim())renderHomeSearch();});
 homeSearchInput.addEventListener('keydown',e=>{
   if(e.isComposing)return;
   if(e.key==='Escape'){e.preventDefault();closeHomeSearch();return;}
