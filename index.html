@@ -25,7 +25,7 @@
   body{margin:0;font-family:"Noto Serif TC","Noto Sans TC","Segoe UI",serif;background:var(--bg);color:var(--text);}
 
   /* ---------- HOME ---------- */
-  #home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:40px;}
+  #home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:40px;overflow-x:clip;}
   #home h1{font-size:2.2em;letter-spacing:.15em;margin:0;color:var(--accent);text-shadow:0 0 20px rgba(90,180,255,.4);}
   #home p{color:var(--dim);margin:0;}
   /* 轉輪：卡牌繞著垂直軸旋轉，如轉經輪 */
@@ -76,13 +76,26 @@
   .wheelArrow:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-50%) scale(1.1);}
   #wheelPrev{left:max(8px, calc(50% - 420px));}
   #wheelNext{right:max(8px, calc(50% - 420px));}
-  #wheelDots{display:flex; gap:9px; justify-content:center;}
+  #wheelDots{display:flex; gap:9px; justify-content:center;flex-wrap:wrap;max-width:100%;}
   #wheelDots i{
     width:8px; height:8px; border-radius:50%; background:var(--line);
     cursor:pointer; transition:.2s; display:block;
   }
   #wheelDots i.on{background:var(--accent); transform:scale(1.45);}
   #wheelHint{color:var(--dim); font-size:.76em; letter-spacing:.05em;}
+  #homeSearchWrap{position:relative;width:min(440px,100%);z-index:31;}
+  .home-search-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--line);border-radius:24px;background:var(--bg2);color:var(--dim);transition:border-color .2s;}
+  .home-search-bar:focus-within{border-color:var(--accent);}
+  #homeSearchInput{min-width:0;flex:1;border:0;outline:0;background:transparent;color:var(--text);font:inherit;font-size:.88em;}
+  #homeSearchInput::placeholder{color:var(--dim);}
+  #homeSearchClear{border:0;background:none;color:var(--dim);font:inherit;cursor:pointer;padding:0 4px;}
+  #homeSearchResults{position:absolute;top:calc(100% + 8px);width:100%;max-height:min(330px,50vh);overflow-y:auto;padding:6px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:0 14px 30px #0005;scrollbar-width:none;-ms-overflow-style:none;}
+  #homeSearchResults::-webkit-scrollbar{display:none;width:0;height:0;}
+  #homeSearchResults[hidden]{display:none;}
+  .home-search-result{display:block;width:100%;padding:11px 12px;text-align:left;border:0;border-radius:9px;background:none;color:var(--text);font:inherit;font-size:.88em;cursor:pointer;}
+  .home-search-result:hover,.home-search-result[aria-selected="true"]{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);}
+  .home-search-result small{display:block;color:var(--dim);font-size:.8em;margin-top:3px;}
+  .home-search-empty{padding:12px;color:var(--dim);font-size:.85em;}
 
   /* 首頁地區群組篩選 */
   #regionFilterWrap{position:relative; display:inline-block;}
@@ -549,6 +562,10 @@
 <div id="home">
   <h1>世界神話系譜計畫</h1>
   <p>點選一個神話體系，探索諸神的血脈與傳說</p>
+  <div id="homeSearchWrap">
+    <div class="home-search-bar"><span aria-hidden="true">⌕</span><input id="homeSearchInput" type="text" role="combobox" aria-label="搜尋神話或傳說頁面" aria-controls="homeSearchResults" aria-expanded="false" aria-autocomplete="list" placeholder="搜尋神話、傳說或代表人物…" autocomplete="off"><button id="homeSearchClear" aria-label="清除頁面搜尋" hidden>×</button></div>
+    <div id="homeSearchResults" role="listbox" aria-label="符合的頁面" hidden></div>
+  </div>
   <button id="homeThemeBtn" onclick="toggleTheme()" title="切換明暗模式">🌓</button>
   <div id="wheelStage">
     <button id="wheelPrev" class="wheelArrow" aria-label="上一個" onclick="wheelStep(-1)">‹</button>
@@ -11184,6 +11201,570 @@ LEGENDS.roland.relations.push(
   {spouses:['rl_bayard','rl_bayard_escape'],marriage:'partner',label:'拜亞爾・法國版本結局'},
   {spouses:['rl_rinaldo','rl_froberge'],marriage:'partner',label:'法國版本持劍'},
 );
+LEGENDS.kalevala={
+  title:'🪕 卡勒瓦拉',sub:'芬蘭／卡累利阿・歌唱英雄與桑波',aliases:['Kalevala','卡萊瓦拉','芬蘭史詩','維納莫伊寧'],
+  intro:'沿隆洛特編成的五十歌《卡勒瓦拉》，由天地形成、歌唱英雄與婚姻試煉，走向桑波爭奪、日月復歸及新生兒帶來的世代轉換。此頁以Crawford1888公版英譯作閱讀入口，保留現代芬蘭語姓名與譯本異拼；編成史詩不等於所有芬蘭、卡累利阿口傳共有的單一正典。',
+  sources:{poem:{zh:'《卡勒瓦拉》五十歌：Crawford1888公版英譯（依節點註明歌次）',url:'https://www.gutenberg.org/files/5186/5186-h/5186-h.htm'}},
+  sections:[
+    ['天地初成與歌唱的力量',[
+      ['kv_creation','蛋殼成天地','Creation from the eggs','第1至2歌・創世與播種','伊爾瑪塔爾漂流水上，水鳥在其膝築巢；落水破裂的蛋形成天地與日月。維納莫伊寧誕生後面對尚未耕作的世界，播種與清除遮蔽天光的大橡樹接續創世，而非另一套北歐巨人創世。','poem'],
+      ['kv_ilmatar','伊爾瑪塔爾','Ilmatar / Luonnotar','水上漂流的空氣之女','第1歌降至原初海面，受風與水孕育，長久漂流並參與地形的形成。水鳥在她膝上孵蛋，蛋墜水破裂化成天地；她也是維納莫伊寧之母，不直接等同北歐女神。','poem'],
+      ['kv_vainamoinen','維納莫伊寧','Väinämöinen / Wainamoinen','古老歌者・造舟與奏琴英雄','以歌唱、知識與咒語行動的核心人物，曾與尤卡海寧鬥歌、向維普寧求取造舟缺詞，並率同伴奪桑波。第50歌面對新生兒的判斷後離去，留下琴與歌，不是永遠掌權的唯一創世主。','poem',['韋伊奈莫寧','萬奈摩寧']],
+      ['kv_sampsa','桑普薩・佩勒沃寧','Sampsa Pellervoinen','第2歌・土地播種者','奉命在地上撒種，使樹木與植物生長。橡樹過度繁茂反而遮住日月，必須處理後才恢復生活空間；豐饒並非不受節制地增加，這段也接向農耕勞作與祈願。','poem'],
+      ['kv_joukahainen','尤卡海寧','Joukahainen / Youkahainen','鬥歌敗者・艾諾之兄','第3歌自誇知識並挑戰古老歌者，遭歌入沼澤，最後以妹妹作婚約交換脫困。第6歌又以弓箭報復，卻射中英雄坐騎；妹妹的意願與婚約後果不能省略。','poem'],
+      ['kv_aino','艾諾','Aino','第4至5歌・拒婚與失落','不願接受兄長為自救許下的婚配，離家後在水中消失，後以魚的形態被歌者捕得又逃開。故事呈現拒婚、哀悼及未被理解的聲音，不把她寫成已與維納莫伊寧成婚。','poem'],
+      ['kv_ukko','烏科','Ukko','詩中受祈求的天空之神','英雄在困境中向烏科祈求雨、武器或援助；後段失火與日月被藏的故事也提及天空的火。此頁限於史詩敘事中的職能，不把譯者序言過時的族群學說當成現代定論。','poem'],
+    ]],
+    ['北方女主人與婚姻試煉',[
+      ['kv_pohjola','波赫約拉的交換與試煉','Pohjola','第7至25歌・救援、交易與婚宴','洛希救起漂流的歌者，要求以鍛造桑波作交換。伊爾瑪里寧造出寶物後仍須經歷求婚試煉；婚宴與勸誡歌描寫社會規範，不應將女兒全部合併成唯一具名女神。','poem'],
+      ['kv_louhi','洛希','Louhi','波赫約拉女主人・桑波守護者','既接待落難者，也以桑波與婚姻條件談判。寶物遭奪後追擊並化為巨鳥；後段又藏起日月、造成困境。她是具有政治與魔法力量的對手，不只是單一戰役中的怪獸。','poem'],
+      ['kv_ilmarinen','伊爾瑪里寧','Ilmarinen','神匠・桑波鍛造者','第10歌鍛造桑波，第19歌完成耕蛇田、制服猛獸等求婚試煉，後成婚。妻子在庫勒沃故事中遇害後，他嘗試打造黃金新娘，卻發現金屬形體不能取代有生命的伴侶。','poem'],
+      ['kv_bride','波赫約拉新娘','The maiden of Pohjola','第19至25、32至33歌・神匠之妻','伊爾瑪里寧完成試煉後迎娶的女兒，在婚禮勸誡歌中被要求面對新家庭的責任。後來她把石藏在牧童的麵包裡，招來庫勒沃以野獸復仇；不把她與洛希每一位女兒一概等同。','poem'],
+      ['kv_trials','神匠的三項求婚試煉','Ilmarinen’s trials','第19歌・蛇田、猛獸與冥河魚','求婚者面對耕蛇田、捕捉冥界猛獸及取冥河大魚等任務，靠工具與女方指引完成。這是伊爾瑪里寧線，不與勒明蓋寧捕天鵝的致死任務合併。','poem'],
+      ['kv_gold_bride','黃金新娘','The golden bride','第37歌・鍛造生命的失敗','喪妻的神匠用金銀造出美麗形體，卻無法帶來溫暖與真正陪伴，歌者也拒絕接受。物件揭示鍛造能力的界線，不寫成後來復活、具有完整人生的第二任妻子。','poem'],
+    ]],
+    ['勒明蓋寧的死亡、復歸與遠行',[
+      ['kv_lem_story','冥河碎身與母親救援','Lemminkäinen’s restoration','第11至15、26至30歌','勒明蓋寧遠赴波赫約拉求婚，死於捕冥河天鵝的任務，母親尋回並拼合遺體，以蜜與咒語救治。其後宴會衝突、流亡與冰封遠征另起波折，復活並未使他永遠免於失敗。','poem'],
+      ['kv_lemminkainen','勒明蓋寧','Lemminkäinen / Ahti','冒險者・屢違母親勸告','與基莉琪成婚卻因誓約破裂再次遠行，向洛希求婚後遭殺害。母親救活他；他又因未受宴請而挑戰北方主人，逃往島上，再於寒冷遠征中受挫，呈現魯莽與依賴並存的英雄。','poem'],
+      ['kv_mother','勒明蓋寧之母','Lemminkäinen’s mother','第15歌・尋屍與救治者','由流血的梳子得知危機，追問死因並求造巨耙，從冥河尋回兒子殘軀。她再使蜜蜂取療癒之蜜，配合咒語復原生命；這位母親在本段未具專名，不替她造名或當成伊爾瑪塔爾。','poem'],
+      ['kv_kyllikki','基莉琪','Kyllikki','第11至12歌・誓約中的妻子','被勒明蓋寧帶走，雙方約定他不出征、她不參加村中舞會。約定破裂導向英雄離家；故事帶有強迫與雙重要求，不將此婚姻粉飾成完全自願且平等的童話。','poem'],
+      ['kv_tuonela','圖奧內拉','Tuonela / Manala','亡者之境與危險河流','死者領域在捕天鵝、尋屍及歌者造舟求詞時反覆出現。英雄抵達不表示他能自由支配死亡；不同任務各有渡河與返回障礙，不直接套用希臘冥府官職。','poem'],
+      ['kv_swan','圖奧內拉天鵝','Swan of Tuonela','第14歌・致死任務的目標','洛希要求求婚者射取冥河天鵝，勒明蓋寧卻在河邊遭伏擊，身體被撕裂送入水流。天鵝是此任務中的神聖鳥類，不把牠寫成動手殺人的唯一兇手。','poem'],
+    ]],
+    ['庫勒沃：奴役與家族悲劇',[
+      ['kv_kullervo_story','庫勒沃的破壞與悲劇','Kullervo cycle','第31至36歌・暴力的連鎖','敵對家族、奴役、羞辱與復仇貫穿本組。庫勒沃誤與失散妹妹發生關係，真相揭露後妹妹投河，他在復仇後以劍自殺；故事保留傷害與責任，不將其行為美化為成功英雄之路。','poem'],
+      ['kv_kullervo','庫勒沃','Kullervo / Kullerwoinen','卡勒沃之子・遭奴役的青年','幼時受敵對族人控制，多種勞作在超常力量下失控，後被賣給神匠。受麵包藏石羞辱後驅野獸殺死女主人；與妹妹相認太遲，家族悲劇與復仇最終未帶來可生活的未來。','poem'],
+      ['kv_kalervo','卡勒沃','Kalervo','家族衝突中的父親','與烏恩塔莫家族敵對，家園遭破壞，兒子被帶走。第34歌庫勒沃卻找到仍活著的家人，須保留故事的再會段落，不能只因開篇毀家便把全家永久標成同時死亡。','poem'],
+      ['kv_untamo','烏恩塔莫','Untamo / Untamoinen','卡勒沃的敵對兄弟・奴役者','家族紛爭後控制庫勒沃，多次企圖除去這位難以駕馭的孩子，最後將他賣給伊爾瑪里寧。後來遭青年復仇，人物關係來自本詩的家族敘述，不任意連到北方女主人為父子。','poem'],
+      ['kv_sister','庫勒沃失散的妹妹','Kullervo’s sister','第35歌・身分揭露的受害者','離散後在旅途中與哥哥相遇，雙方起初不知親屬身分。談起出身才認出對方，妹妹隨後投河；本頁不給她虛構專名，也不把這段性暴力與悲劇寫成幸福的戀愛婚配。','poem'],
+      ['kv_bread','藏石麵包與破刀','The stone in the bread','第32至33歌・羞辱引發復仇','神匠之妻在牧童口糧藏石，使庫勒沃父親留下的刀斷裂。他以咒語將野獸驅向女主人；物件把奴役、家族記憶與報復連起來，不能略去女主人遭殺的後果。','poem'],
+    ]],
+    ['桑波遠征與世界復明',[
+      ['kv_sampo_story','奪取與失落的桑波','The Sampo expedition','第39至49歌・海上遠征與復明','三位英雄航向波赫約拉，歌聲使守衛沉睡，帶走桑波。洛希追趕引發海戰，寶物破碎；岸邊碎片帶來豐饒，而失火、疾病與日月被藏又延續世界秩序的爭奪。','poem'],
+      ['kv_vipunen','安特羅・維普寧','Antero Vipunen','第17歌・巨人體內的古老知識','歌者缺少造舟所需的詞語，進入沉睡巨人的身體，在其中築爐折磨對方，直到取得咒語。故事把知識取得寫成危險的交涉，不稱維普寧是所有人物共同的創世父神。','poem'],
+      ['kv_eagle_battle','洛希化鳥的海戰','Louhi’s pursuit','第43歌・船上反擊與寶物破碎','洛希變成巨大鳥形追上奪寶船，英雄與追兵交戰，桑波墜海破碎。不是一場把整個北方國度徹底抹除的征服；後段洛希仍能行動，故事也留下寶物分配不均的張力。','poem'],
+      ['kv_sun_moon','日月遭藏與重見天光','Release of sun and moon','第47至49歌・光明恢復','洛希把日月藏入山中，神匠造出金銀天體卻不能代替真正日月。威脅與交涉後她放出天光；故事區分人工仿造與世界秩序的恢復，不把黃金天體當成今天的太陽月亮。','poem'],
+      ['kv_marjatta','瑪爾雅塔','Marjatta / Mariatta','第50歌・莓果受孕的新母親','吞食莓果後懷孕，生產時遭排斥。孩子將受審判時開口反駁老歌者，並被承認為新的統治者；情節具有基督教化色彩，但不是新約聖母故事的逐字移植。','poem'],
+      ['kv_child','瑪爾雅塔之子','Marjatta’s child','第50歌・世代轉換的嬰兒','以言語揭露判斷者的過往，阻止自己被處置，最後接受洗禮並獲承認。維納莫伊寧因此離去；原詩沒有在此段給他一套延伸成年冒險，不自行補寫王朝後代。','poem'],
+    ]],
+    ['神器、神獸與史詩傳承',[
+      ['kv_objects','歌、工具與神奇生靈','Objects and beings','依各歌分類・不是血緣家族','桑波、兩把琴、母親的耙與蜜蜂各在不同故事發揮功能，不能因同框而視為同一作者鍛造或彼此親屬。此組集中方便比較，再用具名連線連回使用者與故事。','poem'],
+      ['kv_sampo','桑波','Sampo','第10、42至43歌・帶來豐饒的神器','伊爾瑪里寧鍛造的神奇寶物，在詩中能帶來穀物、鹽與財富。洛希收藏後成為海上爭奪的焦點，破碎散入海岸；具體形制有解釋差異，不把現代機械圖當作唯一古代外觀。','poem'],
+      ['kv_kantele','魚骨康特勒琴','Pike-bone kantele','第40至43歌・第一把琴','英雄由巨梭魚的顎骨製琴，古老歌者彈奏時吸引眾生聆聽。遠征中此琴失落海中；不能把它與第44歌另造的木琴合成一把始終完好的神器。','poem'],
+      ['kv_second_kantele','樺木康特勒琴','Birch kantele','第44歌・失琴後再造','第一把琴失落後，歌者由樺木製作新琴並尋得琴弦。樂聲再次召集人與自然生靈，表現創作可以延續；這是後來的木琴，不是從海底尋回魚骨琴。','poem'],
+      ['kv_rake','尋屍巨耙','The great rake','第15歌・母親的救援工具','勒明蓋寧之母請神匠造出長耙，耙取冥河中的遺體殘部。工具本身並不自動復活死者，還須拼合、療癒之蜜及咒語；不得直接借用外作品神器名稱。','poem'],
+      ['kv_bee','取蜜的蜜蜂','The healing bee','第15歌・從遠處取回療癒之蜜','受母親請求遠行尋找有效的蜜，前次帶回不足以救活英雄，後續仍須更高遠的療癒力量。這是救治過程中的使者，不是一位具有固定人形家譜的獨立女神。','poem'],
+    ]],
+  ],relations:[
+    {parent:'kv_ilmatar',children:['kv_vainamoinen'],label:'第1歌母子'},
+    {spouses:['kv_joukahainen','kv_aino'],marriage:'partner',label:'兄妹・非婚姻'},
+    {spouses:['kv_ilmarinen','kv_bride'],marriage:'primary',label:'第19至25歌婚配'},
+    {parent:'kv_mother',children:['kv_lemminkainen'],label:'母親尋屍救子'},
+    {parent:'kv_kalervo',children:['kv_kullervo','kv_sister'],label:'第34至35歌家人相認'},
+    {parent:'kv_marjatta',children:['kv_child'],label:'第50歌母子'},
+    {spouses:['kv_ilmarinen','kv_sampo'],marriage:'partner',label:'第10歌鍛造'},
+    {spouses:['kv_vainamoinen','kv_kantele'],marriage:'partner',label:'魚骨製琴與彈奏'},
+    {spouses:['kv_mother','kv_rake'],marriage:'partner',label:'用耙尋回遺體'},
+  ],
+};
+LEGENDS.mabinogion={
+  title:'🌿 馬比諾吉昂',sub:'威爾斯四支故事・異界與家族命運',aliases:['Mabinogion','Mabinogi','馬比諾吉恩','普伊爾','瑞安儂'],
+  intro:'以Guest公版譯本中的四支Mabinogi為主，另收《庫爾赫與奧爾溫》及《盧德與勒維利斯》。各篇以不同家族、魔法與政治危機展開；威爾斯故事中的亞瑟不與馬洛里版本逐人強合，塔利埃辛也不冒稱四支故事之一。',
+  sources:{text:{zh:'Guest《馬比諾吉昂》公版英譯（依節點所列篇名）',url:'https://www.gutenberg.org/cache/epub/5160/pg5160-images.html'}},
+  sections:[
+    ['第一支：普伊爾、異界與失子',[
+      ['mb_first','戴維德與安努恩的交換','First Branch','狩獵失禮、換身與家族團聚','普伊爾搶了異界獵犬的獵物，以交換身分一年補償阿拉溫，並只擊哈夫甘一次。返國後迎娶瑞安儂，失子冤案卻使家庭再陷困境；提爾農撫育的金髮孩子最後被認回。','text'],
+      ['mb_pwyll','普伊爾','Pwyll','戴維德領主・阿拉溫的盟友','因狩獵失禮同意換身，遵守不再補擊敵手的約定，也尊重阿拉溫之妻。後藉瑞安儂的袋子計策化解錯許求婚者的承諾；不是本來就統治所有異界的唯一冥王。','text'],
+      ['mb_arawn','阿拉溫','Arawn','安努恩之王・換身盟約者','與普伊爾互換外貌與國土一年，請他處理敵王哈夫甘。發現普伊爾忠實履約後建立友誼；故事沒有把阿拉溫寫成基督教撒但，也不是所有威爾斯異界人物的父親。','text'],
+      ['mb_rhiannon','瑞安儂','Rhiannon','選擇婚姻、遭冤與重獲家庭者','騎馬現身，明言選擇普伊爾而不願嫁給古奧爾，並設計解決婚約危機。兒子失蹤後遭侍女誣告並受懲罰，真相終由孩子歸來揭露；第三支另與馬納維丹成婚。','text'],
+      ['mb_pryderi','普雷德里','Pryderi','失而復得的王子・四支連貫人物','幼時被提爾農家收養，後認回普伊爾與瑞安儂。成年參與愛爾蘭遠征，第三支被魔法金碗困住，第四支因豬群爭端與格威迪恩決鬥而亡；跨篇沿用同一人。','text'],
+      ['mb_teyrnon','提爾農','Teyrnon','救馬駒、收養並送還孩子者','守護每年失蹤的馬駒時斬斷怪爪，屋外出現嬰兒，與妻子將其養大。孩子漸像普伊爾，夫婦帶他返戴維德，使瑞安儂洗清罪名；收養關係不冒畫成親生父子。','text'],
+      ['mb_gwawl','古奧爾','Gwawl','瑞安儂拒絕的求婚者','利用普伊爾宴席上的許諾要求新娘，後卻被誘入永遠裝不滿的袋中，被迫放棄婚約。其遭羞辱成為第三支報復魔法的背景，不把他直接寫成瑞安儂的前夫。','text'],
+    ]],
+    ['第二支：布蘭溫與愛爾蘭戰爭',[
+      ['mb_second','婚姻聯盟走向毀滅','Second Branch','侮辱、報復與倖存者','布蘭溫遠嫁愛爾蘭，埃夫尼西恩傷馬破壞聯盟；她受虐後派鳥求援。戰爭中復活大鍋使戰鬥延續，直到被毀；勝利沒有救回完整家族，只有少數人攜國王之首返航。','text'],
+      ['mb_bran','祝福者布蘭','Bendigeidfran / Bendigeid Vran','巨人國王・布蘭溫之兄','因妹妹受虐率軍跨海，巨大的身體可渡水作橋。中毒矛後囑同伴斬首攜回，頭顱陪伴倖存者宴飲多年，終葬倫敦白丘；不是在本篇被殺後立即由大鍋復活的國王。','text'],
+      ['mb_branwen','布蘭溫','Branwen','跨海婚姻中的受虐王后','嫁給馬索爾赫並生格韋恩，仍因兄弟傷馬事件遭貶與羞辱。她訓練椋鳥帶信求救，戰後因兩國災難悲痛而死；不把她視為只等待男人行動的無聲角色。','text'],
+      ['mb_matholwch','馬索爾赫','Matholwch','愛爾蘭國王・婚姻盟約者','與布蘭溫的婚配本欲連結兩國，接受補償與復活鍋後，仍在國中怨氣下使妻子受虐。危機時欲讓位給兒子，和解宴卻因藏兵與殺童而崩潰。','text'],
+      ['mb_efnisien','埃夫尼西恩','Efnisien / Evnissyen','破壞聯盟者・最後毀鍋','未被諮詢婚事便傷害愛爾蘭馬匹，後殺死藏袋士兵，又將小王子投入火中，引起決戰。最後自願進入復活鍋並撐破它，付出生命；最後犧牲不抹除先前暴行。','text'],
+      ['mb_gwern','格韋恩','Gwern','布蘭溫與馬索爾赫之子','被提出接掌愛爾蘭以恢復和平，在宴會上親近母族，卻遭埃夫尼西恩投入火中。幼王的死亡使和解不再可能，不替他補造沒有原典支持的後代王統。','text'],
+    ]],
+    ['第三支：荒蕪戴維德與解除魔法',[
+      ['mb_third','四位倖存者與失去的人間','Third Branch','生計、金碗與鼠群談判','馬納維丹、瑞安儂、普雷德里與奇格法面對人口消失的戴維德，曾赴外地以手藝維生。普雷德里與母親被困後，馬納維丹守麥捉鼠，以不肯輕放俘虜迫使施術者解咒。','text'],
+      ['mb_manawydan','馬納維丹','Manawydan / Manawyddan','布蘭之弟・解除魔法者','愛爾蘭遠征倖存後與瑞安儂結婚，並以製盾、鞋等手藝維生。面對盜麥鼠群，他不以武力亂殺，而堅持談出釋放失蹤者、恢復土地且不再報復的條件。','text'],
+      ['mb_cigfa','奇格法','Cigfa / Kicva','普雷德里之妻・留在荒蕪世界者','丈夫與瑞安儂失蹤後，擔心自己在孤立處境中的安全。馬納維丹保證保護她，兩人以勞動維生；此為信任與生存關係，不將兩人改畫成新婚配。','text'],
+      ['mb_llwyd','盧伊德','Llwyd son of Cil Coed','為古奧爾報復的施術者','將居民變鼠毀麥，自己以學者、牧師與主教身分試探贖鼠。被捉的鼠是懷孕的妻子，他終答應解除對人與土地的魔法；與第四支格威迪恩為不同人物。','text'],
+      ['mb_mouse','懷孕的鼠形女子','Llwyd’s wife in mouse form','被捕者・談判的關鍵','因懷孕跑得較慢而遭捉，原是施術者之妻。馬納維丹以她換取解除詛咒與家人歸來；原文未在此給她固定專名，不另創一位鼠女神及其王朝。','text'],
+    ]],
+    ['第四支：命名、花妻與復仇',[
+      ['mb_fourth','馬斯宮廷與勒伊的命運','Fourth Branch','欺騙、性暴力、禁制與變形','吉爾法斯維侵犯戈伊溫，兄弟受馬斯變獸懲罰；其後阿里安蘿德的孩子面對命名、武器與婚姻禁制。花造的妻子策劃殺夫，勒伊化鷹逃生，最後由格威迪恩救回。','text'],
+      ['mb_math','馬斯','Math son of Mathonwy','北威爾斯領主・宮廷裁判者','平時須把雙足放在貞女膝上，戰時可離開。得知戈伊溫受侵害後娶她並懲罰兄弟，後又參與造花妻；其魔法與裁決屬本篇設定，不是所有威爾斯神話的統一法典。','text'],
+      ['mb_gwydion','格威迪恩','Gwydion','巧辯與魔法並用者','騙取普雷德里的豬使戰爭爆發，並在決鬥殺他；後協助勒伊取得名字與武器，尋到受傷鷹身使其復原。救援英雄的身分不能掩蓋他參與早期欺騙與暴力的責任。','text'],
+      ['mb_arianrhod','阿里安蘿德','Arianrhod','迪倫與勒伊之母・禁制施加者','在宮廷的貞潔試驗中生出孩子，對勒伊施下名字、武器與婚姻限制。格威迪恩逐步繞過禁制；原篇未明言一套普遍星辰女神職掌，也不替兩子的父親下無據定論。','text'],
+      ['mb_lleu','勒伊・勞・格費斯','Lleu Llaw Gyffes','取得姓名與武器的青年','經巧計得到母親給的名字與武器，後與花造女子成婚。他說出能被殺的特殊條件，遭葛隆伏擊而化鷹；救回後以對等一擊殺死葛隆，並承接領地。','text'],
+      ['mb_blodeuwedd','布洛黛薇德','Blodeuwedd','花造的妻子・後化貓頭鷹','由馬斯與格威迪恩以花造出，作勒伊之妻，後與葛隆相戀並策劃伏擊。失敗後被變成貓頭鷹、與日鳥隔絕；不把這種懲罰變形當作所有貓頭鷹在民俗中唯一來源。','text'],
+      ['mb_gronw','葛隆・佩布爾','Gronw Pebr / Gronw Pebyr','與花妻合謀的領主','趁勒伊離開來訪，與布洛黛薇德相戀，準備矛與特定場景伏擊。勒伊回來後要求相同機會，葛隆以石擋身仍被貫穿；石孔成為故事中保留殺擊記憶的地景。','text'],
+    ]],
+    ['其他篇章：求婚任務與三災',[
+      ['mb_other','威爾斯其他故事分枝','Other Welsh tales','不與四支或馬洛里強合','《庫爾赫與奧爾溫》把亞瑟宮廷寫成完成艱難任務的援手；《盧德與勒維利斯》則由兄弟協商處理國土三災。篇章共享地域文化，不表示所有人物都同屬一個王朝。','text'],
+      ['mb_culhwch','庫爾赫','Culhwch / Kilhwch','受禁制的求婚青年','被要求只能迎娶奧爾溫，遂向親族亞瑟求援。巨人列出大量看似不可能的任務，必須集合善跑、善聽及能與動物交涉者完成，不能縮成一人持劍就屠盡所有對手。','text'],
+      ['mb_olwen','奧爾溫','Olwen','巨人之女・求婚故事主角','因足跡生白花而得其文學形象，願嫁庫爾赫，卻說明父親將因婚事死亡。最後父親敗亡後成婚；她的意願與所知條件應與巨人命令分開呈現。','text'],
+      ['mb_ysbaddaden','伊斯巴達登','Ysbaddaden / Yspaddaden','以艱難任務拖延婚事的巨人','知道女兒成婚意味自己的末日，要求眾多器具、獵物與助手，企圖阻止求婚者成功。任務達成後遭剃鬚殺死；這是求婚篇角色，不與愛爾蘭獨眼巨人巴羅爾合併。','text'],
+      ['mb_mabon','馬邦','Mabon son of Modron','出生後失蹤・被救出的獵人','嬰兒時被帶走，下落須向古老動物逐層追問，最終由鮭魚協助尋到囚禁處。獲救後參與獵取大野豬；此篇沒有交代所有母族神譜，不從名字相似自行補親屬。','text'],
+      ['mb_lludd','盧德','Lludd','面對國土三災的國王','遭遇科拉尼亞德人、使國土恐懼的叫聲與食物消失，向弟弟勒維利斯求策。以分別的計畫解除三災，不能把它們寫成同一場龍戰或用後世亞瑟故事取代。','text'],
+      ['mb_llefelys','勒維利斯','Llefelys / Llevelys','盧德之弟・提供三項對策者','聽取兄長國難並提出解法，處理偷聽者、兩龍爭鬥與偷食魔法者。兄弟交流中的銅號也受干擾，須先清除才能談秘密；智慧援助不是父子或主從血緣。','text'],
+    ]],
+    ['神器、異獸與異界地點',[
+      ['mb_objects','故事中的物件與非人者','Objects and beings','集中比較・連線不代表血緣','復活大鍋、獵犬、白野豬、金碗與獵物出自不同篇章。每件的能力與限制依該篇介紹，不套用後世遊戲的共同神器階級，也不把所有魔法器物都歸一位神創造。','text'],
+      ['mb_cauldron','復活大鍋','Cauldron of rebirth','第二支・復生者不能言語','傷馬事件後送給馬索爾赫作補償，能使戰死者恢復身體卻不能說話，後被埃夫尼西恩撐破。它使戰爭難以終結，不直接等同愛爾蘭達格達的豐饒鍋。','text'],
+      ['mb_hounds','白身紅耳的異界獵犬','Arawn’s hounds','第一支・開啟盟約的獵犬','普伊爾看見牠們追倒雄鹿，卻趕走牠們，才遭阿拉溫責問。白身紅耳是本篇明載的形貌，不能因此把所有民間幽靈獵犬都認定為此一群。','text'],
+      ['mb_bowl','金碗與白野豬陷阱','Golden bowl and white boar','第三支・觸物不能離開','白野豬引人入神秘堡壘，普雷德里觸金碗後手腳與聲音受制，瑞安儂前去也陷入。堡壘消失造成分離，後須解除魔法；金碗不是普伊爾早年的無底袋。','text'],
+      ['mb_twrch','特爾赫・特魯伊斯','Twrch Trwyth','求婚篇・被變為野豬的王者','亞瑟率隊追獵，目標是取得牠頭上的梳、剪與剃刀，以完成巨人的剃鬚條件。大野豬最終被趕入海而不是在此被殺，不用普通野豬外觀抹去故事中的變形身分。','text'],
+      ['mb_dragons','紅白兩龍與埋藏酒甕','The two dragons','盧德篇・叫聲災難的解法','兩龍相爭的叫聲使人與土地衰弱，盧德依計在中心設蜜酒陷阱，趁牠們沉睡包裹埋藏。這是本篇的解除災難故事，不將後世旗幟象徵的全部歷史倒灌原文。','text'],
+    ]],
+  ],relations:[
+    {spouses:['mb_pwyll','mb_rhiannon'],marriage:'primary',children:['mb_pryderi'],label:'第一支婚配與親子'},
+    {spouses:['mb_pwyll','mb_arawn'],marriage:'partner',label:'交換身分一年・盟友'},
+    {spouses:['mb_branwen','mb_matholwch'],marriage:'primary',children:['mb_gwern'],label:'第二支婚配與親子'},
+    {spouses:['mb_manawydan','mb_rhiannon'],marriage:'primary',label:'第三支另一次婚配'},
+    {spouses:['mb_pryderi','mb_cigfa'],marriage:'primary',label:'第三支夫婦'},
+    {parent:'mb_arianrhod',children:['mb_lleu'],label:'第四支母子・父系未強定'},
+    {spouses:['mb_lleu','mb_blodeuwedd'],marriage:'primary',label:'花妻婚配'},
+    {spouses:['mb_culhwch','mb_olwen'],marriage:'primary',label:'求婚任務後成婚'},
+    {parent:'mb_ysbaddaden',children:['mb_olwen'],label:'巨人與女兒'},
+    {spouses:['mb_bran','mb_cauldron'],marriage:'partner',label:'贈鍋作婚盟補償'},
+  ],
+};
+LEGENDS.ulster={
+  title:'🐕 庫丘林與阿爾斯特英雄',sub:'愛爾蘭・奪牛長征與紅枝悲劇',aliases:['Cú Chulainn','Cuchulainn','Cuchulain','Ulster','Tain','奪牛長征記'],
+  intro:'以Dunn1914《奪牛長征記》公版英譯為戰爭主線，童年、求婚、失子、黛德麗與死亡故事另標Hull1910文學重述。兩者不是同一抄本，英雄的神性父系與人間家庭、愛情與師徒關係分開。與凱爾特總覽頁互補，不把民俗、史詩與現代遊戲設定混為可考歷史。',
+  sources:{tain:{zh:'Dunn1914《奪牛長征記》公版全譯（含異本註記）',url:'https://www.gutenberg.org/files/16464/16464-h/16464-h.htm'},hull:{zh:'Hull1910《阿爾斯特之犬》公版故事重述（非單一中世紀抄本）',url:'https://www.gutenberg.org/cache/epub/52963/pg52963-images.html'}},
+  sections:[
+    ['童年、命名與阿爾斯特宮廷',[
+      ['ul_youth','塞坦塔成為庫林之犬','The boyhood deeds','童年武藝與承擔責任','少年加入宮廷童軍，後誤殺鐵匠看門犬，自願守護家宅直到能補養獵犬，因而得到庫丘林之名。卡斯巴預言當日取武器者將名揚後世卻短命，他仍選擇武藝與名聲。',['tain','hull']],
+      ['ul_cu','庫丘林','Cú Chulainn / Setanta','阿爾斯特英雄・不是中世紀騎士','以超常武藝與戰狂狀態聞名，奪牛戰中以淺灘單挑延緩大軍，最難承受的勝利是殺死同門費迪亞德。其失子與死亡另屬相關傳說，不把所有版本的年齡、武器細節與死因強合。',['tain','hull'],['庫胡林','瑟坦特','塞坦塔']],
+      ['ul_conchobar','康霍巴爾','Conchobar / Conor','阿爾斯特國王・宮廷權力中心','統領埃文馬夏的英雄群體，戰爭中因阿爾斯特人的衰弱暫不能出征。黛德麗故事裡，他對女子的佔有與對流亡者的失信摧毀忠誠，不能只列作毫無過失的英明君主。',['tain','hull']],
+      ['ul_cathbad','卡斯巴','Cathbad','德魯伊・命運預言者','童年武器故事中指出英雄榮名與短命並存的命運，黛德麗出生的故事又預告她將引起災難。預言是敘事中的警告，不表示所有角色的選擇與責任都被取消。',['tain','hull']],
+      ['ul_culann','庫林','Culann','鐵匠・英雄名字的由來','宴請國王時放出守門犬，未料塞坦塔隨後來到並殺犬自保。少年提出補償，因而獲得庫林之犬的稱呼；鐵匠本身不是少年變身後的另一個名字。',['tain','hull']],
+      ['ul_lugh','盧訶','Lug / Lugh','戰場援助者・英雄神性父親','奪牛戰中現身為疲憊英雄療傷，使他獲得休息；文本明示父子關係。此頁只收與英雄相關的段落，不將凱爾特各地同源神的全部職掌塞入同一戰場故事。','tain'],
+      ['ul_dechtire','黛克泰爾','Dechtire / Deichtine','英雄之母・宮廷親族','Hull重述介紹庫丘林的出生與宮廷家庭背景，神性與人間養育並存。相關出生傳說有不同組合，本頁保留母子連線，不自行統一為跨所有抄本的唯一受孕方式。','hull'],
+    ]],
+    ['求婚、修業與失子的禁制',[
+      ['ul_training','遠方修業與親子悲劇','Training and the unnamed son','求婚故事與後續失子傳說','為迎娶艾梅爾遠行學藝，庫丘林結識女武者斯卡塔赫與艾菲。留給兒子的不得透露姓名、不得拒戰等禁制，後使父子無法及時相認；此悲劇不是奪牛戰費迪亞德之死的另一名字。','hull'],
+      ['ul_emer','艾梅爾','Emer','英雄之妻・有判斷力的伴侶','與英雄以隱語交談，父親的反對促使求婚者遠行修業。她在後續關係與危險中表達自己的意見，不能把與艾菲的孩子改成她所生，或把她與異界女子范德合為同一人。','hull'],
+      ['ul_scathach','斯卡塔赫','Scáthach / Scáth','教導戰藝的女武者','遠方武藝教師，教授英雄作戰技能，也與同門費迪亞德的回憶相連。後世稱號、裝備或遊戲中的永久不死設定不回填原典；她與對手艾菲是不同人物。',['hull','tain'],['斯卡哈','絲卡蒂']],
+      ['ul_aife','艾菲','Aífe / Aiffe','女武者・康拉之母','在修業故事中與英雄交戰，其後生下康拉。Hull重述對她遣子有報復性詮釋，本頁明記來源，不把這種動機寫成每份早期失子文本都完全相同。','hull'],
+      ['ul_connla','康拉','Connla / Conla','不肯透露姓名的兒子','遠行遇上阿爾斯特英雄仍遵守不透露姓名與不拒戰的禁制，最後遭父親致命武器所傷才相認。孩子並未在此復活或接掌王國，父子的命令與遺憾是故事核心。','hull'],
+      ['ul_geis','禁制與英雄的兩難','Geis / geasa','行動義務・非通用魔法契約','特定人物被要求遵守的禁令、誓約或義務在故事中造成衝突。康拉不說姓名導向誤殺，死亡故事又有違禁情節；不同傳說各有規則，不能編成人人相同的法術清單。','hull'],
+    ]],
+    ['奪牛戰：王室比較與進軍',[
+      ['ul_raid','枕邊爭論引出的戰爭','Táin Bó Cúailnge','財富比較與搶奪公牛','梅芙與艾利爾比較財產，白角牛使丈夫勝出，女王便想取得庫利棕牛。借牛交涉失敗後大軍進入阿爾斯特；公牛雖被帶回，兩牛互鬥的結局並沒有讓女王得到安穩的財富勝利。','tain'],
+      ['ul_medb','梅芙','Medb / Maeve','康諾特女王・聯軍召集者','以財富與權勢的平衡為出兵動機，對英雄交戰者使用獎賞、承諾與壓力。她具有領導力也造成大量傷亡；戰末庫丘林允她退走，不寫成在此被英雄殺死。','tain',['梅德芙','梅布']],
+      ['ul_ailill','艾利爾','Ailill','康諾特國王・白角牛持有者','與梅芙比較財富並參與出征，關注宮廷與軍中的關係。他與白角牛的所有權構成起因，並非本人能變牛或與庫利棕牛具有父子血緣。','tain'],
+      ['ul_fergus','弗格斯・麥克羅伊','Fergus mac Róich','阿爾斯特流亡者・聯軍中的舊友','為康諾特軍引路，卻與庫丘林仍有舊情，雙方安排互讓的承諾，最終影響戰場退卻。黛德麗故事可說明流亡背景，但不能因此抹除他在聯軍中的矛盾角色。',['tain','hull']],
+      ['ul_fedelma','費德爾姆','Fedelm / Feidelm','預見血色的女預言者','出征前向梅芙反覆預告軍隊染血，指出英雄帶來的巨大傷亡。女王試圖用阿爾斯特衰弱等情報否定她；預言與政治自信的衝突呈現在戰事開始之前。','tain'],
+      ['ul_findabair','芬達拜爾','Findabair / Finnabair','梅芙之女・屢被作為出戰條件','女王以她的婚配誘使戰士出戰，使不同人相信自己會獲得她。這些承諾與真正完成的婚姻不同，不能把所有求戰者都畫成她的丈夫。','tain'],
+      ['ul_curse','阿爾斯特人的衰弱','The debility of Ulster','戰初缺席與英雄孤戰的背景','軍隊暫不能正常作戰，使庫丘林獨自拖延聯軍；其他相關故事說明這種衰弱的來由。它不是整個民族永遠失去力量，也不是女王單靠一咒永久擊敗全部人。','tain'],
+    ]],
+    ['淺灘單挑與英雄之死',[
+      ['ul_ford','同門之戰與後來的末戰','Ford combats and the last stand','戰爭與死亡傳說分層','費迪亞德受壓來戰，雙方逐日更換戰法，最後神槍決勝卻使勝者悲痛。庫丘林之死另由Hull重述中的復仇敵手、幻象與武器包圍構成，不把兩場戰鬥混成同一天。',['tain','hull']],
+      ['ul_ferdiad','費迪亞德','Fer Diad / Ferdiad','共同受訓的友人・淺灘對手','起初不願與庫丘林交戰，受威逼與婚配誘惑才走向淺灘。兩人戰後仍相送醫藥與食物，最後死於加耶伯格；其死引出長篇哀悼，並不是無名反派被輕易打倒。','tain'],
+      ['ul_laeg','拉伊格','Láeg / Laeg','戰車御者・英雄的重要助手','為英雄駕車、觀察戰局並協助使用與取回神槍。Hull死亡重述中御者也遭致命一擊；他是有行動的戰友，不只是英雄戰車的一個物件名稱。',['tain','hull']],
+      ['ul_conall','康納爾・凱爾納赫','Conall Cernach','阿爾斯特勇士・後續復仇者','宮廷英雄之一，在庫丘林親子悲劇與死亡故事中出現。英雄死後由他追討兇手，延續忠誠與復仇的暴力鏈；不與康諾特軍中的弗格斯合併。','hull'],
+      ['ul_lugaid','盧蓋德・庫羅伊之子','Lugaid / Luga son of Cú Roí','末戰復仇者・非英雄親生子','父親與庫丘林的恩怨使他參與復仇，Hull末戰以他及厄爾克軍勢圍殺英雄。此人不是康拉，也不是每個愛爾蘭傳說中同名盧蓋德都同一角色。','hull'],
+      ['ul_last_stand','自縛石柱的最後站立','The last stand','Hull末章・死亡與確認','重傷英雄把自己縛在石旁，以站姿面向敵人；敵軍直到鳥停上身體才確認他已亡。御者、坐騎與英雄的相繼損失屬本重述脈絡，不寫成英雄親手造槍必然回殺自己的唯一版本。','hull'],
+    ]],
+    ['黛德麗與烏斯納兄弟',[
+      ['ul_deirdre_story','流亡者歸來與王權背信','The sons of Usna','相關傳說・不是奪牛戰插章','黛德麗與奈西及其兄弟離開國王控制，後在安全承諾下返國，仍遭殺害。護送者的名譽被破壞，宮廷人才外流；此篇解釋部分英雄的流亡，不拿歷史年代硬排全部循環。','hull'],
+      ['ul_deirdre','黛德麗','Deirdre','拒絕國王安排的女子','幼時因預言遭隔離養育，成年選擇奈西並與他逃離。歸國後失去戀人與保護，故事以她的悲痛控訴權力；不把國王曾聲稱要娶她當作雙方自願完成的婚姻。','hull'],
+      ['ul_naoise','奈西','Naoise / Naisi','烏斯納之子・黛德麗戀人','與黛德麗離開阿爾斯特，兩位兄弟共同隨行，在安全保證下返國仍遭背叛。勇武無法對抗宮廷失信，不補造他在奪牛戰繼續出征的後續故事。','hull'],
+      ['ul_ainle','艾恩勒','Ainle / Ainnle','烏斯納兄弟之一','與奈西及阿爾丹共同流亡並保護黛德麗，最後同陷返國殺局。本頁以本篇明載兄弟與事件呈現，不因史料有限就替他新增獨立王國、配偶或神器。','hull'],
+      ['ul_ardan','阿爾丹','Ardan','烏斯納兄弟之一','與兩位兄弟一起離開又返歸，死亡使整個家族與宮廷忠誠破裂。兄弟群組指原典親屬，與前方淺灘戰死的費迪亞德不是同門四兄弟名單。','hull'],
+      ['ul_leabharcham','列瓦爾卡姆','Leabharcham / Levarcham','黛德麗的照護與傳訊者','參與少女的養育，往返宮廷時也影響國王掌握的消息。她讓被隔離女子與外界之間仍有聯繫，不能僅用泛稱女巫取代本篇具體的照護角色。','hull'],
+    ]],
+    ['神槍、坐騎、戰車與雙牛',[
+      ['ul_objects','武器與非人者','Weapons and beings','依文本能力與限制介紹','神槍、戰馬與兩頭公牛在不同層面推動故事：戰法、戰友與財富爭奪。分類不代表同一族譜，也不採現代遊戲中以寶具等級與職階取代原典的方式。',['tain','hull']],
+      ['ul_gae_bulg','加耶伯格','Gáe Bulg / Gae Bolga','費迪亞德之戰的致命武器','文本描述這件武器進入身體後造成難以取出的傷害，必須剖開才能取回。它是同門悲劇中的最後手段，不補造本譯本未交代的怪獸材質、全球唯一造法或遊戲特效。','tain',['蓋博爾格','迦耶伯格']],
+      ['ul_liath','瑪夏之灰','Liath Macha','英雄的灰色戰馬','與黑馬共同牽引英雄戰車，Hull末戰中仍保護受傷主人。名字中的瑪夏不等於原文已明載某位女神是牠母親，也不把牠與另一匹馬合為一隻雙色坐騎。','hull'],
+      ['ul_dub','賽恩格倫之黑','Dub Sainglend','英雄的黑色戰馬','與灰馬組成戰車馬隊，在英雄戰鬥與危急場景中出現。此頁保留與灰馬的區別及文本名稱，不為對稱而捏造同樣的末戰傷勢或同一死亡結局。','hull'],
+      ['ul_donn','庫利棕牛','Donn Cúailnge','女王奪取的公牛','康諾特聯軍為牠興兵，戰後與白角牛死鬥，雖殺死對手也在後續力竭倒下。戰爭始於財富比較，終於兩頭珍貴動物俱失，不能將牠畫成女王最後永久獲得的坐騎。','tain'],
+      ['ul_finnbull','白角牛','Finnbennach','艾利爾的公牛・戰爭比較起點','使艾利爾在夫妻財富比較中勝出，促成梅芙追求另一頭牛。最後與庫利棕牛交戰被殺；Finnbennach與芬恩Fionn雖有近似字形，並不是同一人物的動物形態。','tain'],
+    ]],
+  ],relations:[
+    {parent:'ul_lugh',children:['ul_cu'],label:'《奪牛長征記》神性父系'},
+    {parent:'ul_dechtire',children:['ul_cu'],label:'出生故事母系'},
+    {spouses:['ul_cu','ul_emer'],marriage:'primary',label:'求婚與婚配'},
+    {spouses:['ul_cu','ul_scathach'],marriage:'partner',label:'師徒・非婚姻'},
+    {parent:'ul_aife',children:['ul_connla'],label:'失子傳說母系'},
+    {parent:'ul_cu',children:['ul_connla'],label:'失子傳說父系'},
+    {spouses:['ul_medb','ul_ailill'],marriage:'primary',children:['ul_findabair'],label:'康諾特王室'},
+    {spouses:['ul_cu','ul_ferdiad'],marriage:'partner',label:'同門相鬥與哀悼'},
+    {spouses:['ul_cu','ul_gae_bulg'],marriage:'partner',label:'淺灘戰最後手段'},
+    {spouses:['ul_deirdre','ul_naoise'],marriage:'partner',label:'相戀與共同流亡'},
+    {spouses:['ul_donn','ul_finnbull'],marriage:'partner',label:'戰後雙牛死鬥'},
+  ],
+};
+LEGENDS.fianna={
+  title:'🦌 芬恩與芬尼亞勇士團',sub:'愛爾蘭・智慧、獵行與勇士團終局',aliases:['Fionn','Finn','Fianna','Fenian','芬尼亞','迪爾姆德','葛蘭妮'],
+  intro:'以Gregory1904《諸神與戰士》第二部及Stephens1920《愛爾蘭童話》的相關重述為入口，分開芬恩童年、神犬與鹿母、勇士團、迪爾姆德私奔及團體末路。兩位作者都有文學改寫，不冒稱某一中世紀抄本逐字翻譯；芬尼亞循環與庫丘林的阿爾斯特循環分頁處理。',
+  sources:{gregory:{zh:'Gregory1904《諸神與戰士》第二部：芬尼亞（公版重述）',url:'https://www.gutenberg.org/files/14465/14465-h/14465-h.htm'},stephens:{zh:'Stephens1920《愛爾蘭童話》：芬恩童年、布蘭誕生與歐辛之母等篇',url:'https://www.gutenberg.org/cache/epub/2892/pg2892-images.html'}},
+  sections:[
+    ['童年、知識鮭魚與領袖養成',[
+      ['fn_youth','失父少年取得知識','The boyhood of Fionn','避敵、學習與意外獲智','芬恩的父親在派系鬥爭中死亡，少年隱居長大，向詩人學習時因替師父烹鮭魚而燙手，吮拇指意外獲智。這份能力與後來的領導、判斷相連，不是庫丘林的戰狂變形。',['gregory','stephens']],
+      ['fn_bodhmall','波德瑪爾','Bodhmall / Bovmall','少年撫育者・女智者','與女武者共同在隱蔽處養育芬恩，使他避開父親的敵手並接觸知識與野地生活。此處採Stephens拼名脈絡，不以後世統一神譜替換兩位養育者各自角色。','stephens'],
+      ['fn_cumhal','庫瓦爾','Cumhall / Cumhal','芬恩之父・派系衝突死者','父親之死使少年必須避開敵手，後來首領與莫爾納家族的矛盾也不時重燃。各重述對戰爭參與者的敘法有差異，不把所有人各自的自述簡化成單一無爭議兇手。',['gregory','stephens']],
+      ['fn_muirne','繆爾妮','Muirne / Muirni','芬恩之母','在家族危機中安排孩子的安全與養育，故事讓血緣、監護與隱居形成英雄的童年背景。她與撫育少年的女智者、武藝教師不是同一人，也不等同後來的鹿母薩芙。','stephens'],
+      ['fn_fionn','芬恩・麥克庫爾','Fionn mac Cumhaill / Finn','芬尼亞勇士團首領','以知識、狩獵與領導聞名，也在年老後捲入葛蘭妮與迪爾姆德的私奔。智慧並未使他免於嫉妒或遲疑，人物要同時保留保衛群體與傷害同伴的面向。',['gregory','stephens'],['芬恩','芬恩麥克庫爾']],
+      ['fn_finegas','菲涅加斯','Finegas / Finnegas','等待知識鮭魚的詩人','長年盼望取得鮭魚所含智慧，命少年烹魚卻不能食。得知少年燙手吮指後承認命運已轉向他，將魚交他吃下；不是惡意以毒魚試殺弟子的反派。','stephens'],
+    ]],
+    ['鹿母、歐辛與神犬身世',[
+      ['fn_family','狩獵所遇的變形家族','The deer mother and the hounds','人與動物之間的親族故事','獵犬認出受魔法變鹿的女子，不願傷害她，芬恩因而與她相遇。另一篇的布蘭與斯科朗則由變犬女子所生；兩條變形故事各有施術者與解除條件，不混成同一母親。',['gregory','stephens']],
+      ['fn_sadhbh','薩芙','Sadhbh / Sadbh / Saba','受變鹿魔法的女子・歐辛之母','逃避不願接受的求愛者而被變鹿，進入芬恩保護範圍後恢復人形，與他相愛。施術者假扮芬恩把她誘走，英雄未能尋回她，只找到兒子；不捏造兩人最後幸福重聚。',['gregory','stephens']],
+      ['fn_oisin','歐辛','Oisín / Oisin','芬恩之子・詩人與記憶保存者','幼時在野外被發現，後成勇士團詩人與奧斯卡之父。異界遠行與返鄉故事使他見證時代改變，與帕特里克對話時仍哀悼舊日同伴，不能只寫成父親年輕時的別名。','gregory',['奧西安']],
+      ['fn_uirne','烏爾妮','Uirne / Tuiren','變犬女子・兩隻神犬之母','因嫉妒魔法被變作母犬，在犬身時生下布蘭與斯科朗，後來自己復人形，幼犬卻保留犬形。親屬稱謂與名字有版本差異，此頁以所附重述為準，不把她視為薩芙另一譯名。',['gregory','stephens']],
+      ['fn_bran','布蘭','Bran','具有人的母系身世的獵犬','出生故事說明牠為何理解人與受變形者，狩獵時對鹿形女子的反應促成芬恩與薩芙相遇。此布蘭是犬，不是威爾斯巨人國王，也不是另篇航海英雄。',['gregory','stephens']],
+      ['fn_sceolan','斯科朗','Sceólang / Sceolan','布蘭同胎的獵犬','與布蘭同行，具有變犬母親的身世與超常理解力。兩犬同屬芬恩的重要夥伴，不能因名字異拼便建立多隻重複神犬，或任意追加未核實的人形解除結局。',['gregory','stephens']],
+    ]],
+    ['勇士團、盟友與魔法困局',[
+      ['fn_band','芬尼亞的行動與內部裂縫','The Fianna','狩獵、守護與派系矛盾','勇士團不只是固定幾位騎士的名冊，而是多篇故事中的獵行與戰鬥共同體。首領、詩人、老將與年輕英雄各有功能，家族舊怨與王權衝突後來也使團體走向破裂。','gregory'],
+      ['fn_goll','戈爾・麥克莫爾納','Goll mac Morna','重要勇士・敵對家族成員','勇武與慷慨受稱讚，卻屬與芬恩父親衝突的莫爾納家族。曾並肩作戰的關係無法永遠掩蓋舊怨，後來的衝突另起篇章；不能把他只列成從未合作的終身仇敵。','gregory'],
+      ['fn_caoilte','凱爾特','Caoilte / Caílte','善跑的勇士・傳承中的倖存者','以迅疾與豐富記憶參與團體冒險，後續傳承又讓他保存昔日故事。頁面不把不同文本的倖存敘述硬排成一致生卒，也不把他與芬恩之子歐辛合為同一詩人。','gregory'],
+      ['fn_conan','康南・麥克莫爾納','Conan mac Morna','直言而具喜劇性的勇士','團體聚會和魔法故事中常用尖銳言語挑動衝突，危險裡又需要同伴救助。其喜劇角色並不代表他是所有傳說的愚人，與庫丘林之子康拉尤其不能混同。','gregory'],
+      ['fn_oscar','奧斯卡','Oscar','歐辛之子・年輕一代勇士','以武勇代表勇士團的後代，在加夫拉戰役中與王權衝突而重傷死亡。父親對他的哀悼是團體衰敗的重要聲音，不把他說成芬恩的親生兒子。','gregory'],
+      ['fn_rowan_house','花楸木屋的陷阱','House of the Quicken Trees','第六卷・迪爾姆德救團體','芬恩與同伴被美麗屋舍誘入，隨後地板使人不能起身，真正敵軍逼近。迪爾姆德打敗施術者與敵首，用其血解除困局，顯示後來遭追殺者也曾救過首領。','gregory'],
+    ]],
+    ['迪爾姆德與葛蘭妮的追逐',[
+      ['fn_flight','訂婚宴變成私奔','The pursuit of Diarmuid and Gráinne','第七卷・禁制、追逐與短暫和解','葛蘭妮看見年老芬恩後改變心意，以禁制要求迪爾姆德帶她離開。兩人受追捕並尋求庇護，最終一度和解成家，但狩獵野豬又使舊怨重新發作；不把追逐誤寫成兩人從未共同生活。','gregory'],
+      ['fn_diarmuid','迪爾姆德・奧迪那','Diarmuid Ua Duibhne','芬尼亞勇士・受禁制的逃亡者','曾救同伴、受安格斯庇護，面對葛蘭妮的要求時陷入忠誠與禁制衝突。與她逃亡後建立家庭，最後遭命定野豬致傷；Fenian迪爾姆德與歷史同名君主分開。','gregory',['迪盧木多','迪爾穆德']],
+      ['fn_grainne','葛蘭妮','Gráinne / Grania','高王之女・主動改變婚約者','起初接受芬恩求婚，見面後不願嫁給年長首領，選擇迪爾姆德並促使他出走。Gregory重述保留後來家庭與不同收束，不把她永遠定格為在宴會被搶走的無意志新娘。','gregory'],
+      ['fn_aengus','安格斯','Aengus / Angus Óg','迪爾姆德的養育與庇護者','在追捕中給予幫助，能將戀人帶離危險，英雄死後又接納遺體。這是神靈與英雄的保護關係，不直接畫作芬恩與迪爾姆德同為安格斯親生兒子。','gregory'],
+      ['fn_sherbhan','舍爾萬','Searbhán / Sharvan','守護花楸果的巨人','看守神奇果樹，最初允逃亡者棲身卻禁止取果。葛蘭妮想吃果實使衝突爆發，迪爾姆德與巨人交戰；樹的能力依本故事，不把所有花楸樹皆列為此一神器。','gregory'],
+      ['fn_benbulben','本布爾本野豬之獵','The boar of Ben Bulben','英雄致死與救命水的遲疑','迪爾姆德雖殺死野豬，仍被牠致命傷害。芬恩能以雙手捧水救治，卻因怨恨與拖延失去機會；此為重述中的道德失敗，不簡化成完全無能為力的意外。','gregory'],
+    ]],
+    ['加夫拉之戰、異界與舊日記憶',[
+      ['fn_end','勇士團衰敗與詩人的倖存','The wearing away of the Fianna','第九至十一卷・不同終局分開','王權與勇士團交戰、同伴死亡，以及歐辛離開又回到已改變的人間，構成多種終結敘事。不是所有篇章都讓芬恩在同一戰場死去；版本沒有統一時保留其差異。','gregory'],
+      ['fn_cairbre','凱爾布雷','Cairbre / Cairbre Lifechair','加夫拉戰中的王權一方','與芬尼亞的衝突把舊日保衛國土的團體變成王權對手，戰爭使雙方付出慘重代價。不能用現代國家制度替原敘事判定勇士團必然是官方常備軍。','gregory'],
+      ['fn_gabhra','加夫拉之戰','Battle of Gabhra','團體與年輕英雄的毀滅','奧斯卡等戰死，歐辛追憶兒子與同伴，勇士團的勢力難以恢復。這是Fenian循環的衰敗戰役，不與庫丘林所守的奪牛戰或威爾斯愛爾蘭遠征混合。','gregory'],
+      ['fn_niamh','妮芙','Niamh','異界女子・歐辛遠行的邀請者','邀歐辛離開凡人世界，使他在異界經歷與人間不同的時間。返鄉不可落地的限制帶來結局轉折；本頁依重述介紹，不宣稱每份早期歐辛傳說都採相同女子與年數。','gregory'],
+      ['fn_tir','青春之地','Tír na nÓg','時間不同的異界','歐辛與妮芙的遠行目的地，與人間世代更替形成反差。不是地圖上可核實的現代國家，也不直接當作所有凱爾特傳統死者必到的唯一天堂。','gregory'],
+      ['fn_patrick','帕特里克（故事人物）','Patrick in the Oisín tales','第十一卷・新信仰與舊英雄的對話者','歐辛在其屋中追憶勇士團，雙方對功業、信仰與同伴命運爭論。此為後世文學的相遇，不直接據此算出歷史傳教者與每位英雄同時生活的年表。','gregory'],
+    ]],
+    ['神器、神獸與傳承文本',[
+      ['fn_objects','知識、神犬與狩獵的物件','Objects and narrative powers','依故事介紹・非單一寶具系統','智慧鮭魚、武器、花楸果與異界坐騎各自承擔敘事功能；布蘭與斯科朗沿用前組同一節點，不為湊滿分類重複造犬。現代小說與遊戲名稱若無本篇依據不收。',['gregory','stephens']],
+      ['fn_salmon','知識鮭魚','Salmon of Knowledge','芬恩童年・意外獲智的食物','詩人守候的鮭魚被少年烹熟，熱汁燙手引發吮拇指的舉動，智慧轉而歸少年。此魚與威爾斯幫尋馬邦的古老鮭魚不同，不因同為智慧魚便合併。','stephens'],
+      ['fn_thumb','知識拇指','Fionn’s thumb of knowledge','由童年事件延伸的能力','芬恩把拇指放入口中以求知或判斷危機，將童年的意外與後來偵知陷阱連起來。不是可拔下轉交他人的獨立神器，也不把能力誇成所有版本無限制全知。',['gregory','stephens']],
+      ['fn_berries','守護樹上的花楸果','Rowan berries','追逐篇・欲望與巨人禁令','逃亡者欲取的神奇果實由巨人守護，需求導致庇護關係破裂。這棵樹與使芬尼亞黏地不能起身的花楸木屋是不同場景，不能靠同一植物名字合併兩段事件。','gregory'],
+      ['fn_water','掌中救命水','Water in Fionn’s hands','野豬之獵・救援與延誤','瀕死迪爾姆德需要芬恩雙手捧來的水；幾次取水與失水使過去恩怨進入是否施救的抉擇。此為人物能力與行動，不另編成可買賣、可隨意復活所有人的聖杯。','gregory'],
+    ]],
+  ],relations:[
+    {parent:'fn_cumhal',children:['fn_fionn'],label:'英雄父系'},
+    {parent:'fn_muirne',children:['fn_fionn'],label:'英雄母系'},
+    {spouses:['fn_fionn','fn_finegas'],marriage:'partner',label:'詩人與學徒'},
+    {spouses:['fn_fionn','fn_sadhbh'],marriage:'primary',children:['fn_oisin'],label:'鹿母篇家庭'},
+    {parent:'fn_uirne',children:['fn_bran','fn_sceolan'],label:'犬身時所生同胎'},
+    {parent:'fn_oisin',children:['fn_oscar'],label:'父子・世代傳承'},
+    {spouses:['fn_diarmuid','fn_grainne'],marriage:'primary',label:'追逐後成家'},
+    {spouses:['fn_diarmuid','fn_aengus'],marriage:'partner',label:'養育與庇護・非血緣'},
+    {spouses:['fn_oisin','fn_niamh'],marriage:'partner',label:'相戀與異界遠行'},
+    {spouses:['fn_oisin','fn_patrick'],marriage:'partner',label:'後世傳說中的對話'},
+  ],
+};
+LEGENDS.manas={
+  title:'🐎 瑪納斯三部曲',sub:'吉爾吉斯・三代英雄與口傳史詩',aliases:['Manas','Semetey','Seitek','Seytek','瑪納斯','馬納斯'],
+  intro:'先循Köçümkulkïzï公開翻譯的Karalaev版本祖先、誕生、牧童與初戰七節，後半依其導讀、UNESCO與學術概述介紹瑪納斯、塞麥台、賽依台克三代主線。未公開逐章譯讀的續部只作來源支持的概述，不能冒稱三部全文；征服與族群敵我是史詩立場，不當作對現代民族的評斷。',
+  sources:{intro:{zh:'Köçümkulkïzï：瑪納斯導讀與三部情節綱要（Silk Road Foundation）',url:'http://www.silkroadfoundation.org/folklore/manas/manasintro.html'},birth:{zh:'Karalaev版本第2節：誕生與童年・學者英譯',url:'http://www.silkroadfoundation.org/folklore/manas/manassec2.html'},shepherd:{zh:'Karalaev版本第3節：雅克普把兒子交給牧人奧什普爾',url:'http://www.silkroadfoundation.org/folklore/manas/manassec3.html'},first:{zh:'Karalaev版本第4節：初次英雄行動',url:'http://www.silkroadfoundation.org/folklore/manas/manassec4.html'},army:{zh:'Karalaev版本第5節：埃森汗派喬洛伊與東戈出征',url:'http://www.silkroadfoundation.org/folklore/manas/manassec5.html'},move:{zh:'Karalaev版本第7節：遷徙與喬洛伊攻擊',url:'http://www.silkroadfoundation.org/folklore/manas/manassec7.html'},study:{zh:'Columbia World Epics：瑪納斯人物與傳承概述',url:'https://edblogs.columbia.edu/worldepics/project/manas/'},unesco:{zh:'UNESCO：瑪納斯、塞麥台、賽依台克三部曲',url:'https://ich.unesco.org/en/RL/kyrgyz-epic-trilogy-manas-semetey-seytek-00876'}},
+  sections:[
+    ['流亡家庭與英雄誕生',[
+      ['mn_birth_story','阿爾泰的夢兆與誕生','Birth in Altai','Karalaev譯節・英雄的家庭起點','長期無子的家庭盼望後代，祈求與夢兆預示英雄，奇爾迪懷孕時強烈想吃虎肉。孩子出生引起喜悅也引來敵方對預言的恐懼；這是史詩誕生敘事，不作歷史生辰考證。','birth'],
+      ['mn_manas','瑪納斯','Manas','三部曲第一代英雄','在家族流亡背景長大，少年難以管束卻能團結同伴，逐漸成為保護群體的英雄。後來婚姻、戰友與遠征構成首部主線，死亡後故事由後代延續，不把他說成三部全程唯一主角。',['birth','intro'],['馬納斯']],
+      ['mn_jakyp','雅克普','Jakïp / Jakyp','瑪納斯之父・富有的流亡家長','盼望有子繼承家產，卻對少年惹出的衝突深感憂慮，決定交牧人管教。導讀也指出後代繼承中的家內威脅；父親不在每一段都支持英雄，不能只列作單純慈父。',['birth','shepherd','study']],
+      ['mn_chiyirdi','奇爾迪','Chïyïrdï / Chiyrdy','瑪納斯之母','誕生譯節描寫她懷孕、渴求虎肉及養育的感情。兒子將被送往牧人處時，她哭求妥善照顧並備衣與馬；母親的具體行動與父親的決定並列，不僅以生母二字帶過。',['birth','shepherd']],
+      ['mn_akbalta','阿克巴爾塔','Akbalta / Akbaltay','家族盟友・遷徙籌劃者','在困頓與英雄誕生時給予祝福，與雅克普準備遷往阿拉套，帶領家庭與牲畜脫離危險。這是政治與生活共同體的支持，不據近似名字自造英雄的另一生父。',['birth','move']],
+    ]],
+    ['牧人管教、初戰與返鄉遷徙',[
+      ['mn_youth_story','牧童生活走向武力衝突','Early deeds and migration','公開譯節第3至7節','雅克普想藉牧人約束兒子，少年卻召集牧童並以牲畜設宴。守地者前來威脅家族，衝突升級成敵汗派軍；遷徙要帶走人與牲畜，不只是英雄單人返回故鄉。',['shepherd','first','army','move']],
+      ['mn_oshpur','奧什普爾','Oshpur / Oshpurbay','受託照護英雄的牧人','與雅克普共用牲畜與生活資源，受託再管教少年數年。瑪納斯在其處長成，卻仍對其他牧童施暴並任意宰羊宴飲；不把所有少年行為美化成天生正義。','shepherd'],
+      ['mn_kochku','科奇庫','Kochku','初戰的守地武士','奉埃森汗命帶軍質問牲畜侵入領地，威脅交出孩子與財物，最後與瑪納斯交戰。詩中辱敵語是敘述者的戰爭立場，本頁用中性角色描述而非重複其族群貶稱。','first'],
+      ['mn_esen','埃森汗','Esenkhan','畏懼英雄預言的對方統治者','得到將有瑪納斯威脅其勢力的預言後，尋找並試圖擒拿少年；早期使者失敗又派大軍。不能把這個混合歷史記憶的史詩君主直接等同某一已證實的中國皇帝。',['birth','army']],
+      ['mn_joloy','喬洛伊','Joloy','受派出征的強敵','與東戈奉命帶大軍擒拿瑪納斯，後在家庭遷徙時形成追擊威脅。其軍勢與巨人化描寫屬史詩誇張，不把每一次出場都另建一位同名人物。',['army','move']],
+      ['mn_dongo','東戈','Döngö / Dongo','早期討伐軍統帥之一','在埃森汗的集會中接到擒拿英雄的命令，與喬洛伊共同代表龐大外部壓力。與其他抄錄版本的人名不能只憑音近合併；本頁保留譯節的拼寫及事件範圍。','army'],
+      ['mn_migration','離開阿爾泰的遷徙','Migration to Ala-Too','第7節・家庭、牲畜與護衛','雅克普與阿克巴爾塔長期準備，拆氈房、整畜群、安排護衛後出發。英雄的戰力服務於集體遷徙，而文本的民族與地理稱呼屬其傳承層次，不當成一份精確歷史行軍圖。','move'],
+    ]],
+    ['戰友、婚姻與第一代終局',[
+      ['mn_adult','共同體、婚姻與遠征','Manas in maturity','學者導讀支持的後半概述','瑪納斯團結戰友、迎娶卡妮凱並進行遠征，勝負與死亡引出繼承危機。此組依導讀與學術概述，不捏造未逐章讀到的每次決鬥、武器清單或四十戰友的固定全集。',['intro','study']],
+      ['mn_kanykei','卡妮凱','Kanïkei / Kanykei','瑪納斯之妻・塞麥台的保護者','以智慧、接待與果斷行動支持共同體，丈夫死後帶兒子逃往布哈拉，使下一代得以長成。母親不只是等待出征者歸來，繼承故事依賴她承受危險的選擇。',['intro','study']],
+      ['mn_almanbet','阿爾曼別特','Almanbet / Almambet','跨族群的結義戰友','從外部世界加入英雄陣營並受兄弟般對待，讓史詩不只有敵我血統的封閉想像。其出生、轉信與家庭在版本間有差別，本頁先收已核對的友誼，不強填唯一父母。','study'],
+      ['mn_bakai','巴凱','Bakai / Bakay','智者・英雄身旁的引路者','導讀以演述者夢遇巴凱受授食物的敘事說明傳唱使命，顯示他作為智慧與指引的象徵。故事人物與演述者的夢傳承分層，不把後者當成可考歷史顯靈。','intro'],
+      ['mn_forty','四十戰友','Forty companions / choro','英雄共同體・非跨版本固定名冊','陪伴瑪納斯的武士群體在導讀中反覆出現，但各演述者可增減與改寫人物。先以集體節點呈現角色，不為湊四十人拼接互不相容的版本或虛構名單。','study'],
+      ['mn_campaign','大遠征與瑪納斯之死','Great campaign and death','第一部通往繼承故事','導讀以向北京的遠征與英雄死亡概述首部終局，成就遭破壞，妻兒面臨內部威脅。敘事地名與敵軍是歷代傳唱的混合記憶，不直接當成單次已證實戰役。','intro'],
+    ]],
+    ['塞麥台與賽依台克：後代主線',[
+      ['mn_heirs','三代英雄接續','Semetey and Seytek','第二、三部・導讀綱要而非全譯','父親死後的逃亡、返鄉、婚姻與內外敵手延續共同體的存亡問題。版本對塞麥台死亡或神秘消失的處理不同，第三代又在敵對環境長大；不能把所有續部收束強排成唯一年表。','intro'],
+      ['mn_semetey','塞麥台','Semetei / Semetey','瑪納斯與卡妮凱之子','在母親保護下逃往布哈拉，成年返塔拉斯，與艾楚蕾克成婚並對抗敵人。導讀指出其死亡或消失有異說，故不硬定共同結局；下一代賽依台克延續其家系。','intro',['塞梅台']],
+      ['mn_aichurok','艾楚蕾克','Aichürök / Aichurok','塞麥台之妻・第三代母親','第二部婚姻及第三部家族遭破壞的情節皆涉及她；與庫爾喬羅同遭俘虜，兒子在敵方宮中長成。未逐段核對的變天鵝或各種法術細節不以定論填入。','intro'],
+      ['mn_seytek','賽依台克','Seitek / Seytek','第三代英雄・塞麥台之子','父親遭難後在凱亞茲宮廷長大，之後面對內部敵手、外敵與婚姻，延續共同體的保護責任。這是有多種續述的史詩人物，不把他當歷史王朝有確切在位年的君主。','intro'],
+      ['mn_kulchoro','庫爾喬羅','Külchoro / Kulchoro','續部家族危機中的同伴','第三部綱要明列他與艾楚蕾克遭俘虜，顯示英雄離去後同伴仍需承受災難。此頁不從其他版本直接填父系、婚姻與傷勢細節，以免把綱要未說明之處當成已譯原文。','intro'],
+      ['mn_kyiaz','凱亞茲','Kïiaz / Kyiaz','第三代長成的敵方宮廷主人','導讀說賽依台克在其宮中長大，後要處理內外敵人。這種受制成長是第三部的處境，不自造他就是英雄生父、養父或與艾楚蕾克正式成婚的連線。','intro'],
+    ]],
+    ['坐騎、聖地與活的演述傳統',[
+      ['mn_heritage','故事如何被傳下來','Manas performance and transmission','史詩、演述與典藏分開','三部曲由演述者在聚會與重要場合傳唱，夢中受召是傳承敘事的一部分。不同錄音與抄錄保留不同範圍，不能把現代總行數、紀念年份或單一抄本聲稱為全部口傳的固定原貌。',['intro','unesco']],
+      ['mn_toruchar','托魯恰爾','Toruchar','牧童譯節中的坐騎','母親交託兒子時要求備好此馬讓他騎乘，是第3節明列的童年物件。未核對其他段落前，不把它自動併入成年英雄名馬阿克庫拉，也不為牠捏造飛行與不死能力。','shepherd'],
+      ['mn_talas','塔拉斯','Talas','返鄉與傳承記憶的地方','導讀列塞麥台返塔拉斯的主線，地方的英雄陵墓與朝訪又屬接受史。故事地景與現存紀念物需分開，不能因有陵墓就證明所有史詩人物、戰役與年代皆為史實。','intro'],
+      ['mn_karalaev','薩亞克拜・卡拉拉耶夫','Saiakbai / Sayakbay Karalaev','公開譯節所依的演述者','本頁童年選段以他的版本為基礎，與另一些奧羅茲巴科夫錄本並不相同。他是現代傳承人物，不與瑪納斯同時代，也不將他的夢境經驗畫作英雄的親生後代。','intro'],
+      ['mn_manaschi','瑪納斯奇','Manaschi / manaschy','史詩演述者的稱呼','以聲音、節奏、手勢與記憶重現史詩，不只是照本宣讀。UNESCO說明男女與不同年齡演述者皆參與傳承，這是群體職能稱呼，不另造一位名叫瑪納斯奇的神。','unesco'],
+    ]],
+  ],relations:[
+    {parent:'mn_jakyp',children:['mn_manas'],label:'誕生譯節父系'},
+    {parent:'mn_chiyirdi',children:['mn_manas'],label:'誕生譯節母系'},
+    {spouses:['mn_manas','mn_oshpur'],marriage:'partner',label:'受託照護・非血緣'},
+    {spouses:['mn_manas','mn_almanbet'],marriage:'partner',label:'結義戰友・非血緣'},
+    {spouses:['mn_manas','mn_kanykei'],marriage:'primary',children:['mn_semetey'],label:'導讀三代家系'},
+    {spouses:['mn_semetey','mn_aichurok'],marriage:'primary',children:['mn_seytek'],label:'導讀第二至第三代'},
+  ],
+};
+LEGENDS.mwindo={
+  title:'🪘 姆溫多史詩',sub:'尼揚加・奇異誕生、冥界與王權節制',aliases:['Mwindo','Nyanga','姆溫多','穆溫多','剛果史詩'],
+  intro:'以Rureke演述、Biebuyck與Mateene1969整理的尼揚加史詩為文本背景，依Columbia World Epics學者導讀與CUNY教學概述整理主要敘事。沒有把付費雙語全書當成已完整取得；區分故事人物、自然力量與研究者。英雄的成熟不止戰勝父親，更包括復生受害者及限制自身權力。',
+  sources:{study:{zh:'Columbia World Epics：Frederick Turner對姆溫多史詩的情節與詮釋',url:'https://edblogs.columbia.edu/worldepics/project/mwindo-epic/'},teaching:{zh:'CUNY教學資料：The Mwindo Epic概述',url:'https://openlab.citytech.cuny.edu/maynardafr1130fall2018/files/2018/08/Folklore02.pdf'},edition:{zh:'加州大學出版社：Biebuyck／Mateene雙語史詩版本說明',url:'https://www.ucpress.edu/books/the-mwindo-epic-from-the-banyanga/epub-pdf'}},
+  sections:[
+    ['拒絕男嗣的父親與奇異出生',[
+      ['mw_birth','被禁止的男孩出生','The forbidden son','父子衝突的起點','首領不願有兒子取代自己，命妻子只生女孩，最受寵的妻子卻生下能走能說的姆溫多。父親接連殺害未遂，把孩子封入鼓中投入河裡，反而開啟他尋找庇護者的旅程。',['study','teaching']],
+      ['mw_mwindo','姆溫多','Mwindo','具有超自然能力的英雄','出生便具行動與言語能力，倚魔法工具躲過父親的迫害，後追父入冥界。勝利一度帶來毀滅，必須學會寬恕、使受害者復生，再經自然力量的懲戒，才成為有所節制的統治者。',['study','teaching']],
+      ['mw_shemwindo','舍姆溫多','Shemwindo','拒絕被兒子取代的父親','以暴力阻止男嗣成長，先用武器、埋葬與投水除子，後逃往地下。最終與兒子相認、承認過錯並共同返村，故事收束不是英雄簡單弒父奪位。','study'],
+      ['mw_nyamwindo','尼亞姆溫多','Nyamwindo','七妻之一・英雄之母','在丈夫禁止生男的命令下仍生出英雄，使家庭權力秩序受到挑戰。學者概述明列她的名字，但未交代足夠的後續個人冒險，本頁不另補造她成神或統治冥府的結局。','study'],
+      ['mw_drum','投入河中的鼓','The ritual drum','父親迫害與逃生的容器','父親把孩子封在鼓裡投河，想使他消失，孩子卻靠超自然力量存活。不同教學重述也會說木桶，本頁明示採學者所述鼓形容器，不硬合成一件外形完全固定的神器。',['study','teaching']],
+    ]],
+    ['姑母庇護與返村復仇',[
+      ['mw_refuge','河流彼端的庇護','Refuge with Iyangura','逃生後仍有新的危險','孩子尋到姑母，卻面對姑母丈夫與守衛的阻撓，甚至遭雷擊。自然力量與自身魔法助他生還，他集合同伴返出生村落復仇；庇護並非完全沒有代價的安全終點。','study'],
+      ['mw_iyangura','伊揚古拉','Iyangura / Iangura','英雄的姑母・庇護者','接納被父親迫害的孩子，成為他能重新建立聯繫的家人。與姑母的感情在研究中有不同心理詮釋，但不把學者的分析直接畫作原典完成婚姻或親生母子。','study'],
+      ['mw_nkuba','恩庫巴','Nkuba','雷電之力・後來的懲戒者','早段有人求雷電擊殺英雄，後段又因英雄殺死其珍愛的龍而帶他上天受罰。這不是永遠單純支持英雄的善神，也不與希臘宙斯合為同一位跨文化神。','study'],
+      ['mw_return','毀村與必須補償的暴力','Return and destruction','英雄力量也能傷害無辜','返村復仇時，姆溫多毀掉村民的生命，父親逃往地下。這段不能刪成純粹擊敗暴君；後來讓村民與敵手復生，正回應他自己造成的破壞。','study'],
+      ['mw_uncles','同行的舅輩與支持者','Mwindo’s supporters','共同返村的同伴群體','學者導讀提及英雄建立對舅輩的領導並共同返村。本頁僅在確有名字與事蹟可核對時再逐人拆分，暫以集體節點呈現，不為增加數量虛構固定戰士名冊。','study'],
+    ]],
+    ['地下追尋、試煉與父子和解',[
+      ['mw_underworld','追父進入地下世界','The underworld quest','勝利轉向寬恕','英雄追隨父親足跡進入地下，面對試煉與具有強大權力的存在。得知父親藏處後沒有完成弒父，而選擇承認彼此關係、共同返村，使追逐結局轉向修復。','study'],
+      ['mw_muisa','穆伊薩','Muisa','地下領域的主宰與試煉者','阻擋英雄並安排難以完成的任務，與英雄魔法力量對抗。此頁只依導讀介紹其地下職能，不把後世網路名錄稱的所有死亡、命運與疾病權柄一概當原典明言。','study'],
+      ['mw_kahindo','卡欣多','Kahindo','試煉與可能婚姻的相關女子','學者將部分試煉解讀成通往與神聖女子婚姻的道路，卻明言英雄最後並未娶她，而是娶凡人女子。因此本頁不畫她為正式妻子，亦不填未確認的凡人妻名。','study'],
+      ['mw_bananas','一天完成蕉作的試煉','The banana-growing test','地下試煉中的農事能力','導讀列出種植並在一天收成蕉類作物的要求，將它與英雄能否照顧共同體相連。農事任務不只是附帶小遊戲，也不能換成其他史詩的玉米或稻米。','study'],
+      ['mw_sheburungu','舍布倫古','Sheburungu','創造之主・揭示藏身處者','英雄在與其博戲中勝出，得知父親藏身之處。此為敘事中的交涉與知識取得，不把他的稱號直接推成所有非洲宗教共有的唯一創造神。','study'],
+      ['mw_reconcile','父子和解與村民復生','Reconciliation and revival','力量用於修補而非只用於殺戮','英雄原諒父親，接受與他共處並使被殺者復生，包括自己的敵手。父親的權力須受限制，和解並非否認過去的迫害；復生也不是對現實生命的醫療承諾。','study'],
+    ]],
+    ['龍、天空懲戒與有界限的王權',[
+      ['mw_sky','英雄也必須受教','The sky ordeal','冥界勝利之後的第二次旅程','姆溫多為護村殺死龍，觸怒雷電，遭帶到天空經歷日與雨的極端環境。他承諾不再任意傷害自然後返村，成為受規範的統治者；這不是一路無敗的武力升級。','study'],
+      ['mw_kirimu','基里穆','Kirimu','雷電所珍愛的龍形自然存在','被英雄殺死後引出恩庫巴的追究，使保衛社群與自然生命的關係變得複雜。不是每個版本都可用歐洲龍的翼、吐火、寶藏習性補其外形，本頁不無據附圖。','study'],
+      ['mw_sun_rain','日與雨的天空試煉','Sun and rain ordeals','極熱、寒冷與自然力量','英雄在天空承受難以支配的自然環境，身體與自負受到考驗。研究把這段與法律、禮儀與社群責任相連，但這些詮釋不等於尼揚加全體共有同一政治制度。','study'],
+      ['mw_counsel','受規範的領袖與共同商議','Kingship under limits','成熟英雄的治理結局','故事結尾讓英雄接受限制並與人群協商，與父親拒絕後代的專斷形成對照。學者以參與式治理解讀，不因此把古代口傳直接稱成現代選舉民主的制度史。','study'],
+    ]],
+    ['神器、演述者與雙語典藏',[
+      ['mw_objects','力量、歌唱與史詩記錄','Magical tools and transmission','故事與現代典藏人物分層','魔法工具伴隨歌唱發揮力量；口述者、翻譯者與現代出版則讓這份傳承有可追溯入口。本組不把現代研究者畫作英雄同伴，也不拿通用非洲面具冒充個別史料形象。',['study','edition']],
+      ['mw_conga','孔加權杖／拂子','Conga scepter','英雄的魔法工具・復生能力','導讀稱作魔法權杖，教學資料稱神奇拂子，功能與英雄歌唱、試煉及復生相連。中文以兩種稱呼並列，不硬編成兩件不同神器，也不以外來神杖名取代。',['study','teaching']],
+      ['mw_rureke','舍卡里西・魯雷克','Shekarisi Rureke','1969整理本所依的演述者','演述中以歌、動作與個人經驗組織故事，聽眾亦參與回應。此人屬現代記錄史，與故事裡姆溫多的自述歌唱不同，不建立虛構血緣。',['study','edition']],
+      ['mw_edition','1969雙語整理本','The Mwindo Epic from the Banyanga','尼揚加文與英譯的文本入口','Biebuyck與Mateene整理出版口述版本，提供後續研究依據。本頁連到出版機構與學者導讀，不宣稱付費全書已下載或逐頁核讀，更不將單一記錄當作所有尼揚加人的唯一版本。','edition'],
+    ]],
+  ],relations:[
+    {parent:'mw_shemwindo',children:['mw_mwindo'],label:'父親迫害與後來和解'},
+    {parent:'mw_nyamwindo',children:['mw_mwindo'],label:'英雄母系'},
+    {spouses:['mw_mwindo','mw_iyangura'],marriage:'partner',label:'姑姪庇護・非婚姻'},
+    {spouses:['mw_mwindo','mw_conga'],marriage:'partner',label:'魔法試煉與復生'},
+    {spouses:['mw_mwindo','mw_nkuba'],marriage:'partner',label:'雷電帶往天空受教'},
+    {spouses:['mw_nkuba','mw_kirimu'],marriage:'partner',label:'所珍愛者・非強定親子'},
+  ],
+};
+LEGENDS.dede={
+  title:'🎻 德德・科爾庫特',sub:'烏古斯・十二英雄篇與智者祝禱',aliases:['Dede Korkut','Dede Qorqud','Korkyt Ata','科爾庫特','柯爾庫特','巴姆西'],
+  intro:'以德勒斯登系十二篇作閱讀骨架，逐篇附Vikikaynak公版土耳其文轉寫，並對照德州大學出版社篇目、Columbia導讀與德勒斯登典藏。本文不是十二篇全譯；不同抄本、後出發現與活的音樂傳承不縮成唯一固定原稿。文本的宗教敵我與戰爭價值標明為敘事立場。',
+  sources:{text:{zh:'《德德・科爾庫特》德勒斯登系公版土耳其文轉寫與十二篇入口',url:'https://tr.wikisource.org/wiki/Kitâb-ı_Dedem_Korkut_Alâ_Lisan-ı_Tâife-i_Oğuzân'},edition:{zh:'德州大學出版社：《科爾庫特之書》十二篇目',url:'https://utpress.utexas.edu/9780292707870/'},study:{zh:'Columbia World Epics：科爾庫特故事與主要人物',url:'https://edblogs.columbia.edu/worldepics/project/the-book-of-dede-korkut/'},archive:{zh:'SLUB Dresden：十六世紀德勒斯登抄本典藏',url:'https://www.slub-dresden.de/en/explore/manuscripts/kitab-i-dedem-korkut'},dumrul:{zh:'土耳其公立學校刊載：杜姆魯爾篇文本',url:'https://serdivancubukluio.meb.k12.tr/icerikler/delidumruldestani_15756079.html'}},
+  sections:[
+    ['烏古斯共同體與科爾庫特之聲',[
+      ['dk_world','英雄集會與祝禱的共同體','The Oghuz world','十二篇的共享背景','英雄在家族、宴會、狩獵、救援與戰爭中取得名字與名譽。智者在篇末祝禱，將個人冒險交給歌者與聽眾；共同背景並不表示十二篇人物皆是同一對父母所生。',['text','study']],
+      ['dk_korkut','德德・科爾庫特','Dede Korkut / Qorqud','智者、命名者與歌者','在故事中命名英雄、調停難題並作祝禱，既是角色也是傳承權威。其歷史身分不可確定，不能因書名署其名便聲稱十二篇由可考單一作者在某日寫成。',['text','study'],['科爾庫特阿塔']],
+      ['dk_bayindir','巴因德爾汗','Bayındır Khan','烏古斯集會的最高領袖','舉行宴會並按社會身分分席，第一篇對無子者的羞辱促成迪爾塞汗求子。這些規範是文本所呈現的階序，不當作現代應遵守的性別或生育價值。',['text','study']],
+      ['dk_dresden','德勒斯登抄本','Mscr.Dresd.Ea.86','十二篇的重要文本見證','SLUB保存十六世紀抄本，提供可追溯典藏入口。它是現存文本見證之一，不等於全部口傳的原始錄音，也不因篇數十二就排除其他抄本與續見文本。','archive'],
+      ['dk_kopuz','科普茲琴與歌者','Kopuz / qopuz','敘事與祝禱的樂器傳統','長頸彈撥樂器伴隨歌者、身分辨認與文化記憶，與後世弓弦樂器傳承需要按地方區別。首頁琴形標誌只是辨識符號，不把emoji當作精確史料器形。',['text','study']],
+    ]],
+    ['第一篇：博加奇與父子誤傷',[
+      ['dk_bogach_story','鬥牛得名與讒言','Dirse Khan’s son Boğaç','第一篇・勇名與家庭修復','迪爾塞汗求得孩子，少年制服公牛後由科爾庫特命名。父親聽信家臣讒言射傷兒子，母親救回他；少年後來救父，將故事由父子誤傷轉為家族修復。','t1'],
+      ['dk_dirse','迪爾塞汗','Dirse Khan','第一篇・求子又受讒的父親','因無子受宴席羞辱，依妻子勸告施惠祈求。兒子成名後受四十家臣挑撥而誤傷他，自己又遭家臣劫持；親子關係並不保證父親總能正確識人。','t1'],
+      ['dk_bogach','博加奇汗','Boğaç Khan / Bugach','制服公牛的少年','以勇力制服牛而獲名與地位，後被父親誤射，靠母親依療傷指示救回。父親遭難時仍願援救，勇名與寬恕相接；不是巴薩特屠獨眼巨人的另一譯名。','t1'],
+      ['dk_bogach_mother','博加奇之母','Dirse Khan’s wife','尋子與療傷的行動者','勸丈夫施惠求子，後帶女子尋找受傷兒子，採花與乳療傷，並讓父子不至徹底決裂。原篇未給她此頁可確認的專名，不為畫家譜虛構名字。','t1'],
+      ['dk_hizir','灰馬騎者赫茲爾','Hızır / Khidr','第一篇・指示療傷者','向受傷少年指出山花與母乳的救治方法，母親依言行動。這是史詩的超自然援助，不作現代醫療建議，也不把他與科爾庫特確定合成同一人。','t1'],
+      ['dk_retainers','讒言與叛變的四十家臣','Dirse Khan’s forty retainers','第一篇・製造父子危機的群體','擔心少年成名取代自身地位，便離間父子，後又控制父親。此四十人是特定反面群體，與瑪納斯四十戰友、貝伊雷克四十同伴不是同一支跨文化軍隊。','t1'],
+    ]],
+    ['第二、四、十一篇：卡贊家的救援',[
+      ['dk_kazan_house','家園被掠與互相救援','Salur Kazan’s household','三篇不同劫難・共享同一家族','第二篇卡贊外出後家園遭掠，第四篇兒子烏魯茲被俘，第十一篇則反由兒子救出父親。三次危機各自成篇，不因反覆綁架便複製三位卡贊或把人物誤排三代。',['t2','t4','t11']],
+      ['dk_kazan','薩盧爾・卡贊','Salur Kazan','烏古斯英雄・家庭與群體領袖','家人遭擄時回返救援，也在另一篇因自己被俘而需要兒子相救。第十二篇內外烏古斯衝突又考驗其領導，不能把他理解成永遠未敗的固定王權象徵。',['t2','t4','t11','t12']],
+      ['dk_burla','布爾拉・哈屯','Burla Hatun','卡贊之妻・被俘後仍抗拒羞辱者','在家園被掠時與女子一同被俘，敵人設法辨認她以羞辱卡贊，兒子也成為威脅工具。她與家人的抵抗支撐救援故事，不只列為被動等待丈夫的妻子。','t2'],
+      ['dk_uruz','烏魯茲','Uruz','卡贊之子・由被救者成為救父者','第四篇出戰受俘，父母與同伴救援；第十一篇又領人救出被囚的父親。年輕人的成長使三篇相互呼應，烏魯茲與第十二篇阿魯茲不是同一人。',['t4','t11']],
+      ['dk_karajuk','卡拉朱克牧人','Karajuk / Karacuk','第二篇・守護牲畜與並肩救援者','面對敵軍保護牲畜，失去兄弟仍與卡贊共同迎敵。其力量與忠誠跨越貴族身分，不因牧人職業便省略他在史詩中的重要行動。','t2'],
+      ['dk_uruz_capture','烏魯茲被俘','Capture of Uruz','第四篇・父母共同救子','父親帶少年出戰，少年被俘使家庭與武士群體陷入危機。父母的追尋與救援讓父子英雄觀受到考驗；此篇不是第十一篇父親被救的同一事件。','t4'],
+      ['dk_kazan_capture','卡贊被俘與兒子救援','Kazan rescued by Uruz','第十一篇・責任世代反轉','父親被敵人囚禁後，兒子成長並得知實情，率同伴救援。故事把上代英雄需要後代的事實放到中心，不以王者永遠不會被俘的形象改寫。','t11'],
+    ]],
+    ['第三、十二篇：貝伊雷克的歸來與死',[
+      ['dk_beyrek_story','婚約、囚禁與喬裝歸來','Bamsı Beyrek’s return','第三篇・延遲相認的英雄','貝伊雷克與巴努・奇切克以騎射與較力相試，訂婚後被俘多年；假死訊使婚約面臨轉讓，他終喬裝歌者歸來相認。第十二篇另有其死亡，不把返鄉婚宴當作永恆結局。','t3'],
+      ['dk_beyrek','巴姆西・貝伊雷克','Bamsı Beyrek','浪漫英雄・忠誠衝突中的死者','第三篇有救商人、獲名、求婚、被俘與歌者喬裝；第十二篇拒絕背離卡贊而遭致命傷。現代影視借名角色不等同此史詩人物，不能直接填影視父母與年代。',['t3','t12'],['巴姆西貝雷克']],
+      ['dk_banu','巴努・奇切克','Banu Chichek / Banu Çiçek','能騎射與較力的未婚妻','與青年互試本領後訂婚，長期等候期間遭假死消息影響。英雄歸來以記憶與信物重建身分，使婚約恢復；她不是只以美貌被巨人換取的戰利品。','t3'],
+      ['dk_baybure','拜布雷','Bay Büre / Kam Büre','貝伊雷克之父','盼望有子與後續失子的哀痛構成第三篇家庭線，兒子久未歸來後視力受損。英雄返回使家庭獲修復，本頁按本篇父子關係，不與第一篇迪爾塞汗合併。','t3'],
+      ['dk_deli_karjar','德利・卡爾賈爾','Deli Karçar / Deli Karjar','巴努之兄・求婚的障礙','對來求妹妹婚事者施以威脅，科爾庫特須以智慧與超自然援助應對。苛刻聘禮與詼諧周旋是一段完整求婚障礙，不把他列為與巴努成婚的男子。','t3'],
+      ['dk_yaltajuk','雅爾塔朱克','Yaltajuk / Yalancı oğlu','偽造死訊的競爭者','帶回血衣等證物讓人相信貝伊雷克已死，意圖迎娶巴努。喬裝歸來的英雄揭露真相；假消息製造的婚事不能不加註記就畫成已完成的永久婚配。','t3'],
+      ['dk_revolt','內外烏古斯的衝突','Inner and Outer Oghuz','第十二篇・貝伊雷克之死','分配與名譽爭執導致外烏古斯反抗卡贊，貝伊雷克不願倒戈而遭阿魯茲所傷。私交、婚姻親族與政治忠誠交錯，不寫成單純外族入侵的一場戰爭。','t12'],
+      ['dk_aruz','阿魯茲','Aruz','末篇外烏古斯一方領袖','召集反對卡贊者，試圖迫使貝伊雷克加入，失敗後親自傷他。此人與卡贊之子烏魯茲字形相近卻角色不同，搜尋別名也不能讓兩節點互相取代。','t12'],
+    ]],
+    ['第五篇：杜姆魯爾挑戰死亡',[
+      ['dk_dumrul_story','橋上逞強與替死抉擇','Deli Dumrul','第五篇・勇力的界限','杜姆魯爾在乾河建橋強收通行費，聽見人死便挑戰收魂使者，敗後獲准尋人代死。父母拒絕、妻子願承擔，他最後求與妻共生共死，獲得另一結局。','dumrul'],
+      ['dk_dumrul','德利・杜姆魯爾','Deli Dumrul','逞強者・後來承認自身有限','以收費與較力揚名，卻不能用劍擊敗死亡使者。面對替死條件才發現生命不可簡單交換，妻子的選擇使他放棄只求自己存活；這是本篇的轉變，不是他本來就無敵。','dumrul'],
+      ['dk_dumrul_wife','杜姆魯爾之妻','Dumrul’s wife','願意代死的伴侶','丈夫交代財產與孩子時，她拒絕獨自享有其後生活，願代他死亡。丈夫隨後也求不要犧牲她；文本未在此給出專名，不借現代歌劇角色名補成原典名。','dumrul'],
+      ['dk_azrael','阿茲拉伊勒（杜姆魯爾篇）','Azrail / Azrael','奉命收魂者・非神自行發號施令','化為鳥避開劍擊，又在馬前現形使英雄墜地，告訴他應向神祈求。這是烏古斯史詩中的天使形象，不把該篇替死規則宣稱為所有伊斯蘭教義共有的制度。','dumrul'],
+      ['dk_bridge','乾河上的收費橋','Dumrul’s bridge','逞強與不合理徵費的象徵','英雄向過橋者收費，不過者反被強收更多，以暴力證明無人敢挑戰。橋所在的乾河反襯其傲慢，不是一件能讓人渡過冥河、免除死亡的神器。','dumrul'],
+    ]],
+    ['第八篇：巴薩特與獨眼巨人',[
+      ['dk_basat_story','群體被吞食與屠怪救援','Basat and Tepegöz','第八篇・智慧與勇力','獨眼巨人傷害養育他的共同體，逼迫族人送人與牲畜供食。巴薩特以灼眼、脫逃與識破陷阱擊敗他，救出受害者；相似於獨眼怪母題，不等同抄成奧德修斯原故事。','t8'],
+      ['dk_basat','巴薩特','Basat','曾受野獸養育的屠怪英雄','幼時與人群分離而在野獸間長大，後回到共同體。面對刀槍難傷的巨人，以灼熱鐵器傷眼並設法避過連續欺騙，最後斬殺；不是第一篇鬥牛少年。','t8'],
+      ['dk_tepegoz','特佩格茲','Tepegöz / Depegöz','獨眼巨人・人與超自然者之子','出生身世涉及牧人與佩里，身體難被常規武器傷害。養於人群卻反覆傷害人，後逼迫供食；其母保護與後來戒指陷阱屬本篇，不直接套入希臘波塞頓父系。','t8'],
+      ['dk_peri','特佩格茲的佩里母親','The peri mother','超自然母親・非單一通用仙后','與牧人的相遇造成孩子誕生，原文包含強迫，不粉飾成浪漫婚盟。她提供保護使巨人難傷，本頁不給她原文未具的專名或與其他傳統女神合併。','t8'],
+      ['dk_ring','獨眼巨人的戒指陷阱','Tepegöz’s ring','保護承諾與欺騙','巨人將戒指給巴薩特，聲稱可避武器傷害，卻立即嘗試襲擊。物件在對話中與逃生、識破欺騙相連，不誤寫成英雄自此永久無敵的戰利品。','t8'],
+      ['dk_giant_sword','巨人洞中的劍','The sword in the cave','第八篇・取劍亦是危險','巨人以洞中器物設下致命試探，巴薩特須判斷哪些承諾是陷阱才能取得最後優勢。本篇劍不任意命名為其他史詩神劍，也不將每件魔法物都畫成巨人母親鍛造。','t8'],
+    ]],
+    ['第六、七、九、十篇：婚姻與救親',[
+      ['dk_other','其他英雄篇的家族責任','Marriage and rescue tales','四篇各自故事・不是同一英雄改名','坎圖拉勒求婚、耶格涅克救父、埃姆倫代父應敵、塞格雷克救兄各有不同任務與親族。每篇沿用原文入口，不能因救親母題相同而將人物合併。',['t6','t7','t9','t10']],
+      ['dk_kanturali','坎圖拉勒','Kan Turalı / Kanturalı','第六篇・面對猛獸的求婚者','為迎娶能與自己匹配的女子，面對牛、獅與駱駝等猛獸考驗。離開時女方又協助抵禦追兵，表明婚姻並非只有男方施救，不把她的武勇省略。','t6'],
+      ['dk_seljan','塞爾詹・哈屯','Selcen / Seljan Hatun','第六篇・能戰的公主','與坎圖拉勒的婚姻受到危險考驗，追兵來時她拿起武器保護伴侶。對彼此勇武與尊嚴的摩擦構成後半故事，不將她說成沒有選擇與行動的獎品。','t6'],
+      ['dk_yigenek','耶格涅克','Yigenek / Yegenek','第七篇・救出久被囚父親者','少年起初不知道父親仍被囚，受到同伴言語刺激才得知真相，遂出征救人。原文保留長年囚禁與父子認回，不把他誤認為卡贊之子烏魯茲。','t7'],
+      ['dk_emren','埃姆倫','Emren','第九篇・替受傷父親守地','父親貝吉爾墜馬腿傷的消息外洩，敵人趁虛來攻，少年披父親裝備應敵。故事讓繼承能力在危機中被承認，不將父親失去行動能力直接等同已亡。','t9'],
+      ['dk_segrek','塞格雷克','Seğrek / Segrek','第十篇・救出兄長的弟弟','得知失散兄長仍被囚後拒絕安逸，出征尋兄。敵人利用囚徒對付他，兄弟卻透過交談與琴聲相認而非互殺，回返共同體；不得移植康拉失子結局。','t10'],
+      ['dk_egrek','埃格雷克','Eğrek / Egrek','第十篇・被俘的兄長','被囚期間不知道弟弟已長成，受命迎戰來犯者後才逐漸認出親人。兩兄弟擁抱重聚，不把他另列為無名敵將或已遭弟弟殺死的反派。','t10'],
+    ]],
+  ],relations:[
+    {parent:'dk_dirse',children:['dk_bogach'],label:'第一篇父子'},
+    {parent:'dk_bogach_mother',children:['dk_bogach'],label:'第一篇母子'},
+    {spouses:['dk_kazan','dk_burla'],marriage:'primary',children:['dk_uruz'],label:'卡贊家親子'},
+    {parent:'dk_baybure',children:['dk_beyrek'],label:'第三篇父子'},
+    {spouses:['dk_beyrek','dk_banu'],marriage:'primary',label:'第三篇婚約與歸來成婚'},
+    {spouses:['dk_dumrul','dk_dumrul_wife'],marriage:'primary',label:'願共同承擔生死'},
+    {parent:'dk_peri',children:['dk_tepegoz'],label:'第八篇母子・非自願相遇'},
+    {spouses:['dk_basat','dk_tepegoz'],marriage:'partner',label:'屠怪解救共同體'},
+    {spouses:['dk_kanturali','dk_seljan'],marriage:'primary',label:'第六篇求婚與互救'},
+    {spouses:['dk_segrek','dk_egrek'],marriage:'partner',label:'兄弟相認・非婚姻'},
+  ],
+};
+for(const [n,slug] of [[1,'Dirse hân oglı bogac hân boyını beyân ider'],[2,'Salur Kazanuñ evi yagmalandugı boyı beyan eder'],[3,'Bay bora beg oglı bamsı beyrek boyını beyân eder'],[4,'Kazan Beg oğlı Uruz Begüñ tutsak oldugı beyân eder'],[6,'Kañlı oglı kanturalı boyını beyân eder'],[7,'Kadılık koca oglı yegenek boyını beyân eder'],[8,'Basat depe gözi öldürdiği toyı beyân eder'],[9,'Begik oglı emrenüñ boyını beyân eder'],[10,'Öşün koca oglı şegrek boyını beyân eder'],[11,'Salur kazan tutsak olup oglı uruz çıkardugı boyı beyân eder'],[12,'İç oguza taş oguz asî olup beyrek öldügi boyını beyân eder']])LEGENDS.dede.sources['t'+n]={zh:'《科爾庫特之書》第'+n+'篇・公版土耳其文轉寫',url:LEGENDS.dede.sources.text.url+'/'+encodeURIComponent(slug.replaceAll(' ','_'))};
+LEGENDS.panji={
+  title:'🎭 潘吉王子傳說',sub:'爪哇與東南亞・變裝、離散與重逢',aliases:['Panji','Pañji','Inu Kertapati','Candra Kirana','Sekartaji','潘吉','班吉','金螺公主'],
+  intro:'潘吉是多文本、多表演版本的故事群，不是一部全球通用固定長詩。本頁以印尼語言機構概述、Leiden典藏者親歷的Kuda Narawangsa篇、2023跨國節慶節目及公立學校圖書館所載《金螺》版本分組。身分、變裝與同名王國都標所屬版本，不把不同情節拼成一條必經年表。',
+  sources:{overview:{zh:'印尼西爪哇語言中心：潘吉故事的主角、婚約與跨地域傳承',url:'https://balaibahasajabar.kemendikdasmen.go.id/belajar-dari-kejayaan-cerita-panji-mungkinkah-sastra-indonesia-bangkit-di-kancah-global/'},leiden:{zh:'Leiden Special Collections：Kuda Narawangsa故事、抄本與演出見聞',url:'https://www.leidenspecialcollectionsblog.nl/articles/the-elusive-panji-pops-up-in-leiden'},festival:{zh:'印尼InfoPublik：2023東協潘吉節合作演出的逐幕節目（現代舞臺版本）',url:'https://infopublik.id/kategori/nasional-sosial-budaya/787214/asean-panji-festival-2023-hadirkan-pertunjukan-kolaborasi-sembilan-negara-dan-seminar-internasional-panji'},snail:{zh:'三寶壟公立第十中學圖書館：Tira Ikranegara《金螺》版本情節',url:'https://perpustakaan.smpn10.semarangkota.go.id/index.php?id=1266&keywords=&p=show_detail'},unesco:{zh:'UNESCO世界記憶教學資料：Panji Tales Manuscripts',url:'https://www.unesco.org/sites/default/files/medias/fichiers/2025/10/MoWSchoolKit2021Part2.pdf?hub=1081'}},
+  sections:[
+    ['王子、公主與跨王國婚約',[
+      ['pj_lovers','離散戀人的故事群','Panji and Candra Kirana','核心主題・版本不強合','潘吉與旃陀羅姬拉娜分屬兩個王國，婚約與分離引出尋人、化名與冒險，最終重逢。離散原因及其後事件隨文本不同；不能把每種女扮男裝、真實變形與化螺都當成同一人生的連續階段。','overview'],
+      ['pj_panji','潘吉・伊努・克爾塔帕蒂','Panji Inu Kertapati / Asmara Bangun','尋找戀人的王子','印尼機構概述將他列為重伽羅王子，尋找失散公主時使用不同名字與身分。Leiden所述篇章又稱Asmara Bangun；這些為同一故事群的版本名，不因此另造一串雙胞胎王子。',['overview','leiden'],['潘吉王子','拉登伊努','伊努克爾塔帕蒂']],
+      ['pj_candra','旃陀羅姬拉娜／塞卡爾塔吉','Candra Kirana / Sekartaji','失散、變裝與行動中的公主','機構資料稱她為潘加盧公主，與潘吉的婚約連結王國；其他篇章以男裝、魔法變形或金螺形態展開遭遇。名字與身分依版本解釋，不把她的所有化名當成互不相識的新人物。',['overview','leiden','snail'],['錢德拉吉拉娜','姬拉娜','塞卡塔吉']],
+      ['pj_jenggala','重伽羅','Jenggala / Janggala','王子所屬王國','作為潘吉出身與王室故事的地點，與對方王國構成聯姻框架。傳說借歷史地理，不表示每位王子皆可與史籍國王逐一相認；也不將不同篇章的地名異拼硬當不同國。','overview'],
+      ['pj_daha','達哈／潘加盧','Daha / Panjalu / Kediri','公主所屬王國的版本稱呼','機構概述與地方版本使用潘加盧、達哈或克迪里等稱呼，需按文本記載。圖譜用地點比較而不強推一套所有篇章都一致的王室父母與在位年表。',['overview','snail']],
+    ]],
+    ['Kuda Narawangsa篇：變形與克拉納',[
+      ['pj_kuda_story','公主消失與男身相遇','Kuda Narawangsa','Leiden所述篇章・非所有版本','公主在此篇變為名叫Kuda Narawangsa的男子，潘吉須面對入侵者克拉納與其追隨者。衝突終結後公主恢復原貌與戀人重聚；這是真實變形的劇情，不自動改寫成只穿男裝。','leiden'],
+      ['pj_kuda_identity','公主的Kuda Narawangsa身分','Candra Kirana as Kuda Narawangsa','同一人物的變形事件・非新增男子','此節點記錄公主在特定故事中的男身變化，不是另一位獨立王子。與潘吉・瑟米朗等身分的對照必須標明篇章，不能把名稱相似便當作全版本通用同義詞。','leiden'],
+      ['pj_klana','克拉納','Klana','Leiden篇章中的入侵統治者','帶著具有妖魔形象的追隨者介入故事，最後被潘吉擊敗。不同表演的敵王形貌與細節各異，不能將他所有舞臺化名硬合成可考歷史君主。','leiden'],
+      ['pj_reunion','擊敗入侵者後的恢復與重逢','Reunion in Kuda Narawangsa','公主復原與篇章收束','Leiden典藏者敘述潘吉克服衝突、公主恢復原身後重聚。這是該篇的收束，不代表其他潘吉文本都先變成同名男子，也不自造後續孩子與王朝世系。','leiden'],
+      ['pj_or6428','Or.6428戲劇綱要集','Serat pakem ringgit gedhog','包含此篇的十九世紀末至二十世紀戲本傳承','Leiden解說指出此抄本收錄五十一個戲劇提綱，包含Kuda Narawangsa。篇目可追溯並不等於最早原稿；本頁不把未逐頁讀到的五十一齣都標成已完成故事。','leiden'],
+    ]],
+    ['潘吉・瑟米朗：現代跨國舞臺分幕',[
+      ['pj_semirang_story','2023合作演出的身分流轉','Panji Semirang performance','現代選編・不冒稱古代唯一原典','東協合作演出按不同國家分幕，包含公主變為潘吉・瑟米朗、相遇、加露・阿楨婚禮及最後身分恢復。此處是節目導覽，與Leiden的Kuda Narawangsa篇分開。','festival'],
+      ['pj_semirang_identity','公主的潘吉・瑟米朗身分','Sekartaji as Panji Semirang','同一主角的舞臺身分事件','節目明列塞卡爾塔吉改換身分成潘吉・瑟米朗，再與王子相遇。這不是她的新丈夫或一位與她無關的男性英雄；詳情需依個別戲本，不能把各地變裝理由一概統一。','festival',['潘吉瑟米朗']],
+      ['pj_galuh_ajeng','加露・阿楨','Galuh Ajeng','現代節目中的另一婚姻分枝','2023節目有她與王子婚禮一幕，後又走向王子與塞卡爾塔吉的最終婚禮。此是所列舞臺版本，不把這個階段不加註記寫成所有潘吉故事都有的固定雙妻制。','festival'],
+      ['pj_klana_tunjung','克拉納・通戎邦之戰','Klana Tunjung Bang versus Panji Semirang','合作節目列出的對戰事件','此幕由馬來西亞團隊演出，處於公主改換身分後的冒險分段。事件名可以保留舞臺敵王稱呼，但不無據判定他與所有其他版本克拉納生平完全相同。','festival'],
+      ['pj_gambuh_identity','甘布・瓦爾加・阿斯馬拉身分','Gambuh Warga Asmara','最後相認前的另一舞臺身分','節目先列王子遇上此身分，後列其變回塞卡爾塔吉，再由全體完成婚禮。此節點是身分揭露事件，不另建一位同名神祇、夫妻或子女。','festival'],
+    ]],
+    ['《金螺》：圖書館所載版本',[
+      ['pj_snail_story','被變成金螺的公主','Keong Emas','現代刊本摘要・另有地方異說','本版公主因姊妹嫉妒遭誣與放逐，女巫將她變成金螺。老婦撈回後發現她暗中做飯；王子尋人遭烏鴉誤導，得老人指路後重逢解咒，不拼入其他版的禁林原因。','snail'],
+      ['pj_dewi_galuh','黛薇・加露（《金螺》版）','Dewi Galuh','公主姊妹・嫉妒與誣告者','因喜歡王子而嫉妒旃陀羅姬拉娜，求女巫施咒並製造放逐。圖書館摘要後段稱Galuh Ajeng，保留此版本異稱，不直接把她與前組舞臺人物生平強合。','snail'],
+      ['pj_snail_form','公主的金螺形態','Candra Kirana as Keong Emas','變形事件・非第二位公主','被女巫投入水中後落入老婦魚網，平時藏在容器中，無人在家時化人做飯。原版以與未婚夫重逢解除魔法，不說所有現實金色螺都是受詛咒公主。','snail',['金螺']],
+      ['pj_old_woman','達達潘老婦','The old woman of Dadapan','撈螺、庇護與發現真身者','捕魚時發現金螺帶回家，接連看到飯菜備好，便提早躲回觀察。她接納公主，最後被帶往宮廷；本頁依此版稱呼，不換成其他口述版具名的Nenek Daun。','snail'],
+      ['pj_witch','施咒女巫與烏鴉偽裝','The witch as a crow','誤導尋人者・同一反派的形態','施咒者知道王子尋人，化作能說話的烏鴉引錯路。老人以杖驅散她，指出真正方向；本頁合在同一節點，不為女巫與烏鴉虛構母子關係。','snail'],
+      ['pj_old_man','指路老人','The helpful old man','受食物幫助後回報的援手','王子給飢餓老人食物，老人驅走誤導的烏鴉並指向達達潘。援助使善待陌生人的行動推動相認，不任意把這位未具名老人認定成某位神明化身。','snail'],
+    ]],
+    ['抄本、面具與活的表演傳承',[
+      ['pj_heritage','同一故事群的多種載體','Panji manuscripts and performance','典藏與表演・不是古代血緣家族','潘吉透過抄本、戲劇、面具與偶戲流傳到不同地方，人物名稱和動作隨版本變化。研究者未找到一份可代表全部傳承的唯一原版，本頁將這項界線列在故事入口。',['leiden','unesco']],
+      ['pj_mask','潘吉面具戲','Masked Panji performance','以面具與身段呈現人物','Leiden文章記錄村落儀式中的面具戲，以及1888年日惹演出照片。面具色彩與性格有地方差異，本頁未取得個別圖像時不硬貼一張通用面具代表所有主角。','leiden'],
+      ['pj_wayang','瓦揚・格多偶戲','Wayang gedhog','潘吉題材的偶戲傳承','戲本提綱與偶的造型呈現人物、身分及場次，與單純閱讀敘事文本不同。藝術形式節點只說本資料已確認的關聯，不把所有爪哇瓦揚劇種都當成潘吉專屬。','leiden'],
+      ['pj_manuscripts','潘吉故事抄本群','Panji Tales Manuscripts','跨國世界記憶典藏','UNESCO資料說明其跨東南亞流傳及多地抄本保存。登錄對象是文獻群，不表示每一部寫於同年或每個情節同出單一作者；現代節慶也與古代抄本分層。','unesco'],
+      ['pj_biyung_bibi','《潘吉・比勇・比比》','Kidung Panji Biyung Bibi','2018演出・火山與環境危機的改寫','Leiden記錄2018演出把貴族潘吉變成村落青年，面對火山、乾旱與地震等生活危機。這是有明確年代的當代創作，不將環境議題倒寫成所有古代篇章的原始情節。','leiden'],
+    ]],
+  ],relations:[
+    {spouses:['pj_panji','pj_candra'],marriage:'primary',label:'核心戀人・各版本婚約及婚配不同'},
+    {spouses:['pj_candra','pj_kuda_identity'],marriage:'partner',label:'Kuda Narawangsa篇的同人變形'},
+    {spouses:['pj_candra','pj_semirang_identity'],marriage:'partner',label:'2023節目中的身分變化'},
+    {spouses:['pj_candra','pj_snail_form'],marriage:'partner',label:'《金螺》版本的同人變形'},
+    {spouses:['pj_panji','pj_klana'],marriage:'partner',label:'Leiden所述篇章的衝突'},
+    {spouses:['pj_old_woman','pj_candra'],marriage:'partner',label:'庇護與收留・非血緣'},
+  ],
+};
+LEGENDS.hangtuah={
+  title:'🛶 漢都亞傳',sub:'馬來世界・五友、王權與跨海使節',aliases:['Hang Tuah','Hikayat Hang Tuah','漢都亞','杭杜亞','漢惹拔','Hang Jebat'],
+  intro:'以《Hikayat Hang Tuah》的五友少年篇、印尼教育典藏本所核對段落及馬來西亞語文局研究串接家世、宮廷危機與航海。史詩不是逐項可證的歷史紀錄；未取得全文的卷次只按已核對節錄介紹，不混用《馬來紀年》、地方井泉傳說與電影版本。',
+  sources:{
+    childhood:{zh:'《Hikayat Hang Tuah》馬來語羅馬字轉錄：五友少年抗海盜篇（部分轉錄）',url:'https://ms.wikisource.org/wiki/Hikayat_Hang_Tuah_(Rumi)'},
+    volume1:{zh:'印尼教育典藏《Hikayat Hangtuah I》2010：前言與五友童年段落（索引節錄核對）',url:'https://repositori.kemendikdasmen.go.id/1880/1/Hikayat%20Hangtuah%20I%20%282010%29.pdf'},
+    volume2:{zh:'印尼教育典藏《Hikayat Hang Tuah II》2010：赴Rum使節段落（索引節錄核對）',url:'https://repositori.kemendikdasmen.go.id/1879/1/Hikayat%20Hang%20Tuah%20II%20%282010%29.pdf'},
+    court:{zh:'馬來西亞語文局2022：漢都亞對王之忠與惹拔對友之義（附原書段落）',url:'https://tunascipta.jendeladbp.my/2022/07/28/3025/'},
+    keris:{zh:'Sohaimi Abdul Aziz2020：Taming Sari短劍的文化層次（摘要與可核對節錄）',url:'https://jurnal.dbp.my/index.php/Melayu/en/article/view/6611'},
+    glossary:{zh:'馬來西亞語文局PRPM：Keris Taming Sari術語',url:'https://prpm.dbp.gov.my/Cari1?d=371752&keyword=sari+I'},
+    reception:{zh:'印尼語言局：Tun Teja與Hang Jebat的現代改寫與不同評價',url:'https://badanbahasa.kemendikdasmen.go.id/artikel-detail/804/tafsir-tun-teja-dan-hang-jebat-dalam-bayang-bayang-mitos-globalisasi'},
+    heritage:{zh:'馬來西亞國家遺產局：《漢都亞傳》與國家圖書館抄本',url:'https://www.heritage.gov.my/en/ii-hikayat-hang-tuah.html'},
+    unesco:{zh:'UNESCO世界記憶：《Hikayat Hang Tuah》',url:'https://www.unesco.org/en/memory-world/hikayat-hang-tuah'},
+  },sections:[
+    ['家世、遷居與五友的童年',[
+      ['ht_youth','從雙溪杜容到民丹','The childhood of Hang Tuah','教育典藏第一卷・家世與成長','父親為生計帶家人遷到民丹，少年在王臣附近的社會環境成長。父親夢見月亮降落孩子頭上的情節屬史詩預兆，不是現代可驗證的出生紀錄。','volume1'],
+      ['ht_mahmud','漢馬末','Hang Mahmud','漢都亞之父','第一卷童年段落中的父親，與妻子商議遷居、經營小店並與孩子取柴。不要因同含Mahmud就當作後來的馬六甲蘇丹，也不以地方仙女傳說改寫本段家庭。','volume1'],
+      ['ht_merdu','當梅爾杜瓦蒂','Dang Merdu Wati','漢都亞之母','聽到丈夫的祥夢後為孩子沐浴、換白衣並準備祈禱食物，是童年篇家庭照護的一環。此處收錄印尼教育典藏拼名，不據另一地方傳承改列為仙女。','volume1'],
+      ['ht_tuah','漢都亞','Hang Tuah','馬來史詩英雄・王室武將與使節','童年與四友抗海盜，成年服務王室，卻也遭到讒言與處死命令。故事以他回歸、與好友對決及跨海使命追問忠誠的代價；傳奇行動不能一概當成已證歷史。',['childhood','court','volume2'],['杭杜亞','漢都阿','Hangtuah']],
+      ['ht_bintan','民丹','Bintan / Bentan','遷居與早年活動背景','童年篇父親選擇的定居地，與後來馬六甲王權舞臺分開。地名有史實所在，但不能由真實地名反推每場少年奇遇都曾實際發生。','volume1'],
+    ]],
+    ['五友、海盜與共同作戰',[
+      ['ht_five','五友抗海盜','The five companions','少年篇・分工與地形','五名少年遇上海盜船，選擇上岸利用地勢迎敵，以投槍與吹箭等武器合作脫險；不是五人從一開始都只用同一把神劍。','childhood'],
+      ['ht_jebat','漢惹拔','Hang Jebat','少年同伴・後來的王宮反抗者','少年時與漢都亞並肩抗敵；誤信朋友已被王命處死後佔據王宮，最終與回歸的朋友交手。現代讀者對他的正義或暴力有不同判斷。',['childhood','court','reception'],['漢傑巴','杭惹拔']],
+      ['ht_kasturi','漢卡斯杜里','Hang Kasturi','五友之一・召回漢都亞的使者','少年篇有其共同作戰；王宮危機後又與敦佩克馬受命尋回仍活著的朋友。這裡沿《漢都亞傳》脈絡，不將另一文獻的叛亂角色直接覆蓋本頁惹拔。',['childhood','court']],
+      ['ht_lekir','漢勒基爾','Hang Lekir','五友之一','在已核對少年轉錄中與同伴迎擊海盜。可靠節錄未詳述他的個人婚配與完整後半生，故不為補滿人物卡而虛構妻兒或把他和勒基烏合併。','childhood'],
+      ['ht_lekiu','漢勒基烏','Hang Lekiu','五友之一','與漢都亞、惹拔、卡斯杜里、勒基爾同屬少年五友。此頁保留獨立姓名與共同事件；目前來源不足以支持更細家系，不從同名影視人物補寫。','childhood'],
+      ['ht_weapons','投槍與吹箭','Seligi and sumpitan','少年對海盜的武器','轉錄的戰鬥描寫列出投槍與吹箭的運用，說明少年以距離與地形應敵。這些一般武器與成年後具傳奇地位的Taming Sari短劍分列。','childhood'],
+    ]],
+    ['王宮讒言、藏匿與好友對決',[
+      ['ht_court_story','被判死刑的忠臣回歸','The palace crisis','讒言、保全與反抗的連鎖','讒言引出王命，宰臣卻藏起漢都亞；惹拔為友反抗後，國王再召回被判死刑者平亂。故事不只是一場比武。','court'],
+      ['ht_king','馬六甲國王（史詩人物）','Raja Melaka','王命與錯判的中心','未查明讒言便下處死令，面臨宮廷動亂又盼漢都亞回來。所核對段落僅稱馬六甲王，不以電影姓名填定。','court'],
+      ['ht_bendahara','宰臣班達哈拉','Bendahara','違抗處死令・保全漢都亞','勸阻國王不成後將漢都亞藏在果園，危機時揭露他尚存。Bendahara是職銜，不自動等同各版本同一歷史人物。','court'],
+      ['ht_mansur','謝赫曼蘇爾','Syeikh Mansur','藏匿期間的老師','語文局所引故事提及漢都亞在躲藏時向他學習；節錄未詳列課程，不補造神授武器。','court'],
+      ['ht_pekerma','敦佩克馬','Tun Pekerma','與卡斯杜里同行的召回使者','受王命與卡斯杜里尋回漢都亞；不是取代五友之一的新名字，也不是主角父親。','court'],
+      ['ht_duel','漢都亞與惹拔對決','Tuah and Jebat','效忠君主與維護朋友的衝突','漢都亞奉命刺傷惹拔，對方並未立即斃命。後續見面與照護使二人的情誼更難以單一忠奸概括。','court'],
+    ]],
+    ['滿者伯夷、王室婚事與神劍',[
+      ['ht_java_story','跨海宮廷與傳奇短劍','Majapahit and the keris','不同來源分層核對','滿者伯夷宮廷中的交鋒使Taming Sari短劍進入漢都亞故事。王室婚事與兵器流轉另有版本差異，不以現代小說情節填補未讀卷次。',['keris','glossary','volume1']],
+      ['ht_taming','塔明薩里（武士）','Taming Sari','滿者伯夷的爪哇武士','語文局術語記錄把同名短劍原持有者列為滿者伯夷武士。研究所核對節錄又提到他與漢都亞在宮廷交鋒；武士與其劍是兩個節點。',['glossary','keris']],
+      ['ht_keris','塔明薩里短劍','Keris Taming Sari','神器・榮譽、職位與傳奇威力','既是兵器，也在故事裡成為王室賞賜與武將地位的象徵。研究摘要討論它的物質、信仰與封建文化層次；刀身曲折數與現存實物真偽沒有核實便不強定。','keris',['Taming Sari劍']],
+      ['ht_majapahit','滿者伯夷（故事王國）','Majapahit','爪哇宮廷舞臺','短劍與武士的故事以此宮廷為背景。史詩的王權象徵與真實王朝歷史需區別，不把所有外交、決鬥都列為可考編年。',['keris','glossary']],
+      ['ht_teja','敦德嘉','Tun Teja','王室婚姻敘事與後世改寫的重要女子','教育典藏前言將她列為核心人物，稱其智慧能助王；現代語言局研究又比較她在不同改寫中的主動性。未核對各版婚約細節，不直接畫成漢都亞的妻子。',['volume1','reception'],['Tun Teja Ratna Benggala']],
+    ]],
+    ['赴Rum使節與跨海船隊',[
+      ['ht_voyage','從馬六甲出使Rum','The embassy to Rum','教育典藏第二卷・使節段落','已核對節錄描寫船隊抵港、港務官詢問來意與漢都亞以當地語言回答。此為史詩的遠方外交，不把Rum名稱直接換成現代羅馬城航線。','volume2'],
+      ['ht_ship','門當伯拉希號','Mendam Berahi','航海船隻・使節隊伍的載體','第二卷節錄記載船隊抵達後以炮聲與音樂迎接。此處不根據同名現代復原船推算原史詩船長、載重或確定建造年代。','volume2'],
+      ['ht_setia','馬哈拉惹瑟迪亞','Maharaja Setia','使節隊伍中較年輕的領隊','赴Rum段落與年長的Laksamana並列為代表。所讀節錄沒有直接交代其本名，不任意合併成少年五友之一。','volume2'],
+      ['ht_syahbandar','港務官','Syahbandar','接待與詢問使節的官職','登船了解船隊出處、領隊與使命，與漢都亞的應答展現外交禮節。這是段落中的職位，不虛構完整姓名或血緣。','volume2'],
+      ['ht_rum','Rum（史詩中的遠方國度）','Rum','外交想像與伊斯蘭世界的地理名稱','本段為馬六甲王向Rum君主遣使的目的地。名稱在不同歷史語境可有變化；頁面保留原詞，不把史詩敘事當作已確認的現代旅行路線。','volume2'],
+    ]],
+    ['抄本、世界記憶與閱讀分歧',[
+      ['ht_texts','文學傳承與史實邊界','Textual transmission','古典史詩・不是無疑義人物年表','教育典藏前言已提醒故事含創作，作者與成書時間不明。此頁按來源區分已讀節錄、研究摘要與典藏說明，不宣稱完整校勘所有抄本。',['volume1','heritage']],
+      ['ht_mss1658','MSS1658抄本','MSS 1658','馬來西亞國家圖書館藏本','國家遺產局列出的《漢都亞傳》抄本之一，與MSS1713分列保存。抄本年代與史詩所述人物年代不是同一概念，不由紙張直接推定英雄出生年。','heritage'],
+      ['ht_mss1713','MSS1713抄本','MSS 1713','另一部國家圖書館藏本','與MSS1658共同見於官方典藏介紹，館藏編號不是作品的第1713章。未取得逐頁異文校勘前，不替兩抄本編造相反的角色結局。','heritage'],
+      ['ht_memory','《漢都亞傳》世界記憶','Hikayat Hang Tuah: Memory of the World','文獻保存與文化價值','UNESCO世界記憶收錄的是文獻遺產價值；不代表組織認證每一場決鬥、神奇兵器或旅行皆為史實。','unesco'],
+      ['ht_readings','誰是英雄？忠誠與正義的再讀','Tuah and Jebat in later literature','後世詮釋・不替讀者定單一答案','印尼語言局討論詩與小說如何重讀惹拔與敦德嘉，讓忠於君主、抵抗不公與女性自主受到不同評價。詮釋屬後世作品，不回填成原典一致立場。','reception'],
+    ]],
+  ],relations:[
+    {spouses:['ht_mahmud','ht_merdu'],marriage:'primary',children:['ht_tuah'],label:'童年篇父母與兒子'},
+    {spouses:['ht_tuah','ht_jebat'],marriage:'partner',label:'五友情誼・後來交手'},
+    {spouses:['ht_tuah','ht_bendahara'],marriage:'partner',label:'宰臣藏匿與保全'},
+    {spouses:['ht_tuah','ht_mansur'],marriage:'partner',label:'躲藏時從學'},
+    {spouses:['ht_tuah','ht_keris'],marriage:'partner',label:'傳奇持劍者'},
+    {spouses:['ht_taming','ht_keris'],marriage:'partner',label:'同名武士與短劍'},
+    {spouses:['ht_tuah','ht_ship'],marriage:'partner',label:'跨海出使'},
+  ],
+};
 for(const [key,book] of Object.entries(LEGENDS)){
   const root=key+'_root', defs=[[root,book.title.replace(/^\S+\s/,''),'Heroic epic','文學傳承・版本分層',7.6,0,book.intro,true,'key']];
   const groups=[],unions=[],names={},sourceKeys={};
@@ -11213,6 +11794,7 @@ for(const [key,book] of Object.entries(LEGENDS)){
     labels:{kana:'原文／轉寫',kojiki:'原文／文本名稱',nihonshoki:'其他拼寫',reading:'轉寫',aliases:'別稱',shrine:'相關地點'},
     sourceLinks:id=>(sourceKeys[id]||[]).map(k=>book.sources[k]).filter(Boolean).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.zh}</a>`+(s.alternate?`<a href="${s.alternate}" target="_blank" rel="noopener noreferrer">${s.zh}（古騰堡備用入口）</a>`:'')).join('')};
   const card=document.createElement('div');card.className='myth-icon';card.dataset.region='other';card.dataset.legend=key;
+  card.dataset.search=[key,...(book.aliases||[]),...book.sections.flatMap(([,records])=>records.flatMap(r=>[r[1],r[2],...(r[6]||[])]))].join(' ');
   const space=book.title.indexOf(' ');
   for(const [className,value] of [['glyph',book.title.slice(0,space)],['label',book.title.slice(space+1)],['sub',book.sub]]){const el=document.createElement('div');el.className=className;el.textContent=value;card.appendChild(el);}
   card.addEventListener('click',()=>openPantheon(key));document.getElementById('wheel').appendChild(card);
@@ -13116,7 +13698,7 @@ function matchNodes(q){
   return Object.values(nodes).filter(n =>{
     const nn = NODE_NAMES[n.id]||{};
     const reading = normKanji((nn.reading||'').replace(/ の /g,'の').replace(/ /g,''));
-    return normKanji(n.name.toLowerCase()).includes(q) ||
+    return normKanji(n.name.toLowerCase().replace(/ /g,'')).includes(q) ||
       (n.kana||'').toLowerCase().replace(/ /g,'').includes(q) ||
       normKanji((n.role||'').toLowerCase()).includes(q) ||
       normKanji((nn.nihonshoki||'').toLowerCase()).includes(q) ||
@@ -13124,7 +13706,7 @@ function matchNodes(q){
       reading.includes(q) ||
       normKanji((nn.shrine||'').toLowerCase()).includes(q) ||
       (nn.aliases||[]).some(a=>normKanji(a.toLowerCase().replace(/ /g,'')).includes(q));
-  }).sort((a,b)=>Number(normKanji(b.name.toLowerCase())===q)-Number(normKanji(a.name.toLowerCase())===q));
+  }).sort((a,b)=>Number(normKanji(b.name.toLowerCase().replace(/ /g,''))===q)-Number(normKanji(a.name.toLowerCase().replace(/ /g,''))===q));
 }
 const searchClear = document.getElementById('searchClear');
 let searchFocusIdx = -1;
@@ -14158,6 +14740,7 @@ window.addEventListener('resize', ()=>{ wheelMeasure(); wheelRender(); });
 // 鍵盤
 document.addEventListener('keydown', e=>{
   if(document.getElementById('home').style.display === 'none') return;
+  if(e.target.closest('input,textarea,select,button,[contenteditable="true"]')) return;
   if(document.getElementById('regionFilterList').classList.contains('open')) return; // 篩選面板開著時交給它處理
   if(e.key === 'ArrowLeft')  wheelStep(-1);
   if(e.key === 'ArrowRight') wheelStep(1);
@@ -14352,6 +14935,49 @@ document.addEventListener('keydown', e=>{
 
 renderRegionFilterBtn();
 applyRegionFilter();
+
+/* ============ 首頁頁面搜尋：不改變地區偏好或轉盤排列 ============ */
+const homeSearchInput=document.getElementById('homeSearchInput'),homeSearchResults=document.getElementById('homeSearchResults'),homeSearchClear=document.getElementById('homeSearchClear');
+let homeSearchMatches=[],homeSearchIndex=-1;
+function normalizePageSearch(s){return s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[\s・·／/《》「」—–-]/g,'');}
+function closeHomeSearch(){homeSearchResults.hidden=true;homeSearchInput.setAttribute('aria-expanded','false');homeSearchInput.removeAttribute('aria-activedescendant');homeSearchIndex=-1;}
+function renderHomeSearch(){
+  const q=normalizePageSearch(homeSearchInput.value.trim());homeSearchClear.hidden=!q;homeSearchIndex=-1;
+  if(!q){homeSearchMatches=[];closeHomeSearch();return;}
+  homeSearchMatches=allWheelCards.filter(c=>!c.classList.contains('disabled')&&normalizePageSearch(c.textContent+' '+(c.dataset.search||'')).includes(q));
+  homeSearchMatches.sort((a,b)=>Number(normalizePageSearch(b.querySelector('.label').textContent)===q)-Number(normalizePageSearch(a.querySelector('.label').textContent)===q));
+  homeSearchResults.replaceChildren();
+  homeSearchMatches.forEach((card,i)=>{
+    const button=document.createElement('button');button.type='button';button.className='home-search-result';button.id='home-result-'+i;button.setAttribute('role','option');button.setAttribute('aria-selected','false');
+    button.textContent=card.querySelector('.glyph').textContent+' '+card.querySelector('.label').textContent;
+    const sub=document.createElement('small');sub.textContent=card.querySelector('.sub').textContent+(card.classList.contains('region-hidden')?'（此地區目前隱藏，仍可直接開啟）':'');button.appendChild(sub);
+    button.addEventListener('click',()=>openHomeSearchResult(i));homeSearchResults.appendChild(button);
+  });
+  if(!homeSearchMatches.length){const empty=document.createElement('div');empty.className='home-search-empty';empty.textContent='找不到符合的頁面，請試其他名稱或代表人物。';homeSearchResults.appendChild(empty);}
+  homeSearchResults.hidden=false;homeSearchInput.setAttribute('aria-expanded','true');homeSearchInput.removeAttribute('aria-activedescendant');
+}
+function openHomeSearchResult(i){
+  const card=homeSearchMatches[i];if(!card)return;
+  closeHomeSearch();closeRegionFilter();
+  const wheelPosition=wheelCards.indexOf(card);if(wheelPosition>=0)wheelGoTo(wheelPosition);
+  card.click();
+}
+homeSearchInput.addEventListener('input',renderHomeSearch);
+homeSearchInput.addEventListener('focus',()=>{if(homeSearchInput.value.trim())renderHomeSearch();});
+homeSearchInput.addEventListener('keydown',e=>{
+  if(e.isComposing)return;
+  if(e.key==='Escape'){e.preventDefault();closeHomeSearch();return;}
+  if(!['ArrowDown','ArrowUp','Enter'].includes(e.key))return;
+  e.preventDefault();e.stopPropagation();
+  if(homeSearchResults.hidden)renderHomeSearch();
+  if(e.key==='Enter'){if(homeSearchMatches.length)openHomeSearchResult(Math.max(homeSearchIndex,0));return;}
+  if(!homeSearchMatches.length)return;
+  homeSearchIndex=homeSearchIndex<0?(e.key==='ArrowDown'?0:homeSearchMatches.length-1):(homeSearchIndex+(e.key==='ArrowDown'?1:-1)+homeSearchMatches.length)%homeSearchMatches.length;
+  [...homeSearchResults.children].forEach((b,i)=>b.setAttribute('aria-selected',String(i===homeSearchIndex)));
+  const active=homeSearchResults.children[homeSearchIndex];homeSearchInput.setAttribute('aria-activedescendant',active.id);active.scrollIntoView({block:'nearest'});
+});
+homeSearchClear.addEventListener('click',()=>{homeSearchInput.value='';renderHomeSearch();homeSearchInput.focus();});
+document.addEventListener('click',e=>{if(!e.target.closest('#homeSearchWrap'))closeHomeSearch();});
 
 /* ============ 明暗模式 ============ */
 function toggleTheme(){

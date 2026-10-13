@@ -53,6 +53,41 @@ try {
   })()`);
   console.log(JSON.stringify({uniqueLogos},null,2));
   if(uniqueLogos.duplicateCards.length||uniqueLogos.duplicateHeaders.length||!uniqueLogos.changed)process.exitCode=1;
+  const homeSearch=await evaluate(`(async()=>{
+    const keys=['kalevala','ulster','fianna','mabinogion','manas','dede','mwindo','panji','hangtuah'];
+    const input=q=>{homeSearchInput.value=q;homeSearchInput.dispatchEvent(new Event('input',{bubbles:true}))};
+    const key=k=>homeSearchInput.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));
+    const back=async()=>{closeJapan();await new Promise(r=>setTimeout(r,330))};
+    const registered=keys.every(k=>LEGENDS[k]&&PANTHEONS[k]&&allWheelCards.some(c=>c.dataset.legend===k));
+    input('日本');const existing=homeSearchMatches.some(c=>c.getAttribute('onclick')==='openJapan()');
+    input('Cú Chulainn');const accents=homeSearchMatches.some(c=>c.dataset.legend==='ulster');
+    input('神話');const count=homeSearchMatches.length,index=wheelIndex;
+    key('ArrowUp');const up=homeSearchIndex===count-1;key('ArrowDown');const down=homeSearchIndex===0;
+    const keyboard=up&&down&&wheelIndex===index&&homeSearchInput.getAttribute('aria-activedescendant')===homeSearchResults.firstElementChild.id;
+    const selection=homeSearchIndex;homeSearchInput.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',isComposing:true,bubbles:true}));
+    const ime=homeSearchIndex===selection&&document.getElementById('home').style.display!=='none';
+    key('Escape');const escape=homeSearchResults.hidden&&homeSearchInput.getAttribute('aria-expanded')==='false';
+    input('不存在的頁面xyz');const noResult=homeSearchMatches.length===0&&!!homeSearchResults.querySelector('.home-search-empty');
+    input('<img src=x onerror=alert(1)>');const safe=!homeSearchResults.querySelector('img,script');
+    homeSearchClear.click();const clear=homeSearchInput.value===''&&homeSearchResults.hidden&&homeSearchClear.hidden;
+    input('神話');document.querySelector('#home h1').click();const outside=homeSearchResults.hidden;
+    const opened=[];
+    for(const k of keys){
+      input(k);const i=homeSearchMatches.findIndex(c=>c.dataset.legend===k);
+      if(i<0){opened.push(false);continue}homeSearchResults.children[i].click();
+      await new Promise(r=>setTimeout(r,330));opened.push(currentPantheon===k&&document.getElementById('home').style.display==='none');await back();
+    }
+    const saved=[...hiddenRegions],storage=localStorage.getItem(REGION_FILTER_KEY);
+    let hiddenRegion=false;
+    try{
+      hiddenRegions=new Set(presentRegions);applyRegionFilter();input('漢都亞');const before=localStorage.getItem(REGION_FILTER_KEY);
+      key('Enter');await new Promise(r=>setTimeout(r,330));
+      hiddenRegion=currentPantheon==='hangtuah'&&WHEEL_N===0&&localStorage.getItem(REGION_FILTER_KEY)===before;await back();
+    }finally{hiddenRegions=new Set(saved);applyRegionFilter();if(storage===null)localStorage.removeItem(REGION_FILTER_KEY);else localStorage.setItem(REGION_FILTER_KEY,storage)}
+    homeSearchClear.click();
+    return {registered,existing,accents,keyboard,ime,escape,noResult,safe,clear,outside,allNineOpened:opened.every(Boolean),hiddenRegion};
+  })()`);
+  console.log(JSON.stringify({homeSearch},null,2));if(Object.values(homeSearch).some(v=>!v))process.exitCode=1;
   if (process.env.WAIT_IDLE_FONT === '1') await evaluate('document.fonts.ready');
   if (process.env.PROFILE === '1') { await request('Profiler.enable'); await request('Profiler.start'); }
   const result = await evaluate(`(async () => {
@@ -157,6 +192,19 @@ try {
   })()`);
   console.log(JSON.stringify({legendCards},null,2));if(!legendCards.correct||!legendCards.none||!legendCards.all||legendCards.count!==legends.length)process.exitCode=1;
   await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  const homeSearchMobile=await evaluate(`(async()=>{
+    closeJapan();await new Promise(r=>setTimeout(r,350));
+    homeSearchInput.value='神話';homeSearchInput.dispatchEvent(new Event('input',{bubbles:true}));
+    const r=document.getElementById('homeSearchWrap').getBoundingClientRect(),list=homeSearchResults.getBoundingClientRect();
+    const fits=innerWidth===390&&document.documentElement.scrollWidth<=390&&r.left>=0&&r.right<=innerWidth&&list.left>=0&&list.right<=innerWidth&&list.bottom<=innerHeight;
+    const hiddenScrollbar=getComputedStyle(homeSearchResults).scrollbarWidth==='none'&&getComputedStyle(homeSearchResults).overflowY==='auto';
+    homeSearchResults.scrollTop=homeSearchResults.scrollHeight;const scrollable=homeSearchResults.scrollTop>0;
+    const theme=document.documentElement.dataset.theme;document.documentElement.dataset.theme='light';
+    const light=getComputedStyle(homeSearchInput).color===getComputedStyle(document.body).color;
+    if(theme)document.documentElement.dataset.theme=theme;else delete document.documentElement.dataset.theme;
+    homeSearchClear.click();return {fits,hiddenScrollbar,scrollable,light};
+  })()`);
+  console.log(JSON.stringify({homeSearchMobile},null,2));if(Object.values(homeSearchMobile).some(v=>!v))process.exitCode=1;
   const legendMobile=await evaluate(`(async()=>{
     const out=[];
     for(const key of Object.keys(LEGENDS)){
@@ -323,6 +371,18 @@ try {
   preview.page=await evaluate('frame.contentDocument.getElementById("japan")?.dataset.pantheon');
   console.log(JSON.stringify({preview},null,2));
   if(preview.before!==preview.expected||preview.after!==preview.expected||!preview.reloaded)process.exitCode=1;
+  await request('Page.navigate',{url:'http://127.0.0.1:7788/tools/preview.html?page=home'});
+  for(let i=0;i<60;i++){
+    if(await evaluate(`document.getElementById('preview')?.contentDocument?.querySelectorAll('[data-legend]').length===${legends.length}`))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  await evaluate("revision='test-home-revision';check()");
+  let previewHome=false;
+  for(let i=0;i<60;i++){
+    previewHome=await evaluate(`(()=>{const f=document.getElementById('preview');return !!f?.contentWindow?.location.search.startsWith('?preview=')&&f.contentDocument.querySelectorAll('[data-legend]').length===${legends.length}&&f.contentDocument.getElementById('home').style.display!=='none'&&f.contentDocument.querySelectorAll('#stage .node').length===0})()`);
+    if(previewHome)break;await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  console.log(JSON.stringify({previewHome},null,2));if(!previewHome)process.exitCode=1;
   if (process.env.PROFILE === '1') {
     const { profile } = await request('Profiler.stop');
     const counts = new Map();
