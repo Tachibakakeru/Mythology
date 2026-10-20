@@ -2,6 +2,19 @@
 
 ## 2026-10-20｜日本神話原創節點插畫續作（第九批起，未PUSH）
 
+- 159圖完整瀏覽器回歸82439 exit0：count159、loaded=true、failures=[]、lightbox／closed=true，390px haraedo_note的nodeVisible、imageFits、caption、lightboxFits、closed皆true；全站既有十九傳說與首頁／妖怪預覽重載亦通過。現有可見tab1實際搜尋並選取mitoshi，御年神新圖／非史料圖說已出現。額度73%已用，繼續未完成圖像，不新開預覽、不PUSH。
+
+- 第十四／十五批24張皆已縮圖並逐張目視後落地，日本159／269、餘110，累計本輪84新增。第十四批為itsuse、inahi、mikenu、nagasunehiko、amenokaguyama、mitoshi、hayamato、amatsuhikone、ikutsuhikone、kumanokusubi、takehinatori、yashimajinumi，採既有故事標記與原創衣飾，東征不畫溺亡／創傷，無明確獨立冒險者不造情節。第十五批uhijini、suhijini、tsunuguhi、ikuguhi、otonoji、otonobe、omodaru、ayakashikone、izunome、magatsuhi_note、naobi_note、haraedo_note：泥／沙／地層／地形／水／光／霧與線條為象徵，非古典神像、固定性別外貌或古代圖式；禍津日不等同西方惡魔。原圖路徑／完整提示保存batch14／15檔。全資產160總圖／159日本exit0，完整瀏覽器82439運行中，未先宣稱通過。第十三批135張資產亦exit0。
+- 最近五小時70%已用、ordinaryUsageAllowed=true，已安排第十六批12名出雲／祭祀與皇統人物；佇列未落地不計完成，預留保存與驗證。一次PowerShell node -e查缺圖因引號截斷未執行成功，改讀既有defs與映射只讀掃描；第十六批提示文件初次apply_patch缺新增行前綴而拒絕，未寫入，修正後正常建立。既有資料、座標及UI皆未改，沒有PUSH。
+
+- 第十三批完整12張已落地，日本135／269、餘134。本批後6張iwasaku、nesaku、mikahayahi、hihayahi以裂石、分根、分枝光芒、流動光帶作原創象徵，依神名／誕生脈絡構圖，不擅宣稱具體神形、神器或史料固定神通；hayaakitsuhiko／hayaakitsuhime以河口與水流的男女神原創人物區分。縮256px、四角0後逐張目視、再複製assets並登記，無血腥創傷；原圖對照完整保存在batch13提示檔。前129圖資產exit0；135圖總資產即將檢查，最新全瀏覽器仍是123版39118 exit0。
+
+- 第十三批先6張海神完成落地：綿津見三神依海底岩層／海中洋流／海面浪日採三張抽象圖，不憑空宣稱固定人臉；住吉三神採原創三種面貌／袍色與航海意象，年齡、笏板等皆非主張古典唯一神像。六張審稿256px四角0、目視各不同構圖後複製assets，新增watatsumi_soko／naka／uwa、sumiyoshi_soko／naka／uwa對應；原圖檔名已逐張保存在batch13提示檔。日本123→129、餘140；沒有改節點、關係或群組。原始規則中75張改註第八批歷史數量，避免與最新129混淆；待跑129總資產檢查。
+
+- 123張完整瀏覽器回歸session39118 exit0：全部123載入／節點映射／面板圖說、PORTRAIT_FAILURES=[]、燈箱開關皆通過；新增390px專項選ousu，nodeVisible／imageFits／caption／lightboxFits／closed全部true。既有十九傳說、日本雙語、佛教、中國、瑪雅、阿茲特克與預覽／匯出等維持通過。五小時最近用量61%已用、ordinaryUsageAllowed=true，繼續第十三／十四批並安排第十五批神世七代與禊祓象徵；不使用重置券、不把無固定形象者畫成公認人像。
+
+- 第二份本地備份6b21664已成功（第十一／十二批共24張、前後累計48新增），未PUSH；上一份150c7f2仍保留。123張總資產檢查exit0。為新插畫補上390px專項：自動選最後新增日本portrait ID，依實際矩陣等聚焦完成，檢節點在底部抽屜外可見、圖片寬度不溢出面板、原創圖說、點圖燈箱無水平溢出及Esc關閉；僅測試變更、不改產品UI，結果待下一輪全測。
+
 - 111張完整瀏覽器回歸session52462 exit0：count111、loaded=true、failures=[]、lightbox／closed=true；十九傳說及原有各頁、桌機／390px、搜尋／來源／群組／匯出、首頁／圖譜／妖怪預覽重載皆過。123張全資產檢查exit0（含希臘124圖）、diff無錯；第十二批12張只增圖片映射，下一次完整回歸會含之。準備第二份本地Git檢查點（48張新增圖）保全，仍不PUSH；第十三批源圖輸出逐張寫入提示檔，避免中斷失去檔名對照。
 
 - 第十二批12張全部目視、透明檢查後接入：百襲姬（白蛇與巫女意象）、大吉備津日子（吉備山地／武人，無桃太郎動物團）、崇神（朝服／三輪祭祀意象）、垂仁（橘果探索）、景行（王者與遠征海岸）、仲哀（沉思與海雲）、應神（傳說王者／渡海，非重用八幡武神圖）、仁德（村落炊煙，未作古墳被葬者考古斷言）、用明（寺與蓮紋）、推古（女帝朝服／笏板）、美夜受比賣（保管鞘中劍，非揮劍武人）、大碓（年輕皇子／美濃山地，不畫暴力死亡）。人物衣飾與面容均為原創古代風幻想，不能當作復原歷史肖像；現有敘事與親屬資料未改。

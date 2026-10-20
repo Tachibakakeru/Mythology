@@ -407,6 +407,20 @@ try {
     mobileFocus[key]=await evaluate(`(()=>{const a=stage.querySelector('.node[data-id="'+NODE_DEFS[0][0]+'"]').getBoundingClientRect(),b=wrap.getBoundingClientRect(),p=panel.getBoundingClientRect();return {visible:a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=p.top+2,left:a.left,right:a.right,top:a.top,bottom:a.bottom,panelTop:p.top};})()`);
   }
   console.log(JSON.stringify({mobileFocus},null,2));if(Object.values(mobileFocus).some(v=>!v.visible))process.exitCode=1;
+  const portraitMobile=await evaluate(`(async()=>{
+    openPantheon('japan');await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const id=Object.keys(NODE_PORTRAITS).filter(k=>k.startsWith('japan:')).at(-1).slice(6);focusNode(id);
+    for(let i=0;i<60;i++){if(Math.abs(new DOMMatrix(getComputedStyle(stage).transform).a-scale)<0.001)break;await new Promise(r=>setTimeout(r,100))}
+    await new Promise(r=>setTimeout(r,300));
+    const n=stage.querySelector('.node[data-id="'+id+'"]').getBoundingClientRect(),p=panel.getBoundingClientRect(),b=wrap.getBoundingClientRect();
+    const im=document.querySelector('#panel .p-figs img'),a=im?.getBoundingClientRect();
+    im?.click();const enlarged=document.querySelector('#imgLightbox img').getBoundingClientRect();
+    const lightboxFits=document.getElementById('imgLightbox').classList.contains('open')&&enlarged.width>0&&enlarged.left>=0&&enlarged.right<=innerWidth;
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    return {id,viewport:innerWidth,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.top>=b.top-2&&n.bottom<=p.top+2,imageFits:!!a&&a.width>0&&a.left>=p.left&&a.right<=p.right,caption:document.querySelector('#panel .p-figs').textContent.includes('原創節點插畫・非史料形象'),lightboxFits,closed:!document.getElementById('imgLightbox').classList.contains('open')};
+  })()`);
+  console.log(JSON.stringify({portraitMobile},null,2));
+  if(['nodeVisible','imageFits','caption','lightboxFits','closed'].some(k=>!portraitMobile[k]))process.exitCode=1;
   await request('Emulation.clearDeviceMetricsOverride');
   if(process.env.AZTEC_SCREENSHOT){
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});

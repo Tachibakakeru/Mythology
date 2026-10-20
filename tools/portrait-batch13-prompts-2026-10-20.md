@@ -17,6 +17,26 @@
 
 ## 原圖輸出（均待驗證）
 
+- `hayaakitsuhime`: exec-6c69405e-78ce-47f0-ba7f-61396e6e5017.png
+
+- `hayaakitsuhiko`: exec-4398277a-aeaa-4c5b-8ab7-01ba37843e65.png
+
+- `hihayahi`: exec-ac444b50-5fb5-4539-8a1b-6324372ac089.png
+
+- `mikahayahi`: exec-44faa5fe-cdc2-4677-9360-847c5905a541.png
+
+- `nesaku`: exec-91f502d4-d72c-4d13-a934-b32a78a6189a.png
+
+- `iwasaku`: exec-164ca877-a00b-4fa6-8e1c-3c63a55f7702.png
+
+- `sumiyoshi_uwa`: exec-dcf384d9-60c0-433d-8306-dbf6c0bde6a9.png
+
+- `sumiyoshi_naka`: exec-5a3b543e-f24d-42e0-b8c5-dc1ccaec1b5a.png
+
+- `sumiyoshi_soko`: exec-c62aa424-e0f0-489c-91d8-25b019571af0.png
+
+- `watatsumi_uwa`: exec-fde583b5-e885-483e-bc39-413d4799771d.png
+
 - `watatsumi_naka`: exec-b7ac53f4-f455-4cd9-a9fb-3c48bd09ba65.png
 
 - `watatsumi_soko`: exec-0bc6c8cd-880b-4a93-b421-221afa65d2eb.png
