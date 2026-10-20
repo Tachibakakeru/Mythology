@@ -19,6 +19,18 @@ One standalone polished Japanese fantasy-game chibi circular portrait medallion,
 
 ## 原圖輸出（均待驗證）
 
+- `kuwashihime`: exec-2d3e860b-1fdd-4deb-a009-c764b18b4312.png
+
+- `korei`: exec-a4a67797-50cd-4926-81eb-154e458141f1.png
+
+- `oshikahime`: exec-9c02667a-3599-4618-bf16-42554336fc1a.png
+
+- 世襲足媛修訂：原256px審稿圖有明顯白外圈，尚未接入；內建image_gen以審稿圖為參考，保留人物／面貌／衣服／內景，只移除白圈，改薄藍金圓框，圓外充分透明padding、四角0，無文字。v2原圖：exec-8bb71850-9aa0-4c9c-9b11-edeadc342fcc.png。待縮圖與目視；v1原圖保留生成目錄。
+
+- `koan`: exec-73e10693-4e58-49c2-bf72-21ff85a62e33.png
+
+- `yosotahohime`: exec-acc7cbb5-f4ab-4b98-9b0b-20a0a636d478.png
+
 - `kosho`: exec-0dabd1f2-a712-4852-acb1-95ceab212783.png
 
 - `futomawakahime`: exec-ab7f7012-d000-4c15-b9f9-eea09dc0974c.png

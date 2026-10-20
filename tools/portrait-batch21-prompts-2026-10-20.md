@@ -19,5 +19,23 @@ One original Japanese fantasy-game chibi circular portrait, match reference only
 
 ## 原圖輸出（均待驗證）
 
+- `seinei`: exec-3284dbe1-3b6e-47d3-813f-376163133b96.png
+
+- `ichinobe`: exec-7dd83cc0-8422-4559-8fda-054a00c69e50.png
+
+- `mimatsuhime`: exec-d3494723-7aa5-4904-9e7c-8ca238774d55.png
+
+- `hikofutsuoshi`: exec-b364a533-1022-4d4b-9ce8-f0aacf3a966e.png
+
+- `ikagashikome`: exec-10ab713f-3f4d-4d0d-9e44-204a99853c62.png
+
+- `kaika`: exec-63105bca-ac4f-4ccf-a841-14d270c5e004.png
+
+- `utsushikome`: exec-be3bbec5-d67f-4ee1-98b4-10c5bdf33314.png
+
+- `kogen`: exec-4fdc451a-7dee-4e85-b5f4-ded8c1d9a2fb.png
+
+- `amenaoshitarashihiko`: exec-761c1d02-1990-4516-a5f5-45a0f314f59a.png
+
 額度停止時未產出者留待下次，不計完成。
 

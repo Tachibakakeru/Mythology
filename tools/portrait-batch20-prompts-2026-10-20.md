@@ -19,6 +19,26 @@ Standalone polished chibi Japanese fantasy-game circular node medallion. Follow 
 
 ## 原圖輸出（均待驗證）
 
+- `kasugaohime`: exec-7fed0c34-530f-4ec4-910d-b92be699a0a8.png
+
+- `kibiwakahime`: exec-d08213fb-c5f2-4bbe-9a7f-5cb7c6919467.png
+
+- `oshisakahime`: exec-a1a7ac45-127b-443a-9857-8889d42cc331.png
+
+- `wakakusakabe`: exec-822eaf1b-809a-41d9-8fbb-0d65dd82ecbf.png
+
+- `yakawaehime`: exec-911751be-5ac2-4e98-b227-5484f2be74da.png
+
+- `nakatsuhime`: exec-8db62706-fb87-48ac-b65d-8b7bb61af05c.png
+
+- `takanukahime`: exec-3263997c-09f5-4f37-bbf7-af45f9e18c29.png
+
+- `okinagasukune`: exec-52e51aab-44ae-4e4b-92cb-ff754550b471.png
+
+- `futajiirihime`: exec-0ca4f1a0-30a5-460a-ad2e-476879b3a9f2.png
+
+- `inabinooiratsume`: exec-bc395e1e-69e7-4244-8485-df0f73b6fd65.png
+
 - `katsuyori`: exec-d43230d1-b3bd-489b-a316-bb51ceb7c443.png
 
 - `katsumura`: exec-067cb3b3-a243-4b1d-928b-3516f249ce04.png
