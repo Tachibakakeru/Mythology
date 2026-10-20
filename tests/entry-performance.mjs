@@ -191,6 +191,26 @@ try {
   const sharedRender = await evaluate(`(() => { const out={}; for(const key of ['buddhism','japan']) { openPantheon(key); out[key]={data:Object.keys(nodes).length,rendered:stage.querySelectorAll('.node').length}; } return out; })()`);
   console.log(JSON.stringify({sharedRender,pageErrors}, null, 2));
   if (Object.values(sharedRender).some(v=>!v.data||v.data!==v.rendered)||pageErrors.length) process.exitCode=1;
+  const portraits=await evaluate(`(async()=>{
+    const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('japan:'));
+    const loaded=await Promise.all(entries.map(([,src])=>new Promise(resolve=>{const im=new Image();im.onload=()=>resolve(im.naturalWidth===256&&im.naturalHeight===256);im.onerror=()=>resolve(false);im.src=src})));
+    const failures=[];
+    for(const [key,src] of entries){
+      const id=key.slice(6),card=stage.querySelector('.node[data-id="'+id+'"]');
+      if(!nodes[id]||!card?.classList.contains('has-portrait')||!card.style.getPropertyValue('--node-portrait').includes(src)){failures.push(id);continue}
+      openPanel(nodes[id]);
+      const figures=document.querySelector('#panel .p-figs');
+      if(!figures?.textContent.includes('原創節點插畫・非史料形象')||![...figures.querySelectorAll('img')].some(im=>im.getAttribute('src')===src&&im.dataset.cap.includes('非古代圖像史料')))failures.push(id+':panel');
+    }
+    const im=document.querySelector('#panel .p-figs img');im?.click();
+    const lightbox=!!im&&document.getElementById('imgLightbox').classList.contains('open')&&document.querySelector('#imgLightbox div').textContent.includes('非古代圖像史料');
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    const closed=!document.getElementById('imgLightbox').classList.contains('open');closePanel();
+    return {count:entries.length,loaded:loaded.every(Boolean),failures,lightbox,closed};
+  })()`);
+  console.log(JSON.stringify({portraits},null,2));
+  console.log('PORTRAIT_FAILURES '+JSON.stringify(portraits.failures));
+  if(!portraits.loaded||portraits.failures.length||!portraits.lightbox||!portraits.closed)process.exitCode=1;
   const legends = await evaluate(`(()=>{
     const out=[];
     for(const key of Object.keys(LEGENDS)){

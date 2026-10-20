@@ -2,6 +2,11 @@
 
 ## 專案概覽
 
+- 圖片回歸：entry-performance.mjs新增全數日本NODE_PORTRAITS的HTTP可解碼256px、節點has-portrait／CSS路徑、逐節點面板原創圖說與燈箱點擊／Esc關閉檢查；portraits.test.py新增映射ID存在於JP_NODE_DEFS的斷言。批次完成再跑全回歸，不能只看生成原圖。
+
+- 2026-10-20最新落地：第九、十批各12張完成接入，日本75→99張，269節點中尚有170個無獨立圖。第九批：菅原道真、志那都比古、久久能智、鳥之石楠船、金山彥／媛、埴山彥／媛、大宜都比賣、菊理媛、天目一箇、倭姬；第十批：足名椎、手名椎、神大市姬、八上姬、沼河姬、栲幡千千姬、聖德太子、建內宿禰、闇淤加美、闇御津羽、媛蹈鞴五十鈴媛、天羽槌雄。各圖目視後才接入；生成佇列不算完成。金山彥v1角落alpha=1已由內建image_gen修成kanayamahiko-v2.png，舊版小圖留原生成目錄，不放寬測試。全資產256px／RGBA／四角0／非空／唯一雜湊／大小與映射檢查用tests/portraits.test.py，prepare-portrait.py只縮圖與預先驗證、拒絕覆寫／非透明圖；瀏覽器檢查另見上一條。91張版完整回歸session72897 exit0；99張版全資產檢查exit0；本地備份不推遠端。提示及原圖追蹤見tools/portrait-*-2026-10-20.md。人物／道具是原創，不可當成固定神器或史料形象。
+- 本輪沿用單一既有tab1預覽，原地切page=japan並重啟原7788伺服器；不得新開預覽。只接圖片，不改UI、故事、座標或血緣。使用者要求持續至五小時限制，定期讀實際額度、預留保存與驗證；第一次批中14%已用，未使用重置券，未PUSH。原初無固定外貌的神採象徵圖，不擅造公認人形；詳細階段歷史放PROGRESS，不在此重複堆疊各小階段計數。
+
 - 2026-10-13本輪使用者明確授權PUSH：發布首頁全站內容搜尋與全頁異名／搜尋一致性修正，範圍為index.html、tests/entry-performance.mjs、tools/preview.html及兩份交接文件。沿用session7673完整回歸exit0，本輪程式未另改，重跑zoom-queue與diff檢查通過；推送至origin/main後必須核對完整SHA。下方「本機未PUSH」保留為製作階段歷史，發布實際結果以Git核對與本輪最終回覆為準，不擅自接續新功能。
 
 - 2026-10-13全站異名與搜尋一致性（本機未PUSH）：主圖譜matchNodes、matchGroups與妖怪matchYokai共用buildHomeSearchPages／searchPageNodes索引與normalizePageSearch；節點顯示名稱完全相符優先，再原名／異名，再群組／關係，最後簡介。簡介命中必須標「內容提及（非此人物的別名）」，不能把文本比較、否定句或另一角色混成別名。單節點保存／重設與載入頁面都需清除homeSearchPages快取，否則同頁編輯後仍失搜。保留首頁懶建、不建圖譜DOM。
