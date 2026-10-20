@@ -1,0 +1,41 @@
+# 日本節點插畫接續清單（2026-10-20）
+
+目前242／269張，本輪新增167張；尚27無獨立插畫。所有既有圖片均為原創非史料，不能當公認古代肖像。本輪未PUSH，僅本地Git檢查點。維持現有APP單一page=japan預覽，不新開頁。
+
+## 優先：個別角色9位
+
+- `ingyo` — 允恭天皇；第19代天皇
+- `buretsu` — 武烈天皇；第25代天皇
+- `mekonome` — 尾張目子媛；継体天皇の妃
+- `ankan` — 安閑天皇；第27代天皇
+- `senka` — 宣化天皇；第28代天皇
+- `ishihime` — 石姫皇女；欽明天皇の皇后（宣化天皇の皇女）
+- `koanekimi` — 小姉君；欽明天皇の妃（蘇我稲目の娘）
+- `bidatsu` — 敏達天皇；第30代天皇
+- `sushun` — 崇峻天皇；第32代天皇
+
+第21批從buretsu停，第23從otohime停，第24續作已完成otohime與suminoenonakatsu，97%額度閘值停在ingyo。其餘未生成，不要誤計完成。第21／23／24提示文件保留可接用，先確認尚未有映射再產圖。
+
+## 群組／氏族／事件／集合節點18項
+
+- `ohoyashima` — 大八島國（國土生成）；国土の神格
+- `mizutogami_note` — 沫那藝神・沫那美神など水戸神の御子（總稱）；水戸神の御子八柱（總稱）
+- `oyamatsumi_kayanohime_note` — 天之狭土神・天之狭霧神など大山津見神と鹿屋野比賣神の御子（總稱）；大山津見神・鹿屋野比賣神の御子八柱（總稱）
+- `yamatsumi8` — 八柱山之神（總稱）；カグツチの遺体から生誕
+- `misogi_sutemono` — 禊時脫棄物所化之神（總稱）；禊で衣物から生まれた神々
+- `sugawara_note` — 菅原氏・土師氏・大伴氏・毛利氏 など；天菩比命後裔を称する氏族
+- `hayato_note` — 隼人・阿多氏；火闌降命系の後裔氏族
+- `ojin_link` — 稚野毛二俣王〜乎非王；応神天皇後裔（継体天皇への中継系譜）
+- `umisachi_note` — 火中誕生・海幸彦と山幸彦；記紀で異なる出生順と失われた釣針
+- `nakatomi_note` — 中臣氏・藤原氏；天児屋命の後裔
+- `inbe_note` — 忌部氏；布刀玉命の後裔
+- `mononobe_note` — 物部氏；饒速日命の後裔
+- `otomo_note` — 大伴氏・久米氏；天忍日命・天津久米命の後裔
+- `abe_note` — 阿倍氏；大彦命の後裔
+- `soga_note` — 蘇我氏・葛城氏；武内宿禰の後裔
+- `shichifukujin_note` — 七福神；恵比寿・大黒天・毘沙門天ほか
+- `hagoromo_note` — 羽衣伝説；天女の羽衣
+- `owari_clan_note` — 尾張氏・海部氏・津守氏など；天香山命後裔を称する氏族
+
+以上集合應採原創象徵而非虛構單一人物；有家紋／古代圖像須另核來源，不任意當作所有氏族共用。原圖在CODEX_HOME/generated_images本對話目錄，逐張檔名見tools/portrait-*-2026-10-20.md；256px合格資產在assets/portraits/japan。prepare-portrait.py只縮圖／驗證，新增映射前先目視；portraits.test.py檢查ID／透明／唯一性／目錄一致。批次完成跑entry-performance.mjs完整回歸。不要PUSH，須另待使用者確認。
+

@@ -2,6 +2,14 @@
 
 ## 2026-10-20｜日本神話原創節點插畫續作（第九批起，未PUSH）
 
+- 最終驗證：242日本／243總圖資產exit0；完整瀏覽器21365 exit0，count242／loaded=true／failures=[]／lightbox=true／closed=true。390px suminoenonakatsu的nodeVisible／imageFits／caption／lightboxFits／closed皆true；十九傳說、既有神話、搜尋／來源／群組／匯出與首頁／圖譜／妖怪預覽重載通過。zoom queues／graph culling單測exit0、diff檢查無錯。與起始a39086d比較index.html為167新增／0刪除，全部圖片映射；無UI、故事、關係或座標改動。
+- 單一現有APP預覽維持page=japan，已實際選otohime，看到節點新圖、面板原創非史料圖說與來源，截圖C:/Users/user/AppData/Local/Temp/mythology-japan-portraits-final-20261020.png。原有7788伺服器僅綁127.0.0.1，未新開預覽。所有在途生成已結束，未驗證圖不在assets，無遺留佇列；第24因97%閘值停ingyo，最新讀額度99%已用，不重置或使用付費備援。
+- 本輪最終242／269，新增167，尚27（9個別角色＋18集合／事件／氏族）；tools/portrait-remaining-2026-10-20.md列全名／ID與接續順序。完整提示／原圖對照與兩張退回v1均保留，不冒充古代神像。既有五份本地提交150c7f2、6b21664、19109d6、1067499、3de5052；現在以第六份本地提交保存尾批2圖與最終交接，實際SHA看git log／本輪回覆。無PUSH，後續仍須等使用者確認。
+
+- 最後第24小尾批按實際額度由96%開始，完成otohime（弟比賣，非龍宮乙姬）及suminoenonakatsu（墨江中津王）2張；下一張ingyo前讀到97%，正常停止，不動用重置券、不再送新圖。兩圖256px RGBA／四角0與目視通過後接入，日本242／269、餘27，本輪75→242，共增167張。最後圖非暴力、非古代真實肖像；所有故事、血緣、群組、座標、UI與首頁轉盤未改。生成原圖／提示全保留，v1退回圖不進assets。242資產與最終完整瀏覽器即將檢查，無PUSH；未完成清單另存tools/portrait-remaining-2026-10-20.md，不能宣稱全部269完成。
+
+- 240全瀏覽器81895 exit0：全部圖片、圖說、燈箱、390px okotooshio定位／圖片／圖說／燈箱皆true、十九傳說與預覽重載通過；240資產exit0、zoom queues／graph culling單測exit0，工作樹乾淨。第五份本地備份3de5052成功，無PUSH。現有tab1清寧天皇圖片／原創非史料圖說實際可見。約94%已用，現在僅續第24小尾批11個已排定但因93%閘值暫停的個別角色，97%停止新產、仍需QA與最後保存，不開始其他神話或新故事。
+
 - 230完整瀏覽器30010 exit0：全部圖片／節點CSS／面板／圖說、燈箱與Esc通過，390px tsuchiikazuchi的定位、圖片寬、圖說、燈箱不溢出與關閉皆true；既有十九傳說與預覽重載維持通過，230資產exit0。另10張已逐張縮256px透明與目視後接入：春日大郎女、吉備稚媛、忍坂大中媛、清寧、市邊押磐、御真津媛、兄比賣、三嶋溝橛耳、天石門別、大事忍男。清寧白髮依原節點意象不作醫學診斷，市邊不在畫面斷言爭議父系，門神與早期神採門／島上光等象徵，非古代造像。日本240／269、餘29，本輪165新增。
 - 第十九／二十各12圖、第22八雷全落地；第21已完成前9圖，93%閘值停在buretsu，尚buretsu／ankan／senka；第23完成前4圖，停在otohime，尚otohime／suminoenonakatsu／ingyo／mekonome／ishihime／koanekimi／bidatsu／sushun。所有生成佇列均已正常完成／安全停止，無產圖錯誤。先跑240資產與全回歸並做本地備份，確認穩定後才按實際剩額以小尾批續11個個別角色，尾批改97%停止新產、最後仍先QA與保存，無PUSH。
 
