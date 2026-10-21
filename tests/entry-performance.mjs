@@ -211,6 +211,34 @@ try {
   console.log(JSON.stringify({portraits},null,2));
   console.log('PORTRAIT_FAILURES '+JSON.stringify(portraits.failures));
   if(!portraits.loaded||portraits.failures.length||!portraits.lightbox||!portraits.closed)process.exitCode=1;
+  const portraitLocale=await evaluate(`(()=>{
+    if(japanLocale!=='zh-TW')toggleJapanLocale();
+    const id='senka';
+    const inspect=()=>{const f=document.querySelector('#p-figs figure'),im=f?.querySelector('img');return {caption:f?.querySelector('figcaption')?.textContent,alt:im?.alt,detail:im?.dataset.cap};};
+    openPanel(nodes[id]);
+    const initial=inspect(),zh=initial.caption==='原創節點插畫・非史料形象'&&initial.alt.endsWith('原創節點插畫')&&initial.detail.includes('非古代圖像史料');
+    toggleJapanLocale();
+    const japanese=inspect(),ja=japanese.caption==='オリジナルノードイラスト・史料図像ではありません'&&japanese.alt.endsWith('のオリジナルノードイラスト')&&japanese.detail.includes('古代の史料図像ではありません');
+    const originalName=nodes[id].name,quotedName='引用名" data-portrait-break="1"><b>標記</b>&';
+    let escaped=false;
+    try{
+      nodes[id].name=quotedName;openPanel(nodes[id]);
+      const f=document.querySelector('#p-figs figure'),im=f.querySelector('img');
+      escaped=im.alt===quotedName+'のオリジナルノードイラスト'&&im.dataset.cap===quotedName+JP_UI.ja.portraitDetail&&!im.hasAttribute('data-portrait-break')&&!f.querySelector('b');
+    }finally{nodes[id].name=originalName;openPanel(nodes[id]);}
+    document.querySelector('#p-figs figure img').click();
+    const jaLightbox=document.getElementById('imgLightbox').classList.contains('open')&&document.querySelector('#imgLightbox div').textContent.includes('古代の史料図像ではありません');
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    const otherKey=Object.keys(NODE_PORTRAITS).find(key=>!key.startsWith('japan:')),parts=otherKey.split(':');
+    openPantheon(parts[0]);openPanel(nodes[parts[1]]);
+    const other=inspect(),otherPantheon=japanLocale==='ja'&&other.caption==='原創節點插畫・非史料形象'&&other.detail.includes('非古代圖像史料');
+    openPantheon('japan');toggleJapanLocale();openPanel(nodes[id]);
+    const restored=inspect(),zhRestored=japanLocale==='zh-TW'&&restored.caption===initial.caption&&restored.alt===initial.alt&&restored.detail===initial.detail;
+    closePanel();
+    return {zh,ja,escaped,jaLightbox,otherPantheon,zhRestored};
+  })()`);
+  console.log(JSON.stringify({portraitLocale},null,2));
+  if(Object.values(portraitLocale).some(v=>v!==true))process.exitCode=1;
   const legends = await evaluate(`(()=>{
     const out=[];
     for(const key of Object.keys(LEGENDS)){
@@ -389,9 +417,10 @@ try {
   const aztecExport=await evaluate(`(async()=>{let saved;const create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click,original=LIVE_EDITS.aztec.az_note;try{LIVE_EDITS.aztec.az_note={name:'匯出驗證 $&'};URL.createObjectURL=blob=>{saved=blob;return 'blob:test';};HTMLAnchorElement.prototype.click=()=>{};await exportHTML();return (await saved.text()).includes('const AZTEC_USER_EDITS = '+JSON.stringify(LIVE_EDITS.aztec)+';');}finally{URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;if(original)LIVE_EDITS.aztec.az_note=original;else delete LIVE_EDITS.aztec.az_note;}})()`);
   console.log(JSON.stringify({aztecExport},null,2));if(!aztecExport)process.exitCode=1;
   await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  const aztecMobile=await evaluate(`(async()=>{clearHighlight();closePanel();fitInitial();const b=wrap.getBoundingClientRect();const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=b.bottom+2;});focusNode('az_quetzalcoatl');await new Promise(r=>setTimeout(r,1000));const n=stage.querySelector('.node[data-id="az_quetzalcoatl"]').getBoundingClientRect(),p=document.getElementById('panel').getBoundingClientRect();return {allVisible,panelVisible:p.width>0&&p.left>=-2&&p.right<=392,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.bottom<=p.top+2,sourceLinks:document.querySelectorAll('#p-sources a').length};})()`);
+  // 等面板與畫布實際過渡完成，不以固定1秒假設在大量圖片下已提交；逾時仍保留原幾何斷言。
+  const aztecMobile=await evaluate(`(async()=>{clearHighlight();closePanel();fitInitial();const b=wrap.getBoundingClientRect();const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=b.bottom+2;});focusNode('az_quetzalcoatl');const settleStart=performance.now(),panelEl=document.getElementById('panel');let settled=false;while(performance.now()-settleStart<6000){await new Promise(r=>setTimeout(r,100));settled=new DOMMatrix(getComputedStyle(panelEl).transform).isIdentity&&![...panelEl.getAnimations(),...stage.getAnimations()].some(a=>a.playState==='running');if(settled)break;}const n=stage.querySelector('.node[data-id="az_quetzalcoatl"]').getBoundingClientRect(),p=document.getElementById('panel').getBoundingClientRect();return {settled,settleMs:Math.round(performance.now()-settleStart),allVisible,panelVisible:p.width>0&&p.left>=-2&&p.right<=392,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.bottom<=p.top+2,sourceLinks:document.querySelectorAll('#p-sources a').length,rects:{panel:{left:p.left,right:p.right,width:p.width,top:p.top},viewport:innerWidth,document:document.documentElement.clientWidth,transform:getComputedStyle(panelEl).transform}};})()`);
   console.log(JSON.stringify({aztecMobile},null,2));
-  if(!aztecMobile.allVisible||!aztecMobile.panelVisible||!aztecMobile.nodeVisible||!aztecMobile.sourceLinks) process.exitCode=1;
+  if(!aztecMobile.settled||!aztecMobile.allVisible||!aztecMobile.panelVisible||!aztecMobile.nodeVisible||!aztecMobile.sourceLinks) process.exitCode=1;
   if(process.env.AZTEC_MOBILE_SCREENSHOT){const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.AZTEC_MOBILE_SCREENSHOT,Buffer.from(shot.data,'base64'));}
   const mobileFocus={};
   for(const key of ['japan','buddhism','china','maya']){

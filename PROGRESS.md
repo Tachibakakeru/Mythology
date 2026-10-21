@@ -2,6 +2,16 @@
 
 ## 2026-10-21｜PUSH上一輪並續日本缺圖（新改動本地預覽）
 
+- 最終269完整回歸52244 exit0，269原創圖載入／映射／圖說／燈箱全過；portraitLocale六項全true，390px hagoromo_note全true，十九傳說及其他既有頁、匯出／預覽重載通過。阿茲特克新等待診斷settled=true、4380ms，panel left0／right390／width390／viewport390、transform identity，原幾何斷言全過；保留前兩次exit1記錄，不宣稱實機立即顯示。zoom/culling與diff檢查亦過。APP實際日文面板／alt／燈箱均正確，已恢復繁中；燈箱鍵盤一次逾時後用原有點擊關閉，不改產品互動。現在另做本地提交保存圖說修正與測試，新作仍不PUSH。
+- 日本主圖27缺圖已完成。先前非阻塞選項尚未收到人類回覆；依本輪持續工作要求，採同一日本區塊的妖怪圖鑑作接續，不跨新神話、不宣稱使用者已選擇；若其後回覆不同區則調整。只新增原創識別插畫，保留既有史料附圖／出典，需先讀既有YOKAI渲染／面板並沿用NODE_PORTRAITS及圖說／燈箱機制，避免平行實作與杜撰史料。
+
+- 診斷重跑62184仍exit1，阿茲特克面板矩形width=390／viewport=390／document=390，但left=12.915、right=402.915、top=823.876，尚未到既有mobile `.open` 的identity transform目標，並非layout viewport被撐寬。產品CSS原本有transform過渡；舊test只固定等1秒就讀矩形。僅測試改為最多6秒輪詢面板identity矩陣且面板／stage無running動畫，再做完全相同的邊界與節點斷言，新增settled必須true與settleMs／transform診斷，逾時仍fail。不改阿茲特克產品、不放寬幾何容差；待第三輪驗證，不先記成功。
+
+- 首次269完整回歸61195 exit1，未記整套通過：269張全載入／映射／圖說／燈箱皆過，portraitLocale六項（zh、ja、escaped、jaLightbox、otherPantheon、zhRestored）全true，390px hagoromo_note亦全true；惟既有aztecMobile的panelVisible一次false、nodeVisible與sourceLinks仍過。先加面板／viewport矩形診斷再重跑，不調低可見性門檻、不改阿茲特克產品程式。實際APP日文面板、alt與燈箱警語已確認正確，已用既有點擊關閉燈箱並恢復繁中；鍵盤操作一次逾時未重複盲點。
+
+- 27缺圖已整批本地備份bcb2f5d，269日本／270總圖資產exit0，未PUSH。驗收宣化圖片時實際切到日文，面板正文已日文但圖片alt／figcaption仍「原創節點插畫・非史料形象」繁中；追到openPanel之portraitHTML硬編碼。這是本次圖片相關的語言遺漏，不改圖譜樣式／故事。新增JP_UI三個圖片文字鍵，openPanel僅日本頁依japanLocale選用；其他體系強制維持既有繁中、不受日本偏好污染。圖片alt／data-cap與src共用既有esc編碼，避免自訂名含引號／HTML破壞屬性。未改歷史史料figsHTML／圖說來源。
+- entry-performance.mjs新增portraitLocale回歸：繁中→日文的圖說／alt／燈箱警語、自訂名含雙引號／標記不新增屬性或元素、日文偏好下跨到希臘仍繁中、返日本切回繁中恢復原圖說；測試內暫改名稱用finally還原、不寫使用者存檔。新回歸尚待跑，不先宣稱通過。實際APP切換一度回應逾時，AX確認已切日文後未重複點擊；最終會恢復繁中供使用者檢閱。
+
 - 最後4圖senka（宣化）、owari_clan_note（海岸樹系／三光象徵，非家紋）、shichifukujin_note（寶船／七彩光，非七神固定配色）、hagoromo_note（松枝空羽衣，非裸體天女）已縮256px RGBA／四角0及逐張目視後接入。日本265→269／269，本輪新增27，9人物與18集合／事件／氏族全部落地；第25–27生成佇列正常完成，無錯誤／在途檔。此為現有269節點的圖像覆蓋，非日本神話全集。265資產exit0，269全資產與完整瀏覽器待驗；只新增圖片映射，故事／血緣／座標／UI未改，新作未PUSH。
 
 - 第一份本地備份b69683f成功，含本輪13合格圖，未PUSH；255全資產exit0。再接已縮256px透明／逐張目視的10圖：sushun、misogi_sutemono、mononobe_note、buretsu、otomo_note、ojin_link、ankan、abe_note、umisachi_note、soga_note。人物為原創生前肖像，不畫暗殺／戰鬥；物件／氏族採禊物、兵仗與神寶箱意象、宮門／詩卷、樹系、海路星空、弓鉤與潮珠、寺與蓮等，不作文物復原、精準系譜圖或家紋。日本255→265／269，本輪23新增、餘4（senka、owari_clan_note、shichifukujin_note、hagoromo_note）。265資產待檢，完整瀏覽器最新252版已通過；新作仍未PUSH，無故事／血緣／座標／UI改動。
