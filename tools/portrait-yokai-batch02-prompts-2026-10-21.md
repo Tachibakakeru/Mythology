@@ -23,6 +23,16 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 原圖輸出
 
+驗收結案：本批12張（海坊主使用重作版）皆已縮256px透明並逐圖目視後映射；圖鑑共21／93。下列「待驗」為生成時記錄，現已完成，首張海坊主判退圖仍不映射。
+
+- `ubume`: exec-0729bc53-ac14-4268-8f1e-35de7f7aaf0f.png（待縮圖驗收）
+- `botanotsuyu`: exec-8c0d0fbb-eef1-4d71-ae77-b4a30f824004.png（待縮圖驗收）
+- `yukionna`: exec-b858c8a7-259c-42c7-87e3-42b9382af251.png（待縮圖驗收）
+- `ittanmomen`: exec-a32a3fae-af44-4437-a582-c5f6ddc855de.png（待縮圖驗收）
+- `karakasaobake`: exec-e0f4de97-b7dc-4b99-bfbb-8ed089876466.png（待縮圖驗收）
+- `tofukozo`: exec-0c7b9974-1ebc-43af-afbe-b6963dcd9342.png（待縮圖驗收）
+- `nurikabe`: exec-7527039d-c163-42a8-abe1-f61ef1cb5a27.png（待縮圖驗收）
+
 - `umibouzu`: exec-fd9b85d5-f7e7-416c-9c62-2099e1f53672.png（待縮圖驗收）
 - `funayurei`: exec-8a0c3aae-edc4-432b-ac8a-75779fc127e5.png（待縮圖驗收）
 - `oiwa`: exec-8a9988b9-a39f-4095-9009-77ad63b04ad5.png（待縮圖驗收）

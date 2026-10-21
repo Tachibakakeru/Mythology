@@ -29,5 +29,24 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 原圖輸出
 
-待生成／逐張驗收。
+驗收結案：18張均256px RGBA、透明四角，已逐張目視後映射；貓又雙尾／化貓單尾、長頸完整相連、鵺複合獸、管狐竹筒、獏象鼻等可辨識。下方待驗標籤為生成時紀錄，現已驗收。圖鑑21→39／93，主圖仍269／269。
+
+- `tsukumogami_note`: exec-6315357d-1f71-4d96-85b2-2fae8a103649.png（待縮圖驗收）
+- `akaname`: exec-9a19e11f-c4d5-43b5-9c9c-d36575a0836c.png（待縮圖驗收）
+- `bakezori`: exec-7a275479-1899-4a9b-bed0-ebdfa2ea9d57.png（待縮圖驗收）
+- `yamamba`: exec-4cb3c4d1-f7d2-4fd4-9628-6a350e6764fd.png（待縮圖驗收）
+- `konakijijii`: exec-1b1dab24-db90-4c90-b889-2a8b54a17984.png（待縮圖驗收）
+- `sunakakebabaa`: exec-f7563609-4a73-41ae-a88d-ea380f4b6ae2.png（待縮圖驗收）
+- `amanojaku`: exec-65e3f6e0-ac19-4c35-9f61-898a4dd0b2f9.png（待縮圖驗收）
+- `nurarihyon`: exec-1ab726f0-ed6f-4279-b9d8-36714c349a61.png（待縮圖驗收）
+- `hitotsumekozo`: exec-a93b0e6d-3619-4d25-bef8-481962c58724.png（待縮圖驗收）
+- `rokurokubi`: exec-5ccadde1-8cac-42d6-8906-b339605c805b.png（待縮圖驗收）
+- `nekomata`: exec-c8893179-505f-41e6-8dfb-c3b8331d2094.png（待縮圖驗收）
+- `bakeneko`: exec-5f2880a0-12b0-4b00-8e3f-333fe72fa96a.png（待縮圖驗收）
+- `inugami`: exec-1f5e71c7-b710-47c0-9f7a-548dbf993e50.png（待縮圖驗收）
+- `nue`: exec-95a0866b-17a7-4389-896e-e09807790708.png（待縮圖驗收）
+- `kamaitachi`: exec-c1f4d17d-98c5-4efa-a6f3-8d8d0eb944ef.png（待縮圖驗收）
+- `jorogumo`: exec-a6e4f0f2-bcba-42c8-b457-39a3c1d63574.png（待縮圖驗收）
+- `kudagitsune`: exec-a2dd78f5-d32f-40f8-8c29-6e4f0cd95e1b.png（待縮圖驗收）
+- `baku`: exec-babb84fa-2ee7-4810-aecc-bcf56c02e5d2.png（待縮圖驗收）
 
