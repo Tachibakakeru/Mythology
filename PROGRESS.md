@@ -1,5 +1,18 @@
 # World Mythology Genealogy — PROGRESS.md
 
+## 2026-10-21｜PUSH上一輪並續日本缺圖（新改動本地預覽）
+
+- 252完整瀏覽器17368 exit0：count252／loaded=true／failures=[]／燈箱及Esc皆過，390px nakatomi_note定位／圖片／圖說／燈箱／關閉皆true；既有十九傳說與其他頁、預覽重載通過，252資產exit0。另敏達（宮廷扇）、忌部集合（幣帛／托盤／繩）、八柱山神集合（山景，不畫遺體）3圖已縮256px透明與逐張目視後接入，日本255／269、本輪13新增、餘14。255資產即將檢查，最新完整瀏覽器仍252版。現在將13合格資產、映射與提示／交接做第一份本地Git備份，不PUSH；生成中的原圖檔名仍持續保存。
+
+- 再落地6圖：ishihime（石姬皇女／石池，非石魔法）、hayato_note（南方海岸樹系，非民族定型裝束）、mizutogami_note（分流水沫／八滴象徵，非八個虛構人臉）、koanekimi（小姊君／紫袍庭苑，不在圖上斷言子嗣名單）、oyamatsumi_kayanohime_note（山野、四對霧帶象徵，非固定神像）、nakatomi_note（榊枝／空白祭卷／藤花，非家紋）。均256px RGBA四角0後逐張目視再複製／映射，日本246→252／269，本輪新增10、餘17。246資產exit0，252資產及完整瀏覽器開始驗證；只新增圖片映射，不改UI、節點資料或譜系，新作未PUSH。原APP允恭新圖與非史料圖說已實際可見。
+
+- 首4圖已縮256px RGBA／四角alpha0、逐張目視後複製assets/portraits/japan並加NODE_PORTRAITS：ingyo（灰髮綠袍／空白卷）、mekonome（赭金青袍／海岸）、ohoyashima（八島環形裝飾地景，非準確國界圖）、sugawara_note（多枝樹、陶器與卷軸，非家紋）。日本242→246／269，餘23，本輪新增4；無故事、族譜、UI或座標改動。原圖對照在25–27提示檔，成品均在專案assets內、不僅留生成目錄。246全資產待本次結果，新作未PUSH；既有本地7788入口HTTP200，既有單一APP預覽沿用。
+
+- 第25批9個別角色已開始，沿用前24批未完成提示，無新故事；第26批9集合／事件、第27批9氏族同步排程。自然神集合採島、山、水、霧，事件採服飾／道具與景物；氏族只用原創樹系與文化意象，不偽造家紋／公認共同肖像。完整提示與逐張原圖檔名即時寫tools/portrait-batch25／26／27-prompts-2026-10-21.md，生成不算完成，仍242映射。先問使用者日本主圖補齊後下一區的選擇，不擅自轉做其他神話；目前照原日本主圖27缺圖工作繼續。
+
+- 使用者本輪授權PUSH。先確認工作樹乾淨，重跑portraits.test.py（243總圖／242日本）與zoom-queue（zoom queues／graph culling）exit0、diff檢查通過，再git push origin main成功；git rev-parse HEAD與git ls-remote origin refs/heads/main均為f62b7d83a92992d2ad300dc7441bdfacc40da299。發布上一輪六提交，新增167圖，不夾帶這輪新作。下方2026-10-20未PUSH文字為當時歷史狀態。
+- 原APP tab1 page=japan可見，visibility=true且markDeliverable，本輪未新開預覽。五小時起讀3%已用／ordinaryUsageAllowed=true。接續tools/portrait-remaining-2026-10-20.md之9個別角色與18集合節點；參考圖已目視，仍用內建image_gen、逐張生成與256px／alpha檢查後目視接入；人物皆原創非史料，不新造故事／親屬／神器，集合與氏族不冒充單一人物或杜撰家紋。新內容不自行PUSH。
+
 ## 2026-10-20｜日本神話原創節點插畫續作（第九批起，未PUSH）
 
 - 最終驗證：242日本／243總圖資產exit0；完整瀏覽器21365 exit0，count242／loaded=true／failures=[]／lightbox=true／closed=true。390px suminoenonakatsu的nodeVisible／imageFits／caption／lightboxFits／closed皆true；十九傳說、既有神話、搜尋／來源／群組／匯出與首頁／圖譜／妖怪預覽重載通過。zoom queues／graph culling單測exit0、diff檢查無錯。與起始a39086d比較index.html為167新增／0刪除，全部圖片映射；無UI、故事、關係或座標改動。
