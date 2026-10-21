@@ -229,7 +229,7 @@ try {
     document.querySelector('#p-figs figure img').click();
     const jaLightbox=document.getElementById('imgLightbox').classList.contains('open')&&document.querySelector('#imgLightbox div').textContent.includes('古代の史料図像ではありません');
     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
-    const otherKey=Object.keys(NODE_PORTRAITS).find(key=>!key.startsWith('japan:')),parts=otherKey.split(':');
+    const otherKey=Object.keys(NODE_PORTRAITS).find(key=>!key.startsWith('japan:')&&!key.startsWith('yokai:')),parts=otherKey.split(':');
     openPantheon(parts[0]);openPanel(nodes[parts[1]]);
     const other=inspect(),otherPantheon=japanLocale==='ja'&&other.caption==='原創節點插畫・非史料形象'&&other.detail.includes('非古代圖像史料');
     openPantheon('japan');toggleJapanLocale();openPanel(nodes[id]);
@@ -239,6 +239,41 @@ try {
   })()`);
   console.log(JSON.stringify({portraitLocale},null,2));
   if(Object.values(portraitLocale).some(v=>v!==true))process.exitCode=1;
+  const yokaiPortraits=await evaluate(`(async()=>{
+    const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('yokai:'));
+    if(!entries.length)return {count:0,pending:true};
+    openYokai();if(japanLocale!=='zh-TW')toggleJapanLocale();
+    const loaded=await Promise.all(entries.map(([,src])=>new Promise(r=>{const im=new Image();im.onload=()=>r(im.naturalWidth===256&&im.naturalHeight===256);im.onerror=()=>r(false);im.src=src})));
+    const failures=[];
+    for(const [key,src] of entries){
+      const id=key.slice(6),cards=[...ycontent.querySelectorAll('.ycard[data-id="'+id+'"]')];
+      if(!yokais[id]||!cards.length||cards.some(c=>!c.classList.contains('has-portrait')||c.querySelector('.ycard-portrait')?.getAttribute('src')!==src))failures.push(id+':card');
+      openYPanel(id);
+      const im=document.querySelector('#yp-figs figure img');
+      if(im?.getAttribute('src')!==src||!im.dataset.cap.includes('非古代圖像史料'))failures.push(id+':panel');
+    }
+    const id=entries[0][0].slice(6),oldRec=YOKAI_EDITS_LIVE[id],oldFav=JSON.stringify(YOKAI_FAVORITES),oldLS=localStorage.getItem('yokai_favorites');
+    let preserved=false,ja=false,lightbox=false,closed=false,favorite=false,search=false,escaped=false;
+    try{
+      YOKAI_EDITS_LIVE[id]={...oldRec,images:[...(oldRec?.images||[]),{src:entries[0][1],caption:'既有史料測試圖',source:'https://example.com/historical-source'}]};
+      openYPanel(id);const figs=document.getElementById('yp-figs');
+      preserved=figs.querySelectorAll('figure').length===(oldRec?.images?.length||0)+2&&!!figs.querySelector('a[href="https://example.com/historical-source"]')&&!!document.querySelector('#yp-sources a');
+      toggleJapanLocale();ja=figs.querySelector('figcaption').textContent==='オリジナルノードイラスト・史料図像ではありません';
+      const name=yokais[id].name;try{yokais[id].name='引用名" data-break="1"><b>文字</b>&';openYPanel(id);const im=figs.querySelector('img');escaped=im.alt===yokais[id].name+JP_UI.ja.portraitAlt&&!im.hasAttribute('data-break')&&!figs.querySelector('b');}finally{yokais[id].name=name;openYPanel(id)}
+      figs.querySelector('img').click();lightbox=document.getElementById('imgLightbox').classList.contains('open')&&document.querySelector('#imgLightbox div').textContent.includes('古代の史料図像ではありません');
+      document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));closed=!document.getElementById('imgLightbox').classList.contains('open');
+      toggleJapanLocale();closeYPanel();const before=!!YOKAI_FAVORITES[id];ycontent.querySelector('.ycard[data-id="'+id+'"] .yfav').click();
+      favorite=!!YOKAI_FAVORITES[id]!==before&&!ypanel.classList.contains('open')&&[...ycontent.querySelectorAll('.ycard[data-id="'+id+'"]')].every(c=>c.classList.contains('favorited')===!before&&!!c.querySelector('.ycard-portrait'));
+      ysearchInput.value=yokais[id].name;ysearchInput.dispatchEvent(new Event('input',{bubbles:true}));const row=yresults.querySelector('[data-id="'+id+'"]');row?.click();search=!!row&&currentYokaiId===id&&ypanel.classList.contains('open')&&!!document.querySelector('#yp-figs img');
+    }finally{
+      if(oldRec===undefined)delete YOKAI_EDITS_LIVE[id];else YOKAI_EDITS_LIVE[id]=oldRec;
+      YOKAI_FAVORITES=JSON.parse(oldFav);if(oldLS===null)localStorage.removeItem('yokai_favorites');else localStorage.setItem('yokai_favorites',oldLS);
+      ysearchInput.value='';showYResults();closeYPanel();renderYokai();backToMyth();
+    }
+    return {count:entries.length,loaded:loaded.every(Boolean),failures,preserved,ja,escaped,lightbox,closed,favorite,search};
+  })()`);
+  console.log(JSON.stringify({yokaiPortraits},null,2));
+  if(yokaiPortraits.count&&(yokaiPortraits.failures.length||['loaded','preserved','ja','escaped','lightbox','closed','favorite','search'].some(k=>!yokaiPortraits[k])))process.exitCode=1;
   const legends = await evaluate(`(()=>{
     const out=[];
     for(const key of Object.keys(LEGENDS)){
@@ -450,6 +485,20 @@ try {
   })()`);
   console.log(JSON.stringify({portraitMobile},null,2));
   if(['nodeVisible','imageFits','caption','lightboxFits','closed'].some(k=>!portraitMobile[k]))process.exitCode=1;
+  const yokaiPortraitMobile=await evaluate(`(async()=>{
+    const key=Object.keys(NODE_PORTRAITS).filter(k=>k.startsWith('yokai:')).at(-1);
+    if(!key)return {pending:true};
+    openYokai();const id=key.slice(6),card=ycontent.querySelector('.ycard[data-id="'+id+'"]');card.click();
+    for(let i=0;i<60;i++){const p=ypanel.getBoundingClientRect();if(p.width>0&&p.left>=-1&&p.right<=innerWidth+1&&new DOMMatrix(getComputedStyle(ypanel).transform).isIdentity)break;await new Promise(r=>setTimeout(r,100))}
+    const c=card.getBoundingClientRect(),a=card.querySelector('.ycard-portrait').getBoundingClientRect(),f=card.querySelector('.yfav').getBoundingClientRect();
+    const text=[...card.querySelectorAll('.yname,.ykana,.ycat')].map(el=>el.getBoundingClientRect());
+    const im=document.querySelector('#yp-figs img'),p=ypanel.getBoundingClientRect(),r=im.getBoundingClientRect();im.click();const enlarged=document.querySelector('#imgLightbox img').getBoundingClientRect();
+    const cardFailures=[...ycontent.querySelectorAll('.ycard.has-portrait')].flatMap(el=>{const c=el.getBoundingClientRect(),a=el.querySelector('.ycard-portrait').getBoundingClientRect(),f=el.querySelector('.yfav').getBoundingClientRect();return a.width>0&&a.left>=c.left&&a.right<=c.right&&a.top>=c.top&&a.bottom<=c.bottom&&f.bottom<=a.top&&[...el.querySelectorAll('.yname,.ykana,.ycat')].every(t=>t.getBoundingClientRect().right<=a.left+1)?[]:[el.dataset.id]});
+    const out={id,viewport:innerWidth,cardFailures,allCardsFit:!cardFailures.length,avatarFits:a.width>0&&a.left>=c.left&&a.right<=c.right&&a.top>=c.top&&a.bottom<=c.bottom,textClear:text.every(t=>t.right<=a.left+1),favoriteClear:f.bottom<=a.top,imageFits:r.width>0&&r.left>=p.left&&r.right<=p.right,lightboxFits:document.getElementById('imgLightbox').classList.contains('open')&&enlarged.width>0&&enlarged.left>=0&&enlarged.right<=innerWidth};
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));out.closed=!document.getElementById('imgLightbox').classList.contains('open');closeYPanel();backToMyth();return out;
+  })()`);
+  console.log(JSON.stringify({yokaiPortraitMobile},null,2));
+  if(!yokaiPortraitMobile.pending&&['allCardsFit','avatarFits','textClear','favoriteClear','imageFits','lightboxFits','closed'].some(k=>!yokaiPortraitMobile[k]))process.exitCode=1;
   await request('Emulation.clearDeviceMetricsOverride');
   if(process.env.AZTEC_SCREENSHOT){
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});

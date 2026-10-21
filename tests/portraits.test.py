@@ -11,10 +11,14 @@ entries = re.findall(r"'([^']+)':'([^']+)'", registry)
 assert len({key for key, _ in entries}) == len(entries), 'Duplicate portrait keys'
 japanese_defs = re.search(r'const JP_NODE_DEFS = \[([\s\S]*?)\n\];', source).group(1)
 japanese_ids = set(re.findall(r'\["([^"]+)"', japanese_defs))
+yokai_defs = re.search(r'const YOKAI_DEFS = \[([\s\S]*?)\n\];', source).group(1)
+yokai_ids = set(re.findall(r'\["([^"]+)"', yokai_defs))
 hashes = {}
 for key, relative in entries:
     if key.startswith('japan:'):
         assert key[6:] in japanese_ids, (key, 'Unknown Japanese node')
+    if key.startswith('yokai:'):
+        assert key[6:] in yokai_ids, (key, 'Unknown yokai node')
     path = root / relative
     assert path.is_file(), (key, 'Missing file', relative)
     with Image.open(path) as image:
@@ -28,7 +32,10 @@ for key, relative in entries:
     assert digest not in hashes, (key, 'Shared portrait with', hashes.get(digest))
     hashes[digest] = key
     assert path.stat().st_size < 300_000, (key, 'Oversized node asset')
-registered = {relative for _, relative in entries if relative.startswith('assets/portraits/japan/')}
-actual = {p.relative_to(root).as_posix() for p in (root / 'assets/portraits/japan').glob('*.png')}
-assert registered == actual, ('Unregistered or missing Japanese portraits', registered ^ actual)
-print(f'Portraits OK: {len(entries)} total, {len(registered)} Japanese; unique RGBA assets, 256px, transparent corners')
+counts = {}
+for namespace in ['japan', 'yokai']:
+    registered = {relative for _, relative in entries if relative.startswith(f'assets/portraits/{namespace}/')}
+    actual = {p.relative_to(root).as_posix() for p in (root / f'assets/portraits/{namespace}').glob('*.png')}
+    assert registered == actual, (f'Unregistered or missing {namespace} portraits', registered ^ actual)
+    counts[namespace] = len(registered)
+print(f"Portraits OK: {len(entries)} total, {counts['japan']} Japanese, {counts['yokai']} yokai; unique RGBA assets, 256px, transparent corners")

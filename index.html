@@ -333,6 +333,8 @@
   .ycard .yname{font-size:.86em;font-weight:700;line-height:1.25;}
   .ycard .ykana{font-size:.6em;color:var(--dim);margin-top:3px;}
   .ycard .ycat{font-size:.58em;color:#5ab4ff80;margin-top:5px;}
+  .ycard.has-portrait{padding-right:54px;}
+  .ycard-portrait{position:absolute;right:8px;bottom:8px;width:38px;height:38px;object-fit:contain;pointer-events:none;}
   .ycard .ystar{position:absolute;top:6px;right:8px;font-size:.7em;}
   .ycard.dim{opacity:.15;}
   .ycard.highlight{border-color:#ff5f5f !important;box-shadow:0 0 16px rgba(255,95,95,.55);}
@@ -12602,6 +12604,20 @@ let totalW = 0, totalH = 0;
 
 // 原創角色圖逐批加入；未有獨立插畫者使用依節點名稱與職能生成的唯一輕量徽章。
 const NODE_PORTRAITS = {
+  'yokai:umibouzu':'assets/portraits/yokai/umibouzu.png',
+  'yokai:funayurei':'assets/portraits/yokai/funayurei.png',
+  'yokai:oiwa':'assets/portraits/yokai/oiwa.png',
+  'yokai:okiku':'assets/portraits/yokai/okiku.png',
+  'yokai:kasane':'assets/portraits/yokai/kasane.png',
+  'yokai:karasutengu':'assets/portraits/yokai/karasutengu.png',
+  'yokai:kappa':'assets/portraits/yokai/kappa.png',
+  'yokai:tamamonomae':'assets/portraits/yokai/tamamonomae.png',
+  'yokai:kuzunoha':'assets/portraits/yokai/kuzunoha.png',
+  'yokai:bunbukuchagama':'assets/portraits/yokai/bunbukuchagama.png',
+  'yokai:sojobo':'assets/portraits/yokai/sojobo.png',
+  'yokai:shutendoji':'assets/portraits/yokai/shutendoji.png',
+  'yokai:ibarakidoji':'assets/portraits/yokai/ibarakidoji.png',
+  'yokai:otakemaru':'assets/portraits/yokai/otakemaru.png',
   'japan:izanagi':'assets/portraits/japan/izanagi.png',
   'japan:izanami':'assets/portraits/japan/izanami.png',
   'japan:amaterasu':'assets/portraits/japan/amaterasu.png',
@@ -12873,7 +12889,13 @@ const NODE_PORTRAITS = {
   'japan:shichifukujin_note':'assets/portraits/japan/shichifukujin_note.png',
   'japan:hagoromo_note':'assets/portraits/japan/hagoromo_note.png',
 };
-function portraitForNode(n){ return NODE_PORTRAITS[`${currentPantheon}:${n.id}`] || ''; }
+function portraitForNode(n, namespace=currentPantheon){ return NODE_PORTRAITS[`${namespace}:${n.id}`] || ''; }
+function portraitFigureHTML(n, namespace=currentPantheon){
+  const portrait = portraitForNode(n, namespace);
+  if(!portrait) return '';
+  const text = JP_UI[namespace==='japan' || namespace==='yokai' ? japanLocale : 'zh-TW'];
+  return `<figure><img src="${esc(portrait)}" alt="${esc(n.name+text.portraitAlt)}" loading="lazy" decoding="async" data-cap="${esc(n.name+text.portraitDetail)}"><figcaption>${esc(text.portraitCaption)}</figcaption></figure>`;
+}
 function nodeAvatarText(n){
   if(n.isNote) return '註';
   const text = `${n.role||''} ${n.name}`;
@@ -13630,10 +13652,7 @@ function openPanel(n){
   if(displayRole){ roleEl.style.display='inline-block'; roleEl.textContent = displayRole; } else { roleEl.style.display='none'; }
   document.getElementById('p-desc').textContent = n.desc||jpText('noDetail');
   const figs = document.getElementById('p-figs');
-  const portrait = portraitForNode(n);
-  const portraitText = JP_UI[currentPantheon==='japan' ? japanLocale : 'zh-TW'];
-  const portraitHTML = portrait ? `<figure><img src="${esc(portrait)}" alt="${esc(n.name+portraitText.portraitAlt)}" loading="lazy" decoding="async" data-cap="${esc(n.name+portraitText.portraitDetail)}"><figcaption>${esc(portraitText.portraitCaption)}</figcaption></figure>` : '';
-  figs.innerHTML = portraitHTML + figsHTML(rec);
+  figs.innerHTML = portraitFigureHTML(n) + figsHTML(rec);
   figs.style.display = figs.innerHTML ? 'flex' : 'none';
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
@@ -14626,8 +14645,10 @@ function renderYokai(){
     html += `<div class="ygroup${special?' special':''}" data-gi="${gi}"><h3 style="color:${special?color:''}">${special?'🌟 ':''}${localGroupLabel(label)}</h3><div class="ygrid">`;
     members.forEach(y=>{
       const fav = !!YOKAI_FAVORITES[y.id];
-      html += `<div class="ycard${y.notable?' notable':''}${y.isNote?' note':''}${fav?' favorited':''}" data-id="${y.id}">
+      const portrait = portraitForNode(y, 'yokai');
+      html += `<div class="ycard${portrait?' has-portrait':''}${y.notable?' notable':''}${y.isNote?' note':''}${fav?' favorited':''}" data-id="${y.id}">
         <span class="yfav${fav?' active':''}" data-id="${y.id}">${fav?'★':'☆'}</span>
+        ${portrait?`<img class="ycard-portrait" src="${esc(portrait)}" width="38" height="38" alt="" aria-hidden="true" loading="lazy" decoding="async">`:''}
         <div class="yname">${y.name}</div>
         ${y.kana?`<div class="ykana">${y.kana}</div>`:''}
         <div class="ycat">${y.category}</div>
@@ -14667,7 +14688,7 @@ function openYPanel(id){
   roleEl.style.display='inline-block'; roleEl.textContent = y.category;
   document.getElementById('yp-desc').textContent = y.desc||jpText('noDetail');
   const figs = document.getElementById('yp-figs');
-  figs.innerHTML = figsHTML(rec);
+  figs.innerHTML = portraitFigureHTML(y, 'yokai') + figsHTML(rec);
   figs.style.display = figs.innerHTML ? 'flex' : 'none';
   const groupsOf = YOKAI_GROUPS.filter(g=>g[1].includes(id)).map(g=>localGroupLabel(g[0]));
   document.getElementById('yp-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
@@ -14686,7 +14707,7 @@ function closeYPanel(){
 function closeYPanelAndReset(){ closeYPanel(); yResetView(); }
 document.addEventListener('click', e=>{
   if(!e.target.closest('#ysearchBox')) { const r=document.getElementById('yresults'); if(r) r.style.display='none'; }
-  if(!e.target.closest('.ycard') && !e.target.closest('#ypanel') && !e.target.closest('#imgLightbox')) closeYPanel();
+  if(!e.target.closest('.ycard, #yresults, #ypanel, #imgLightbox')) closeYPanel();
 });
 
 /* ============ 妖怪編輯 ============ */
