@@ -16,6 +16,10 @@ Use case: stylized-concept. One original polished Japanese fantasy-game SYMBOLIC
 
 ## 原圖輸出（均待驗證）
 
+- `owari_clan_note`: exec-97fb32d5-ac77-4889-b4dd-227c7f505059.png
+
+- `soga_note`: exec-d0180f96-d08f-499e-a851-bf66c39cc9b3.png
+
 - `abe_note`: exec-fef391d8-10ec-452d-894b-f0cef464e1c3.png
 
 - `otomo_note`: exec-9e0cc6e1-db71-4d02-88d9-ee98260a7e84.png

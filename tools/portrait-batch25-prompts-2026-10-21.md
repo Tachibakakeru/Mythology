@@ -16,6 +16,8 @@ Use case: stylized-concept. One original Japanese fantasy-game chibi node portra
 
 ## 原圖輸出（均待驗證）
 
+- `senka`: exec-16188608-678d-465e-9ef9-076ad82bd5d4.png
+
 - `ankan`: exec-60b4648f-98ee-4d45-be36-b9277398b3c3.png
 
 - `buretsu`: exec-cc75aa98-6917-40f7-9afb-20ae63b60d7f.png

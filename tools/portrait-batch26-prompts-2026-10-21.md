@@ -16,6 +16,12 @@ Use case: stylized-concept. Original Japanese fantasy-game SYMBOLIC node illustr
 
 ## 原圖輸出（均待驗證）
 
+- `hagoromo_note`: exec-84280712-6982-4601-b692-51f12c066a53.png
+
+- `shichifukujin_note`: exec-2678b38e-e72a-41cc-b9ac-e32db7fa54c9.png
+
+- `umisachi_note`: exec-a3a3545e-631e-4f59-923d-d4e9a6fdb96b.png
+
 - `ojin_link`: exec-03673972-0f9a-4e42-bbaf-9ccdaf29e3e7.png
 
 - `misogi_sutemono`: exec-3f9867a1-1573-4dcf-a9e5-1a003eec1a3b.png
