@@ -29,5 +29,13 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 原圖輸出
 
+本批成功原圖均已驗收接入：第4批11／18、第5批7／18、第6批3／18。下方「待驗」為生成時記錄，現已完成256px透明檢查與目視；未生成者仍未映射。最終缺圖清單見portrait-yokai-remaining-2026-10-21.md。
+
+本批因內建image_gen回覆429 usage_limit_reached停止；不改走其他產圖或付費服務。成功3原圖待縮圖／逐圖驗收，未生成15筆：nuppeppo 肉塊怪、mujina 貉、nozuchi 野槌、ippondatara 一本蹈鞴、gagoze 元興寺、jakotsubabaa 蛇骨婆、omukade 大蜈蚣、okuriinu 送り犬、satori 覺、yamajiji 山爺、kijimuna 木魅、otoroshi 恐怪、amikiri 網切、yamatanoorochi_y 八岐大蛇、tsuchigumo 土蜘蛛。工作5小時額度當時52%，不是耗盡；產圖恢復時間API Unix1792586055（僅服務當時回報，不保證預先解鎖）。
+
+- `sugawara_michizane_y`: exec-9bd2896b-5aeb-45aa-bf62-b986ca6257ea.png（待驗）
+- `taira_masakado`: exec-e9646286-4310-455a-a677-ce35b83a743a.png（待驗）
+- `sutoku_tenno`: exec-cc563383-ac6a-4851-987e-b4e33d00dfc2.png（待驗）
+
 待生成及逐張驗收。
 

@@ -29,5 +29,17 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 原圖輸出
 
+本批成功原圖均已驗收接入：第4批11／18、第5批7／18、第6批3／18。下方「待驗」為生成時記錄，現已完成256px透明檢查與目視；未生成者仍未映射。最終缺圖清單見portrait-yokai-remaining-2026-10-21.md。
+
+本批因內建image_gen回覆429 usage_limit_reached停止；不改走其他產圖或付費服務。成功7原圖待縮圖／逐圖驗收，未生成11筆：kameosa 瓶長、mokumokuren 目目連、tenjoname 天井嘗、osakabehime 刑部姬、honeonna 骨女、hashihime 橋姫、hitodama 人魂、kasha 火車、wanyudo 輪入道、mikoshinyudo 見越入道、azukiarai 小豆洗。工作5小時額度當時52%，不是耗盡；產圖恢復時間API Unix1792586055（僅服務當時回報，不保證預先解鎖）。
+
+- `chochinobake`: exec-9c4ef233-f097-4ff3-b384-43b75dfb5155.png（待驗）
+- `shirouneri`: exec-121115c8-2ba8-442f-a4d9-382db60ddcc5.png（待驗）
+- `mokugyodaruma`: exec-3d8cfd82-9e41-409d-9f60-8f5e14219533.png（待驗）
+- `shamichoro`: exec-8616235c-167f-4008-b498-5734faa0a48a.png（待驗）
+- `kotofurunushi`: exec-5c1a605c-bb15-487c-bb4e-c15c4cec3f42.png（待驗）
+- `ungaikyo`: exec-a8f657ea-430e-4bd0-977f-3e44e8d148a8.png（待驗）
+- `biwabokuboku`: exec-ae835eaf-0b79-45d1-ba7c-131123ade0fc.png（待驗）
+
 待生成及逐圖驗收。
 

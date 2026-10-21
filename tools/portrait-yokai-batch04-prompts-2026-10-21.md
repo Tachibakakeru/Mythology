@@ -29,5 +29,21 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 原圖輸出
 
+本批成功原圖均已驗收接入：第4批11／18、第5批7／18、第6批3／18。下方「待驗」為生成時記錄，現已完成256px透明檢查與目視；未生成者仍未映射。最終缺圖清單見portrait-yokai-remaining-2026-10-21.md。
+
+本批因內建image_gen回覆429 usage_limit_reached停止；不改走其他產圖或付費服務。成功11原圖待縮圖／逐圖驗收，未生成7筆：kawahime 川姬、ushioni 牛鬼、nureonna 濡女、zashikiwarashi 座敷童子、noppera_bo 野箆坊、kudan 件、ryu 龍。工作5小時額度當時52%，不是耗盡；產圖恢復時間API Unix1792586055（僅服務當時回報，不保證預先解鎖）。
+
+- `suzukagozen`: exec-0b918678-7a32-4809-8b4f-989a8d989801.png（待驗）
+- `momiji`: exec-2b30ed21-0998-40cc-a8c3-ade78e83f369.png（待驗）
+- `namahage`: exec-3f26d749-6123-4598-ac61-ae522646a204.png（待驗）
+- `hannya`: exec-111d82b9-103f-41d2-b68b-4a8aca2c355e.png（待驗）
+- `shibaemontanuki`: exec-84a6a781-b0c2-40e2-9581-445fb4a71858.png（待驗）
+- `hakuzosu`: exec-6fce95eb-43ee-4d8d-9ba4-123de2a005e5.png（待驗）
+- `jinshinkeibu`: exec-bb9bbaa9-d7de-4cd9-bf9d-858a2b11e2ec.png（待驗）
+- `danzaburo`: exec-928ba2b3-65d9-4e2f-8c49-79a79cc6bfe2.png（待驗）
+- `tarobo`: exec-8196c9e4-7241-411e-9928-fc6a542a0353.png（待驗）
+- `jirobo`: exec-4269ec6b-ed29-460b-ad9d-28a840c7fdaf.png（待驗）
+- `isonna`: exec-edead070-07fe-46bd-a9f6-74a49587e54f.png（待驗）
+
 待生成與驗收。
 

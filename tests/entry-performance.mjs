@@ -500,6 +500,13 @@ try {
   console.log(JSON.stringify({yokaiPortraitMobile},null,2));
   if(!yokaiPortraitMobile.pending&&['allCardsFit','avatarFits','textClear','favoriteClear','imageFits','lightboxFits','closed'].some(k=>!yokaiPortraitMobile[k]))process.exitCode=1;
   await request('Emulation.clearDeviceMetricsOverride');
+  if(process.env.YOKAI_SCREENSHOT){
+    await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
+    await evaluate(`(async()=>{openYokai();if(japanLocale!=='zh-TW')toggleJapanLocale();const id='biwabokuboku',card=ycontent.querySelector('.ycard[data-id="'+id+'"]');card.click();await document.querySelector('#yp-figs img').decode();await new Promise(r=>setTimeout(r,600));})()`);
+    const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.YOKAI_SCREENSHOT,Buffer.from(shot.data,'base64'));
+    await evaluate('closeYPanel();backToMyth()');
+    await request('Emulation.clearDeviceMetricsOverride');
+  }
   if(process.env.AZTEC_SCREENSHOT){
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
     await evaluate('openAztec();closePanel();highlightGroup(AZ_GROUPS.findIndex(g=>g[0]==="昌蒂科：家火與化犬異文"))');await new Promise(r=>setTimeout(r,1400));
@@ -587,6 +594,7 @@ try {
   child.kill();
   if (dirname(resolve(profile)) === resolve(tmpdir()) && basename(profile).startsWith('mythology-entry-')) {
     await new Promise(resolve => child.once('exit', resolve));
-    rmSync(profile, { recursive: true, force: true });
+    // Windows may release child-process profile handles just after the browser exits.
+    rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
   }
 }
