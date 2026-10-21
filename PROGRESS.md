@@ -2,6 +2,10 @@
 
 ## 2026-10-21｜PUSH上一輪並續日本缺圖（新改動本地預覽）
 
+- 本輪收束：87合格新圖（主圖27＋妖怪60）與程式／文件已本地提交b69683f、bcb2f5d、2b1881b、32b5407、8fd06bb、4ec0b74；沒有再次PUSH，遠端仍f62b7d83a92992d2ad300dc7441bdfacc40da299並於收束再核對。最新330資產exit0；加入可選YOKAI_SCREENSHOT後41797完整回歸exit0，60妖怪／269主圖、雙語、史料、搜尋／收藏／燈箱、390px全卡幾何、既有頁及三種預覽重載皆過，zoom/culling單測exit0。
+- 已取得並目視驗收的畫面為本機headless測試瀏覽器截圖（非APP截圖）：C:/Users/user/.codex/visualizations/2026/08/21/01a0249d-f482-7371-9555-8912e5754131/yokai-60-test-preview-20261021.png，1600×900，顯示琵琶牧牧詳細頁、卡片識別圖、原創非史料警語與來源。APP實際既有分頁仍開啟同一新圖詳細頁，已由AX確認；其captureScreenshot逾時未偽稱成功。手機驗收為390px模擬，未宣稱實機效能。
+- 只因圖片服務額度用盡而停止產圖，不是五小時工作額度用完；所有已成功原圖已落地、沒有在途工作，剩33依tools/portrait-yokai-remaining-2026-10-21.md從川姬接續。不得為湊額度跨新神話／杜撰內容、重置券或另付費。下一輪先查圖片服務是否恢復，沿用既有APP分頁，不新開預覽；待使用者確認才PUSH本輪新作。
+
 - 330資產（日本269／妖怪60／希臘1）、zoom/culling與diff過；60圖完整71888 exit0（含臨時profile有限重試清理），主圖／雙語六項、妖怪所有圖、史料並存、收藏／搜尋／燈箱、390px全卡幾何、既有全頁及previewHome／previewYokai皆過。54476的EPERM失敗保留前述，不改稱成功。
 - APP沿用tab1已更新到妖怪60圖，實際AX確認以鍵盤搜尋Enter開啟琵琶牧牧與「原創節點插畫・非史料形象」／國際日文研來源；滑鼠CDP操作曾逾時，先檢查狀態再改既有鍵盤操作，未盲目重點。APP captureScreenshot多次逾時、未取得截圖，不宣稱已取得APP圖。沿用既有entry-performance的可選截圖慣例加YOKAI_SCREENSHOT，用同份localhost頁面在headless測試瀏覽器取得驗收圖，不另開APP分頁。該新增可選路徑尚待驗證。
 
