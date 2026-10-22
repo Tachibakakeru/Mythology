@@ -44,6 +44,16 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 產出與驗收
 
+- `nuppeppo`：exec-9013ad94-66c1-4484-84c2-06af48e3bd5b.png；256px RGBA透明四角與目視通過，已映射。
+- `mujina`：exec-5d657bc9-fd56-4f37-9ac1-052a26c31599.png；256px RGBA透明四角與目視通過，已映射。
+- `nozuchi`：exec-1d78e63a-2729-4ffc-ba9f-3e22c881ad49.png；256px RGBA透明四角與目視通過，已映射。
+- `ippondatara`：exec-f9a913ad-4069-4081-b8e1-53b6111c4c61.png；256px RGBA透明四角與目視通過，已映射。
+- `gagoze`：exec-ab3a4c52-3bfd-4ba7-848d-be02c8735849.png；256px RGBA透明四角與目視通過，已映射。
+- `hitodama`：exec-b72994e1-c23b-4f75-af18-daa0ca0de40f.png；256px RGBA透明四角與目視通過，已映射。
+- `kasha`：exec-0a0d1f68-0393-4869-a6da-5d80aae75216.png；256px RGBA透明四角與目視通過，已映射。
+- `wanyudo`：exec-b5c930b3-46ac-4d67-970e-61dc9f6275de.png；256px RGBA透明四角與目視通過，已映射。
+- `mikoshinyudo`：exec-aff13be5-15ff-4e87-9b71-be5246faf856.png；256px RGBA透明四角與目視通過，已映射。
+- `azukiarai`：exec-7314530b-07af-4b1c-a61f-629a58b15647.png；256px RGBA透明四角與目視通過，已映射。
 - `mokumokuren`：exec-3419534d-95ef-459a-81b5-8136ff075414.png；256px RGBA透明四角與目視通過，已映射。
 - `tenjoname`：exec-c06a0510-870a-4c6c-a1a5-16149a7ee41c.png；256px RGBA透明四角與目視通過，已映射。
 - `osakabehime`：exec-1f72d1d3-0e15-4f44-afbf-06e66d39aa7d.png；256px RGBA透明四角與目視通過，已映射。
