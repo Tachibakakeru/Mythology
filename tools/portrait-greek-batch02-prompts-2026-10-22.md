@@ -38,6 +38,26 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 
 ## 原圖／驗收紀錄
 
+- [2026-10-22 18:27:14 +08:00] `thanatos`：exec-accfcb42-c3a8-4501-bfb2-cd1a7e24c72a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:27:14 +08:00] `hypnos`：exec-bfdd3d36-de14-4be9-a112-4e32728502fe.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:27:14 +08:00] `nemesis`：exec-ec32c51b-8ee3-468c-9919-622ab1e8a552.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:27:14 +08:00] `eris`：exec-e9e5b96a-4b21-4581-8afa-d549ba8620f0.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:27:14 +08:00] thanatos v1（exec-90a89d73-0862-4b7f-bd4f-2d17117a2b4e.png）退回，縮圖另存生成目錄thanatos-v1-retired-256.png；v2完整編修提示：Edit only the central figure in this original Greek mythology medallion: Thanatos is an adult male Greek personification. Give him a clearly masculine adult face, short dark curls, broader shoulders and a fully covering dark-indigo classical tunic. Keep the lowered unlit torch, exactly two dark feather wings, quiet blue doorway, blue-gold circular frame and transparent outside. No text, gore, skull or scythe. Preserve original illustrated style. Do not make a female figure.
+- [2026-10-22 18:22:38 +08:00] `eos`：exec-1d36d8f2-3d8e-4258-a484-0b58c7b19876.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:22:38 +08:00] `leto`：exec-65dc2546-ebda-4935-83c0-5d4063b6b2a2.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:22:38 +08:00] `asteria`：exec-23d6615e-a677-475d-9291-38804572af3c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:22:38 +08:00] `hekate`：exec-2f3ad50d-95f9-40fe-880d-7c277ef1e106.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:22:38 +08:00] `persephone`：exec-a6d4beaa-9115-47f0-96a7-1b3443b34ae0.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:19:55 +08:00] `prometheus`：exec-cb8e4890-932b-4011-8138-bcd5dfef3de4.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:19:55 +08:00] `epimetheus`：exec-69707b5e-1e02-4432-89f5-34e030149ada.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:19:55 +08:00] `menoitios`：exec-9e744f4f-145e-4bc7-9b19-10ccf92760ed.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:19:55 +08:00] `helios`：exec-a9afcb69-e7aa-4880-825c-253b6c0a7d09.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:19:55 +08:00] `selene`：exec-ba2298de-a41a-4747-ba1b-6da051190f4d.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:11:14 +08:00] `krios`：exec-1efdb228-9977-407b-9d9a-3a0730f2bd38.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:11:14 +08:00] `iapetos`：exec-6956bd50-4be4-44a4-b512-d97241c90884.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:11:14 +08:00] `themis`：exec-6d7004ab-216a-4b96-9677-4fc44776c6c8.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:11:14 +08:00] `mnemosyne`：exec-d13b38ef-d2cf-4570-83e1-f8a11700b21c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 18:11:14 +08:00] `atlas`：exec-f80510e8-6e5b-4f5c-a162-64e6a0a0f77e.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 18:04:30 +08:00] `theia`：exec-73aa3b28-b210-4af1-8ac1-a2ce9e9220bd.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 18:04:30 +08:00] `koios`：exec-16441c0d-5cfb-4780-9fe2-be168b602115.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 18:04:30 +08:00] `phoibe`：exec-c1bbe078-e730-4397-b7e8-969a5671ec4e.png；256px RGBA透明四角與逐圖目視通過、已映射。
@@ -46,4 +66,4 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 - [2026-10-22 17:58:21 +08:00] `okeanos`：exec-7f046895-1963-4009-b8db-3f508335855a.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:58:21 +08:00] `tethys`：exec-e1880b1f-e16f-4007-a2a7-2dfddd989cef.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:58:21 +08:00] `hyperion`：exec-30282045-d077-478d-a675-1e7cb27d61e1.png；256px RGBA透明四角與逐圖目視通過、已映射。
-尚未生成。
+本批27圖均已生成、縮圖、目視並映射；thanatos採v2。

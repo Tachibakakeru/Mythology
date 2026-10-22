@@ -71,4 +71,4 @@ Edit this original Hades portrait. Change ONLY the scepter's head to a simple un
 - [2026-10-22 17:23:14 +08:00] `phanes`：exec-f9f581b7-0a1e-4c58-b4a2-7e7afdc40101.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:23:14 +08:00] `chaos`：exec-046e21b3-bf74-43ca-97de-2f620bc57402.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:23:14 +08:00] `gaia`：exec-70965123-4247-4a41-9a69-f98a0e6dc554.png；256px RGBA透明四角與逐圖目視通過、已映射。
-僅規劃，尚未生成，不先映射。
+本批27圖均已生成、縮圖、目視並映射；hades採v2，原圖與退回對照見逐批紀錄。
