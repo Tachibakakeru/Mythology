@@ -38,6 +38,29 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 
 ## 原圖／驗收紀錄
 
+- [2026-10-22 17:58:21 +08:00] `hermes`：exec-71040187-cc95-4871-9d42-9c7d557b5241.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:58:21 +08:00] `dionysos`：exec-e0336cf7-fee3-4adc-bc44-6a3da7d62629.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:58:21 +08:00] 第一批27／27接入（hades採v2，v1退回）；非全集，新作未PUSH。
+- [2026-10-22 17:51:26 +08:00] `aphrodite`：exec-6a552813-2ded-4ac0-b25f-498026b40a8d.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:51:26 +08:00] `ares`：exec-4226086d-ea20-4af0-ba32-ffa384db5a7c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:51:26 +08:00] `athena`：exec-70dbb624-0e0a-4b0c-9ca5-9f1d9d50760e.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:51:26 +08:00] `apollon`：exec-5563f869-c6f2-4b73-9847-35198cb1c4d1.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:51:26 +08:00] `artemis`：exec-2f72ae37-43ee-4f65-9f69-7ce05e84ee54.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:43:24 +08:00] `hades`：exec-e4b125e6-5897-4889-965b-44ebb18e29db.png；256px RGBA透明四角與逐圖目視通過、已映射至hades-v2.png；雙叉已確認。
+- [2026-10-22 17:43:24 +08:00] `poseidon`：exec-702c445d-f218-4958-bde1-9bbdc9d5f8d0.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:43:24 +08:00] `zeus`：exec-903af845-2246-4c31-9c5b-b4302309a2cc.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:43:24 +08:00] `hera`：exec-a738973f-cc85-487e-a78f-54bc0af1c318.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:43:24 +08:00] `hephaistos`：exec-f1dbdeec-53f0-42a7-94e4-e1e655947659.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `hemera`：exec-8d9e3c5b-38c7-41e6-8fc5-91a6cd3e0566.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `ouranos`：exec-99d2bca9-8993-4e9f-ad67-7e47e1f43f5a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `pontos`：exec-050a64b9-c16b-4dab-95fc-6b15c6bbefdd.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `hestia`：exec-792e8780-1a3c-4d0f-8455-20da5d544bf5.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `demeter`：exec-b94d9324-df79-4f7f-b825-5c07d48e2c39.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 17:38:05 +08:00] `hades`原圖exec-214ab04e-9a9a-4ff8-a02c-9a18aace55bb.png因權杖三尖退回，不映射／不刪原圖。內建imagegen針對權杖修改，保留其餘及透明；修正版exec-e4b125e6-5897-4889-965b-44ebb18e29db.png待縮圖驗收。
+
+### Hades修圖提示（原圖為edit target）
+
+Edit this original Hades portrait. Change ONLY the scepter's head to a simple unmistakable TWO-PRONG BIDENT: exactly two long parallel gold prongs like a narrow capital U, completely empty gap between the two prongs, absolutely no central spike or third point. Keep the man, face, robes, hand grip, gate, colors, circular medallion, framing and all other details unchanged. Preserve genuinely transparent background outside medallion, exact alpha-zero corners. No text.
 - [2026-10-22 17:30:43 +08:00] `tartaros`：exec-185456d1-54b6-4413-a1ed-cdae6ae2eec0.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:30:43 +08:00] `eros_p`：exec-dfeffad1-510a-4a9c-9f8f-b552e583b796.png；256px RGBA透明四角與逐圖目視通過、已映射。
 - [2026-10-22 17:30:43 +08:00] `erebos`：exec-fadaaedb-194f-448e-9d94-9b1eb0335af8.png；256px RGBA透明四角與逐圖目視通過、已映射。
