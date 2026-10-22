@@ -41,4 +41,36 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 
 ## 原圖／驗收紀錄
 
-待生成及驗收。
+- [2026-10-22 20:27:45 +08:00] `alkmene`：exec-70edbb82-6305-4dfc-a07a-d8dd5b8393cb.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:27:45 +08:00] `danae`：exec-a3314062-236b-4d4f-bdd5-0fc17aa720da.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:27:45 +08:00] `leda`：exec-ba7fab7f-0f9f-4762-ab1d-726bcbfd166b.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:27:45 +08:00] `europa`：exec-c92e5700-8333-40dc-aeb0-b5e93aac2fee.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:27:45 +08:00] `io`：exec-d50444cc-badc-42f2-b584-45c5d18fd2ea.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:27:45 +08:00] io v1 exec-2955ee95-fd1b-4a90-8c6c-395492cbc629.png四角透明失敗，不輸出／不映射；v2完整編修提示：Repair transparency only. Keep this original Io Greek medallion artwork unchanged inside its blue-gold circular rim. Remove all pixels outside the outer medallion boundary: outside must be genuinely fully transparent alpha 0, especially all four canvas corners. Keep the whole circle centered with a generous completely transparent margin on all four sides. Do not add background, checkerboard, text or new objects. Preserve central figure, river reflection and illustrated style.
+- [2026-10-22 20:20:50 +08:00] `pan`：exec-10b5fe4c-7dd7-46bf-9275-de5e9ffcfd45.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:20:50 +08:00] `orpheus`：exec-be05ced3-02a9-4e0d-a27a-91672c664279.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:20:50 +08:00] `eurydike`：exec-d13f7132-ca6d-4b22-9aba-57336830826c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:20:50 +08:00] `atalante`：exec-b8047247-8a34-4277-b068-a62ba845d161.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:20:50 +08:00] `pandora`：exec-d531ed76-9ac1-4630-af6f-6e98e5df762b.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:13:50 +08:00] `eros`：exec-a971291f-b4b2-429e-bcb4-ce59f82a2840.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:13:50 +08:00] `psyche`：exec-d094dad5-2608-40e4-a816-2756031a7479.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:13:50 +08:00] `harmonia`：exec-3fa272f6-c9af-40b8-bf93-092e15860e34.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:13:50 +08:00] `deimos`：exec-d99660cd-e039-4d93-9d47-3c97cbb59c0f.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:13:50 +08:00] `phobos`：exec-5b05d753-cf36-4dfa-ac52-6998c26760c3.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:07:25 +08:00] `polyphemos`：exec-1e7e8fdf-7735-4ec4-a094-e274f34143e0.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:07:25 +08:00] `lamia`：exec-7590b76e-91c4-46ed-ae69-94b1b844599d.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:07:25 +08:00] `iris`：exec-ffd7f187-a473-4e02-a54d-a1a14bd07034.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:07:25 +08:00] `chrysaor`：exec-0ef22c08-5a77-432f-9018-9809f59e1719.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:07:25 +08:00] `geryon`：exec-6b26b4ad-a67f-4981-a984-691c08525ba4.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] `hydra`：exec-603ffdce-f920-4440-bbd6-91508c59b682.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] `python`：exec-12fb7e97-6f1c-42b8-85b7-9454c4b8957a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] `echidna`：exec-06123067-679f-4393-92ef-a94dddf4cb4a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] `charybdis`：exec-b22fae2c-e98d-42c3-bbda-bbd585298663.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] `talos`：exec-89b35723-741b-4e86-8981-22005a18dc44.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 20:01:02 +08:00] talos v1 exec-969243dc-6c44-4037-9921-b54346aa2518.png退回、不進產品；v2完整編修提示：Correct only the central bronze automaton: Talos is an adult MALE bronze guardian, with distinctly masculine face, short sculpted curly hair, no breast forms, broad masculine shoulders, bronze body wearing fully covering geometric blue-gold classical tunic plating. Keep the Greek blue-gold round medallion, blue Cretan coast, bronze material, upright rest pose, small ankle rivet and transparent outside. No readable letters, modern robot gun, violence, damage or nude anatomy.
+- [2026-10-22 19:52:54 +08:00] `kerberos`：exec-914fc5e1-84ba-453b-9593-304174821a67.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 19:52:54 +08:00] `orthros`：exec-accc083b-5403-4b92-a18c-282e4871b285.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 19:52:54 +08:00] `nemean_lion`：exec-e1f74df5-8dd9-4960-8d0d-4a999561bf0c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 19:52:54 +08:00] `chimaira`：exec-dde4dfb4-52dd-4d5c-bbdc-568962c7ad83.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 19:52:54 +08:00] `sphinx`：exec-3d2f3c10-2f3f-4378-9ee0-1d315838c6c6.png；256px RGBA透明四角與逐圖目視通過、已映射。
+本批30均生成、縮圖、透明及逐圖目視後映射；talos與io採v2，退圖不計成品。
