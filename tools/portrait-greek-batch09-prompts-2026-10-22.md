@@ -41,4 +41,21 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 
 ## 原圖／驗收紀錄
 
-待生成及驗收；提示不是完成品。
+- [2026-10-22 22:30:29 +08:00] `sisyphos`：exec-9d36298d-1a2e-420a-9e39-93aca3a91e18.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `proteus`：exec-077cf5fe-53d1-4bb5-a80b-17fcff282f3a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `galateia`：exec-95a15bcd-9d51-44b2-a024-a3fb90e04019.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `kekrops`：exec-2f5abe8d-aaa8-4e37-b314-9b29aca9a999.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `pandion`：exec-9a10b774-5781-490c-a840-d5fd391e4f3d.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `prokne`：exec-b8c44e50-12c4-4461-9e31-fda63225f165.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `philomela`：exec-2975c8b5-7d59-48a7-a7bd-a275dcc11d6c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `hellen`：exec-f41ce190-59d3-4b6e-a925-25d5141076df.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `doros`：exec-4001f9c9-cda0-42a3-8130-0ca2696abbb2.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:30:29 +08:00] `erichthonios` v1 exec-2cc91d14-e229-477a-ba80-11a44ac88c8d.png、v2 exec-229a3c1b-e465-471e-8ffa-5788d12c1600.png：目視皆五馬，與四馬故事不符，兩圖皆退回，不縮圖／不映射，原圖留生成目錄。
+- 修正提示：Edit this original medallion. The draft mistakenly has FIVE horse heads; change the chariot team to EXACTLY FOUR clearly separate white horses: two on left, two on right. Remove the tiny extra middle-left horse completely and rebuild blue background there. Preserve the adult male king, fully covering ivory blue bronze clothing, TWO serpent legs, chariot wheel, blue/gold circular medallion and all transparency outside it. No additional horses or loose heads; no letters, nudity, wounds. Original art, not historical source.
+- [2026-10-22 22:30:29 +08:00] xouthos／aiolos_h／ion／achaios／teiresias因24小時圖像額度429失敗；立即停止新請求。服務預估重設2026-10-23 14:19:56 +08:00，不保證屆時可用，須實際檢查。第九批14／30合格，第九批未完成，其餘依剩餘清單續接。
+- [2026-10-22 22:20:54 +08:00] `kallisto`：exec-154fcab2-bc0c-4409-81bc-b22a33638684.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:20:54 +08:00] `arkas`：exec-8618d595-7223-4057-86b7-e3baf938409f.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:20:54 +08:00] `orion`：exec-51856287-1866-435f-9f13-b02ba2190aa9.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:20:54 +08:00] `endymion`：exec-d71296ec-60d4-462f-bc49-5fa323e51a02.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 22:20:54 +08:00] `zagreus`：exec-e2e17d9d-8ef5-46dd-89bd-88b3061f3aa7.png；256px RGBA透明四角與逐圖目視通過、已映射。
+14張合格已接入；erichthonios退圖待重製，其餘15未有合格圖。圖像額度用盡後不重試，詳剩餘清單。
