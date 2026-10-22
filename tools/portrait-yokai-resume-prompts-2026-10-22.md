@@ -2,6 +2,8 @@
 
 本輪僅既有節點原創識別圖，非史料形象。沿用10-21第四至六批提示，逐張驗收後接入；未驗收不算完成。原圖保留generated_images，不覆寫既有資產；新作不PUSH。
 
+完成狀態：33／33已接入，日本269／269、妖怪93／93；363資產含完整覆蓋、zoom/culling、最終完整瀏覽器17441 exit0。首跑65605既有阿茲特克手機動畫逾時，原樣重跑通過，詳PROGRESS。APP圖形繪製停住不可用AX代替像素驗證，驗收截圖為本機headless測試瀏覽器，無另開APP分頁。無剩餘本次日本製圖待辦，無再次PUSH。
+
 ## 共用提示
 
 Create one original polished chibi Japanese folklore node portrait for an existing mythology website. A single slim blue-and-gold circular medallion, subject entirely inside, square composition, generous fully transparent padding beyond circular silhouette, exact alpha-zero corners; no white outer background or thick white rim. Clean painterly game illustration with bold distinguishable silhouette readable at38-64px, richly colored yet coherent with dark-blue website. No letters, captions, text, numbers, watermarks, logos or imitation historic seal. This is new artistic interpretation, NOT a historical image or canonical religious icon. No photorealism. Subject: 
@@ -44,6 +46,17 @@ Create one original polished chibi Japanese folklore node portrait for an existi
 
 ## 產出與驗收
 
+- `kijimuna`：exec-f0def2d4-7012-4c9e-99fe-be9f54c27c88.png；256px RGBA透明四角與目視通過，已映射。
+- `otoroshi`：exec-be507252-e235-4b7b-95cc-de4c5e3edbdc.png；256px RGBA透明四角與目視通過，已映射。
+- `amikiri`：exec-b62eb053-4696-4cc5-90c2-1092ecbfb1a2.png；256px RGBA透明四角與目視通過，已映射。
+- `yamatanoorochi_y`：exec-5bda00e3-c0a2-4bc1-a344-b2eedc9af2c7.png；256px RGBA透明四角與目視通過，已映射。
+- `tsuchigumo`：exec-6ef64ae5-3f50-4fa3-893a-4fcb2e740a4b.png；256px RGBA透明四角與目視通過，已映射。
+- 本輪33／33均已生成、縮圖、透明與逐圖目視後接入；八岐大蛇八頭可數，土蜘蛛八腳且非人類。原圖均保留；無退圖／覆寫，僅縮放。不代表所有地方傳承有固定公認外貌。
+- `jakotsubabaa`：exec-11501650-39d0-42ea-bf04-b6b1c97d9d93.png；256px RGBA透明四角與目視通過，已映射。
+- `omukade`：exec-5f552426-74e6-46df-939b-db4c3d8a0ff8.png；256px RGBA透明四角與目視通過，已映射。
+- `okuriinu`：exec-da173175-12d1-4af8-a850-a9bba72920f2.png；256px RGBA透明四角與目視通過，已映射。
+- `satori`：exec-b5f245f1-d078-42a8-bbd4-fe365a430c4a.png；256px RGBA透明四角與目視通過，已映射。
+- `yamajiji`：exec-b6dc89fa-62cf-40ca-a9c9-0bfb8a548b92.png；256px RGBA透明四角與目視通過，已映射。
 - `nuppeppo`：exec-9013ad94-66c1-4484-84c2-06af48e3bd5b.png；256px RGBA透明四角與目視通過，已映射。
 - `mujina`：exec-5d657bc9-fd56-4f37-9ac1-052a26c31599.png；256px RGBA透明四角與目視通過，已映射。
 - `nozuchi`：exec-1d78e63a-2729-4ffc-ba9f-3e22c881ad49.png；256px RGBA透明四角與目視通過，已映射。

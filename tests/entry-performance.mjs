@@ -502,7 +502,7 @@ try {
   await request('Emulation.clearDeviceMetricsOverride');
   if(process.env.YOKAI_SCREENSHOT){
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
-    await evaluate(`(async()=>{openYokai();if(japanLocale!=='zh-TW')toggleJapanLocale();const id='biwabokuboku',card=ycontent.querySelector('.ycard[data-id="'+id+'"]');card.click();await document.querySelector('#yp-figs img').decode();await new Promise(r=>setTimeout(r,600));})()`);
+    await evaluate(`(async()=>{openYokai();if(japanLocale!=='zh-TW')toggleJapanLocale();const id='yamatanoorochi_y',card=ycontent.querySelector('.ycard[data-id="'+id+'"]');card.click();await document.querySelector('#yp-figs img').decode();await new Promise(r=>setTimeout(r,600));})()`);
     const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.YOKAI_SCREENSHOT,Buffer.from(shot.data,'base64'));
     await evaluate('closeYPanel();backToMyth()');
     await request('Emulation.clearDeviceMetricsOverride');

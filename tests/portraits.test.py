@@ -13,6 +13,8 @@ japanese_defs = re.search(r'const JP_NODE_DEFS = \[([\s\S]*?)\n\];', source).gro
 japanese_ids = set(re.findall(r'\["([^"]+)"', japanese_defs))
 yokai_defs = re.search(r'const YOKAI_DEFS = \[([\s\S]*?)\n\];', source).group(1)
 yokai_ids = set(re.findall(r'\["([^"]+)"', yokai_defs))
+assert japanese_ids == {key[6:] for key, _ in entries if key.startswith('japan:')}, 'Japanese nodes missing portraits'
+assert yokai_ids == {key[6:] for key, _ in entries if key.startswith('yokai:')}, 'Yokai nodes missing portraits'
 hashes = {}
 for key, relative in entries:
     if key.startswith('japan:'):
