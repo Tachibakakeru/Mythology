@@ -239,6 +239,23 @@ try {
   })()`);
   console.log(JSON.stringify({portraitLocale},null,2));
   if(Object.values(portraitLocale).some(v=>v!==true))process.exitCode=1;
+  const greekPortraits=await evaluate(`(async()=>{
+    openPantheon('greek');
+    const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('greek:'));
+    const loaded=await Promise.all(entries.map(([,src])=>new Promise(r=>{const im=new Image();im.onload=()=>r(im.naturalWidth===256&&im.naturalHeight===256);im.onerror=()=>r(false);im.src=src})));
+    const failures=[];
+    for(const [key,src] of entries){
+      const id=key.slice(6),card=stage.querySelector('.node[data-id="'+id+'"]');
+      if(!nodes[id]||!card?.classList.contains('has-portrait')||!card.style.getPropertyValue('--node-portrait').includes(src)){failures.push(id);continue;}
+      openPanel(nodes[id]);const figures=document.querySelector('#p-figs');
+      if(!figures?.textContent.includes('原創節點插畫・非史料形象')||![...figures.querySelectorAll('img')].some(im=>im.getAttribute('src')===src&&im.dataset.cap.includes('非古代圖像史料')))failures.push(id+':panel');
+    }
+    const im=document.querySelector('#p-figs img');im?.click();const lightbox=!!im&&document.getElementById('imgLightbox').classList.contains('open');
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));const closed=!document.getElementById('imgLightbox').classList.contains('open');closePanel();
+    openPantheon('japan');return {count:entries.length,loaded:loaded.every(Boolean),failures,lightbox,closed};
+  })()`);
+  console.log(JSON.stringify({greekPortraits},null,2));
+  if(!greekPortraits.loaded||greekPortraits.failures.length||!greekPortraits.lightbox||!greekPortraits.closed)process.exitCode=1;
   const yokaiPortraits=await evaluate(`(async()=>{
     const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('yokai:'));
     if(!entries.length)return {count:0,pending:true};
