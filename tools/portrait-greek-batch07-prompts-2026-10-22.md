@@ -41,4 +41,34 @@ Use case: stylized-concept. Create one original polished chibi Greek mythology w
 
 ## 原圖／驗收紀錄
 
-待生成及驗收；提示不是完成品。
+- [2026-10-22 21:44:13 +08:00] `polydoros`：exec-b528eb99-f36d-4c1f-b076-0ab1832a9546.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:44:13 +08:00] `labdakos`：exec-05d10f80-c725-4d34-8ca7-5e580482ad0a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:44:13 +08:00] `laios`：exec-9f899e9c-5552-4be8-ae31-3dcebf5fc21c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:44:13 +08:00] `iokaste`：exec-8f08dd13-e0f9-4113-a9ea-e9d66f41f5bd.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:44:13 +08:00] `oidipous`：exec-ac1d4393-9096-4150-aed2-0c9f056cdf04.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:39:00 +08:00] `diomedes`：exec-523d8915-8396-40b9-9e21-2708b690525a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:39:00 +08:00] `nestor`：exec-95a9fc1b-b079-4251-81aa-484b80daf9bc.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:39:00 +08:00] `kadmos`：exec-43167252-3da1-4210-9c98-318c73106fba.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:39:00 +08:00] `semele`：exec-9fbeed07-f396-49cb-b33e-c0c8c21f121c.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:39:00 +08:00] `ino`：exec-5f604942-f087-45dd-b82b-8c8389a3f7e1.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:35:13 +08:00] `athamas`：exec-913363f1-91a2-46b0-a2c1-d1ae1ac12d07.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:35:13 +08:00] `phrixos`：exec-6e21341e-e130-41d6-aaa0-671c95aceceb.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:35:13 +08:00] `helle`：exec-d20aa082-3f4f-4af5-b5bf-b4d2a38560c1.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:35:13 +08:00] `meleagros`：exec-acc99e93-6ce4-4827-b2a1-559c618c321b.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:35:13 +08:00] `briseis`：exec-1c22b5d1-abad-4d20-92ab-bcc5299defa4.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:31:33 +08:00] `nessos`：exec-287db250-d706-4b5e-b778-c8c934dc92da.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:31:33 +08:00] `eurystheus`：exec-6497c86b-cb3b-451c-b82e-beb861d7175d.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:31:33 +08:00] `iolaos`：exec-35b03d95-9904-4504-a1e6-ddadf74ec945.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:31:33 +08:00] `hyllos`：exec-3d29f574-91b8-4c08-bd7b-e382d94650dc.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:31:33 +08:00] `pelias`：exec-c39a1c90-2c3b-472c-aefa-7eba80d254d2.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:28:01 +08:00] `atreus`：exec-d7bbbef5-93c8-4ff2-b339-64c1883caf60.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:28:01 +08:00] `amphitryon`：exec-c5b53a1a-5334-43fa-b4ca-638edc2fd549.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:28:01 +08:00] `iphikles`：exec-868f0e43-8fca-43d0-a9ba-5cf03283fc39.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:28:01 +08:00] `megara`：exec-18483446-65f5-419a-9b01-f959b93ad34a.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:28:01 +08:00] `deianeira`：exec-a21c56c5-8c3e-4e4d-9ff9-6acf40db4131.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:24:25 +08:00] `assarakos`：exec-30af8efa-9f0d-46ea-a9a2-7716293709f9.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:24:25 +08:00] `kapys`：exec-c764bb4a-4f17-4809-a8a0-6af078eb496e.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:24:25 +08:00] `ganymedes`：exec-8a3d401d-75e9-497b-886d-d4da78520f47.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:24:25 +08:00] `astyanax`：exec-346c1546-fd6d-4e13-8192-85b0e01e30c5.png；256px RGBA透明四角與逐圖目視通過、已映射。
+- [2026-10-22 21:24:25 +08:00] `tyndareos`：exec-0edebe64-70c7-4e91-b88d-52eb13a35a96.png；256px RGBA透明四角與逐圖目視通過、已映射。
+30張全完成生成、透明縮圖與逐張目視接入；原圖仍保留，皆原創非史料形象。
