@@ -1,7 +1,7 @@
 # 希臘第十一批群體與地點原創圖
 
 建立時間：2026-10-23 15:19:23 +08:00。33個既有節點；僅圖像，不改故事。
-共同提示：Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject: 
+共同提示：Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject:
 
 數千／五十人群體使用代表性或象徵構圖，並非完整成員圖。百臂巨人採局部；十二偉業採物件摘要，不宣稱涵蓋全部任務。這些均為原創詮釋，不是史料。
 

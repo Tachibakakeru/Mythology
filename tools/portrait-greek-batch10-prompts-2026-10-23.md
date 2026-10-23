@@ -1,7 +1,7 @@
 # 希臘第十批原創圖提示
 
 建立時間：2026-10-23 15:15:46 +08:00。既有27節點，僅新增圖像，不改故事與族譜。
-共同提示：Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject: 
+共同提示：Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject:
 
 多首／百眼怪物採局部或象徵構圖；不把局部畫面宣稱全數外觀，亦非古代史料。所有人物完整著衣。
 

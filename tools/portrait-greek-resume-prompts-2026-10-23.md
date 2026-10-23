@@ -4,7 +4,7 @@
 
 ## 共通提示
 
-Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject: 
+Use case: stylized-concept. Create one original polished chibi Greek mythology website node portrait. One slim blue-and-gold circular medallion with subtle original Greek geometric rim, subject inside, square image, generous truly transparent outer padding and exact alpha-zero corners. Clean painterly fantasy illustration, distinct silhouette readable at38-64px, rich colors matching a dark-blue website. No words, letters, numbers, signatures, watermarks, logos, imitation antique inscriptions or modern franchise designs. Original artistic interpretation, NOT historical evidence, NOT a canonical religious image. No photorealism, gore or nudity. Every human figure wears fully covering classical-inspired draped clothes. Subject:
 
 ## 第九批尾段
 
