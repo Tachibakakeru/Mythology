@@ -17,6 +17,7 @@ greek_defs = re.search(r'const GR_NODE_DEFS = \[([\s\S]*?)\n\];', source).group(
 greek_ids = set(re.findall(r'\["([^"]+)"', greek_defs))
 assert japanese_ids == {key[6:] for key, _ in entries if key.startswith('japan:')}, 'Japanese nodes missing portraits'
 assert yokai_ids == {key[6:] for key, _ in entries if key.startswith('yokai:')}, 'Yokai nodes missing portraits'
+assert greek_ids == {key[6:] for key, _ in entries if key.startswith('greek:')}, 'Greek nodes missing portraits'
 hashes = {}
 for key, relative in entries:
     if key.startswith('japan:'):
