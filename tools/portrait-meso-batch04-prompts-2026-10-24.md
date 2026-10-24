@@ -26,3 +26,23 @@
 - `me_note` 美（神聖法則）：Abstract divine civilization powers: a balanced scale, tiny blue temple, gold lyre, reed stylus and plain tablet revolving around a lapis rosette, luminous ribbons linking them; symbolic concept not an archaeological image.
 
 ## 原圖／驗收紀錄
+- [2026-10-24 15:35:57 +08:00] `tablet_destinies`：exec-65bf954e-50ce-4aff-9f98-4a9b30a31228.png → tablet_destinies.png；256px透明／目視後接入。
+- [2026-10-24 15:35:57 +08:00] `me_note`：exec-5990ee86-c311-4049-b73f-431c31780388.png → me_note.png；256px透明／目視後接入。
+- [2026-10-24 15:31:16 +08:00] `nanshe`：exec-08210724-56e3-46be-82f1-e9321ae9caaa.png → nanshe.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:31:16 +08:00] `ninkasi`：exec-c59295b7-bdb2-4095-b87c-43bf280dbaa2.png → ninkasi.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:31:16 +08:00] `enkimdu`：exec-c090a954-b9cd-4c18-81dd-ecd6ecf7f638.png → enkimdu.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:31:16 +08:00] `asalluhi`：exec-84aa46ec-f83f-4134-892f-54c063af4f6f.png → asalluhi.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:31:16 +08:00] `enuma_elish`：exec-350db5b7-db3b-4bca-a6be-600896331e76.png → enuma_elish.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:31:16 +08:00] `epic_gilgamesh`：exec-40e95686-0e92-4ac0-b094-564b32ca40ed.png → epic_gilgamesh.png；256px透明／逐圖目視通過。
+- [2026-10-24 15:27:23 +08:00] `adapa`：exec-8ac44b44-867f-4063-876a-276bf15d89b6.png → adapa.png；256px透明／目視後接入。
+- [2026-10-24 15:27:23 +08:00] `sargon`：exec-fff5f19c-55d7-442d-885d-5f9f3dc0c35d.png → sargon.png；256px透明／目視後接入。
+- [2026-10-24 15:27:23 +08:00] `semiramis`：exec-6348bd52-5342-4066-a5e8-1678598d09b4.png → semiramis.png；256px透明／目視後接入。
+- [2026-10-24 15:27:23 +08:00] `enmerkar`：exec-59ce78a0-80e1-4e0a-a2ad-49cf05b52ca5.png → enmerkar.png；256px透明／目視後接入。
+- [2026-10-24 15:27:23 +08:00] `apkallu_note`：exec-2d3dfd89-c647-444f-8105-605ea042633f.png → apkallu_note.png；256px透明／目視後接入。
+- [2026-10-24 15:27:23 +08:00] `nisaba`：exec-47227178-da1b-4050-9ae1-4996946af6fc.png → nisaba.png；256px透明／目視後接入。
+- [2026-10-24 15:23:20 +08:00] `utnapishtim`：exec-5e0d4a38-8d52-42ce-a010-20cadf73c6b2.png → utnapishtim.png；256px透明／逐圖目視接入。
+- [2026-10-24 15:23:20 +08:00] `siduri`：exec-61809f89-c392-45d9-ba56-6e50ffb450b4.png → siduri.png；256px透明／逐圖目視接入。
+- [2026-10-24 15:23:20 +08:00] `urshanabi`：exec-3c6ca5f2-c490-49ca-bf04-42344132f96d.png → urshanabi.png；256px透明／逐圖目視接入。
+- [2026-10-24 15:23:20 +08:00] `atrahasis`：exec-ef691b34-b75a-4e63-9550-12bb441e0239.png → atrahasis.png；256px透明／逐圖目視接入。
+- [2026-10-24 15:23:20 +08:00] `ziusudra`：exec-a3eb8679-9308-4b95-aef7-c819a4070cdc.png → ziusudra.png；256px透明／逐圖目視接入。
+- [2026-10-24 15:23:20 +08:00] `etana`：exec-c87d657c-4239-4316-b6cd-c3681374d19b.png → etana.png；256px透明／逐圖目視接入。

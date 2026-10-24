@@ -48,4 +48,3 @@
 - [2026-10-24 15:08:18 +08:00] `gallu`：exec-48510692-d4f7-4127-b24a-639cb121291c.png → gallu.png；256px透明／目視通過。
 - [2026-10-24 15:08:18 +08:00] `sebitti`：exec-54d09503-9429-4439-be60-ddb489c9e299.png → sebitti.png；256px透明／目視通過。
 - 拉瑪蘇v1誤畫牛臉退回；原生成圖保留，縮圖移private-media/qa-rejected/可恢復，內建imagegen修頭為人臉並保留牛身／羽翼／角冠。修圖提示：Correct ONLY head anatomy to adult Assyrian human face, preserve bull body, wings, medallion and transparency; not a minotaur.
-

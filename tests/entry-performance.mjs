@@ -532,6 +532,16 @@ try {
   })()`);
   console.log(JSON.stringify({greekPortraitMobile},null,2));
   if(['nodeVisible','imageFits','caption','lightboxFits','closed'].some(k=>!greekPortraitMobile[k]))process.exitCode=1;
+  const mesopotamiaPortraitMobile=await evaluate(`(async()=>{
+    openPantheon('mesopotamia');const id=Object.keys(NODE_PORTRAITS).filter(k=>k.startsWith('mesopotamia:')).at(-1).slice(12);focusNode(id);const pEl=document.getElementById('panel');
+    for(let i=0;i<60;i++){if(new DOMMatrix(getComputedStyle(pEl).transform).isIdentity&&![...pEl.getAnimations(),...stage.getAnimations()].some(a=>a.playState==='running'))break;await new Promise(r=>setTimeout(r,100));}
+    const im=document.querySelector('#p-figs img');await im.decode();const p=pEl.getBoundingClientRect(),r=im.getBoundingClientRect(),n=stage.querySelector('.node[data-id="'+id+'"]').getBoundingClientRect(),b=wrap.getBoundingClientRect();
+    im.click();const enlarged=document.querySelector('#imgLightbox img').getBoundingClientRect();
+    const out={id,viewport:innerWidth,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.top>=b.top-2&&n.bottom<=p.top+2,imageFits:r.width>0&&r.left>=p.left&&r.right<=p.right,caption:document.querySelector('#p-figs').textContent.includes('原創節點插畫・非史料形象'),lightboxFits:document.getElementById('imgLightbox').classList.contains('open')&&enlarged.width>0&&enlarged.left>=0&&enlarged.right<=innerWidth};
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));out.closed=!document.getElementById('imgLightbox').classList.contains('open');closePanel();return out;
+  })()`);
+  console.log(JSON.stringify({mesopotamiaPortraitMobile},null,2));
+  if(['nodeVisible','imageFits','caption','lightboxFits','closed'].some(k=>!mesopotamiaPortraitMobile[k]))process.exitCode=1;
   const yokaiPortraitMobile=await evaluate(`(async()=>{
     const key=Object.keys(NODE_PORTRAITS).filter(k=>k.startsWith('yokai:')).at(-1);
     if(!key)return {pending:true};
@@ -659,6 +669,20 @@ try {
       return {count:manifest.entries.length,failures,notInExport:!exportedSource.includes('private-media/fgo/')};
     })()`);
     console.log(JSON.stringify({localFgo},null,2));if(localFgo.failures.length||!localFgo.notInExport)process.exitCode=1;
+    await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+    const localFgoMobile=await evaluate(`(async()=>{
+      const w=frame.contentWindow,d=frame.contentDocument;w.openPantheon('mesopotamia');w.focusNode('gilgamesh');
+      let ready=false;
+      for(let i=0;i<60;i++){await new Promise(r=>setTimeout(r,100));const n=d.querySelector('.node[data-id="gilgamesh"]').getBoundingClientRect(),p=d.getElementById('panel').getBoundingClientRect();if(n.bottom<=p.top+2&&n.left>=-2&&n.right<=w.innerWidth+2){ready=true;break;}}
+      const im=d.querySelector('#p-figs [data-fgo] img');await im.decode();im.scrollIntoView({block:'center'});
+      const r=im.getBoundingClientRect(),p=d.getElementById('panel').getBoundingClientRect();
+      const imageFits=r.left>=p.left&&r.right<=p.right&&r.width>0&&im.naturalWidth>0;
+      const rights=d.querySelector('#p-figs [data-fgo]').textContent.includes('©TYPE-MOON / FGO PROJECT');
+      im.click();const lightbox=d.getElementById('imgLightbox').classList.contains('open');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+      return {ready,imageFits,rights,lightbox,noHorizontalOverflow:d.documentElement.scrollWidth<=w.innerWidth};
+    })()`);
+    console.log(JSON.stringify({localFgoMobile},null,2));if(Object.values(localFgoMobile).some(v=>!v))process.exitCode=1;
+    await request('Emulation.clearDeviceMetricsOverride');
   }
   if (process.env.PROFILE === '1') {
     const { profile } = await request('Profiler.stop');

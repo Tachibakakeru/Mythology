@@ -20,6 +20,7 @@ meso_ids = set(re.findall(r'\["([^"]+)"', meso_defs))
 assert japanese_ids == {key[6:] for key, _ in entries if key.startswith('japan:')}, 'Japanese nodes missing portraits'
 assert yokai_ids == {key[6:] for key, _ in entries if key.startswith('yokai:')}, 'Yokai nodes missing portraits'
 assert greek_ids == {key[6:] for key, _ in entries if key.startswith('greek:')}, 'Greek nodes missing portraits'
+assert meso_ids == {key[12:] for key, _ in entries if key.startswith('mesopotamia:')}, 'Mesopotamian nodes missing portraits'
 hashes = {}
 for key, relative in entries:
     if key.startswith('japan:'):
