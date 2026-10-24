@@ -24,6 +24,13 @@ frame.addEventListener('load',()=>{
     frame.contentWindow.openPantheon(page);
   }
   status.textContent='已更新 '+new Date().toLocaleTimeString('zh-TW')+'（存檔後自動更新）';
+  // 私人比較圖僅開發預覽載入；正式index與匯出檔不引用私有素材。
+  if(['127.0.0.1','localhost'].includes(location.hostname)){
+    const localMedia=frame.contentDocument.createElement('script');
+    localMedia.src='../private-media/fgo/overlay.js';
+    localMedia.onerror=()=>localMedia.remove();
+    frame.contentDocument.body.append(localMedia);
+  }
 });
 async function check(){
   if(checking)return;

@@ -256,6 +256,26 @@ try {
   })()`);
   console.log(JSON.stringify({greekPortraits},null,2));
   if(!greekPortraits.loaded||greekPortraits.failures.length||!greekPortraits.lightbox||!greekPortraits.closed)process.exitCode=1;
+  const mesopotamiaPortraits=await evaluate(`(async()=>{
+    const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('mesopotamia:'));
+    if(!entries.length)return {count:0,pending:true};
+    openPantheon('mesopotamia');
+    const failures=[];
+    for(const [key,src] of entries){
+      const id=key.slice(12),im=new Image();im.src=src;
+      try{await im.decode();if(im.naturalWidth!==256||im.naturalHeight!==256)failures.push(id+':size');}catch{failures.push(id+':load');}
+      openPanel(nodes[id]);const panelImage=document.querySelector('#p-figs img');
+      if(panelImage?.getAttribute('src')!==src||!panelImage.dataset.cap.includes('非古代圖像史料'))failures.push(id+':panel');
+      if(!document.querySelector('.node[data-id="'+id+'"]')?.classList.contains('has-portrait'))failures.push(id+':node');
+    }
+    document.querySelector('#p-figs img')?.click();
+    const lightbox=document.getElementById('imgLightbox').classList.contains('open');
+    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    const closed=!document.getElementById('imgLightbox').classList.contains('open');
+    closePanel();return {count:entries.length,failures,lightbox,closed};
+  })()`);
+  console.log(JSON.stringify({mesopotamiaPortraits},null,2));
+  if(mesopotamiaPortraits.failures?.length||mesopotamiaPortraits.count&&(!mesopotamiaPortraits.lightbox||!mesopotamiaPortraits.closed))process.exitCode=1;
   const yokaiPortraits=await evaluate(`(async()=>{
     const entries=Object.entries(NODE_PORTRAITS).filter(([key])=>key.startsWith('yokai:'));
     if(!entries.length)return {count:0,pending:true};
@@ -614,6 +634,32 @@ try {
     if(previewYokai)break;await new Promise(resolve=>setTimeout(resolve,100));
   }
   console.log(JSON.stringify({previewYokai},null,2));if(!previewYokai)process.exitCode=1;
+  if(process.env.LOCAL_FGO_TEST==='1'){
+    for(let i=0;i<60;i++){
+      if(await evaluate("!!frame.contentWindow.localFgoPreview"))break;
+      await new Promise(resolve=>setTimeout(resolve,100));
+    }
+    const localFgo=await evaluate(`(async()=>{
+      const w=frame.contentWindow,d=frame.contentDocument,manifest=await fetch('../private-media/fgo/manifest.json').then(r=>r.json()),failures=[];
+      for(const im of manifest.entries){
+        const [ns,id]=im.key.split(':');
+        if(ns==='yokai'){w.openYokai();w.openYPanel(id);}else{w.openPantheon(ns);w.focusNode(id);}
+        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),fig=root.querySelector('[data-fgo="local-only"]'),image=fig?.querySelector('img');
+        try{await image.decode();if(!image.naturalWidth)failures.push(im.key+':size');}catch{failures.push(im.key+':image');}
+        if(root.querySelectorAll('figure').length<2||root.querySelectorAll('[data-fgo]').length!==1||!fig?.textContent.includes('©TYPE-MOON / FGO PROJECT')||!fig?.querySelector('a[href="https://www.fate-go.jp/trajectory/servant/"]'))failures.push(im.key+':caption');
+        image?.click();if(!d.getElementById('imgLightbox').classList.contains('open'))failures.push(im.key+':lightbox');
+        d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+        if(ns==='japan'||ns==='yokai'){
+          w.toggleJapanLocale();
+          if(!root.querySelector('[data-fgo]')?.textContent.includes('ゲームの設定'))failures.push(im.key+':ja');
+          w.toggleJapanLocale();
+        }else if(!fig?.textContent.includes('僅本機參考'))failures.push(im.key+':zh');
+      }
+      const exportedSource=await fetch('../index.html').then(r=>r.text());
+      return {count:manifest.entries.length,failures,notInExport:!exportedSource.includes('private-media/fgo/')};
+    })()`);
+    console.log(JSON.stringify({localFgo},null,2));if(localFgo.failures.length||!localFgo.notInExport)process.exitCode=1;
+  }
   if (process.env.PROFILE === '1') {
     const { profile } = await request('Profiler.stop');
     const counts = new Map();

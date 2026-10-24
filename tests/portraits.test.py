@@ -15,6 +15,8 @@ yokai_defs = re.search(r'const YOKAI_DEFS = \[([\s\S]*?)\n\];', source).group(1)
 yokai_ids = set(re.findall(r'\["([^"]+)"', yokai_defs))
 greek_defs = re.search(r'const GR_NODE_DEFS = \[([\s\S]*?)\n\];', source).group(1)
 greek_ids = set(re.findall(r'\["([^"]+)"', greek_defs))
+meso_defs = re.search(r'const MP_NODE_DEFS = \[([\s\S]*?)\n\];', source).group(1)
+meso_ids = set(re.findall(r'\["([^"]+)"', meso_defs))
 assert japanese_ids == {key[6:] for key, _ in entries if key.startswith('japan:')}, 'Japanese nodes missing portraits'
 assert yokai_ids == {key[6:] for key, _ in entries if key.startswith('yokai:')}, 'Yokai nodes missing portraits'
 assert greek_ids == {key[6:] for key, _ in entries if key.startswith('greek:')}, 'Greek nodes missing portraits'
@@ -26,6 +28,8 @@ for key, relative in entries:
         assert key[6:] in yokai_ids, (key, 'Unknown yokai node')
     if key.startswith('greek:'):
         assert key[6:] in greek_ids, (key, 'Unknown Greek node')
+    if key.startswith('mesopotamia:'):
+        assert key[12:] in meso_ids, (key, 'Unknown Mesopotamian node')
     path = root / relative
     assert path.is_file(), (key, 'Missing file', relative)
     with Image.open(path) as image:
@@ -40,9 +44,9 @@ for key, relative in entries:
     hashes[digest] = key
     assert path.stat().st_size < 300_000, (key, 'Oversized node asset')
 counts = {}
-for namespace in ['japan', 'yokai', 'greek']:
+for namespace in ['japan', 'yokai', 'greek', 'mesopotamia']:
     registered = {relative for _, relative in entries if relative.startswith(f'assets/portraits/{namespace}/')}
     actual = {p.relative_to(root).as_posix() for p in (root / f'assets/portraits/{namespace}').glob('*.png')}
     assert registered == actual, (f'Unregistered or missing {namespace} portraits', registered ^ actual)
     counts[namespace] = len(registered)
-print(f"Portraits OK: {len(entries)} total, {counts['japan']} Japanese, {counts['yokai']} yokai, {counts['greek']} Greek; unique RGBA assets, 256px, transparent corners")
+print(f"Portraits OK: {len(entries)} total, {counts['japan']} Japanese, {counts['yokai']} yokai, {counts['greek']} Greek, {counts['mesopotamia']} Mesopotamian; unique RGBA assets, 256px, transparent corners")
