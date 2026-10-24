@@ -1,6 +1,6 @@
 # FGO本機比較圖：交接與來源界線
 
-更新：2026-10-24 16:56:36 +08:00。本輪美索不達米亞原創98／98完成，FGO113圖項／110不同既有節點／105原圖，23頁。這是已核實且取得適當圖像的比較圖，不宣稱所有遊戲NPC或所有Fate作品全集。
+更新：2026-10-24 17:02:23 +08:00。本輪美索不達米亞原創98／98完成，FGO114圖項／111不同既有節點／106原圖，23頁。這是已核實且取得適當圖像的比較圖，不宣稱所有遊戲NPC或所有Fate作品全集。
 
 ## 隔離方式
 
@@ -17,7 +17,7 @@
 - japan：2／2；yamatotakeru、hoderi。
 - yokai：6／6；tamamonomae、shutendoji、ibarakidoji、suzukagozen、momiji、osakabehime。
 - mesopotamia：8／8；gilgamesh、enkidu、inanna、ereshkigal、tiamat、semiramis、siduri、dumuzi。
-- greek：31／29；herakles、medusa、medeia、atalante、hektor、cheiron、achilleus、kirke、penthesileia、asklepios、jason、paris、europa、odysseus、theseus、andromeda、hippolyte、demeter、orion、artemis、minotauros、polydeukes、kastor、gorgones_note、gorgones_note、aphrodite、zeus、charon、persephone、apollon、zeus。
+- greek：32／30；herakles、medusa、medeia、atalante、hektor、cheiron、achilleus、kirke、penthesileia、asklepios、jason、paris、europa、odysseus、theseus、andromeda、hippolyte、demeter、orion、artemis、minotauros、polydeukes、kastor、gorgones_note、gorgones_note、aphrodite、zeus、charon、persephone、apollon、zeus、daidalos。
 - norse：7／6；thrud、valkyrjur_note、skadi、sigurd、brynhild、norns_note、norns_note。
 - celtic：7／7；cu_chulainn、scathach、fergus、medb、diarmuid、fionn、manannan。
 - arthurian：12／12；arthur、merlin、morgan、mordred、lancelot、gawain、gareth、bedivere、tristan、perceval、agravain、galahad。
@@ -45,6 +45,7 @@
 - 宙斯為設計者Azusa2020-04-20公開賀圖，報導附原貼：https://demonition.com/blog-entry-65572.html ，原貼https://twitter.com/Azusa1019/status/1252258471635898369 。不是遊戲原立繪。
 - 西杜莉為FGO改編動畫美國官方人設：https://anime.fate-go.us/ep7-tv/character/?chara=siduri ，©TYPE-MOON / FGO7 ANIME PROJECT，非遊戲原圖。
 - 10張NPC遊戲截圖片段採AppMedia公開圖庫轉載：https://appmedia.jp/fategrandorder/2427886 。逐一對應海幸彥、杜姆茲人形、悉多、阿格拉瓦因、卡戎、卡馬索茨、珀耳塞福涅、加拉哈德、宙斯人型端末、薇兒丹蒂；不是官方圖鑑、不是全身立繪。杜姆茲人形另核對 https://appmedia.jp/fategrandorder/77185565 。
+- 代達羅斯另採遊戲巨臂NPC截圖：https://appmedia.jp/fategrandorder/78312266 ，圖說明示巨臂本人，不誤認侍從人偶娜烏克拉忒；此來源亦加入獨立白名單。
 - 阿波羅共用官方帕里斯介紹圖，明示頭上的白羊為阿波羅、少年為帕里斯；身份查證 https://typemoon.wiki.cre.jp/wiki/%E3%82%A2%E3%83%9D%E3%83%AD%E3%83%B3 。
 - 每一筆原圖完整URL、當下核對時間、圖說與適用節點均在忽略的manifest，不把圖像複製進此文檔。
 
@@ -66,11 +67,11 @@
 
 - tests/portraits.test.py：783原創資產、兩河98全覆蓋、256pxRGBA／透明四角／無重複與孤立檔。
 - LOCAL_FGO_TEST=1 node tests/entry-performance.mjs：私有manifest逐項載入、節點對應、來源／權利／雙語、原創保留、群組多圖、燈箱、390px與匯出不帶私有圖。可選MESO_SCREENSHOT保存自有測試截圖；不是APP實際截圖。
-- 102圖項完整75767 exit0：首次新版本、真正新URL重載後284節點、首頁／妖怪保持、全附圖／手機／實際匯出隔離均通過。111版8091完整exit0；113版20864完整exit0；最後日本NPC日文來源標籤已修正，新增jaSource斷言，113最終92458完整exit0。
+- 102圖項完整75767 exit0：首次新版本、真正新URL重載後284節點、首頁／妖怪保持、全附圖／手機／實際匯出隔離均通過。111版8091完整exit0；113版20864完整exit0；最後日本NPC日文來源標籤已修正，新增jaSource斷言，113最終92458完整exit0；最後新增代達羅斯114版39528完整exit0，114圖項、手機、實際匯出隔離與預覽重載全過。
 - 原先55024／20379失敗的主因是測試只判query前綴，重載後可能先讀到舊文件284節點而提早結束等待，再於導航中讀到0；改比對完整目標URL後等284節點，不放寬節點斷言。另預覽去掉靜態src，避免首次無版本載入競態；忽略about:blank載入。
 
 ## 私有備份與復原
 
-- 專案外備份：D:/YiHsiang/程式/Mythology-private-backups/fgo-local-20261024-113items-ja.zip，20,300,032 bytes，113圖項、105圖檔＋manifest＋overlay共107檔。本最終日文修正版107檔已逐一SHA256核對與本機一致，不覆蓋舊備份。
+- 專案外備份：D:/YiHsiang/程式/Mythology-private-backups/fgo-local-20261024-114items-final.zip，20,317,869 bytes，114圖項、106圖檔＋manifest＋overlay共108檔。本最終版108檔已逐一SHA256核對與本機一致，不覆蓋舊備份。
 - 復原時只將ZIP內fgo/放回private-media/fgo/，不得移至assets/。開localhost的tools/preview.html即可；正式index／git clone不會自帶私人圖片。
 - 早期first13.zip保留可恢復，但不是本輪完整備份。
