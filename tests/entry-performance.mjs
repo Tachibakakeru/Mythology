@@ -570,6 +570,12 @@ try {
     const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.GREEK_SCREENSHOT,Buffer.from(shot.data,'base64'));
     await request('Emulation.clearDeviceMetricsOverride');
   }
+  if(process.env.MESO_SCREENSHOT){
+    await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
+    await evaluate(`(async()=>{openPantheon('mesopotamia');focusNode('gilgamesh');await document.querySelector('#p-figs img').decode();const p=document.getElementById('panel');for(let i=0;i<60;i++){if(new DOMMatrix(getComputedStyle(p).transform).isIdentity&&![...p.getAnimations(),...stage.getAnimations()].some(a=>a.playState==='running'))break;await new Promise(r=>setTimeout(r,100));}})()`);
+    const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.MESO_SCREENSHOT,Buffer.from(shot.data,'base64'));
+    await request('Emulation.clearDeviceMetricsOverride');
+  }
   if(process.env.AZTEC_SCREENSHOT){
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
     await evaluate('openAztec();closePanel();highlightGroup(AZ_GROUPS.findIndex(g=>g[0]==="昌蒂科：家火與化犬異文"))');await new Promise(r=>setTimeout(r,1400));
@@ -602,17 +608,21 @@ try {
   // 自有 headless 預覽驗證：模擬已保存檔案的 revision 差異，不改專案檔或使用者偏好。
   await request('Page.navigate',{url:'http://127.0.0.1:7788/tools/preview.html'});
   for(let i=0;i<60;i++){
-    if(await evaluate("document.getElementById('preview')?.contentDocument?.querySelector('#stage .node')!==null && !!document.getElementById('preview')?.contentDocument?.querySelector('#stage .node')"))break;
+    if(await evaluate("(()=>{const d=document.getElementById('preview')?.contentDocument,v=d?.getElementById('japan');return !!d?.querySelector('#stage .node')&&v?.dataset.pantheon==='aztec'&&v.style.display==='block'&&v.style.opacity!=='0';})()"))break;
     await new Promise(resolve=>setTimeout(resolve,100));
   }
+  const previewInitialFresh=await evaluate("frame.contentWindow.location.search.startsWith('?preview=')");
+  console.log(JSON.stringify({previewInitialFresh}));if(!previewInitialFresh)process.exitCode=1;
   const preview=await evaluate(`(async()=>{
     const before=frame.contentDocument.querySelectorAll('#stage .node').length;
+    const previousUrl=frame.contentWindow.location.href;
     revision='test-previous-revision';await check();
-    const reloaded=frame.getAttribute('src').includes('?preview=');
-    return {before,reloaded,expected:${aztec.nodes}};
+    const targetUrl=new URL(frame.getAttribute('src'),location.href).href;
+    const reloaded=targetUrl!==previousUrl;
+    return {before,reloaded,targetUrl,expected:${aztec.nodes}};
   })()`);
   for(let i=0;i<60;i++){
-    if(await evaluate(`document.getElementById("preview")?.contentWindow?.location.search.startsWith('?preview=') && document.getElementById("preview")?.contentDocument?.querySelectorAll("#stage .node").length===${aztec.nodes}`))break;
+    if(await evaluate(`document.getElementById("preview")?.contentWindow?.location.href===${JSON.stringify(preview.targetUrl)} && document.getElementById("preview")?.contentDocument?.querySelectorAll("#stage .node").length===${aztec.nodes}`))break;
     await new Promise(resolve=>setTimeout(resolve,100));
   }
   preview.after=await evaluate('frame.contentDocument.querySelectorAll("#stage .node").length');
@@ -654,19 +664,26 @@ try {
       for(const im of manifest.entries){
         const [ns,id]=im.key.split(':');
         if(ns==='yokai'){w.openYokai();w.openYPanel(id);}else{w.openPantheon(ns);w.focusNode(id);}
-        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),fig=root.querySelector('[data-fgo="local-only"]'),image=fig?.querySelector('img');
+        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),image=root.querySelector('[data-fgo="local-only"] img[src="'+im.src+'"]'),fig=image?.closest('figure');
         try{await image.decode();if(!image.naturalWidth)failures.push(im.key+':size');}catch{failures.push(im.key+':image');}
-        if(root.querySelectorAll('figure').length<2||root.querySelectorAll('[data-fgo]').length!==1||!fig?.textContent.includes('©TYPE-MOON / FGO PROJECT')||!fig?.querySelector('a[href="https://www.fate-go.jp/trajectory/servant/"]'))failures.push(im.key+':caption');
+        const count=manifest.entries.filter(e=>e.key===im.key).length,needsOriginal=['japan','yokai','greek','mesopotamia'].includes(ns);
+        if(needsOriginal&&!root.querySelector('figure:not([data-fgo]) img'))failures.push(im.key+':original');
+        if(root.querySelectorAll('[data-fgo]').length!==count||!fig?.textContent.includes(im.rights||'©TYPE-MOON / FGO PROJECT')||fig?.querySelector('a')?.getAttribute('href')!==im.source)failures.push(im.key+':caption');
         image?.click();if(!d.getElementById('imgLightbox').classList.contains('open'))failures.push(im.key+':lightbox');
         d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
         if(ns==='japan'||ns==='yokai'){
           w.toggleJapanLocale();
           if(!root.querySelector('[data-fgo]')?.textContent.includes('ゲームの設定'))failures.push(im.key+':ja');
+          if(/轉載|遊戲截圖|官方角色介紹/.test(root.querySelector('[data-fgo] a')?.textContent||''))failures.push(im.key+':jaSource');
           w.toggleJapanLocale();
         }else if(!fig?.textContent.includes('僅本機參考'))failures.push(im.key+':zh');
       }
       const exportedSource=await fetch('../index.html').then(r=>r.text());
-      return {count:manifest.entries.length,failures,notInExport:!exportedSource.includes('private-media/fgo/')};
+      let saved,exportedHtml='';const create=w.URL.createObjectURL,click=w.HTMLAnchorElement.prototype.click;
+      try{w.URL.createObjectURL=blob=>{saved=blob;return 'blob:fgo-isolation-test'};w.HTMLAnchorElement.prototype.click=()=>{};await w.exportHTML();exportedHtml=await saved.text();}
+      finally{w.URL.createObjectURL=create;w.HTMLAnchorElement.prototype.click=click;}
+      const notInExport=[exportedSource,exportedHtml].every(html=>!html.includes('private-media/fgo/')&&!html.includes('data-fgo='));
+      return {count:manifest.entries.length,failures,notInExport};
     })()`);
     console.log(JSON.stringify({localFgo},null,2));if(localFgo.failures.length||!localFgo.notInExport)process.exitCode=1;
     await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});

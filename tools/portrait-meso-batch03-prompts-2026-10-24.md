@@ -26,6 +26,7 @@
 - `shamhat` 沙姆哈特: Adult female Uruk temple woman with dark braids, fully covering cream lapis long dress and rosette jewelry, offering folded woven garment beside bread bowl and blue city entrance. No erotic pose, nudity or sexual contact.
 
 ## 原圖／驗收紀錄
+- [2026-10-24 16:30:02 +08:00] 退圖原始檔補記：lamassu v1=exec-d7cf48f7-d288-41d2-be5c-0b559a89b8af.png；kusarikku v1=exec-8ef877b6-03c9-4be5-8d4e-281c556e8a3d.png。兩者皆誤畫牛臉，不映射、不計成果；原始生成檔保留，256px退圖在private-media/qa-rejected/。
 - [2026-10-24 15:19:25 +08:00] `kulullu`：exec-9df54c92-8949-409f-aeea-b412d5faf360.png → kulullu.png；256px透明／逐圖目視通過並接入。
 - [2026-10-24 15:19:25 +08:00] `kusarikku`：exec-7e8ce31f-11e1-4f41-b0a0-0d77627ab888.png → kusarikku-v2.png；256px透明／逐圖目視通過並接入。
 - [2026-10-24 15:19:25 +08:00] `umu_dabrutu`：exec-0515b978-6c6a-426f-a669-06f6c2b2e467.png → umu_dabrutu.png；256px透明／逐圖目視通過並接入。
