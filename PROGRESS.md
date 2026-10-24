@@ -1,5 +1,12 @@
 # World Mythology Genealogy — PROGRESS.md
 
+## 2026-10-24 12:56:46 +08:00｜希臘323節點圖像發布
+
+- 使用者明確授權PUSH；本輪將58ef047與9214a8d兩提交（76張新圖、index76映射行、希臘全覆蓋斷言與提示／交接紀錄）發布到既有origin/main。git push成功27919f9→9214a8dd25de9c9b1a9ec6ef71dd9932439bed98，git ls-remote核對遠端完整SHA一致，未force push。
+- 希臘323／323、實際剩0；日本269與妖怪93不變，全站原創685。本輪未新增故事、節點、UI或關係。下方未PUSH描述保留製作當時歷史，不能當成目前狀態。
+- 本輪重跑portraits.test.py 685資產與完整覆蓋、zoom queues／graph culling、git diff 27919f9 --check皆exit0；產品程式未變，完整瀏覽器沿用上輪54591 exit0（323圖載入／燈箱／390px與既有全頁／preview），未冒稱重跑或實體手機效能已測。
+- 原APPtab1沿用並設可見／保留，AX確認希臘與斯庫拉，沒有新增預覽分頁；本輪僅發布，不續產圖。發布收據另提交推送，最終SHA見Git核對及回覆。
+
 ## 2026-10-23｜希臘剩餘節點原創圖（新作本機未PUSH）
 
 - [2026-10-23 16:08:48 +08:00] 本地成品備份58ef047a4a8067c83c0b416785954c6d3cfd0a78已建立（新作未PUSH）。納入新增提示檔的cached diff檢查發現三檔共同提示尾端空白，已移除並重新git diff 27919f9 --check exit0；不影響產圖提示語義或功能。APP原tab1已捲至斯庫拉六犬首新圖並實際截圖，greek-app-complete-20261023.png更新為可見圖片證據，不再只是上半部文字。全測驗結果不變，最後只文書／空白整理。
