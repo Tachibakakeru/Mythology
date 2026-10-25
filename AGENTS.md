@@ -1,5 +1,13 @@
 # World Mythology Genealogy — AGENTS.md
 
+- 2026-10-26 03:29:05 +08:00 重複附圖最終驗收：完整97895 exit0，114筆每次正常開面板後再執行附圖一次仍符合預期張數，含原創保留／不同群組雙圖／來源／雙語／燈箱／390px／匯出與全站回歸。APP玉藻前實際單圖證據已保存；本輪僅本地提交、不PUSH。
+
+## FGO重複附圖修正（2026-10-26 03:28:30 +08:00）
+
+- APP實查同一iframe同時含assets/fgo/catalog.js與../private-media/fgo/overlay.js?preview=...；舊快取preview仍注入私人wrapper，造成正式openPanel／openYPanel後再貼一次。正式catalog設定舊載入器既有window.localFgoPreview旗標，使其立即return；不是把FGO改回本機限制。
+- appendFgoFigures先清除此面板既有figure[data-fgo]，再依src去重並重新產生本節點完整附圖，保留原創／史料及不同FGO群組圖片。index的catalog版本更新為?v=20261026-2，避免只重載index仍吃舊catalog。資產測試增加重複呼叫、舊overlay不fetch與戈耳工雙圖仍在；完整97895待驗，不先宣稱通過。
+- 原APP既有tab3已重載並停玉藻前：實際AX與像素只有一張FGO、原創仍在，證據fgo-single-tamamo-20261026.png；本輪未新建預覽分頁、未PUSH。114圖項／111節點／106圖片不變。
+
 - 2026-10-26 03:20:40 +08:00 最終驗收：FGO正式整合完整3134 exit0（114附圖／原創保留／雙語／燈箱／390px／匯出保留catalog及全部既有頁）；106公開圖與備份SHA256一致，783原創與zoom/culling及資產測試通過。手機測試先等真實斷點畫格提交後原6秒／幾何斷言通過，產品UI未因此更動。正式資產已準備可隨後續發布，但本輪沒有PUSH；APP預覽仍僅queued／attach逾時，不宣稱已實際顯示。
 
 ## FGO正式頁面整合（2026-10-26 03:07:58 +08:00，使用者最新要求優先）

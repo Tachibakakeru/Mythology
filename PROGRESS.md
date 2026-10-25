@@ -1,5 +1,14 @@
 # World Mythology Genealogy — PROGRESS.md
 
+## 2026-10-26｜FGO重複附圖修正（未PUSH）
+
+- [2026-10-26 03:29:05 +08:00] 最終完整97895 exit0：114圖項逐節點正常載入後再執行appendFgoFigures，同一圖片不重複，既有多圖群組維持正確張數；原創／來源／權利／雙語／燈箱／390px／實際匯出入口與既有各頁／預覽均過。node tests/fgo-assets.test.js、zoom/culling、catalog語法、diff亦過。APP單圖已真實像素驗證，非僅無頭測試；本輪僅本地備份，未PUSH。
+
+- [2026-10-26 03:28:30 +08:00] 使用者回報同一FGO圖重複兩張（玉藻前截圖）。讀共用helper、兩個面板呼叫點、正式／私人載入器與preview後，在APP原tab3透過實際DOM script[src]確認同時載入assets/fgo/catalog.js及../private-media/fgo/overlay.js?preview=1792955601080。磁碟preview已無注入，但開著的外層舊快取仍注入，舊wrapper在正式函式後再追加；非原創圖重複、也非所有多人群組都應刪成一圖。
+- [2026-10-26 03:28:30 +08:00] assets/fgo/catalog.js在載入時設定舊wrapper既有window.localFgoPreview防重旗標（count114），讓私人腳本即使被舊外層／快取注入也在fetch／包裝前return。共用appendFgoFigures清除面板中自己管理的figure[data-fgo]，保留非FGO figure，再依src去重、重新產生目前角色的完整合法來源附圖。不同圖片的群組仍保留兩張；新增旗標是舊版相容，不是重新加hostname限制。
+- [2026-10-26 03:28:30 +08:00] index.html把catalog入口加?v=20261026-2，避免index已新而catalog仍快取舊版。tests/fgo-assets.test.js增加重複呼叫仍一圖、舊overlay讀取不fetch、戈耳工群組不同兩圖保留；單測、JS語法、zoom/culling與diff檢查通過。tests/entry-performance.mjs在114筆每個節點正常開面板後再呼叫附圖一次，仍須符合原圖數／來源／原創／雙語／燈箱斷言；完整97895仍執行中。
+- [2026-10-26 03:28:30 +08:00] APP原有tab3重載成功，沿同tab切妖怪頁並搜尋玉藻前，AX只列一個FGO figure；實際截圖fgo-single-tamamo-20261026.png顯示原創下方只一張FGO、後接群組／來源／收藏／編輯，已保存並保留分頁。未新增或關閉其他既有分頁。圖片／角色／關係／故事資料未改，114／111／106不變；未PUSH。
+
 ## 2026-10-26｜FGO改為正式網站資產（未PUSH）
 
 - [2026-10-26 03:20:40 +08:00] 最後完整3134 exit0：114筆正式FGO、111節點／23頁的正確對應、106圖片全載入、原創／史料保留、日／繁中來源標籤、同群多圖、燈箱、390px定位／無橫向溢出，以及實際exportHTML保留assets/fgo/catalog.js且不依賴private-media皆過。既有阿茲特克mobile抽屜已通過原6秒／原幾何斷言；修正只在測試尺寸切換後等待兩個實際畫格提交，不改產品動畫或CSS。

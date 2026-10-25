@@ -943,10 +943,16 @@ const FGO_IMAGES = [
   }
 ];
 const FGO_IMAGE_SOURCES=new Set(["https://www.fate-go.jp/trajectory/servant/","https://typemoon.fandom.com/wiki/Aphrodite_(Lostbelt)","https://demonition.com/blog-entry-65572.html","https://anime.fate-go.us/ep7-tv/character/?chara=siduri","https://appmedia.jp/fategrandorder/2427886","https://appmedia.jp/fategrandorder/78312266"]);
+// 舊快取預覽可能仍注入私人載入器，使用它既有的防重旗標讓兩條管線互斥。
+window.localFgoPreview={count:FGO_IMAGES.length};
 function appendFgoFigures(key,figs){
   if(!figs)return;
+  figs.querySelectorAll('figure[data-fgo]').forEach(figure=>figure.remove());
+  const seen=new Set();
   const ja=(key.startsWith('japan:')||key.startsWith('yokai:'))&&japanLocale==='ja';
   for(const im of FGO_IMAGES.filter(item=>item.key===key&&/^[a-z]+:[a-z0-9_]+$/.test(item.key)&&/^assets\/fgo\/[a-z0-9_-]+\.(?:png|jpg|webp)$/.test(item.src)&&FGO_IMAGE_SOURCES.has(item.source))){
+    if(seen.has(im.src))continue;
+    seen.add(im.src);
     const figure=document.createElement('figure'),image=document.createElement('img');
     figure.dataset.fgo='comparison';
     image.src=im.src;image.alt='Fate/Grand Order：'+im.name;image.loading='lazy';image.decoding='async';

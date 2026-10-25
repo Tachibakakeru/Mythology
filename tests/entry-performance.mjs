@@ -671,7 +671,9 @@ try {
       for(const im of manifest.entries){
         const [ns,id]=im.key.split(':');
         if(ns==='yokai'){w.openYokai();w.openYPanel(id);}else{w.openPantheon(ns);w.focusNode(id);}
-        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),image=root.querySelector('[data-fgo="comparison"] img[src="'+im.src+'"]'),fig=image?.closest('figure');
+        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs');
+        w.appendFgoFigures(im.key,root); // 第二次呼叫仍須維持相同張數。
+        const image=root.querySelector('[data-fgo="comparison"] img[src="'+im.src+'"]'),fig=image?.closest('figure');
         try{await image.decode();if(!image.naturalWidth)failures.push(im.key+':size');}catch{failures.push(im.key+':image');}
         const count=manifest.entries.filter(e=>e.key===im.key).length,needsOriginal=['japan','yokai','greek','mesopotamia'].includes(ns);
         if(needsOriginal&&!root.querySelector('figure:not([data-fgo]) img'))failures.push(im.key+':original');
