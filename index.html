@@ -826,6 +826,7 @@
 
 <div id="imgLightbox"><img alt=""><div></div></div>
 
+<script src="assets/fgo/catalog.js"></script>
 <script>
 /* ============================================================
    資料：日本神話系譜（神代篇，依古事記為主／參酌日本書紀）
@@ -14153,6 +14154,7 @@ function openPanel(n){
   const figs = document.getElementById('p-figs');
   figs.innerHTML = portraitFigureHTML(n) + figsHTML(rec);
   figs.style.display = figs.innerHTML ? 'flex' : 'none';
+  appendFgoFigures(currentPantheon+':'+n.id,figs);
   const groupsOf = GROUPS.filter(g=>g[1].includes(n.id)).map(g=>currentPantheon==='japan'?localGroupLabel(g[0]):g[0]);
   document.getElementById('p-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const sources = document.getElementById('p-sources');
@@ -15189,6 +15191,7 @@ function openYPanel(id){
   const figs = document.getElementById('yp-figs');
   figs.innerHTML = portraitFigureHTML(y, 'yokai') + figsHTML(rec);
   figs.style.display = figs.innerHTML ? 'flex' : 'none';
+  appendFgoFigures('yokai:'+id,figs);
   const groupsOf = YOKAI_GROUPS.filter(g=>g[1].includes(id)).map(g=>localGroupLabel(g[0]));
   document.getElementById('yp-groups').innerHTML = groupsOf.map(g=>`<span>${g}</span>`).join('');
   const ySources = document.getElementById('yp-sources');

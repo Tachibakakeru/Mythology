@@ -1,5 +1,21 @@
 # World Mythology Genealogy — PROGRESS.md
 
+## 2026-10-26｜FGO改為正式網站資產（未PUSH）
+
+- [2026-10-26 03:20:40 +08:00] 最後完整3134 exit0：114筆正式FGO、111節點／23頁的正確對應、106圖片全載入、原創／史料保留、日／繁中來源標籤、同群多圖、燈箱、390px定位／無橫向溢出，以及實際exportHTML保留assets/fgo/catalog.js且不依賴private-media皆過。既有阿茲特克mobile抽屜已通過原6秒／原幾何斷言；修正只在測試尺寸切換後等待兩個實際畫格提交，不改產品動畫或CSS。
+- [2026-10-26 03:20:40 +08:00] 本輪只index新增3行接入、preview移除7行私有注入，原創圖、族譜、座標、群組與首頁UI未更改。106張圖逐檔SHA256與私有備份相同，FGO資產單測、783原創、zoom/culling、JS語法與diff均通過。公開assets/fgo共106圖片＋catalog.js＋README；.gitignore保留舊私有備份忽略，只更新註解。將做本地Git備份、不PUSH。
+- [2026-10-26 03:20:40 +08:00] 本地預覽伺服器session56640保持127.0.0.1:7788。APP原tab1仍無法attach，open_in_codex仍queued；已提供可點預覽連結並展示fgo-publish-comparison-20261026.png（正式index本機測試截圖，非APP擷取），未聲稱自動開啟成功。公開素材授權未取得／未作法律保證，來源與權利標示均保留。
+
+- [2026-10-26 03:17:48 +08:00] 正式114附圖在3425與19962兩次完整瀏覽器中均全數載入、原創／來源／權利／雙語／燈箱／390px無溢出通過，實際exportHTML保留正式catalog入口且無private-media依賴。但兩套仍exit1：阿茲特克mobile settled未於6秒完成，不能稱全站通過。30867另有新版預覽重載時FGO_IMAGES未定義：測試取到重載中iframe，已等完整目標URL＋catalog函式＋妖怪卡片真正就緒，後兩套不再重現。
+- [2026-10-26 03:17:48 +08:00] 手機抽屜專項本機2086診斷：document.visibilityState為visible、panel仍有open class，CDP改390尺寸後前兩次樣本transform仍桌機matrix(390,0)、動畫currentTime=0，後續約1秒才成identity；非已證明產品面板被關閉。測試現在像其他mobile分支一樣先等兩個實際rAF，讓響應式樣式提交後才模擬點節點；未延長6秒或放寬原幾何斷言。3134完整重跑中，尚未稱通過。
+- [2026-10-26 03:17:48 +08:00] 106張公開目錄原圖與private-media備份逐檔SHA256全同；assets測試114／111／106與公開hostname／日文來源再過。已產且目視fgo-publish-comparison-20261026.png，為1600x900自建無頭瀏覽器的本機正式index比較圖，不是APP擷取；已在回覆中展示並提供本地預覽連結。APP原分頁attach仍逾時，open_in_codex仍queued，不能稱APP已可見。
+
+- [2026-10-26 03:07:58 +08:00] 使用者更正FGO也須更新上線，不是永久私人預覽。先讀AGENTS／既有overlay／index面板／匯出／preview與測試；採最小整合，不建新框架或平行面板。原private-media/fgo/106張圖片逐檔複製至assets/fgo/（保留原備份不刪）；catalog.js保存114圖項／111節點／23頁原有映射、完整來源／圖說／核對時間／個別權利。index新增外部catalog載入及主面板、妖怪面板兩個追加呼叫；正式非本機hostname同樣工作。
+- [2026-10-26 03:07:58 +08:00] appendFgoFigures使用DOM textContent，保留既有明確來源白名單／命名空間key／資產路徑與副檔名驗證，圖片lazy／async載入，不加入大量節點背景；保留原創／史料、燈箱、雙語及©標示，去除僅本機參考。預覽刪私有overlay注入，避免正式整合後雙貼。匯出index保留assets/fgo/catalog.js入口，需同時攜帶assets資料夾，與原創圖相同。
+- [2026-10-26 03:07:58 +08:00] tests/fgo-assets.test.js通過：114圖項／111節點／106唯一檔、來源與路徑、非localhost渲染與日文來源標籤。783原創資產與zoom／culling、JS語法、diff檢查通過。完整30867發現妖怪preserved舊斷言把新增FGO也計入原創／史料兩圖，已將原斷言限定figure:not([data-fgo])，FGO另有114項逐筆斷言；待完整重跑，不能冒稱本輪全過。
+- [2026-10-26 03:07:58 +08:00] 僅本機伺服器7788已重啟。APP原tab1仍列在inventory，但多次attach逾時；顯示capability已請求、open_in_codex回queued，未確認真實像素。不另開多個預覽；後續以明示的本機測試圖補驗收。
+- [2026-10-26 03:07:58 +08:00] 已查看官方https://www.fate-go.jp/guidelines/，其素材轉用與未授權轉載有限制；明確提醒私人用途／標示出處不是概括授權。本輪僅準備本地可發布版本、尚未PUSH；未把技術可部署寫成法律授權已確認。
+
 ## 2026-10-24｜美索不達米亞原創圖與FGO本機附加圖（未PUSH）
 
 - [2026-10-24 17:02:23 +08:00] 最後查漏補代達羅斯機械巨臂NPC截圖，公開來源https://appmedia.jp/fategrandorder/78312266明確說巨臂為本人、侍從人偶另有身分；不誤貼人偶。私有白名單只加此明確來源，原圖逐一目視。FGO最終114圖項／111不同既有節點／106原圖、23頁；神話故事／親子婚姻／座標／首頁UI均未改。

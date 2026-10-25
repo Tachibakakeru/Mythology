@@ -294,7 +294,7 @@ try {
     try{
       YOKAI_EDITS_LIVE[id]={...oldRec,images:[...(oldRec?.images||[]),{src:entries[0][1],caption:'既有史料測試圖',source:'https://example.com/historical-source'}]};
       openYPanel(id);const figs=document.getElementById('yp-figs');
-      preserved=figs.querySelectorAll('figure').length===(oldRec?.images?.length||0)+2&&!!figs.querySelector('a[href="https://example.com/historical-source"]')&&!!document.querySelector('#yp-sources a');
+      preserved=figs.querySelectorAll('figure:not([data-fgo])').length===(oldRec?.images?.length||0)+2&&!!figs.querySelector('a[href="https://example.com/historical-source"]')&&!!document.querySelector('#yp-sources a');
       toggleJapanLocale();ja=figs.querySelector('figcaption').textContent==='オリジナルノードイラスト・史料図像ではありません';
       const name=yokais[id].name;try{yokais[id].name='引用名" data-break="1"><b>文字</b>&';openYPanel(id);const im=figs.querySelector('img');escaped=im.alt===yokais[id].name+JP_UI.ja.portraitAlt&&!im.hasAttribute('data-break')&&!figs.querySelector('b');}finally{yokais[id].name=name;openYPanel(id)}
       figs.querySelector('img').click();lightbox=document.getElementById('imgLightbox').classList.contains('open')&&document.querySelector('#imgLightbox div').textContent.includes('古代の史料図像ではありません');
@@ -489,6 +489,8 @@ try {
   const aztecExport=await evaluate(`(async()=>{let saved;const create=URL.createObjectURL,click=HTMLAnchorElement.prototype.click,original=LIVE_EDITS.aztec.az_note;try{LIVE_EDITS.aztec.az_note={name:'匯出驗證 $&'};URL.createObjectURL=blob=>{saved=blob;return 'blob:test';};HTMLAnchorElement.prototype.click=()=>{};await exportHTML();return (await saved.text()).includes('const AZTEC_USER_EDITS = '+JSON.stringify(LIVE_EDITS.aztec)+';');}finally{URL.createObjectURL=create;HTMLAnchorElement.prototype.click=click;if(original)LIVE_EDITS.aztec.az_note=original;else delete LIVE_EDITS.aztec.az_note;}})()`);
   console.log(JSON.stringify({aztecExport},null,2));if(!aztecExport)process.exitCode=1;
   await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  // CDP尺寸回覆不代表響應式樣式已提交；先等實際畫格，再模擬使用者點節點。
+  await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
   // 等面板與畫布實際過渡完成，不以固定1秒假設在大量圖片下已提交；逾時仍保留原幾何斷言。
   const aztecMobile=await evaluate(`(async()=>{clearHighlight();closePanel();fitInitial();const b=wrap.getBoundingClientRect();const allVisible=[...stage.querySelectorAll('.node')].every(el=>{const a=el.getBoundingClientRect();return a.left>=b.left-2&&a.right<=b.right+2&&a.top>=b.top-2&&a.bottom<=b.bottom+2;});focusNode('az_quetzalcoatl');const settleStart=performance.now(),panelEl=document.getElementById('panel');let settled=false;while(performance.now()-settleStart<6000){await new Promise(r=>setTimeout(r,100));settled=new DOMMatrix(getComputedStyle(panelEl).transform).isIdentity&&![...panelEl.getAnimations(),...stage.getAnimations()].some(a=>a.playState==='running');if(settled)break;}const n=stage.querySelector('.node[data-id="az_quetzalcoatl"]').getBoundingClientRect(),p=document.getElementById('panel').getBoundingClientRect();return {settled,settleMs:Math.round(performance.now()-settleStart),allVisible,panelVisible:p.width>0&&p.left>=-2&&p.right<=392,nodeVisible:n.left>=b.left-2&&n.right<=b.right+2&&n.bottom<=p.top+2,sourceLinks:document.querySelectorAll('#p-sources a').length,rects:{panel:{left:p.left,right:p.right,width:p.width,top:p.top},viewport:innerWidth,document:document.documentElement.clientWidth,transform:getComputedStyle(panelEl).transform}};})()`);
   console.log(JSON.stringify({aztecMobile},null,2));
@@ -574,6 +576,10 @@ try {
     await request('Emulation.setDeviceMetricsOverride',{width:1600,height:900,deviceScaleFactor:1,mobile:false});
     await evaluate(`(async()=>{openPantheon('mesopotamia');focusNode('gilgamesh');await document.querySelector('#p-figs img').decode();const p=document.getElementById('panel');for(let i=0;i<60;i++){if(new DOMMatrix(getComputedStyle(p).transform).isIdentity&&![...p.getAnimations(),...stage.getAnimations()].some(a=>a.playState==='running'))break;await new Promise(r=>setTimeout(r,100));}})()`);
     const shot=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.MESO_SCREENSHOT,Buffer.from(shot.data,'base64'));
+    if(process.env.FGO_SCREENSHOT){
+      await evaluate("(async()=>{const im=document.querySelector('#p-figs [data-fgo] img');await im.decode();im.scrollIntoView({block:'center'});})()");
+      const comparison=await request('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});writeFileSync(process.env.FGO_SCREENSHOT,Buffer.from(comparison.data,'base64'));
+    }
     await request('Emulation.clearDeviceMetricsOverride');
   }
   if(process.env.AZTEC_SCREENSHOT){
@@ -654,17 +660,18 @@ try {
     if(previewYokai)break;await new Promise(resolve=>setTimeout(resolve,100));
   }
   console.log(JSON.stringify({previewYokai},null,2));if(!previewYokai)process.exitCode=1;
-  if(process.env.LOCAL_FGO_TEST==='1'){
+  {
+    // 等待真正的新文件，避免把重載前的妖怪卡片誤認為重載完成。
     for(let i=0;i<60;i++){
-      if(await evaluate("!!frame.contentWindow.localFgoPreview"))break;
+      if(await evaluate("frame.contentWindow.location.href===new URL(frame.getAttribute('src'),location.href).href&&typeof frame.contentWindow.appendFgoFigures==='function'&&frame.contentDocument.querySelectorAll('#yokai .ycard').length>0"))break;
       await new Promise(resolve=>setTimeout(resolve,100));
     }
     const localFgo=await evaluate(`(async()=>{
-      const w=frame.contentWindow,d=frame.contentDocument,manifest=await fetch('../private-media/fgo/manifest.json').then(r=>r.json()),failures=[];
+      const w=frame.contentWindow,d=frame.contentDocument,manifest={entries:w.eval('FGO_IMAGES')},failures=[];
       for(const im of manifest.entries){
         const [ns,id]=im.key.split(':');
         if(ns==='yokai'){w.openYokai();w.openYPanel(id);}else{w.openPantheon(ns);w.focusNode(id);}
-        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),image=root.querySelector('[data-fgo="local-only"] img[src="'+im.src+'"]'),fig=image?.closest('figure');
+        const root=d.getElementById(ns==='yokai'?'yp-figs':'p-figs'),image=root.querySelector('[data-fgo="comparison"] img[src="'+im.src+'"]'),fig=image?.closest('figure');
         try{await image.decode();if(!image.naturalWidth)failures.push(im.key+':size');}catch{failures.push(im.key+':image');}
         const count=manifest.entries.filter(e=>e.key===im.key).length,needsOriginal=['japan','yokai','greek','mesopotamia'].includes(ns);
         if(needsOriginal&&!root.querySelector('figure:not([data-fgo]) img'))failures.push(im.key+':original');
@@ -676,16 +683,17 @@ try {
           if(!root.querySelector('[data-fgo]')?.textContent.includes('ゲームの設定'))failures.push(im.key+':ja');
           if(/轉載|遊戲截圖|官方角色介紹/.test(root.querySelector('[data-fgo] a')?.textContent||''))failures.push(im.key+':jaSource');
           w.toggleJapanLocale();
-        }else if(!fig?.textContent.includes('僅本機參考'))failures.push(im.key+':zh');
+        }else if(!fig?.textContent.includes(im.note))failures.push(im.key+':zh');
+        if(/僅本機參考|本機参照のみ/.test(fig?.textContent||''))failures.push(im.key+':localOnlyLabel');
       }
       const exportedSource=await fetch('../index.html').then(r=>r.text());
       let saved,exportedHtml='';const create=w.URL.createObjectURL,click=w.HTMLAnchorElement.prototype.click;
       try{w.URL.createObjectURL=blob=>{saved=blob;return 'blob:fgo-isolation-test'};w.HTMLAnchorElement.prototype.click=()=>{};await w.exportHTML();exportedHtml=await saved.text();}
       finally{w.URL.createObjectURL=create;w.HTMLAnchorElement.prototype.click=click;}
-      const notInExport=[exportedSource,exportedHtml].every(html=>!html.includes('private-media/fgo/')&&!html.includes('data-fgo='));
-      return {count:manifest.entries.length,failures,notInExport};
+      const publishableExport=[exportedSource,exportedHtml].every(html=>html.includes('assets/fgo/catalog.js')&&!html.includes('private-media/fgo/'));
+      return {count:manifest.entries.length,failures,publishableExport};
     })()`);
-    console.log(JSON.stringify({localFgo},null,2));if(localFgo.failures.length||!localFgo.notInExport)process.exitCode=1;
+    console.log(JSON.stringify({localFgo},null,2));if(localFgo.count!==114||localFgo.failures.length||!localFgo.publishableExport)process.exitCode=1;
     await request('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
     const localFgoMobile=await evaluate(`(async()=>{
       const w=frame.contentWindow,d=frame.contentDocument;w.openPantheon('mesopotamia');w.focusNode('gilgamesh');
