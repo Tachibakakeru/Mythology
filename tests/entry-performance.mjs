@@ -43,6 +43,50 @@ try {
   for (let i = 0; i < 100 && await evaluate('typeof openChina') !== 'function'; i++) await new Promise(resolve => setTimeout(resolve, 100));
   if (await evaluate('typeof openChina') !== 'function') throw new Error('Mythology page did not initialize');
   if(pageErrors.length)throw new Error(pageErrors.join('\n'));
+  for(const width of [320,390]){
+    await request('Emulation.setDeviceMetricsOverride',{width,height:700,deviceScaleFactor:1,mobile:true});
+    await request('Page.navigate',{url:'http://127.0.0.1:7788/'});
+    for(let i=0;i<100;i++){
+      if(await evaluate('typeof openHomeSearchResult==="function" && typeof homeSearchInput!=="undefined" && innerWidth==='+width))break;
+      await new Promise(resolve=>setTimeout(resolve,100));
+    }
+    const mobileSearch=await evaluate(`(()=>{
+      const accessible=el=>{
+        const r=el.getBoundingClientRect();
+        return r.width>0 && r.left>=0 && r.right<=innerWidth+1 &&
+          el.contains(document.elementFromPoint(r.left+r.width/2,r.top+r.height/2));
+      };
+      const enter=(q,page)=>{
+        homeSearchInput.value=q;homeSearchInput.dispatchEvent(new Event('input',{bubbles:true}));
+        homeSearchResults.children[homeSearchMatches.findIndex(p=>p.key===page)].click();
+      };
+      const home=accessible(homeSearchInput),lazyYokai=!ycontent.children.length;
+      enter('天照大神','japan');
+      const graph=accessible(searchInput)&&panel.classList.contains('open')&&editingNodeId==='amaterasu'&&!!stage.querySelector('.node.highlight[data-id="amaterasu"]');
+      searchInput.value='天照大神';searchInput.dispatchEvent(new Event('input',{bubbles:true}));
+      const graphResults=accessible(searchResults.querySelector('[data-id="amaterasu"]'));
+      closeJapan();enter('玉藻前','yokai');
+      const yokai=accessible(ysearchInput)&&ypanel.classList.contains('open')&&currentYokaiId==='tamamonomae';
+      ysearchInput.value='玉藻前';ysearchInput.dispatchEvent(new Event('input',{bubbles:true}));
+      const yokaiResults=accessible(yresults.querySelector('[data-id="tamamonomae"]'));
+      closeYokai();enter('俄賽里斯','egypt');
+      const egyptHome=currentPantheon==='egypt'&&editingNodeId==='osiris'&&panel.classList.contains('open');
+      const egyptVariants=[
+        ['奥西里斯','osiris'],['奧塞里斯','osiris'],['安努比斯','anubis'],['芭絲特','bastet'],
+        ['塞赫邁特','sekhmet'],['Sakhmet','sekhmet'],['透特','thoth'],['亞圖姆','atum'],
+        ['老荷魯斯','horus_elder'],['霍鲁斯','horus'],['Hehet','hauhet']
+      ].every(([query,id])=>matchNodes(query)[0]?.id===id);
+      return {home,lazyYokai,graph,graphResults,yokai,yokaiResults,egyptHome,egyptVariants};
+    })()`);
+    console.log(JSON.stringify({width,mobileSearch}));
+    if(Object.values(mobileSearch).some(v=>!v))process.exitCode=1;
+  }
+  await request('Emulation.clearDeviceMetricsOverride');
+  await request('Page.navigate',{url:'http://127.0.0.1:7788/'});
+  for(let i=0;i<100;i++){
+    if(await evaluate('typeof homeSearchInput!=="undefined" && !matchMedia("(max-width:700px)").matches'))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
   const aliasSearch=await evaluate(`(()=>{
     homeSearchPages=buildHomeSearchPages();
     const failures=[];let identities=0,aliases=0,targets=0;

@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap">
+<link rel="stylesheet" media="(min-width: 701px)" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap">
 <style>
   :root{
     --bg:#0a0f1c; --bg2:#111826; --card:#182035; --accent:#5ab4ff;
@@ -538,13 +538,29 @@
     #searchBox,#ysearchBox{max-width:280px;}
   }
   @media (max-width:700px){
-    #topbar,#ytopbar{height:62px;padding:0 10px;gap:8px;scroll-snap-type:x proximity;}
-    #topbar>* ,#ytopbar>*{scroll-snap-align:start;}
-    #topbar h2,#ytopbar h2{font-size:.86em;}
-    #backBtn,#yBackBtn,#toYokaiBtn,#toMythBtn,#toDemonBtn,#jpLangBtn,#yLangBtn,#resetBtn,#yResetBtn,#favFilterBtn{padding:7px 10px;}
-    #canvasWrap,#ycanvasWrap{top:62px;}
+    :root{--mobile-toolbar:142px;}
+    body{font-family:system-ui,sans-serif;}
+    #home{min-height:100svh;justify-content:flex-start;gap:16px;padding:48px 14px 24px;text-align:center;}
+    #wheelStage{height:clamp(225px,43svh,290px);}
+    #wheel{height:clamp(190px,36svh,245px);}
+    .myth-icon,.myth-icon.front,.myth-icon.front:hover:not(.disabled){box-shadow:none;}
+    .myth-icon:not(.front),.myth-icon .glyph,.myth-icon.disabled .glyph{filter:none;}
+    .myth-icon{transition:opacity .25s;}
+    #topbar,#ytopbar{height:var(--mobile-toolbar);padding:5px 8px;gap:4px;flex-wrap:wrap;align-content:space-between;overflow:visible;}
+    #topbar h2,#ytopbar h2{font-size:.9em;flex:1 1 calc(100% - 76px);min-width:0;overflow:hidden;text-overflow:ellipsis;}
+    #topbar button,#ytopbar button{white-space:nowrap;font-size:12px;padding:4px 5px;}
+    #topbar > button,#ytopbar > button,.groupPickerBtn{min-height:34px;}
+    #searchBox,#ysearchBox{order:1;flex:0 0 100%;max-width:none;}
+    #homeSearchInput,#searchInput,#ysearchInput{font-size:16px;}
+    #searchResults,#yresults,#homeSearchResults{max-height:min(280px,38dvh);}
+    #topbar .groupPickerWrap,#ytopbar .groupPickerWrap{position:static;}
+    #topbar .groupPickerList,#ytopbar .groupPickerList{top:100%;right:8px;max-height:min(320px,55dvh);}
+    #topbar,#ytopbar,#searchResults,#yresults,.groupPickerList,#regionFilterList,#zoomCtrl,#yzoomCtrl{backdrop-filter:none;}
+    #japan #stage.overview .node.has-portrait::after{content:attr(data-avatar);background-image:none;box-shadow:none;}
+    #japan .node.key:not(.highlight){box-shadow:none;}
+    #canvasWrap,#ycanvasWrap{top:var(--mobile-toolbar);}
     #panel,#ypanel{
-      top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;height:72dvh;max-height:80dvh;
+      top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;height:55dvh;max-height:max(90px,calc(100dvh - var(--mobile-toolbar) - 80px));
       border-left:none;border-top:1px solid var(--line);border-radius:20px 20px 0 0;
       padding:22px 18px 30px;transform:translateY(100%);
       background:linear-gradient(160deg,color-mix(in srgb,var(--card) 94%,#174777 6%),var(--card));
@@ -3346,6 +3362,10 @@ const EG_UNIONS = [
 const EG_NODE_NAMES = {
   nun:{kojiki:"Nnw / Nwn",nihonshoki:"Nun／Nu",reading:"Nu",aliases:["努","原初之水","混沌汪洋"],shrine:"赫爾莫波利斯"},
   naunet:{kojiki:"Nnwt",nihonshoki:"Naunet",reading:"Naunet",aliases:["娜烏內特","原初之水的陰面"],shrine:"赫爾莫波利斯"},
+  heh:{aliases:[]},
+  hauhet:{aliases:[]},
+  kek:{aliases:[]},
+  kauket:{aliases:[]},
   amaunet:{kojiki:"Imnt",nihonshoki:"Amaunet",reading:"Amunet",aliases:["阿蒙內特","隱藏者的陰面"],shrine:"卡奈克"},
   ra:{kojiki:"Rꜥ",nihonshoki:"Ra／Re／Helios",reading:"Ra",aliases:["拉神","瑞","阿圖姆-拉","阿蒙-拉","太陽神"],shrine:"赫利奧波利斯"},
   khepri:{kojiki:"Ḫprj",nihonshoki:"Khepri",reading:"Kheper",aliases:["赫普利","聖甲蟲","朝陽","凱普拉"],shrine:"赫利奧波利斯"},
@@ -11804,6 +11824,65 @@ for(const [key,book] of Object.entries(LEGENDS)){
 
 /* ============ 已核對的異名：保留版本人物，不以音近自動合併 ============ */
 const SEARCH_ALIAS_ADDITIONS={
+  egypt:{
+    nun:['努恩神','Nu','Noun'],
+    naunet:['娜乌涅特','諾涅特','Nunet','Naunet'],
+    heh:['赫赫','赫赫神','Heh','Huh'],
+    hauhet:['豪赫特','Hehet','Hauhet'],
+    kek:['庫克','库克','Kek','Kuk'],
+    kauket:['凱凱特','凯凯特','Keket','Kauket'],
+    amaunet:['阿穆涅特','阿蒙内特','Amunet','Amonet'],
+    ra:['拉（太陽神）','太阳神拉','Re','Rê'],
+    khepri:['凱普里','凯普里','赫普里','赫卜利','Khepra','Kheper'],
+    aten:['阿顿','阿通','阿騰','Aton'],
+    bennu:['本努鳥','贝努鸟','本努鸟','Benu'],
+    apep:['阿波菲斯','阿波皮斯','阿波斐斯','阿佩皮','Apophis','Apepi','Apopis'],
+    atum:['阿图姆','亞圖姆','亚图姆','阿圖姆神','Atem','Temu'],
+    shu:['舒神','休神','Shou'],
+    tefnut:['泰芙努特','泰夫努特','特夫努特','泰芙努蒂','Tefnet'],
+    geb:['盖布','蓋布神','格布','賽布','塞布','Seb','Keb'],
+    nut:['努特神','努忒','努特女神','Nuit'],
+    osiris:['奥西里斯','欧西里斯','奧塞里斯','奥塞里斯','俄賽里斯','俄赛里斯','奧西利斯','歐西利斯','Usir','Wesir','Ausar','Asar'],
+    isis:['伊瑟斯','艾西斯','艾希斯','伊希斯','伊西絲','伊西丝','Isis','Aset','Iset'],
+    set:['赛特','塞特神','塞斯','蘇特克','苏特克','Seth','Setesh','Sutekh','Sutech'],
+    nephthys:['涅芙蒂斯','奈夫蒂斯','奈芙西斯','奈弗蒂斯','奈貝特·胡特','Nebet-Hut','Nebet-Het'],
+    horus_elder:['大荷鲁斯','老荷魯斯','年長荷魯斯','老荷鲁斯','哈羅里斯','Haroeris','Harwer'],
+    horus:['荷鲁斯','霍鲁斯','赫魯斯','赫鲁斯','豪魯斯','霍爾斯','霍尔斯','Horos','Heru','Hor'],
+    anubis:['安努比斯','阿努畢斯','阿努毕斯','阿努布斯','Anoubis','Anpu','Inpu','Yinepu'],
+    hathor:['哈托尔','哈索尔','哈瑟爾','哈特霍爾','哈特霍尔','哈托赫','Het-Heru','Hethert'],
+    ihy:['伊赫伊','伊赫','Ihi','Ahy'],
+    thoth:['圖特','托特赫','透特','圖托','图特','透特神','Djehuti','Djehuty','Tehuti','Tahuti','Djehouty'],
+    maat:['玛亚特','玛特','瑪雅特','瑪阿特','馬阿特','马阿特','Ma’at','Maʽat'],
+    seshat:['賽莎特','赛莎特','塞沙特','塞什特','Seshata','Seshet'],
+    ptah:['普塔赫','卜塔赫','帕塔赫','普塔神','布塔','Ptah'],
+    sekhmet:['塞赫邁特','塞赫迈特','塞赫麦特','塞赫梅特','塞克麥特','塞克麦特','賽赫麥特','薩赫麥特','Sakhmet','Sekhet','Sachmet','Sachmis'],
+    nefertum:['奈斐尔图姆','內弗爾圖姆','内弗尔图姆','奈費爾圖姆','奈菲爾圖姆','Nefertem','Nefer-tem'],
+    imhotep:['印和阗','印荷闐','英霍特普','伊姆荷泰普','伊姆赫特普','Imouthes'],
+    bastet:['芭絲特','芭丝特','貝絲特','贝斯特','巴絲特','巴丝特','巴斯泰特','貝斯泰特','芭絲蒂特','Bast','Bastit'],
+    amun:['阿孟','阿門神','阿門','阿蒙神','Amon','Ammon','Amen'],
+    mut:['姆特','穆忒','Mout'],
+    khonsu:['孔苏','洪苏','康蘇','康苏','霍恩蘇','洪斯','Khons','Chons','Khonsou','Khensu'],
+    montu:['蒙图','門圖','门图','蒙特','蒙蘇','Monthu','Mentu','Month','Mont'],
+    khnum:['赫努姆','庫努姆','库努姆','克罕姆','Chnum','Khnemu','Knum'],
+    satis:['萨蒂斯','薩提斯','萨提斯','薩特','萨泰特','Satet','Sati'],
+    anuket:['阿努凯特','阿努姬特','安努凱特','阿努基斯','Anukis','Anqet'],
+    neith:['奈特神','涅伊特','內特','内特','Neit','Nit'],
+    heket:['赫凯特','赫奎特','海奎特','赫格特','Heqet','Hekat'],
+    serqet:['塞尔凯特','塞爾克特','賽爾凱特','塞爾吉特','塞爾奎特','Selket','Selkis','Serket'],
+    taweret:['塔沃麗特','塔沃丽特','塔沃雷特','塔韋雷特','塔威雷特','塔威蕾特','Tawret','Taurt','Thoeris','Thoueris'],
+    bes:['贝斯','貝士','比斯','Bès','Bisu'],
+    min:['米恩神','Menu'],
+    sobek:['索贝克','索布克','蘇貝克','苏贝克','塞貝克','塞贝克','Sebek','Suchos','Suchus'],
+    wadjet:['烏加特女神','乌加特女神','瓦傑特','瓦杰特','瓦潔特','瓦吉特','烏托','Udjat','Uadjet','Uto','Buto'],
+    nekhbet:['奈赫贝特','涅赫貝特','內赫貝特','尼赫貝特','Nekhebet','Nekhebit'],
+    wepwawet:['韦普瓦韦特','烏普瓦烏特','韋普瓦烏特','烏普瓦特','Upuaut','Wepwawet','Ophois'],
+    renenutet:['瑞内努忒特','雷內努特','雷涅努特','雷嫩努泰特','Renenet','Renenutet','Thermouthis'],
+    heka:['赫加','海卡','Hekau','Heka'],
+    shai:['沙伊神','沙依','Shay','Sai','Psais'],
+    meskhenet:['梅斯赫奈特','梅斯肯特','梅斯凱奈特','Meskhenet','Meshkenet'],
+    ammit:['阿穆特','阿姆特','阿米特','阿米特神','Ammut','Amut','Ahemait'],
+    apis:['阿庇斯','阿皮斯','阿比斯','哈皮斯','Hapis']
+  },
   beowulf:{bw_sigemund:['西格蒙德','齊格蒙德','Sigemund','Sigmund'],bw_beowulf:['貝奧武甫'],bw_grendel:['格蘭德爾','格倫戴爾']},
   nibelungen:{nb_siegfried:['齊格菲','齊格弗里德','西格弗里德'],nb_siegmund:['西格蒙德','Siegmund']},
   norse:{sigurd:['西格魯德','齊格魯德','希格爾德'],sigmund:['Sigmund']},
@@ -11859,6 +11938,18 @@ const SEARCH_ALIAS_SOURCES={
 };
 const BUDDHIST_ALIAS_AUTHORITIES={siddhartha:'A002799',sariputra:'A002402',maudgalyayana:'A000053',ananda:'A003861',mahakasyapa:'A002188',rahula:'A006022',upali:'A003353',anuruddha:'A005158',avalokiteshvara:'A002803'};
 function aliasSourceLinks(key,id){
+  if(key==='egypt'){
+    const sources={
+      osiris:['故宮：俄賽里斯（Osiris）','https://www.npm.gov.tw/NewChineseArtDownload.ashx?bid=3084'],
+      atum:['奇美博物館：亞圖姆','https://www.chimeimuseum.org/special-exhibition/68a68f0a422a6/694755b7c8a3b'],
+      ra:['大都會藝術博物館：Re','https://www.metmuseum.org/exhibitions/divine-egypt/inside-the-exhibition'],
+      bastet:['香港故宮：芭絲特','https://www.hkpm.org.hk/tc/about/press-release/hong-kong-palace-museum-and-the-supreme-council-of-antiquities-of-egypt-sign-exhibition-agreement-to-co-organise-the-special-exhibition-ancient-egypt-unveiled-treasures-from-egyptian-museums-in-november-2025'],
+      ammit:['大英博物館：Amut','https://www.britishmuseum.org/sites/default/files/2019-09/Visit_Egypt_Daily_Life_KS2.pdf']
+    };
+    const source=sources[id]||(['nun','naunet','heh','hauhet','kek','kauket','amaunet'].includes(id)
+      ?['倫敦大學學院：原初神的拼法','https://www.ucl.ac.uk/museums-static/digitalegypt/religion/deitiescreation.html']:null);
+    return source?`<a href="${esc(source[1])}" target="_blank" rel="noopener noreferrer">異名核對：${esc(source[0])}</a>`:'';
+  }
   if(key==='buddhism'&&BUDDHIST_ALIAS_AUTHORITIES[id])return `<a href="https://authority.dila.edu.tw/person/search.php?aid=${BUDDHIST_ALIAS_AUTHORITIES[id]}" target="_blank" rel="noopener noreferrer">異名核對：法鼓人名規範資料庫</a>`;
   if(key==='india'&&['krishna','parvati','lakshmi'].includes(id)){
     const url=id==='parvati'?'https://searchcollection.asianart.org/objects/11234/the-hindu-deity-parvati':'https://searchcollection.asianart.org/objects/19307/the-hindu-deity-lakshmi-with-elephants-front-the-hindu-de';
@@ -13900,6 +13991,7 @@ function cullGraph(keepOld=false){
 }
 function applyTransform(){
   clampGraphView();
+  stage.classList.toggle('overview',scale<.5);
   cullGraph(stage.classList.contains('smooth'));
   stage.style.transform = `translate(${snapToDevicePixel(tx)}px,${snapToDevicePixel(ty)}px) scale(${scale})`;
 }
@@ -14414,7 +14506,7 @@ stage.addEventListener('click', e=>{
   highlightUnion(uid);
 });
 
-function focusNode(id){
+function focusNode(id, smooth=true){
   const n = nodes[id];
   if(!n) return;
   clearHighlight();
@@ -14422,7 +14514,7 @@ function focusNode(id){
   const div = document.querySelector(`.node[data-id="${id}"]`);
   if(div) div.classList.add('highlight');
   const rect = wrap.getBoundingClientRect();
-  setSmooth(true);
+  setSmooth(smooth && !matchMedia('(max-width:700px)').matches);
   openPanel(n);
   const {width:usableW,height:usableH} = usableGraphSize(rect);
   scale = Math.min(1.6, Math.max(scale, 1.3), Math.max(24,usableW-24)/NODE_W, Math.max(24,usableH-24)/(n.h||NODE_H));
@@ -14516,6 +14608,7 @@ searchResults.addEventListener('click', e=>{
   e.stopPropagation(); // 搜尋結果開啟面板後，避免冒泡到全頁點擊監聽器而立刻關閉
   if(row.dataset.gi !== undefined) highlightGroup(parseInt(row.dataset.gi));
   else focusNode(row.dataset.id);
+  if(matchMedia('(max-width:700px)').matches) searchInput.blur();
   searchResults.style.display='none';
   searchFocusIdx = -1;
   // text stays in input intentionally
@@ -14600,11 +14693,16 @@ function openPantheon(key){
   document.getElementById('yokai').style.display='none';
   const japanEl = document.getElementById('japan');
   japanEl.dataset.pantheon=key;
-  if(fromHome){ japanEl.style.display='block'; japanEl.style.opacity='0'; }
+  const animate=fromHome&&!matchMedia('(max-width:700px)').matches;
+  if(animate){ japanEl.style.display='block'; japanEl.style.opacity='0'; }
   else showViewImmediately(japanEl);
-  if(key !== currentPantheon || !Object.keys(nodes).length) loadPantheon(key);
+  if(key !== currentPantheon || !Object.keys(nodes).length){
+    stage.classList.add('overview');
+    loadPantheon(key);
+  }
   fitInitial();
-  if(fromHome) animateViewIn(japanEl,()=>{ homeEl.style.display='none'; });
+  if(animate) animateViewIn(japanEl,()=>{ homeEl.style.display='none'; });
+  else homeEl.style.display='none';
   localStorage.setItem('mythCurrentPage', key);
 }
 function openJapan(){ openPantheon('japan'); }
@@ -15166,8 +15264,6 @@ function renderYokai(){
     el.addEventListener('click', ()=>{ openYPanel(el.dataset.id); yFocusEl(el); });
   });
 }
-renderYokai();
-
 const ypanel = document.getElementById('ypanel');
 function openYPanel(id){
   const y = yokais[id];
@@ -15319,6 +15415,7 @@ function ySelectResultRow(row){
   const el = document.querySelector(`.ycard[data-id="${row.dataset.id}"]`);
   openYPanel(row.dataset.id);
   yFocusEl(el);
+  if(yIsMobile())ysearchInput.blur();
   yresults.style.display='none';
   ysearchFocusIdx = -1;
 }
@@ -15480,7 +15577,7 @@ function wheelRender(){
   const front = ((wheelIndex % WHEEL_N) + WHEEL_N) % WHEEL_N;
   wheelCards.forEach((c,i)=>c.classList.toggle('front', i === front));
   [...wheelDots.children].forEach((d,i)=>d.classList.toggle('on', i === front));
-  if(!chinaFontPreloadStarted && document.fonts && [-1,0,1].some(d=>wheelCards[(front+d+WHEEL_N)%WHEEL_N]?.getAttribute('onclick')==='openChina()')){
+  if(!chinaFontPreloadStarted && document.fonts && !matchMedia('(max-width:700px)').matches && [-1,0,1].some(d=>wheelCards[(front+d+WHEEL_N)%WHEEL_N]?.getAttribute('onclick')==='openChina()')){
     chinaFontPreloadStarted=true;
     document.fonts.load('700 14px "Noto Serif TC"',CN_NODE_DEFS.map(d=>d[1]+d[2]+d[3]).join('')).catch(()=>{});
   }
@@ -15773,14 +15870,18 @@ function renderHomeSearch(){
     if(!page.terms.includes(q)&&!direct.length&&!mentions.length)return [];
     const labels=[...new Set((direct.length?direct:mentions).map(r=>r.label))].slice(0,3);
     const exact=normalizePageSearch(page.title.slice(page.title.indexOf(' ')+1))===q||normalizePageSearch(page.card.querySelector('.label').textContent)===q;
-    return [{...page,detail:labels.length?(direct.length?'符合：':'內容提及：')+labels.join('、'):page.card.querySelector('.sub').textContent,rank:exact?2:direct.length?1:0}];
+    const target=exact?null:(direct.length?direct:mentions).reduce((best,record)=>{
+      const rank=searchRecordRank(record,q);
+      return !best||rank>searchRecordRank(best,q)?record:best;
+    },null);
+    return [{...page,target,detail:target?(direct.length?'符合：':'內容提及：')+[...new Set([target.label,...labels])].slice(0,3).join('、'):page.card.querySelector('.sub').textContent,rank:exact?6:target?searchRecordRank(target,q):0}];
   }).sort((a,b)=>b.rank-a.rank);
   homeSearchResults.replaceChildren();
   homeSearchMatches.forEach((page,i)=>{
     const button=document.createElement('button');button.type='button';button.className='home-search-result';button.id='home-result-'+i;button.setAttribute('role','option');button.setAttribute('aria-selected','false');
     button.textContent=page.title;
     const sub=document.createElement('small');sub.textContent=page.detail+(page.card.classList.contains('region-hidden')?'（此地區目前隱藏，仍可直接開啟）':'');button.appendChild(sub);
-    button.addEventListener('click',()=>openHomeSearchResult(i));homeSearchResults.appendChild(button);
+    button.addEventListener('click',e=>{e.stopPropagation();openHomeSearchResult(i);});homeSearchResults.appendChild(button);
   });
   if(!homeSearchMatches.length){const empty=document.createElement('div');empty.className='home-search-empty';empty.textContent='找不到符合的頁面，請試其他人物、故事、物件或地點名稱。';homeSearchResults.appendChild(empty);}
   homeSearchResults.hidden=false;homeSearchInput.setAttribute('aria-expanded','true');homeSearchInput.removeAttribute('aria-activedescendant');
@@ -15788,8 +15889,22 @@ function renderHomeSearch(){
 function openHomeSearchResult(i){
   const page=homeSearchMatches[i];if(!page)return;
   closeHomeSearch();closeRegionFilter();
+  homeSearchInput.blur();
   const wheelPosition=wheelCards.indexOf(page.card);if(wheelPosition>=0)wheelGoTo(wheelPosition);
-  if(page.key==='yokai')openYokai();else openPantheon(page.key);
+  const target=page.target,id=target?.nodeIds[0];
+  if(page.key==='yokai'){
+    openYokai();
+    if(target?.groupIndex!=null)yFocusGroup(target.groupIndex);
+    else if(id){
+      if(SHOW_FAV_ONLY&&!YOKAI_FAVORITES[id])toggleFavFilter();
+      const card=ycontent.querySelector(`.ycard[data-id="${id}"]`);
+      if(card){openYPanel(id);yFocusEl(card);}
+    }
+  }else{
+    openPantheon(page.key);
+    if(target?.groupIndex!=null)highlightGroup(target.groupIndex);
+    else if(id)focusNode(id,false);
+  }
 }
 homeSearchInput.addEventListener('input',renderHomeSearch);
 homeSearchInput.addEventListener('focus',()=>{homeSearchPages=null;if(homeSearchInput.value.trim())renderHomeSearch();});
@@ -15822,7 +15937,11 @@ function toggleTheme(){
 /* ============ 重整頁面後停留在原本的頁面 ============ */
 // 首頁不預先建立 262 個日本節點；首次進入任一體系時才載入，避免首頁初始化卡頓。
 // 網頁字型在圖譜開啟後才完成時，再依最終字高重畫一次。
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ if(Object.keys(nodes).length) renderGraph(); });
+if(document.fonts && document.fonts.ready && !matchMedia('(max-width:700px)').matches) document.fonts.ready.then(()=>{
+  if(!Object.keys(nodes).length)return;
+  renderGraph();
+  if(panel.classList.contains('open')&&editingNodeId)focusNode(editingNodeId,false);
+});
 
 // 每次開啟網站一律回到首頁（不還原上次瀏覽的頁面）
 </script>
