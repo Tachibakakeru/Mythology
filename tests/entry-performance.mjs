@@ -80,6 +80,63 @@ try {
     })()`);
     console.log(JSON.stringify({width,mobileSearch}));
     if(Object.values(mobileSearch).some(v=>!v))process.exitCode=1;
+    if(width===390){
+      await request('Emulation.setTouchEmulationEnabled',{enabled:true});
+      const sheetState=selector=>evaluate(`(()=>{
+        const sheet=document.querySelector('${selector}'), grip=sheet.firstElementChild;
+        const r=grip.getBoundingClientRect();
+        return {x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2),visible:Math.round(innerHeight-sheet.getBoundingClientRect().top),
+          expanded:grip.getAttribute('aria-expanded')==='true',open:sheet.classList.contains('open'),scroll:sheet.scrollTop,
+          graph:[tx,ty,scale],id:sheet===panel?editingNodeId:currentYokaiId};
+      })()`);
+      const waitSheet=async selector=>{
+        for(let i=0;i<80;i++){
+          const ready=await evaluate(`(()=>{const s=document.querySelector('${selector}'); return s.classList.contains('open') && !s.getAnimations().length;})()`);
+          if(ready)return sheetState(selector);
+          await new Promise(resolve=>setTimeout(resolve,25));
+        }
+        throw new Error('Mobile detail sheet did not settle');
+      };
+      const swipe=async ({x,y},dy)=>{
+        for(const [type,touchPoints] of [['touchStart',[{x,y}]],['touchMove',[{x,y:y+dy/2}]],['touchMove',[{x,y:y+dy}]],['touchEnd',[]]]){
+          await request('Input.dispatchTouchEvent',{type,touchPoints});
+        }
+      };
+      await waitSheet('#panel');
+      await evaluate('panel.scrollTop=50');
+      const start=await sheetState('#panel');
+      await swipe(start,110);
+      const collapsed=await waitSheet('#panel');
+      const usable=await evaluate('wrap.clientHeight-usableGraphSize(wrap.getBoundingClientRect()).height');
+      await evaluate('wrap.click()');
+      const afterCanvas=await sheetState('#panel');
+      await swipe(afterCanvas,-110);
+      const restored=await waitSheet('#panel');
+      await evaluate("panel.firstElementChild.click(); focusNode('set',false)");
+      const newNode=await waitSheet('#panel');
+      if(process.env.MOBILE_SHEET_SCREENSHOT){
+        await evaluate('panel.firstElementChild.click()');
+        await waitSheet('#panel');
+        const shot=await request('Page.captureScreenshot',{format:'jpeg',captureBeyondViewport:false});
+        writeFileSync(process.env.MOBILE_SHEET_SCREENSHOT,Buffer.from(shot.data,'base64'));
+      }
+      await evaluate("closeJapan();openYokai();openYPanel('tamamonomae')");
+      const yokaiStart=await waitSheet('#ypanel');
+      await swipe(yokaiStart,110);
+      const yokaiCollapsed=await waitSheet('#ypanel');
+      await evaluate("document.getElementById('ycanvasWrap').click(); ypanel.firstElementChild.click()");
+      const yokaiRestored=await waitSheet('#ypanel');
+      const sheetChecks={
+        collapsed:!collapsed.expanded && collapsed.open && collapsed.visible===44 && usable===44,
+        retained:afterCanvas.open && afterCanvas.id==='osiris' && String(start.graph)===String(afterCanvas.graph),
+        restored:restored.expanded && restored.id==='osiris' && restored.visible===start.visible && start.scroll>0 && restored.scroll===start.scroll,
+        newNode:newNode.expanded && newNode.id==='set',
+        yokai:!yokaiCollapsed.expanded && yokaiCollapsed.visible===44 && yokaiRestored.expanded && yokaiRestored.id==='tamamonomae'
+      };
+      console.log(JSON.stringify({width,sheetChecks}));
+      if(Object.values(sheetChecks).some(v=>!v))process.exitCode=1;
+      await request('Emulation.setTouchEmulationEnabled',{enabled:false});
+    }
   }
   await request('Emulation.clearDeviceMetricsOverride');
   await request('Page.navigate',{url:'http://127.0.0.1:7788/'});

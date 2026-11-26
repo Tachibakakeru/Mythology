@@ -202,6 +202,8 @@ const PANTHEONS = {
 
 ### 圖譜工具列
 
+- 手機詳情面板（700px 以下）共用 `.p-sheet-grip`，用拖曳或點按在展開與底部 44px 把手間切換。收起須保留目前節點、相機與詳情捲動位置，且允許操作畫布；點選新節點仍開啟詳情。`usableGraphSize()` 在收起時只扣把手高度，桌機仍走側欄。拖曳只移動面板的 `transform`，不重繪圖譜；驗證使用 `node tests/entry-performance.mjs` 的手機觸控案例。
+
 - `#backBtn`／`#yBackBtn` 與同層頁面切換按鈕（`#toYokaiBtn`／`#toMythBtn`／`#toDemonBtn`）必須使用 `var(--accent)`，與頁面標題的藍色字體一致；此為共用 CSS，修改時需檢查所有體系。
 - 圖譜／妖怪頁採共用的互動式藍色 UI 層：深藍格線畫布、半透明控制列、帶景深回饋的卡片、玻璃感詳情抽屜與藍色浮動縮放控制。首頁的 3D 轉盤機制與卡牌排列方式不得因這層改造而替換。
 - `#stage`／`#ystage` 的平移須保留裝置像素對齊的 CSS transform，不可常駐強制 GPU 圖層而讓字體模糊；雙擊空白畫布會平滑以游標位置放大，節點與關係標籤的雙擊不得觸發此行為。必須尊重 `prefers-reduced-motion`。

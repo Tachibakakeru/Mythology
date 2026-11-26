@@ -250,6 +250,7 @@
   #panel .p-groups span,#ypanel .p-groups span{font-size:.7em;color:var(--dim);border:1px solid var(--line);padding:3px 9px;border-radius:10px;}
   #panel .p-close,#ypanel .p-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:1.3em;cursor:pointer;}
   #panel .p-close:hover,#ypanel .p-close:hover{color:var(--accent);}
+  .p-sheet-grip{display:none;}
   .pe-sep{margin:16px 0;border:none;border-top:1px solid var(--line);}
   .pe-label{font-size:.72em;color:var(--dim);margin:9px 0 3px;}
   .pe-inp{width:100%;background:#11142280;border:1px solid var(--line);border-radius:6px;color:var(--text);padding:6px 8px;font-size:.88em;box-sizing:border-box;font-family:inherit;}
@@ -390,7 +391,6 @@
       border-radius:18px 18px 0 0;
       transform:translateY(100%);
     }
-    #panel.open,#ypanel.open{transform:translate3d(0,0,0)!important;}
 
     /* 妖怪圖鑑：整頁改為原生上下捲動，各分類改為左右滑動一列 */
     #ycanvasWrap{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
@@ -562,12 +562,25 @@
     #panel,#ypanel{
       top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;height:55dvh;max-height:max(90px,calc(100dvh - var(--mobile-toolbar) - 80px));
       border-left:none;border-top:1px solid var(--line);border-radius:20px 20px 0 0;
-      padding:22px 18px 30px;transform:translateY(100%);
+      padding:0 18px 30px;transform:translateY(100%);
       background:linear-gradient(160deg,color-mix(in srgb,var(--card) 94%,#174777 6%),var(--card));
     }
-    #panel.open,#ypanel.open{transform:translateY(0);}
-    #panel::before,#ypanel::before{left:22%;right:22%;border-radius:999px;}
+    #panel.open,#ypanel.open{transform:translateY(var(--sheet-offset,0px));}
+    #panel::before,#ypanel::before{display:none;}
+    #panel .p-close,#ypanel .p-close{top:42px;}
+    .p-sheet-grip{
+      display:grid;place-items:center;position:sticky;top:0;z-index:1;visibility:hidden;
+      width:100%;height:44px;padding:0;border:0;border-radius:12px;
+      background:var(--card);color:var(--dim);cursor:grab;touch-action:none;user-select:none;
+    }
+    .open>.p-sheet-grip{visibility:visible;}
+    .p-sheet-grip::before{content:"";width:44px;height:5px;border-radius:6px;background:currentColor;}
+    .p-sheet-grip:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;}
+    #panel.sheet-dragging,#ypanel.sheet-dragging{transition:none!important;}
+    .sheet-collapsed{--sheet-offset:calc(100% - 44px);}
+    .sheet-collapsed:not(.sheet-dragging)>:not(.p-sheet-grip){visibility:hidden;}
     #zoomCtrl,#yzoomCtrl{right:12px;bottom:12px;padding:5px;border-radius:14px;}
+    .sheet-collapsed.open+#zoomCtrl,.sheet-collapsed.open+#yzoomCtrl{bottom:56px;}
     .ygroup{padding:12px;margin-bottom:18px;}
   }
   @media (prefers-reduced-motion:reduce){
@@ -732,6 +745,7 @@
     </div>
   </div>
   <div id="panel">
+    <button type="button" class="p-sheet-grip" aria-label="收起節點說明" aria-expanded="true"></button>
     <button class="p-close" onclick="closePanelAndReset()">✕</button>
     <div class="p-name" id="p-name"></div>
     <div class="p-kana" id="p-kana"></div>
@@ -800,6 +814,7 @@
     </div>
   </div>
   <div id="ypanel">
+    <button type="button" class="p-sheet-grip" aria-label="收起節點說明" aria-expanded="true"></button>
     <button class="p-close" onclick="closeYPanelAndReset()">✕</button>
     <div class="p-name" id="yp-name"></div>
     <div class="p-kana" id="yp-kana"></div>
@@ -13958,7 +13973,8 @@ function setSmooth(on){ stage.classList.toggle('smooth', on); }
 // 桌面扣除側欄寬，手機扣除底部抽屜高；三種定位共用同一可見區域。
 function usableGraphSize(r){
   const p = panel.classList.contains('open') ? panel.getBoundingClientRect() : null;
-  return {width:r.width-(p&&innerWidth>700?p.width:0),height:r.height-(p&&innerWidth<=700?p.height:0)};
+  const mobileHeight = p && innerWidth<=700 ? (panel.classList.contains('sheet-collapsed') ? panel.firstElementChild.offsetHeight : p.height) : 0;
+  return {width:r.width-(p&&innerWidth>700?p.width:0),height:r.height-mobileHeight};
 }
 // 所有神話系譜共用：內容較小時固定置中；放大後保留 40px 邊緣，不可拖到無限空白區
 function clampGraphView(){
@@ -14221,7 +14237,17 @@ document.addEventListener('keydown', e=>{
 /* ============ 詳情面板（右側） ============ */
 const panel = document.getElementById('panel');
 let editingNodeId = null;
+function setSheetCollapsed(sheet, collapsed){
+  sheet.classList.toggle('sheet-collapsed',collapsed);
+  const grip = sheet.firstElementChild;
+  const japanese = japanLocale==='ja' && (sheet.id==='ypanel' || currentPantheon==='japan');
+  grip.setAttribute('aria-expanded',String(!collapsed));
+  grip.setAttribute('aria-label',japanese
+    ? (collapsed ? '詳細を開く' : '詳細を折りたたむ')
+    : (collapsed ? '展開節點說明' : '收起節點說明'));
+}
 function openPanel(n){
+  setSheetCollapsed(panel,false);
   editingNodeId = n.id;
   document.getElementById('p-name').textContent = n.name;
   document.getElementById('p-kana').textContent = localNodeKana(n);
@@ -14262,7 +14288,7 @@ function openPanel(n){
   panel.classList.add('open');
 }
 function closePanel(){
-  panel.classList.remove('open');
+  panel.classList.remove('open','sheet-collapsed');
   document.getElementById('p-edit-form').style.display='none';
   document.getElementById('p-edit-sep').style.display='none';
   document.getElementById('p-edit-btn').classList.remove('open');
@@ -14655,7 +14681,7 @@ document.addEventListener('click', e=>{
   // 觸控 pan 後 touchend 會冒出一個 click，用 touchMoved 擋掉，避免誤關 panel
   if(touchMoved){ touchMoved=false; return; }
   if(moved){ moved=false; return; }
-  if(!e.target.closest('.node') && !e.target.closest('#panel') && !e.target.closest('#imgLightbox')) closePanel();
+  if(!panel.classList.contains('sheet-collapsed') && !e.target.closest('.node, #panel, #imgLightbox')) closePanel();
 });
 
 /* ============ 頁面切換 ============ */
@@ -14739,7 +14765,8 @@ function closeJapan(){
 window.addEventListener('resize', ()=>{
   if(document.getElementById('japan').style.display!=='block') return;
   // 螢幕旋轉／首次縮成手機寬度時，不以全覽覆寫剛完成的搜尋定位。
-  if(panel.classList.contains('open') && nodes[editingNodeId]) focusNode(editingNodeId);
+  if(innerWidth<=700 && panel.classList.contains('sheet-collapsed')) applyTransform();
+  else if(panel.classList.contains('open') && nodes[editingNodeId]) focusNode(editingNodeId);
   else { setSmooth(false); fitInitial(); }
 });
 
@@ -15265,9 +15292,50 @@ function renderYokai(){
   });
 }
 const ypanel = document.getElementById('ypanel');
+for(const sheet of [panel,ypanel]){
+  const grip = sheet.firstElementChild;
+  let drag, skipClick = false;
+  grip.addEventListener('pointerdown', e=>{
+    if(!e.isPrimary || e.button!==0) return;
+    skipClick = false;
+    const travel = sheet.offsetHeight - grip.offsetHeight;
+    const start = sheet.classList.contains('sheet-collapsed') ? travel : 0;
+    drag = {id:e.pointerId,y:e.clientY,travel,start};
+    grip.setPointerCapture(e.pointerId);
+  });
+  grip.addEventListener('pointermove', e=>{
+    if(drag?.id!==e.pointerId) return;
+    const distance = e.clientY-drag.y;
+    if(Math.abs(distance)<8 && !skipClick) return;
+    skipClick = true;
+    sheet.classList.add('sheet-dragging');
+    sheet.style.transform = `translateY(${Math.max(0,Math.min(drag.travel,drag.start+distance))}px)`;
+  });
+  function finishDrag(e){
+    if(drag?.id!==e.pointerId) return;
+    const distance = e.clientY-drag.y;
+    drag = null;
+    sheet.classList.remove('sheet-dragging');
+    sheet.style.removeProperty('transform');
+    if(e.type==='pointerup' && Math.abs(distance)>=28){
+      skipClick = true;
+      setSheetCollapsed(sheet,distance>0);
+    }
+  }
+  grip.addEventListener('pointerup',finishDrag);
+  grip.addEventListener('pointercancel',finishDrag);
+  grip.addEventListener('lostpointercapture',finishDrag);
+  grip.addEventListener('click',e=>{
+    if(!skipClick || e.detail===0) setSheetCollapsed(sheet,!sheet.classList.contains('sheet-collapsed'));
+  });
+}
+matchMedia('(max-width:700px)').addEventListener('change', e=>{
+  if(!e.matches) for(const sheet of [panel,ypanel]) setSheetCollapsed(sheet,false);
+});
 function openYPanel(id){
   const y = yokais[id];
   if(!y) return;
+  setSheetCollapsed(ypanel,false);
   currentYokaiId = id;
   document.getElementById('yp-name').textContent = y.name;
   document.getElementById('yp-kana').textContent = y.kana||'';
@@ -15298,14 +15366,14 @@ function openYPanel(id){
   document.querySelectorAll('.ycard').forEach(c=>c.classList.toggle('highlight', c.dataset.id===id));
 }
 function closeYPanel(){
-  ypanel.classList.remove('open');
+  ypanel.classList.remove('open','sheet-collapsed');
   cancelYokaiEdit();
   document.querySelectorAll('.ycard').forEach(c=>c.classList.remove('highlight'));
 }
 function closeYPanelAndReset(){ closeYPanel(); yResetView(); }
 document.addEventListener('click', e=>{
   if(!e.target.closest('#ysearchBox')) { const r=document.getElementById('yresults'); if(r) r.style.display='none'; }
-  if(!e.target.closest('.ycard, #yresults, #ypanel, #imgLightbox')) closeYPanel();
+  if(!ypanel.classList.contains('sheet-collapsed') && !e.target.closest('.ycard, #yresults, #ypanel, #imgLightbox')) closeYPanel();
 });
 
 /* ============ 妖怪編輯 ============ */
